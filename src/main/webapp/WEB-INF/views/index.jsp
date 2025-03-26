@@ -11,6 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-세미프로젝트 메인입니다. asdasdasdadasd
+세미프로젝트 메인입니다. asdasdasdadasd asdasdasdas
 </body>
 </html>
