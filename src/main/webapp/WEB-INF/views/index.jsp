@@ -11,6 +11,7 @@
     <title>Title</title>
 </head>
 <body>
-세미프로젝트 메인입니다. asdasdasdadasd asdasdasdas
+세미프로젝트 메인입니다.
+메인 브랜치 커밋 테스트
 </body>
 </html>
