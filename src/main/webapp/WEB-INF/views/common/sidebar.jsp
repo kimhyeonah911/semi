@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -91,6 +92,23 @@
 </head>
 <body>
 
+
+<%--<c:choose>--%>
+<%--<c:when test="${loginUser=='admin'}">--%>
+<%--  <div class="side-bar">--%>
+<%--    <ul id="admin-menu">--%>
+<%--      <li><a>대시보드</a></li>--%>
+<%--      <li><a>제품관리</a></li>--%>
+<%--      <li><a>매출현황</a></li>--%>
+<%--      <li><a>지점장 승인</a></li>--%>
+<%--      <li><a>직원 승인</a></li>--%>
+<%--      <li><a>입고처 관리</a></li>--%>
+<%--      <li><a>직원 정보</a></li>--%>
+<%--      <li><a>공지사항</a></li>--%>
+<%--    </ul>--%>
+<%--  </div>--%>
+<%--</c:when>--%>
+<%--<c:otherwise>--%>
 <div class="side-bar">
   <ul id="menu">
     <li><a>대시보드</a></li>
@@ -111,6 +129,10 @@
     <li><a>공지사항</a></li>
   </ul>
 </div>
+<%--</c:otherwise>--%>
+<%--</c:choose>--%>
+
+
 
 </body>
 </html>
