@@ -94,13 +94,13 @@
 <div class="side-bar">
   <ul id="menu">
     <li><a>대시보드</a></li>
-    <li id="storage"><a>창고관리 <img src="assets/icons/Chevron down.svg"></a>
+    <li id="storage"><a>창고관리 <img src="/resources/listDown.svg"></a>
       <ul id="storage-list">
         <li><a>재고관리</a></li>
         <li><a>위치관리</a></li>
       </ul>
     </li>
-    <li id="buying"><a>구매관리 <img src="assets/icons/Chevron down.svg"></a>
+    <li id="buying"><a>구매관리 <img src="/resources/listDown.svg"></a>
       <ul id="buying-list">
         <li><a>입고</a></li>
         <li><a>출고</a></li>
