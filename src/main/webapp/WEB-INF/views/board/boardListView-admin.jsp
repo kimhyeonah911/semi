@@ -7,6 +7,9 @@ charset=UTF-8" pageEncoding="UTF-8"%>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항</title>
     <style>
+        body{
+            padding-top: 150px;
+        }
         tr th,td{
             text-align: center;
         }
@@ -39,6 +42,9 @@ charset=UTF-8" pageEncoding="UTF-8"%>
         .table td:nth-child(6) {
             width: 10%;
             text-align: center;
+        }
+        tbody{
+            cursor: pointer;
         }
     </style>
 </head>

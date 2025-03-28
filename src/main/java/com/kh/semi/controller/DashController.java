@@ -11,7 +11,12 @@ public class DashController {
 
     @GetMapping("dash.bo")
     public String dashBoard() {
-        return "board/dashBoard";
+        return "board/dashBoard-admin";
+    }
+
+    @GetMapping("dash-manager.bo")
+    public String dashManager() {
+        return "board/dashBoard-manager";
     }
 
 }

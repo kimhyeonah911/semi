@@ -14,7 +14,7 @@
         width: calc(100% - 250px);
         z-index: 1000;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        height: 150px;
+        height: 130px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -57,7 +57,10 @@
     <div class="logo-container">
         <img src="/resources/logo.png" alt="로고">
     </div>
-
+    <div>
+        <button onclick="location.href='/manager.bo'">지점장버전</button>
+        <button onclick="location.href='/employee.bo'">직원버전</button>
+    </div>
     <div class="header-right">
         <div>
             <a href="#" class="text-dark text-decoration-none">
@@ -66,7 +69,7 @@
             </a>
         </div>
         <div>
-            <a href="#" class="text-dark text-decoration-none">
+            <a href="logout.me" class="text-dark text-decoration-none">
                 <i class="fas fa-sign-out-alt fa-2x"></i>
                 <div>로그아웃</div>
             </a>

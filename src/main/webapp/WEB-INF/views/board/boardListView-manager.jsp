@@ -7,6 +7,9 @@ charset=UTF-8" pageEncoding="UTF-8"%>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항</title>
     <style>
+        body{
+            padding-top: 150px;
+        }
         tr th,td{
             text-align: center;
         }
@@ -40,14 +43,17 @@ charset=UTF-8" pageEncoding="UTF-8"%>
             width: 10%;
             text-align: center;
         }
+        tbody{
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-<jsp:include page="../common/header-admin.jsp"/>
+<jsp:include page="../common/header-manager.jsp"/>
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
-        <jsp:include page="../common/sidebar-admin.jsp"/>
+        <jsp:include page="../common/sidebar-manager.jsp"/>
 
         <!-- Main content -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
