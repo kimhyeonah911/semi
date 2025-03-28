@@ -8,17 +8,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
-        /* 사이드바 스타일 */
         .sidebar {
             background-color: #343a40;
-            width: 250px; /* 사이드바 너비 */
+            width: 250px;
             position: fixed;
             left: 0;
             top: 0;
-            height: 100vh; /* 전체 화면 높이 */
+            height: 100vh;
             padding-top: 20px;
-            transition: width 0.3s ease;
         }
 
         .sidebar .nav-link {
@@ -38,10 +37,10 @@
             background-color: #495057;
         }
 
-        /* 본문 컨텐츠 (사이드바 밀어내기) */
+        /* 본문 컨텐츠 */
         .content {
-            margin-left: 250px; /* 사이드바 너비만큼 이동 */
-            padding: 20px;
+            margin-left: 250px;
+            padding: 80px 20px 20px; /* 헤더 공간 확보 */
         }
     </style>
 </head>
@@ -94,7 +93,6 @@
         </ul>
     </div>
 </nav>
-
 
 </body>
 </html>
