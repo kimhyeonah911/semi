@@ -49,7 +49,7 @@
     <div class="position-sticky">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="#">
+                <a class="nav-link active" href="dashboard.bo">
                     <i class="fas fa-home"></i> 대시보드
                 </a>
             </li>
@@ -80,12 +80,22 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="company.bo">
-                    <i class="fas fa-users"></i> 직원 정보(임시 지점생성페이지)
+                    <i class="fas fa-users"></i> 지점 생성
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/mypage.bo">
                     <i class="fas fa-bullhorn"></i> 공지사항(임시 마이페이지)
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/memberselect.bo">
+                    <i class="fas fa-bullhorn"></i> 직원 관리
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/stock.bo">
+                    <i class="fas fa-bullhorn"></i> 입출고 관리
                 </a>
             </li>
         </ul>

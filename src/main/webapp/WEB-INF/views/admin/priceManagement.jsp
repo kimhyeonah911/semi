@@ -9,16 +9,27 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/nanumsquareneo@0.0.5/nanumsquareneo.min.css" rel="stylesheet">
     <!-- 차트 JS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        * {
+            font-family: "NanumSquareNeo", sans-serif;
+        }
+        html, body {
+            height: 100%; /* 페이지 높이를 100%로 설정 */
+            margin: 0; /* 기본 마진 제거 */
+            overflow-x: hidden; /* 수평 스크롤 방지 */
+        }
         body {
             font-family: "IBM Plex Sans KR", sans-serif;
+            overflow-x: hidden;
         }
 
         .table th, .table td {
             text-align: center;
             vertical-align: middle;
+            padding: 6px;
         }
 
         .table th:nth-child(1),
@@ -88,6 +99,7 @@
         }
 
         .main-content {
+            width: 87%;
             padding-left: 2rem;
             padding-right: 2rem;
         }

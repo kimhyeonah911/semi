@@ -124,12 +124,12 @@
 </head>
 <body>
 
-<jsp:include page="common/header.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 
 <div class="container-fluid">
     <div class="row">
         <!-- 사이드바 -->
-        <jsp:include page="common/sidebar.jsp"/>
+        <jsp:include page="../common/sidebar.jsp"/>
 
         <!-- 메인 내용 -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">

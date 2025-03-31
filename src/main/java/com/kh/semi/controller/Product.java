@@ -30,7 +30,11 @@ public class Product {
         return "admin/companyManagement";
     }
     @GetMapping("mypage.bo")
-    public String mypage() {
-        return "admin/adminMypage";
-    }
+    public String mypage() {return "admin/adminMypage";}
+    @GetMapping("memberselect.bo")
+    public String memberselect() {return "admin/memberselect";}
+    @GetMapping("dashboard.bo")
+    public String dashboard() {return "admin/dashboard";}
+    @GetMapping("stock.bo")
+    public String stock() {return "admin/stock";}
 }
