@@ -49,11 +49,11 @@ charset=UTF-8" pageEncoding="UTF-8"%>
     </style>
 </head>
 <body>
-<jsp:include page="../common/header-manager.jsp"/>
+<jsp:include page="../common/header-admin.jsp"/>
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
-        <jsp:include page="../common/sidebar-manager.jsp"/>
+        <jsp:include page="../common/sidebar-admin.jsp"/>
 
         <!-- Main content -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
@@ -80,7 +80,7 @@ charset=UTF-8" pageEncoding="UTF-8"%>
                         <td>각 지점별 철저히 재고확인</td>
                         <td>본사</td>
                         <td>2025-03-19</td>
-                        <td></td>
+                        <td><button class="btn btn-sm btn-outline-primary">수정</button></td>
                     </tr>
                     <tr onclick="showModal('manager4', '이번 주 토요일(3/23) 매장 운영시간 변경', '학동점', '2025-03-17', '운영시간 변경')">
                         <td>1</td>
@@ -96,14 +96,14 @@ charset=UTF-8" pageEncoding="UTF-8"%>
                         <td>지점 행사 및 프로모션 공지</td>
                         <td>한남점</td>
                         <td>2025-03-11</td>
-                        <td><button class="btn btn-sm btn-outline-primary">수정</button></td>
+                        <td></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
 
             <div class="d-flex justify-content-end mt-3">
-                <button class="btn btn-primary" onclick="location.href='/managerenroll.bo'">✏️ 글쓰기</button>
+                <button class="btn btn-primary" onclick="location.href='/enroll.bo'">✏️ 글쓰기</button>
             </div>
             <div class="pagebar-container mt-3">
                 <jsp:include page="../common/pagebar.jsp"/>

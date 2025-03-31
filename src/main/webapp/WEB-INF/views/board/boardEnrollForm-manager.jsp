@@ -46,6 +46,7 @@
             flex: 1;
             background-color: #ffffff;
             padding: 20px;
+            margin-top: 50px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
@@ -113,12 +114,12 @@
 <body>
 
 <!-- Header -->
-<jsp:include page="../common/header-admin.jsp"/>
+<jsp:include page="../common/header-manager.jsp"/>
 
 <!-- Main Content -->
 <main>
     <!-- Sidebar -->
-    <jsp:include page="../common/sidebar-admin.jsp"/>
+    <jsp:include page="../common/sidebar-manager.jsp"/>
 
     <!-- 글쓰기 폼 -->
     <div class="content">

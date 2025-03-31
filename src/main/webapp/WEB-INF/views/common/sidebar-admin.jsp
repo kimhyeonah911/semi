@@ -66,12 +66,12 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/accept.ma">
                     <i class="fas fa-user-check"></i> 지점장 승인
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/accept.me">
                     <i class="fas fa-user-plus"></i> 직원 승인
                 </a>
             </li>
