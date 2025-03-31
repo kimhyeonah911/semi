@@ -19,7 +19,7 @@
             width:80%;
             height:160px;
             margin:auto;
-            margin-top:10px;
+            margin-top:100px;
         }
         #footer-1 {
             width:100%;

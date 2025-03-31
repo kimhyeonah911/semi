@@ -71,6 +71,7 @@
       transition: transform 0.3s ease;
     }
 
+
     /* 본문 컨텐츠 (사이드바 밀어내기) */
     .content {
       margin-left: 250px; /* 사이드바 너비만큼 이동 */
@@ -85,7 +86,7 @@
   <div class="position-sticky">
     <ul class="nav flex-column">
       <li class="nav-item">
-        <a class="nav-link active" href="#">
+        <a class="nav-link active" href="/dash-manager.bo">
           <i class="fas fa-home"></i> 대시보드
         </a>
       </li>
@@ -97,10 +98,10 @@
         <div class="collapse" id="warehouseMenu">
           <ul class="nav flex-column submenu">
             <li class="nav-item">
-              <a class="nav-link" href="#">재고 관리</a>
+              <a class="nav-link" href="/stockManage.bo">재고 관리</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">위치 관리</a>
+              <a class="nav-link" href="storage.lo">위치 관리</a>
             </li>
           </ul>
         </div>
@@ -114,27 +115,27 @@
         <div class="collapse" id="purchaseMenu">
           <ul class="nav flex-column submenu">
             <li class="nav-item">
-              <a class="nav-link" href="stockIn.stIn">입고</a>
+              <a class="nav-link" href="stockIn.sto">입고</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="stockOut.stOut">출고</a>
+              <a class="nav-link" href="stockOut.sto">출고</a>
             </li>
           </ul>
         </div>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="salesManager.bo">
           <i class="fas fa-chart-line"></i> 매출 관리
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="/attendance.ma">
           <i class="fas fa-users"></i> 근태 관리
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/list.bo">
+        <a class="nav-link" href="/manager.bo">
           <i class="fas fa-bullhorn"></i> 공지사항
         </a>
       </li>

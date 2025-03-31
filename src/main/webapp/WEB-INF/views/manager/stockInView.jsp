@@ -17,7 +17,7 @@
         main{
             margin-left: 250px;  /* ms-sm-auto */
             /*margin-right: auto;*/
-            width: 86%;  /* col-lg-10 (10/12 * 100%) */
+            width: 83%;  /* col-lg-10 (10/12 * 100%) */
             padding-left: 24px;  /* px-md-4 */
             /*padding-right: 24px;*/
             margin-top: 130px;
@@ -324,10 +324,10 @@
     </style>
 </head>
 <body>
-<jsp:include page="../common/header.jsp"/>
+<jsp:include page="../common/header-manager.jsp"/>
 <div class="container-fluid">
 
-    <jsp:include page="../common/sidebar1.jsp"/>
+    <jsp:include page="../common/sidebar-manager.jsp"/>
 
     <main>
 
