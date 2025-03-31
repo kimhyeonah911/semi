@@ -9,7 +9,7 @@
         main{
             margin-left: 250px;  /* ms-sm-auto */
             /*margin-right: auto;*/
-            width: 80%;  /* col-lg-10 (10/12 * 100%) */
+            width: 85.3%;  /* col-lg-10 (10/12 * 100%) */
             padding-left: 24px;  /* px-md-4 */
             /*padding-right: 24px;*/
             margin-top: 130px;
@@ -53,12 +53,10 @@
 
 <jsp:include page="../common/header-manager.jsp" />
 
-
-<%--<div class="container">--%>
+<div class="container-fluid">
 
 <jsp:include page="../common/sidebar-manager.jsp"/>
 
-<%--    <div class="sales-chart">--%>
 <main>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">매출관리</h1>
@@ -82,9 +80,7 @@
     </div>
 </main>
 
-<%--    </div>--%>
-
-<%--</div>--%>
+</div>
 
 
 <script>

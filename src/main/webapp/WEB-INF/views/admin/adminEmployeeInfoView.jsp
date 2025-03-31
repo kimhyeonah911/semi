@@ -92,14 +92,9 @@
 </head>
 <body>
 
-<jsp:include page="../common/header.jsp" />
+<jsp:include page="../common/header-admin.jsp" />
+<jsp:include page="../common/sidebar-admin.jsp"/>
 
-
-<%--<div class="container">--%>
-
-  <jsp:include page="../common/sidebar.jsp"/>
-
-<%--  <div class="employeeInfo-management">--%>
 
 <main>
 
@@ -185,9 +180,6 @@
       </div>
     </div>
 </main>
-<%--  </div>--%>
-<%--</div>--%>
-
 
 </body>
 </html>

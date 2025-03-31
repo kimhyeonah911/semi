@@ -83,11 +83,7 @@
 <body>
 
 <jsp:include page="../common/header-employee.jsp" />
-
-
-<%--<div class="container">--%>
 <jsp:include page="../common/sidebar-employee.jsp"/>
-<%--  <div class="attendance-management">--%>
 
 <main>
 
@@ -155,8 +151,6 @@
         </div>
     </div>
 </main>
-<%--  </div>--%>
-<%--</div>--%>
 
 
 </body>

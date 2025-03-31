@@ -94,12 +94,12 @@
 </head>
 <body>
 
-<jsp:include page="../common/header.jsp" />
+<jsp:include page="../common/header-admin.jsp" />
 
 
 <%--<div class="container">--%>
 
-    <jsp:include page="../common/sidebar.jsp"/>
+    <jsp:include page="../common/sidebar-admin.jsp"/>
 
 <%--    <div class="content">--%>
 <main>
