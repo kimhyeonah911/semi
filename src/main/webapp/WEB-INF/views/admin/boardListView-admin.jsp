@@ -152,7 +152,6 @@ charset=UTF-8" pageEncoding="UTF-8"%>
     </div>
 </div>
 
-<jsp:include page="../common/footer.jsp"/>
 
 <!-- Bootstrap JS (이 부분은 별도로 로드) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

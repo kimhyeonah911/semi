@@ -29,7 +29,7 @@
             .left {
                 width: 65%;
                 height: 100%;
-                background: url('/resources/background.png') no-repeat center center;
+                background: url('/resources/logo/background.png') no-repeat center center;
                 background-size: cover;
                 filter: brightness(1.5);
             }
@@ -116,14 +116,14 @@
                 text-align: center;
             }
             input[name="userId"] {
-                background-image: url('/resources/id.png');
+                background-image: url('/resources/logo/id.png');
                 background-repeat: no-repeat;
                 background-position: 5px center;
                 padding-left: 40px;
                 background-size: 20px 20px;
             }
             input[name="password"] {
-                background-image: url('/resources/password.png');
+                background-image: url('/resources/logo/password.png');
                 background-repeat: no-repeat;
                 background-position: 5px center;
                 padding-left: 40px;
@@ -139,7 +139,7 @@
         <!-- 오른쪽 (로그인 폼) -->
         <div class="right">
             <button onclick="location.href='/list.bo'">공지사항 리스트</button>
-            <img class="logo" src="/resources/logo.png" alt="Logo" onclick="">
+            <img class="logo" src="/resources/logo/logo.png" alt="Logo" onclick="">
             <form action="loginProcess.jsp" method="post">
                 <div class="input-box">
                     <input type="text" name="userId" placeholder="ID" required>
