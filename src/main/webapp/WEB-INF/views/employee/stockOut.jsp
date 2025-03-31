@@ -13,7 +13,17 @@
 
     <title>Title</title>
     <style>
-        .stockIn-management{
+
+        main{
+            margin-left: 250px;  /* ms-sm-auto */
+            /*margin-right: auto;*/
+            width: 86%;  /* col-lg-10 (10/12 * 100%) */
+            padding-left: 24px;  /* px-md-4 */
+            /*padding-right: 24px;*/
+            margin-top: 130px;
+        }
+
+        .stockOut-management{
             width: 100%;
             height: 100%;
             padding: 10px;
@@ -59,7 +69,7 @@
         }
 
 
-        #stockIn-search-bar{
+        #stockOut-search-bar{
             width: 80px;
             height: 30px;
             font-size: 12px;
@@ -319,17 +329,17 @@
 
     <jsp:include page="../common/sidebar1.jsp"/>
 
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+    <main>
 
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">출고</h1>
         </div>
 
-        <div class="stockIn-management">
+        <div class="stockOut-management">
             <div class="table1">
                 <div id="search-bar">
                     <div id="search-bar-1">
-                        <select id="stockIn-search-bar">
+                        <select id="stockOut-search-bar">
                             <option value="0">전체</option>
                             <option value="1">출고 등록</option>
                             <option value="2">출고중</option>
@@ -418,9 +428,9 @@
                             <td colspan="2" class="list-table-item">
                                 <img src="/resources/logo.png" style="width: 50px; height: 50px;" alt="제품사진">
                                 <div class="product-info">
-                                    <p style="font-size: 14px;">제품번호</p>
-                                    <p style="font-weight:600; font-size: 14px;">제품이름</p>
-                                    <p style="font-size: 12px;">제품특징</p>
+                                    <p style="font-size: 14px;">238-654-13</p>
+                                    <p style="font-weight:600; font-size: 14px;">나이키 에어 포스 1 ‘07</p>
+                                    <p style="font-size: 12px;">운동화 WHITE 230</p>
                                 </div>
                             </td>
                             <td></td>
@@ -492,9 +502,9 @@
                                 <td colspan="2" class="list-table-item">
                                     <img src="/resources/logo.png" style="width: 50px; height: 50px;" alt="제품사진">
                                     <div class="product-info">
-                                        <p style="font-size: 14px;">제품번호</p>
-                                        <p style="font-weight:600; font-size: 14px;">제품이름</p>
-                                        <p style="font-size: 12px;">제품특징</p>
+                                        <p style="font-size: 14px;">238-654-13</p>
+                                        <p style="font-weight:600; font-size: 14px;">나이키 에어 포스 1 ‘07</p>
+                                        <p style="font-size: 12px;">운동화 WHITE 230</p>
                                     </div>
                                 </td>
                                 <td></td>
@@ -565,9 +575,9 @@
                                 <td colspan="2" class="list-table-item">
                                     <img src="/resources/logo.png" style="width: 50px; height: 50px;" alt="제품사진">
                                     <div class="product-info">
-                                        <p style="font-size: 14px;">제품번호</p>
-                                        <p style="font-weight:600; font-size: 14px;">제품이름</p>
-                                        <p style="font-size: 12px;">제품특징</p>
+                                        <p style="font-size: 14px;">238-654-13</p>
+                                        <p style="font-weight:600; font-size: 14px;">나이키 에어 포스 1 ‘07</p>
+                                        <p style="font-size: 12px;">운동화 WHITE 230</p>
                                     </div>
                                 </td>
                                 <td></td>
@@ -625,9 +635,9 @@
                                 <td class="list-table-item">
                                     <img src="/resources/logo.png" style="width: 50px; height: 50px;" alt="제품사진">
                                     <div class="product-info">
-                                        <p style="font-size: 14px;">제품번호</p>
-                                        <p style="font-weight:600; font-size: 14px;">제품이름</p>
-                                        <p style="font-size: 12px;">제품특징</p>
+                                        <p style="font-size: 14px;">238-654-13</p>
+                                        <p style="font-weight:600; font-size: 14px;">나이키 에어 포스 1 ‘07</p>
+                                        <p style="font-size: 12px;">운동화 WHITE 230</p>
                                     </div>
                                 </td>
                                 <td>46,000</td>
