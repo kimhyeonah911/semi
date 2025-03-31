@@ -153,18 +153,50 @@
             padding: 15px;
         }
 
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        .pagination a {
+            text-decoration: none;
+            color: #000000;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .pagination a:hover {
+            background-color: #717171;
+        }
+
+        .pagination .active {
+            background-color: #000000;
+            color: white;
+            border: 1px solid #000000;
+        }
+
+        .pagination .disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
-<jsp:include page="common/header.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
-        <jsp:include page="common/sidebar.jsp"/>
+        <jsp:include page="../common/sidebar.jsp"/>
         <!-- Main content -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">거래처 관리</h1>
+                <h1 class="h2">입고처 관리</h1>
             </div>
             <div class="table-responsive">
                 <table class="table">
@@ -202,6 +234,16 @@
             <div class="bottom">
                 <button onclick="enroll()">거래처 등록</button>
             </div>
+            <div class="pagination">
+                <a href="#" class="disabled">이전</a>
+                <a href="#" class="active">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+                <a href="#">다음</a>
+            </div>
+
             <!-- 삭제 확인 모달 -->
             <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                 <div class="modal-dialog">

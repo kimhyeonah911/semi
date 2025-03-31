@@ -1,16 +1,15 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Footer</title>
     <style>
         #footer {
-            width:80%;
+            width:100%;
             height:160px;
-            margin:auto;
-            margin-top:10px;
+
+            margin-top:50px;
         }
         #footer-1 {
             width:100%;
