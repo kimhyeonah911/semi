@@ -1,7 +1,8 @@
     <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <!DOCTYPE html>
-    <html lang="ko">
+    <html lang="UTF-8">
     <head>
+        <link rel="stylesheet" href="css/style.css">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login Page</title>
@@ -98,6 +99,11 @@
                 color: #5A5A5A;
             }
 
+            .signup-btn a{
+                text-decoration: none;
+                color: #5A5A5A;
+            }
+
             /* 하단 연락처 */
             .contact-info {
                 margin-top: 20px;
@@ -132,8 +138,8 @@
 
         <!-- 오른쪽 (로그인 폼) -->
         <div class="right">
-            <img class="logo" src="/resources/logo.png" alt="Logo">
-
+            <button onclick="location.href='/list.bo'">공지사항 리스트</button>
+            <img class="logo" src="/resources/logo.png" alt="Logo" onclick="">
             <form action="loginProcess.jsp" method="post">
                 <div class="input-box">
                     <input type="text" name="userId" placeholder="ID" required>
@@ -146,9 +152,7 @@
                 <button type="submit" class="btn login-btn">LOGIN</button>
             </form>
 
-            <form action="signup.jsp" method="get" class="member-enroll">
-                <button type="submit" class="btn signup-btn">회원가입</button>
-            </form>
+                <button class="btn signup-btn"><a href="/enrollForm.me">회원가입</a></button>
 
             <div class="contact-info">CONTACT US 010-0000-1111</div>
         </div>
