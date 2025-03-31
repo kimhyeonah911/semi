@@ -8,7 +8,7 @@ charset=UTF-8" pageEncoding="UTF-8"%>
     <title>공지사항</title>
     <style>
         body{
-            padding-top: 150px;
+            padding-top: 130px;
         }
         tr th,td{
             text-align: center;

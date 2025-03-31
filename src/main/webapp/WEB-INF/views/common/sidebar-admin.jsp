@@ -56,12 +56,12 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/product.bo">
                     <i class="fas fa-box-open"></i> 제품 관리
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/sales.bo">
                     <i class="fas fa-chart-line"></i> 매출 현황
                 </a>
             </li>
@@ -76,12 +76,12 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/delivery.ma">
                     <i class="fas fa-truck"></i> 입고처 관리
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/employee.in">
                     <i class="fas fa-users"></i> 직원 정보
                 </a>
             </li>

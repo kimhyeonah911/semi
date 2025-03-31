@@ -46,7 +46,7 @@
             flex: 1;
             background-color: #ffffff;
             padding: 20px;
-            margin-top: 50px;
+            margin-top: 60px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
@@ -96,13 +96,6 @@
             background-color: #0056b3;
         }
 
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #343a40;
-            color: white;
-        }
         button[type="submit"]{
             margin-right: 20px;
         }

@@ -48,7 +48,7 @@
     /* 로고 */
     .logo {
       width: 200px;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
 
     /* 입력 필드 공통 스타일 */
@@ -185,7 +185,7 @@
         <input type="text" name="phone" placeholder="Phone" required>
       </div>
 
-      <button type="submit" class="btn signup-btn">회원가입</button>
+      <button type="submit" class="btn signup-btn" onclick="location.href='/insert.co'">회원가입</button>
       <button type="reset" class="btn signup-btn" onclick="location.href='/'">돌아가기</button>
     </form>
 
