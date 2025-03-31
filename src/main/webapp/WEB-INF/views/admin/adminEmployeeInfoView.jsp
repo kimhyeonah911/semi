@@ -5,8 +5,6 @@
   <title>Title</title>
   <style>
 
-
-
     main{
       margin-left: 250px;  /* ms-sm-auto */
       /*margin-right: auto;*/
