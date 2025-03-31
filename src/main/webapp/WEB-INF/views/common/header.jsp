@@ -3,12 +3,11 @@
 <!-- Bootstrap & Font Awesome 적용 -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link href="https://cdn.jsdelivr.net/npm/nanumsquareneo@0.0.5/nanumsquareneo.min.css" rel="stylesheet">
+<!-- 폰트 링크 -->
+<link rel="stylesheet" href="https://webfontworld.github.io/NanumSquare/NanumSquare.css">
+
 
 <style>
-    * {
-        font-family: "NanumSquareNeo", sans-serif;
-    }
     #header {
         background: white !important;
         padding: 10px 20px;
@@ -61,13 +60,9 @@
     <div class="logo-container">
         <img src="/resources/logo/logo.png" alt="로고">
     </div>
-    <div>
-        <button onclick="location.href='/manager.bo'">지점장버전</button>
-        <button onclick="location.href='/employee.bo'">직원버전</button>
-    </div>
     <div class="header-right">
         <div>
-            <a href="adminmypage.bo" class="text-dark text-decoration-none">
+            <a href="#" class="text-dark text-decoration-none">
                 <i class="fas fa-user fa-2x"></i>
                 <div>마이페이지</div>
             </a>
