@@ -17,7 +17,7 @@
     main{
       margin-left: 250px;  /* ms-sm-auto */
       /*margin-right: auto;*/
-      width: 80%;  /* col-lg-10 (10/12 * 100%) */
+      width: 85.3%;  /* col-lg-10 (10/12 * 100%) */
       padding-left: 24px;  /* px-md-4 */
       /*padding-right: 24px;*/
       margin-top: 130px;
@@ -56,7 +56,7 @@
     #date1, #date2 {
       width: 130px;
       height: 30px;
-      font-size: 14px;
+      font-size: 13px;
       padding: 10px;
       border-radius: 5px;
       appearance: none;
@@ -111,54 +111,6 @@
       vertical-align: middle;
     }
 
-    .table1 th:nth-child(1),
-    .table1 td:nth-child(1) {
-      width: 14%;
-      text-align: center;
-    }
-
-    .table1 th:nth-child(2),
-    .table1 td:nth-child(2) {
-      width: 14%;
-      text-align: center;
-    }
-
-    .table1 th:nth-child(3),
-    .table1 td:nth-child(3) {
-      width: 15%;
-      text-align: center;
-    }
-
-    .table1 th:nth-child(4),
-    .table1 td:nth-child(4) {
-      width: 15%;
-      text-align: center;
-    }
-
-    .table1 th:nth-child(5),
-    .table1 td:nth-child(5) {
-      width: 13%;
-      text-align: center;
-    }
-
-    .table1 th:nth-child(6),
-    .table1 td:nth-child(6) {
-      width: 11%;
-      text-align: center;
-    }
-
-    .table1 th:nth-child(7),
-    .table1 td:nth-child(7) {
-      width: 9%;
-      text-align: center;
-    }
-
-    .table1 th:nth-child(8),
-    .table1 td:nth-child(8) {
-      width: 9%;
-      text-align: center;
-    }
-
     .price-place{
       width: calc(100% - 200px);
       display: flex;
@@ -198,6 +150,7 @@
       text-overflow: ellipsis;
       max-width: 100%;
       margin-left: 1px;
+      margin-right: 1px;
     }
 
     .modal-content {
@@ -705,6 +658,32 @@
     var modal = new bootstrap.Modal(modalElement);
     modal.show();
   }
+
+  // 체크박스 클릭하면 tr 정보 가져오기 & 다른 곳 클릭해도 체크박스 활성화
+  document.addEventListener("DOMContentLoaded", function () {
+    const checkboxes = document.querySelectorAll(".row-checkbox");
+
+    checkboxes.forEach((checkbox) => {
+      const row = checkbox.closest("tr");
+
+      row.addEventListener("click", function (event) {
+        if (event.target.type !== "checkbox") {
+          checkbox.checked = !checkbox.checked;
+        }
+
+        if (checkbox.checked) {
+          const rowData = [];
+          row.querySelectorAll("td").forEach((td, index) => {
+            if (!td.querySelector("input") && !td.querySelector("img")) {
+              rowData.push(td.innerText.trim());
+            }
+          });
+
+          console.log("선택된 행 데이터:", rowData);
+        }
+      });
+    });
+  });
 </script>
 
 </body>
