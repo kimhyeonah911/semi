@@ -7,6 +7,16 @@
     <title>지점장 대시보드</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+
+        main {
+            width: 85.3%;  /* col-lg-10 (10/12 * 100%) */
+            margin-left: 250px; /* ms-sm-auto 대체 */
+            /*margin-right: auto; !* 가운데 정렬 *!*/
+            padding-left: 24px;  /* px-md-4 */
+            /*padding-right: 24px;*/
+            /*padding-top: 130px;*/
+        }
+
         body {
             padding-top: 150px;
         }
@@ -118,12 +128,12 @@
 <jsp:include page="../common/header-manager.jsp"/>
 
 <div class="container-fluid">
-    <div class="row">
+
         <!-- 사이드바 -->
         <jsp:include page="../common/sidebar-manager.jsp"/>
 
         <!-- 메인 내용 -->
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <main>
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">지점장 대시보드</h1>
             </div>
@@ -213,7 +223,7 @@
 
         </main>
     </div>
-</div>
+
 
 <jsp:include page="../common/footer.jsp"/>
 
