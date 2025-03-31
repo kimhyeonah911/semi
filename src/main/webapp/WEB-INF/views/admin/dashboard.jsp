@@ -6,11 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>대시보드</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/nanumsquareneo@0.0.5/nanumsquareneo.min.css" rel="stylesheet">
     <style>
+        * {
+            font-family: "NanumSquareNeo", sans-serif;
+        }
+        html, body {
+            height: 100%; /* 페이지 전체 높이를 100%로 설정 */
+            overflow-y: auto; /* 세로 스크롤이 필요할 때만 보이도록 설정 */
+        }
         body {
             padding-top: 150px;
         }
-
         .dashboard-card {
             border-radius: 10px;
             padding: 20px;
@@ -117,12 +124,12 @@
 </head>
 <body>
 
-<jsp:include page="../common/header-admin.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 
 <div class="container-fluid">
     <div class="row">
         <!-- 사이드바 -->
-        <jsp:include page="../common/sidebar-admin.jsp"/>
+        <jsp:include page="../common/sidebar.jsp"/>
 
         <!-- 메인 내용 -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">

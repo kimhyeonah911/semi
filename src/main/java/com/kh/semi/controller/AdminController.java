@@ -59,5 +59,7 @@ public class AdminController {
         return "admin/employeeInfoView";
     }
 
+    @GetMapping("adminmypage.bo")
+    public String adminPage() {return "admin/adminMypage";}
 
 }
