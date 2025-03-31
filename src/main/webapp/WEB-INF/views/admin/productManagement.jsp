@@ -10,24 +10,13 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/nanumsquareneo@0.0.5/nanumsquareneo.min.css" rel="stylesheet">
 
     <style>
-        *{
-            font-family: 'NanumSquareNeo', Sans-serif;
-        }
-        html, body {
-            height: 100%; /* 페이지 높이를 100%로 설정 */
-            margin: 0; /* 기본 마진 제거 */
-            overflow-x: hidden; /* 수평 스크롤 방지 */
-
-        }
         body {
+            margin: 0;
+            padding: 0;
             overflow-x: hidden;
             font-family: "Noto Sans", sans-serif;
-        }
-        .container-fluid{
-            width: 87%;
         }
 
         .table th, .table td {
@@ -48,7 +37,7 @@
 
         .table th:nth-child(3),
         .table td:nth-child(3) {
-            width: 15%;
+            width: 10%;
             padding-left: 20px;
         }
 
@@ -190,11 +179,11 @@
     </style>
 </head>
 <body>
-<jsp:include page="../common/header.jsp"/>
+<jsp:include page="../common/header-admin.jsp"/>
 <div class="container-fluid" style="margin-top: 130px">
     <div class="row">
         <!-- Sidebar -->
-        <jsp:include page="../common/sidebar.jsp"/>
+        <jsp:include page="../common/sidebar-admin.jsp"/>
         <!-- Main content -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
