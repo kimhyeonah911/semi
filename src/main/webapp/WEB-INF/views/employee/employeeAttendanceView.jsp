@@ -1,7 +1,9 @@
-<%--본사 직원정보 페이지--%>
+<%--직원 출퇴근 페이지--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Title</title>
   <style>
 
@@ -14,6 +16,7 @@
       margin-top: 130px;
     }
 
+
     .pagination{
       position: absolute;
       left: 50%;
@@ -22,23 +25,9 @@
     select{
       border-radius: 8px;
     }
-    #search-bar{
-      display: flex;
-    }
-    #name-search-bar {
-      width: 120px;
-      height: 35px;
-      font-size: 22px;
-      margin-right: 20px;
-    }
-    #submit-btn{
-      width: 80px;
-      height: 35px;
-      font-size: 22px;
-      border-radius: 8px;
-      margin:0;
-      padding: 0;
-      cursor: pointer;
+
+    #search-bar>img{
+      width: 100px;
     }
 
     .table-container{
@@ -53,6 +42,7 @@
     .table-container>table>thead{
       height: 40px;
     }
+
     .pagination {
       display: flex;
       justify-content: center;
@@ -96,82 +86,62 @@
 
 
 <%--<div class="container">--%>
-
   <jsp:include page="../common/sidebar.jsp"/>
-
-<%--  <div class="employeeInfo-management">--%>
+<%--  <div class="attendance-management">--%>
 
 <main>
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      <h1 class="h2">직원정보</h1>
+      <h1 class="h2">근태관리</h1>
     </div>
 
-    <form action="">
-      <div id="search-bar">
-        <select id="name-search-bar">
-          <option>전체</option>
-          <option>역삼점</option>
-          <option>한남점</option>
-          <option>잠실점</option>
-          <option>강남점</option>
-          <option>송파점</option>
-        </select>
-        <button type="submit" id="submit-btn">조회</button>
-      </div>
-    </form>
+
 
     <div class="table-container">
       <table class="table table-striped table-hover">
         <thead>
         <tr>
           <th>번호</th>
-          <th>입사 날짜</th>
-          <th>이름</th>
-          <th>지점명</th>
-          <th>직급</th>
-          <th>연락처</th>
-          <th>연봉</th>
+          <th>날짜</th>
+          <th>출근상태</th>
+          <th>출근시각</th>
+          <th>퇴근시각</th>
+          <th>근무시간</th>
         </tr>
         </thead>
         <tbody>
         <tr>
           <td>4</td>
           <td>2025-03-19</td>
-          <td>황동준</td>
-          <td>역삼점</td>
-          <td>지점장</td>
-          <td>010-1111-2222</td>
-          <td>30,152,152</td>
+          <td><img src="/assets/icons/출근status.png"></td>
+          <td>08 : 50 : 56</td>
+          <td>15 : 02 : 06</td>
+          <td>06 : 08 : 53 </td>
         </tr>
         <tr>
           <td>4</td>
           <td>2025-03-19</td>
-          <td>김현아</td>
-          <td>역삼점</td>
-          <td>직원</td>
-          <td>010-1111-2222</td>
-          <td>30,152,152</td>
+          <td><img src="/assets/icons/퇴근status.png"></td>
+          <td>08 : 50 : 56</td>
+          <td>15 : 02 : 06</td>
+          <td>06 : 08 : 53 </td>
         </tr>
         <tr>
           <td>4</td>
           <td>2025-03-19</td>
-          <td>이주찬</td>
-          <td>역삼점</td>
-          <td>직원</td>
-          <td>010-1111-2222</td>
-          <td>30,152,152</td>
+          <td><img src="/assets/icons/퇴근status.png"></td>
+          <td>08 : 50 : 56</td>
+          <td>15 : 02 : 06</td>
+          <td>06 : 08 : 53 </td>
         </tr>
         <tr>
           <td>4</td>
           <td>2025-03-19</td>
-          <td>박지민</td>
-          <td>역삼점</td>
-          <td>직원</td>
-          <td>010-1111-2222</td>
-          <td>30,152,152</td>
+          <td><img src="/assets/icons/퇴근status.png"></td>
+          <td>08 : 50 : 56</td>
+          <td>15 : 02 : 06</td>
+          <td>06 : 08 : 53 </td>
         </tr>
-
         </tbody>
       </table>
       <div class="pagination">
