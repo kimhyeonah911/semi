@@ -84,8 +84,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/list.bo">
-                    <i class="fas fa-bullhorn"></i> 공지사항
+                <a class="nav-link" href="/mypage.bo">
+                    <i class="fas fa-bullhorn"></i> 공지사항(임시 마이페이지)
                 </a>
             </li>
         </ul>

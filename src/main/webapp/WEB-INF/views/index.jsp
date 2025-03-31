@@ -106,6 +106,7 @@
         .main-content {
             padding-left: 2rem;
             padding-right: 2rem;
+
         }
 
         .mb-3 {
@@ -157,7 +158,7 @@
 </head>
 <body>
 <jsp:include page="common/header.jsp"/>
-<div class="container-fluid">
+<div class="container-fluid" style="margin-top: 130px">
     <div class="row">
         <!-- Sidebar -->
         <jsp:include page="common/sidebar.jsp"/>

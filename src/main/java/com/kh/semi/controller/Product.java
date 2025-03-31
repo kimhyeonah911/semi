@@ -29,4 +29,8 @@ public class Product {
     public String company() {
         return "admin/companyManagement";
     }
+    @GetMapping("mypage.bo")
+    public String mypage() {
+        return "admin/adminMypage";
+    }
 }

@@ -93,32 +93,19 @@
             padding-right: 2rem;
         }
 
-        .pagebar-container {
-            margin-top: 30px;
-        }
-
-        .dropdown {
-            width: 100%;
-            padding: 5px;
-            font-size: 16px;
-        }
-
-        .btn-primary {
-            font-size: 18px;
-        }
 
     </style>
 </head>
 <body>
 <jsp:include page="../common/header.jsp"/>
-<div class="container-fluid">
+<div class="container-fluid" style="margin-top: 130px">
     <div class="row">
         <!-- Sidebar -->
         <jsp:include page="../common/sidebar.jsp"/>
         <!-- Main content -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">지점장승인</h1>
+                <h2>지점장승인</h2>
             </div>
             <div class="table-responsive">
                 <table class="table">
