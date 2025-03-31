@@ -11,6 +11,7 @@
     <title>Title</title>
 </head>
 <body>
+<jsp:include page="common/sidebar1.jsp"/>
 세미프로젝트 메인입니다.
 </body>
 </html>
