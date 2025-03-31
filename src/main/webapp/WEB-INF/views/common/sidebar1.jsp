@@ -57,10 +57,15 @@
       transition: transform 0.3s ease;
     }
 
+    /* active 상태에서 아이콘 회전 */
+    .nav-link .fa-angle-down {
+      transition: transform 0.3s ease;
+    }
+
     .nav-link.active .fa-angle-down {
       transform: rotate(180deg);
     }
-
+    
     .rotated {
       transform: rotate(180deg);
       transition: transform 0.3s ease;
@@ -142,34 +147,31 @@
 <script>
   function toggleMenu(element, menuId) {
     let menu = document.getElementById(menuId);
-    let icon = element.querySelector(".fa-angle-down");
     let isOpen = menu.classList.contains("show");
 
     // 현재 클릭한 메뉴가 열려 있다면 닫기
     if (isOpen) {
       menu.classList.remove("show");
       element.classList.remove("active");
-      icon.classList.remove("rotated"); // 아이콘 회전 제거
     } else {
       // 모든 서브메뉴 닫기
       document.querySelectorAll(".collapse").forEach(submenu => {
         submenu.classList.remove("show");
       });
 
-      // 모든 nav-link에서 active 제거 & 아이콘 원상 복구
+      // 모든 nav-link에서 active 제거
       document.querySelectorAll(".nav-link").forEach(link => {
         link.classList.remove("active");
-        let iconInside = link.querySelector(".fa-angle-down");
-        if (iconInside) iconInside.classList.remove("rotated");
       });
 
       // 클릭한 메뉴만 열기
       menu.classList.add("show");
       element.classList.add("active");
-      icon.classList.add("rotated"); // 아이콘 회전 추가
     }
   }
 </script>
+
+
 
 
 
