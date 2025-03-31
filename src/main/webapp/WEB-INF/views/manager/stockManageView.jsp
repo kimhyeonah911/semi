@@ -39,6 +39,7 @@
 </head>
 <body>
 <jsp:include page="../common/header-manager.jsp" />
+<div class="container-fluid">
 <jsp:include page="../common/sidebar-manager.jsp"/>
 
 <main>
@@ -174,5 +175,6 @@
         document.getElementById("inout-section").style.display = selectedValue === "inout" ? "block" : "none";
     });
 </script>
+</div>
 </body>
 </html>

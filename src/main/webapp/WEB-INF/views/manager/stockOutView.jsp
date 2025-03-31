@@ -17,7 +17,7 @@
     main{
       margin-left: 250px;  /* ms-sm-auto */
       /*margin-right: auto;*/
-      width: 80%;  /* col-lg-10 (10/12 * 100%) */
+      width: 85.3%;  /* col-lg-10 (10/12 * 100%) */
       padding-left: 24px;  /* px-md-4 */
       /*padding-right: 24px;*/
       margin-top: 130px;
