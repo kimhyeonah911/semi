@@ -110,6 +110,13 @@
             width: 30px;
             height: 30px;
         }
+
+        .btn-success:disabled {
+            background-color: #28a745 !important; /* 원하는 색상 */
+            color: white !important; /* 텍스트 색상 */
+            opacity: 1; /* 기본적으로 투명도가 낮아지는데 이를 유지 */
+            cursor: not-allowed; /* 기본적으로 비활성화된 상태에서 커서 변경 */
+        }
     </style>
 </head>
 <body>
@@ -158,7 +165,7 @@
                 <td>4</td>
                 <td>2025-03-19</td>
                 <td>박지민</td>
-                <td><img src="/resources/출근status.png"></td>
+                <td><button type="button" class="btn btn-success btn-sm" disabled>출근</button></td>
                 <td>08 : 50 : 56</td>
                 <td>             </td>
                 <td>06 : 08 : 53 </td>
@@ -168,7 +175,7 @@
                 <td>3</td>
                 <td>2025-03-19</td>
                 <td>이주찬</td>
-                <td><img src="/resources/퇴근status.png"></td>
+                <td><button type="button" class="btn btn-secondary btn-sm" disabled>퇴근</button></td>
                 <td>08 : 50 : 56</td>
                 <td>15 : 02 : 06</td>
                 <td>06 : 08 : 53</td>
