@@ -25,7 +25,7 @@
         }
 
         body {
-            padding-top: 150px;
+            padding-top: 130px;
         }
         .dashboard-card {
             border-radius: 10px;

@@ -38,37 +38,6 @@
             height: 40px;
         }
 
-        .pagebar-container{
-            left:50%;
-        }
-
-        .pagination a {
-            text-decoration: none;
-            color: #000000;
-            padding: 10px 15px;
-            margin: 0 5px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
-
-        .pagination a:hover {
-            background-color: #717171;
-        }
-
-        .pagination .active {
-            background-color: #000000;
-            color: white;
-            border: 1px solid #000000;
-        }
-
-        .pagination .disabled {
-            color: #ccc;
-            cursor: not-allowed;
-        }
-
-
     </style>
 </head>
 <body>

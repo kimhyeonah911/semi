@@ -60,5 +60,5 @@ public class AdminController {
     }
 
     @GetMapping("adminmypage.bo")
-    public String adminPage() {return "adminMypage";}
+    public String adminPage() {return "admin/adminMypage";}
 }

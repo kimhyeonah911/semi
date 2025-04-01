@@ -118,7 +118,7 @@
                 <td>08 : 50 : 56</td>
                 <td>             </td>
                 <td>06 : 08 : 53 </td>
-                <td><button type="button" class="btn btn-outline-success btn-sm">수정</button></td>
+                <td><button type="button" class="btn btn-outline-primary btn-sm">수정</button></td>
             </tr>
             <tr>
                 <td>3</td>
@@ -128,7 +128,7 @@
                 <td>08 : 50 : 56</td>
                 <td>15 : 02 : 06</td>
                 <td>06 : 08 : 53</td>
-                <td><button type="button" class="btn btn-outline-success btn-sm">수정</button></td>
+                <td><button type="button" class="btn btn-outline-primary btn-sm">수정</button></td>
             </tr>
             <tr>
                 <td>2</td>
@@ -138,7 +138,7 @@
                 <td>08 : 50 : 56</td>
                 <td>15 : 02 : 06</td>
                 <td>06 : 08 : 53</td>
-                <td><button type="button" class="btn btn-outline-success btn-sm">수정</button></td>
+                <td><button type="button" class="btn btn-outline-primary btn-sm">수정</button></td>
             </tr>
             <tr>
                 <td>2</td>
@@ -148,7 +148,7 @@
                 <td>08 : 50 : 56</td>
                 <td>15 : 02 : 06</td>
                 <td>06 : 08 : 53</td>
-                <td><button type="button" class="btn btn-outline-success btn-sm">수정</button></td>
+                <td><button type="button" class="btn btn-outline-primary btn-sm">수정</button></td>
             </tr>
 
             </tbody>

@@ -14,11 +14,6 @@
       padding-top: 130px;
     }
 
-    .pagination{
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-    }
     select{
       border-radius: 8px;
     }
