@@ -61,5 +61,4 @@ public class AdminController {
 
     @GetMapping("adminmypage.bo")
     public String adminPage() {return "admin/adminMypage";}
-
 }
