@@ -140,13 +140,13 @@
         <div class="right">
             <button onclick="location.href='/list.bo'">공지사항 리스트</button>
             <img class="logo" src="/resources/logo.png" alt="Logo" onclick="">
-            <form action="loginProcess.jsp" method="post">
+            <form action="login.me" method="post">
                 <div class="input-box">
-                    <input type="text" name="userId" placeholder="ID" required>
+                    <input type="text" name="memId" placeholder="ID" required>
                 </div>
 
                 <div class="input-box">
-                    <input type="password" name="password" placeholder="PASSWORD" required>
+                    <input type="password" name="memPwd" placeholder="PASSWORD" required>
                 </div>
 
                 <button type="submit" class="btn login-btn">LOGIN</button>

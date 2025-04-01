@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.semi.mappers.MemberMapper">
+    <resultMap id="memberResult" type="Member">
+        <result column="EMP_NO" property="empNo"/>
+        <result column="STORE_ID" property="storeId"/>
+        <result column="MEM_ID" property="memId"/>
+        <result column="MEM_PWD" property="memPwd"/>
+        <result column="MEM_NAME" property="memName"/>
+        <result column="PHONE" property="phone"/>
+        <result column="POSITION" property="position"/>
+        <result column="STATUS" property="status"/>
+        <result column="CREATE_DATE" property="createDate"/>
+        <result column="MODIFY_DATE" property="modifyDate"/>
+        <result column="HIRE_DATE" property="hireDate"/>
+        <result column="SALARY" property="salary"/>
+    </resultMap>
+    <select id="loginMember" parameterType="Member" resultMap="memberResult">
+        SELECT
+        EMP_NO,
+        STORE_ID,
+        MEM_ID,
+        MEM_PWD,
+        MEM_NAME,
+        PHONE,
+        POSITION,
+        STATUS,
+        CREATE_DATE,
+        MODIFY_DATE,
+        HIRE_DATE,
+        SALARY
+        FROM MEMBER
+        WHERE MEM_ID = #{memId}
+        AND MEM_PWD = #{memPwd}
+        AND STATUS = 'Y'
+    </select>
+
+</mapper>
