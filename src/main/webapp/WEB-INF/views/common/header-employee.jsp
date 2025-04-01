@@ -55,23 +55,28 @@
         text-align: right;
     }
 
-    .status {
-        padding: 10px 20px;
-        font-size: 16px;
+    /* 버튼 기본 스타일 */
+    button {
+        padding: 8px 16px;
+        font-size: 14px;
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        transition: background 0.3s;
-    }
-
-    .work {
-        background: green;
         color: white;
     }
 
-    .off {
-        background: red;
-        color: white;
+    /* 출근 버튼 (초록색) */
+    .start-btn {
+        background-color: green;
+    }
+    /* 근무 중 버튼 (주황색) */
+    .working-btn {
+        background-color: orange;
+    }
+
+    /* 퇴근 버튼 (빨간색) */
+    .leave-btn {
+        background-color: red;
     }
 </style>
 
@@ -97,37 +102,57 @@
             <div class="fw-bold fs-5">직원1 님</div>
             <div class="text-muted">환영합니다.</div>
         </div>
-        <div>
-            <button id="workButton" class="status">출근/퇴근</button>
+        <div style="margin-top: 20px">
+            <button id="workButton" class="start-btn" onclick="출근()">출근</button>
+            <button id="leaveButton" class="leave-btn" onclick="퇴근()">퇴근</button>
             <p id="realTimeClock"></p>
         </div>
+
     </div>
-</div>
+    <script>
+        function 출근() {
+            const now = new Date();
+            const formattedTime = now.getFullYear() + "-" +
+                String(now.getMonth() + 1).padStart(2, '0') + "-" +
+                String(now.getDate()).padStart(2, '0') + " " +
+                String(now.getHours()).padStart(2, '0') + ":" +
+                String(now.getMinutes()).padStart(2, '0') + ":" +
+                String(now.getSeconds()).padStart(2, '0');
 
-<script>
-    const button = document.getElementById("workButton");
+            alert("출근 시간이 기록되었습니다: " + formattedTime);
 
-    let isWorking = false; // 초기 상태 (퇴근)
-
-    button.addEventListener("click", () => {
-        isWorking = !isWorking;
-
-        if (isWorking) {
-            button.textContent = "근무중";
-            button.classList.add("work");
-            button.classList.remove("off");
-        } else {
-            button.textContent = "퇴근";
-            button.classList.add("off");
-            button.classList.remove("work");
+            // 버튼 텍스트 변경 + 색상 변경
+            let workButton = document.getElementById("workButton");
+            workButton.innerText = "근무중";
+            workButton.classList.remove("start-btn");
+            workButton.classList.add("working-btn");
         }
-    });
 
-    function updateClock() {
-        let now = new Date();
-        let formattedDate = now.toISOString().slice(0, 19).replace("T", " "); // YYYY-MM-DD HH:MM:SS 형식
-        document.getElementById("realTimeClock").innerText = formattedDate;
-    }
-    setInterval(updateClock, 1000); // 1초마다 시간 갱신
-    window.onload = updateClock; // 페이지 로드 시 초기 실행
-</script>
+        function 퇴근() {
+            const now = new Date();
+            const formattedTime = now.getFullYear() + "-" +
+                String(now.getMonth() + 1).padStart(2, '0') + "-" +
+                String(now.getDate()).padStart(2, '0') + " " +
+                String(now.getHours()).padStart(2, '0') + ":" +
+                String(now.getMinutes()).padStart(2, '0') + ":" +
+                String(now.getSeconds()).padStart(2, '0');
+
+            alert("퇴근 시간이 기록되었습니다: " + formattedTime);
+
+            // 버튼 텍스트 원래대로 변경 + 색상 원래대로 변경
+            let workButton = document.getElementById("workButton");
+            workButton.innerText = "출근";
+            workButton.classList.remove("working-btn");
+            workButton.classList.add("start-btn");
+        }
+
+        function updateClock() {
+            let now = new Date();
+            let formattedDate = now.toISOString().slice(0, 19).replace("T", " ");
+            document.getElementById("realTimeClock").innerText = formattedDate;
+        }
+
+        setInterval(updateClock, 1000);
+        window.onload = updateClock;
+    </script>
+</div>

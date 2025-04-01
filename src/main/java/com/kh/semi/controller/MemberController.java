@@ -20,12 +20,16 @@ public class MemberController {
 
     @GetMapping("enrollForm.me")
     public String enrollMemberForm() {
+
         return "member/memberEnrollForm";
     }
 
     @GetMapping("logout.me")
     public String logout() {
+
         return "index";
     }
 
 }
+
+

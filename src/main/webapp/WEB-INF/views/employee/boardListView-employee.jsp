@@ -61,7 +61,7 @@ charset=UTF-8" pageEncoding="UTF-8"%>
 <body>
 <jsp:include page="../common/header-employee.jsp"/>
 <div class="container-fluid">
-    <div class="row">
+
         <!-- Sidebar -->
         <jsp:include page="../common/sidebar-employee.jsp"/>
 
@@ -119,7 +119,7 @@ charset=UTF-8" pageEncoding="UTF-8"%>
             </div>
         </main>
     </div>
-</div>
+
 
 <!-- 모달 창 -->
 <div class="modal fade" id="noticeModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
