@@ -21,7 +21,7 @@
 
         .pagination a {
             text-decoration: none;
-            color: #005F5B;
+            color: #000000;
             padding: 10px 15px;
             margin: 0 5px;
             border-radius: 5px;
@@ -31,13 +31,13 @@
         }
 
         .pagination a:hover {
-            background-color: #FFC9A5;
+            background-color: #d3d3d3;
         }
 
         .pagination .active {
-            background-color: #00A69F;
+            background-color: #000000;
             color: white;
-            border: 1px solid #00A69F;
+            border: 1px solid #000000;
         }
 
         .pagination .disabled {
@@ -57,9 +57,6 @@
     <a href="#" class="disabled">이전</a>
     <a href="#" class="active">1</a>
     <a href="#">2</a>
-    <a href="#">3</a>
-    <a href="#">4</a>
-    <a href="#">5</a>
     <a href="#">다음</a>
 </div>
 </body>
