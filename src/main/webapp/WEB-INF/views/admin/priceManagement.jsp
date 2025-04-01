@@ -140,11 +140,11 @@
     </style>
 </head>
 <body>
-<jsp:include page="../common/header.jsp"/>
+<jsp:include page="../common/header-admin.jsp"/>
 <div class="container-fluid" style="margin-top: 130px">
     <div class="row">
         <!-- Sidebar -->
-        <jsp:include page="../common/sidebar.jsp"/>
+        <jsp:include page="../common/sidebar-admin.jsp"/>
         <!-- Main content -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
