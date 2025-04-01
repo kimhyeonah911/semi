@@ -64,20 +64,24 @@
             scale: 1.05;
         }
 
-        .card-warning {
-            background-color: #FF6347;
+        .card-sales {
+            background-color: #EDE7F6; /* 밝은 회색 */
+            color: #000000; /* 진한 네이비 */
         }
 
-        .card-sales {
-            background-color: #4CAF50;
+        .card-warning {
+            background-color: #FFE5E5; /* 연한 붉은색 */
+            color: #000000; /* 진한 빨강 */
         }
 
         .card-popular {
-            background-color: #FF9800;
+            background-color: #FFF8E1; /* 연한 노랑 */
+            color: #000000; /* 진한 오렌지 */
         }
 
         .card-notice {
-            background-color: #2196F3;
+            background-color: #E3F2FD; /* 밝은 하늘색 */
+            color: #000000; /* 진한 파랑 */
         }
 
         .card-footer {
@@ -191,9 +195,9 @@
                         {
                             label: '지점별 매출',
                             data: [45, 90, 180, 135, 90, 105, 75, 60, 45, 30], // 지점별 매출 데이터
-                            borderColor: 'rgba(54, 162, 235, 1)', // 선 색상
+                            borderColor: 'rgb(255,120,120)', // 선 색상
                             pointBackgroundColor: 'white',
-                            backgroundColor: 'rgba(54, 162, 235, 0.2)', // 선 아래 채우기 색상
+                            backgroundColor: 'rgba(0,0,0,0.2)', // 선 아래 채우기 색상
                             tension: 0.4 // 곡선 정도
                         }
                     ]
