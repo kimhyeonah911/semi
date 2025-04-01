@@ -160,7 +160,7 @@
                 <div class="dashboard-card card-sales" style="grid-area: sales;">
                     <div class="card-title">💰 매점별 매출</div>
                     <div class="card-body">
-                        <canvas id="salesChart" style="max-width: 100%; height: 200px;"></canvas> <!-- Chart.js 그래프 삽입 -->
+                        <canvas id="salesChart" style="max-width: 100%; height: 300px;"></canvas> <!-- Chart.js 그래프 삽입 -->
                     </div>
                     <div class="card-footer">매출 분석 필요</div>
                 </div>
@@ -191,6 +191,7 @@
                         data: data,
                         options: {
                             responsive: true,
+                            maintainAspectRatio: false,
                             plugins: {
                                 legend: { display: false },
                                 title: { display: true, text: '지점별 매출' }

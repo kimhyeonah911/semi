@@ -9,21 +9,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/nanumsquareneo@0.0.5/nanumsquareneo.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <title>Title</title>
   <style>
-
+    * {
+      font-family: "NanumSquareNeo", sans-serif;
+    }
     main{
       margin-left: 250px;  /* ms-sm-auto */
       /*margin-right: auto;*/
-      width: 85.3%;  /* col-lg-10 (10/12 * 100%) */
+      width: 86%;  /* col-lg-10 (10/12 * 100%) */
       padding-left: 24px;  /* px-md-4 */
       /*padding-right: 24px;*/
       margin-top: 130px;
     }
 
-    .stockOut-management{
+    .stockIn-management{
       width: 100%;
       height: 100%;
       padding: 10px;
@@ -56,7 +59,7 @@
     #date1, #date2 {
       width: 130px;
       height: 30px;
-      font-size: 13px;
+      font-size: 14px;
       padding: 10px;
       border-radius: 5px;
       appearance: none;
@@ -69,7 +72,7 @@
     }
 
 
-    #stockOut-search-bar{
+    #stockIn-search-bar{
       width: 80px;
       height: 30px;
       font-size: 12px;
@@ -111,6 +114,54 @@
       vertical-align: middle;
     }
 
+    .table1 th:nth-child(1),
+    .table1 td:nth-child(1) {
+      width: 14%;
+      text-align: center;
+    }
+
+    .table1 th:nth-child(2),
+    .table1 td:nth-child(2) {
+      width: 14%;
+      text-align: center;
+    }
+
+    .table1 th:nth-child(3),
+    .table1 td:nth-child(3) {
+      width: 15%;
+      text-align: center;
+    }
+
+    .table1 th:nth-child(4),
+    .table1 td:nth-child(4) {
+      width: 15%;
+      text-align: center;
+    }
+
+    .table1 th:nth-child(5),
+    .table1 td:nth-child(5) {
+      width: 13%;
+      text-align: center;
+    }
+
+    .table1 th:nth-child(6),
+    .table1 td:nth-child(6) {
+      width: 11%;
+      text-align: center;
+    }
+
+    .table1 th:nth-child(7),
+    .table1 td:nth-child(7) {
+      width: 9%;
+      text-align: center;
+    }
+
+    .table1 th:nth-child(8),
+    .table1 td:nth-child(8) {
+      width: 9%;
+      text-align: center;
+    }
+
     .price-place{
       width: calc(100% - 200px);
       display: flex;
@@ -150,7 +201,6 @@
       text-overflow: ellipsis;
       max-width: 100%;
       margin-left: 1px;
-      margin-right: 1px;
     }
 
     .modal-content {
@@ -272,31 +322,29 @@
       margin-bottom: auto;
     }
 
-
-
   </style>
 </head>
 <body>
-<jsp:include page="../common/header-manager.jsp"/>
+<jsp:include page="../common/header-admin.jsp"/>
 <div class="container-fluid">
 
-  <jsp:include page="../common/sidebar-manager.jsp"/>
+  <jsp:include page="../common/sidebar-admin.jsp"/>
 
   <main>
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      <h1 class="h2">출고</h1>
+      <h1 class="h2">입고</h1>
     </div>
 
-    <div class="stockOut-management">
+    <div class="stockIn-management">
       <div class="table1">
         <div id="search-bar">
           <div id="search-bar-1">
-            <select id="stockOut-search-bar">
+            <select id="stockIn-search-bar">
               <option value="0">전체</option>
-              <option value="1">출고 등록</option>
-              <option value="2">출고중</option>
-              <option value="3">출고완료</option>
+              <option value="1">입고 등록</option>
+              <option value="2">입고중</option>
+              <option value="3">입고완료</option>
             </select>
             <input type="date"
                    id="date1"
@@ -311,17 +359,17 @@
                    value="2025-03-26">
             <button type="button" class="search-btn" id="submit-btn">조회</button>
           </div>
-          <button class="storage-btn" id="storage-submit-btn" onclick="showModal()">출고서 등록</button>
+          <button class="storage-btn" id="storage-submit-btn" onclick="showModal()">입고서 등록</button>
         </div>
         <div>
           <table class="table table1 table-striped table-hover">
             <thead>
             <tr>
-              <th>출고번호</th>
+              <th>입고번호</th>
               <th>상태</th>
               <th>작성일자</th>
-              <th>출고일자</th>
-              <th>출고금액</th>
+              <th>입고일자</th>
+              <th>입고금액</th>
               <th>요청자</th>
               <th>수정</th>
               <th>취소</th>
@@ -330,7 +378,7 @@
             <tbody>
             <tr>
               <td>5761-8183</td>
-              <td><button type="button" class="btn btn-secondary btn-sm" disabled>출고 등록</button></td>
+              <td><button type="button" class="btn btn-secondary btn-sm" disabled>입고 등록</button></td>
               <td>2025-03-18</td>
               <td>2025-03-24</td>
               <td>172,000</td>
@@ -361,7 +409,7 @@
             <div style="font-weight: bold; font-size: 14px;">총 수량 2</div>
             <div style="font-weight: bold; font-size: 14px;">총 공급가액 1,200원 + 총 부가세 120원 = 총 합계금액 1,320원</div>
           </div>
-          <button class="storage-btn" id="storage-approve-btn">출고 승인</button>
+          <button class="storage-btn" id="storage-approve-btn">입고 승인</button>
         </div>
 
         <div>
@@ -369,8 +417,8 @@
             <thead>
             <tr>
               <th colspan="2" style="width: 35%;">품목</th>
-              <th>출고수량</th>
-              <th>판매단가</th>
+              <th>입고수량</th>
+              <th>구매단가</th>
               <th>공급가액</th>
               <th>부가세</th>
               <th>합계금액</th>
@@ -413,28 +461,42 @@
   </main>
 </div>
 
-<%--출고서 모달--%>
+<%--입고서 모달--%>
 <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalTitle">출고서 등록</h5>
+        <h5 class="modal-title" id="modalTitle">입고서 등록</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
       <div class="modal-body">
         <form>
           <div class="input-space">
-            <h6>출고 번호</h6>
+            <h6>입고 번호</h6>
             <input type="text" placeholder="자동 생성" readonly >
             <h6>요청자</h6>
             <input type="text" placeholder="session에서 가져온 유저id">
-            <h6>출고 예정 일자</h6>
+            <h6>입고처</h6>
+            <select id="client-search-bar">
+              <option value="0">입고처1</option>
+              <option value="1">입고처2</option>
+              <option value="2">입고처3</option>
+              <option value="3">입고처4</option>
+            </select>
+            <h6>입고 예정 일자</h6>
             <input type="text" placeholder="Today + 3" readonly >
+            <h6>창고 번호</h6>
+            <select id="storage-search-bar">
+              <option value="0">창고1</option>
+              <option value="1">창고2</option>
+              <option value="2">창고3</option>
+              <option value="3">창고4</option>
+            </select>
           </div>
           <div class="list-space">
             <div style="padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-              <h6>출고 품목 정보</h6>
+              <h6>입고 품목 정보</h6>
               <button type="button" class="add-product-btn" id="add-product-btn" onclick="showModal2()">+ 품목 추가</button>
             </div>
 
@@ -444,8 +506,8 @@
               <thead>
               <tr>
                 <th colspan="2" style="width: 35%;">품목</th>
-                <th>출고수량</th>
-                <th>판매단가</th>
+                <th>입고수량</th>
+                <th>구매단가</th>
                 <th>과세여부</th>
                 <th>삭제</th>
               </tr>
@@ -456,7 +518,7 @@
                   <img src="/resources/logo.png" style="width: 50px; height: 50px;" alt="제품사진">
                   <div class="product-info">
                     <p style="font-size: 14px;">238-654-13</p>
-                    <p style="font-weight:600; font-size: 14px;">나이키 에어 포스 1 ‘07</p>
+                    <p style="font-weight:600; font-size: 14px;">나이키 에어 포스 1 ‘07s</p>
                     <p style="font-size: 12px;">운동화 WHITE 230</p>
                   </div>
                 </td>
@@ -486,28 +548,42 @@
   </div>
 </div>
 
-<%--출고서 수정 모달--%>
+<%--입고서 수정 모달--%>
 <div class="modal fade" id="modal3" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="UpdatemodalTitle">출고서 수정</h5>
+        <h5 class="modal-title" id="UpdatemodalTitle">입고서 수정</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
       <div class="modal-body">
         <form>
           <div class="input-space">
-            <h6>출고 번호</h6>
+            <h6>입고 번호</h6>
             <input type="text" placeholder="자동 생성" readonly >
             <h6>요청자</h6>
             <input type="text" placeholder="session에서 가져온 유저id">
-            <h6>출고 예정 일자</h6>
+            <h6>입고처</h6>
+            <select id="update-client-search-bar">
+              <option value="0">입고처1</option>
+              <option value="1">입고처2</option>
+              <option value="2">입고처3</option>
+              <option value="3">입고처4</option>
+            </select>
+            <h6>입고 예정 일자</h6>
             <input type="text" placeholder="Today + 3" readonly >
+            <h6>창고 번호</h6>
+            <select id="storage-update-search-bar">
+              <option value="0">창고1</option>
+              <option value="1">창고2</option>
+              <option value="2">창고3</option>
+              <option value="3">창고4</option>
+            </select>
           </div>
           <div class="list-space">
             <div style="padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-              <h6>출고 품목 정보</h6>
+              <h6>입고 품목 정보</h6>
               <button type="button" class="add-product-btn" id="update-add-product-btn" onclick="showModal2()">+ 품목 추가</button>
             </div>
 
@@ -517,8 +593,8 @@
               <thead>
               <tr>
                 <th colspan="2" style="width: 35%;">품목</th>
-                <th>출고수량</th>
-                <th>판매단가</th>
+                <th>입고수량</th>
+                <th>구매단가</th>
                 <th>과세여부</th>
                 <th>삭제</th>
               </tr>
@@ -620,7 +696,7 @@
 </div>
 
 <script>
-  // 출고서 등록 모달
+  // 입고서 등록 모달
   function showModal() {
     var modalElement = document.getElementById('modal1');
 
@@ -646,7 +722,7 @@
     modal.show();
   }
 
-  // 출고서 수정 모달
+  // 입고서 수정 모달
   function showUpdateModal() {
     var modalElement = document.getElementById('modal3');
 
@@ -658,32 +734,6 @@
     var modal = new bootstrap.Modal(modalElement);
     modal.show();
   }
-
-  // 체크박스 클릭하면 tr 정보 가져오기 & 다른 곳 클릭해도 체크박스 활성화
-  document.addEventListener("DOMContentLoaded", function () {
-    const checkboxes = document.querySelectorAll(".row-checkbox");
-
-    checkboxes.forEach((checkbox) => {
-      const row = checkbox.closest("tr");
-
-      row.addEventListener("click", function (event) {
-        if (event.target.type !== "checkbox") {
-          checkbox.checked = !checkbox.checked;
-        }
-
-        if (checkbox.checked) {
-          const rowData = [];
-          row.querySelectorAll("td").forEach((td, index) => {
-            if (!td.querySelector("input") && !td.querySelector("img")) {
-              rowData.push(td.innerText.trim());
-            }
-          });
-
-          console.log("선택된 행 데이터:", rowData);
-        }
-      });
-    });
-  });
 </script>
 
 </body>

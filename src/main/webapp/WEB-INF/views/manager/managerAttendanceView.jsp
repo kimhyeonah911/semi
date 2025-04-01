@@ -8,7 +8,7 @@
         main{
             margin-left: 250px;  /* ms-sm-auto */
             /*margin-right: auto;*/
-            width: 80%;  /* col-lg-10 (10/12 * 100%) */
+            width: 85.3%;  /* col-lg-10 (10/12 * 100%) */
             padding-left: 24px;  /* px-md-4 */
             /*padding-right: 24px;*/
             margin-top: 130px;
@@ -17,7 +17,7 @@
 
         .pagination{
             position: absolute;
-            left: 60%;
+            left: 50%;
             transform: translateX(-50%);
         }
         select{
@@ -61,7 +61,6 @@
 
         .table-container{
             width: 100%;
-            /*height: calc(100% - 53px);*/
         }
         .table-container>table{
             width: 100%;
@@ -116,15 +115,8 @@
 <body>
 
 <jsp:include page="../common/header-manager.jsp" />
-
-
-<%--<div class="container">--%>
-
+<div class="container-fluid">
 <jsp:include page="../common/sidebar-manager.jsp"/>
-
-
-
-<%--  <div class="attendance-management">--%>
 <main>
 
     <div class="pt-3 pb-2 mb-3 border-bottom">
@@ -217,8 +209,7 @@
 
     </div>
 </main>
-<%--  </div>--%>
-<%--</div>--%>
+</div>
 
 </body>
 </html>
