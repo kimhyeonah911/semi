@@ -120,12 +120,12 @@
 <div class="container-fluid">
     <div class="row">
         <!-- 사이드바 -->
-        <jsp:include page="../common/sidebar-manager.jsp"/>
+        <jsp:include page="../common/sidebar-employee.jsp"/>
 
         <!-- 메인 내용 -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">지점장 대시보드</h1>
+                <h1 class="h2">직원 대시보드</h1>
             </div>
 
             <div class="card-container">

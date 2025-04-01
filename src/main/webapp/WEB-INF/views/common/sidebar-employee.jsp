@@ -125,7 +125,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="salesManager.bo">
                     <i class="fas fa-chart-line"></i> 매출 관리
                 </a>
             </li>
