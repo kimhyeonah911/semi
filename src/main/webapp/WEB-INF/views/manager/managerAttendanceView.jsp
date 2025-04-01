@@ -64,7 +64,7 @@
         }
         .table-container>table{
             width: 100%;
-            font-size: 20px;
+            font-size: 18px;
             color: black;
             text-align: center;
         }
@@ -106,10 +106,10 @@
             cursor: not-allowed;
         }
 
-        .enroll{
-            width: 30px;
-            height: 30px;
+        .custom-btn {
+            height: 80%;
         }
+
 
     </style>
 </head>
@@ -163,7 +163,7 @@
                 <td>08 : 50 : 56</td>
                 <td>             </td>
                 <td>06 : 08 : 53 </td>
-                <td><button type="button" class="btn btn-outline-success">수정</button></td>
+                <td><button type="button" class="btn btn-outline-success btn-sm">수정</button></td>
             </tr>
             <tr>
                 <td>3</td>
@@ -173,7 +173,7 @@
                 <td>08 : 50 : 56</td>
                 <td>15 : 02 : 06</td>
                 <td>06 : 08 : 53</td>
-                <td><button type="button" class="btn btn-outline-success">수정</button></td>
+                <td><button type="button" class="btn btn-outline-success btn-sm">수정</button></td>
             </tr>
             <tr>
                 <td>2</td>
@@ -183,7 +183,7 @@
                 <td>08 : 50 : 56</td>
                 <td>15 : 02 : 06</td>
                 <td>06 : 08 : 53</td>
-                <td><button type="button" class="btn btn-outline-success">수정</button></td>
+                <td><button type="button" class="btn btn-outline-success btn-sm">수정</button></td>
             </tr>
             <tr>
                 <td>2</td>
@@ -193,7 +193,7 @@
                 <td>08 : 50 : 56</td>
                 <td>15 : 02 : 06</td>
                 <td>06 : 08 : 53</td>
-                <td><button type="button" class="btn btn-outline-success">수정</button></td>
+                <td><button type="button" class="btn btn-outline-success btn-sm">수정</button></td>
             </tr>
 
             </tbody>

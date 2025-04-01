@@ -85,12 +85,9 @@
 
     .table-container>table{
       width: 100%;
-      font-size: 20px;
+      font-size: 16px;
       color: black;
       text-align: center;
-    }
-    .table-container>table>thead{
-      height: 40px;
     }
 
     .pagination {

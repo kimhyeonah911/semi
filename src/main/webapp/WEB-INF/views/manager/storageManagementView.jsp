@@ -55,16 +55,12 @@
 
         .table-container{
             width: 100%;
-            height: calc(100% - 65px);
         }
         .table-container>table{
             width: 100%;
-            font-size: 20px;
+            font-size: 16px;
             color: black;
             text-align: center;
-        }
-        .table-container>table>thead{
-            height: 40px;
         }
 
         .pagination {
@@ -134,23 +130,12 @@
             text-align: left;
         }
 
-
         hr{
             border : 1px solid black;
         }
 
         #modal-btn-div > img{
             cursor:pointer;
-        }
-
-        #cancel-btn{
-            margin-right : 10px;
-        }
-
-        .input-space-1{
-            height: 500px;
-            max-height: 570px;
-            overflow-y: auto;
         }
 
         .input-space-1> input{
