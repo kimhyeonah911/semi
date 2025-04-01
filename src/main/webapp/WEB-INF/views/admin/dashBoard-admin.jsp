@@ -55,20 +55,24 @@
             scale: 1.05;
         }
 
-        .card-warning {
-            background-color: #FF6347;
+        .card-sales {
+            background-color: #F5F5F5; /* 밝은 회색 */
+            color: #000000; /* 진한 네이비 */
         }
 
-        .card-sales {
-            background-color: #4CAF50;
+        .card-warning {
+            background-color: #FFE5E5; /* 연한 붉은색 */
+            color: #000000; /* 진한 빨강 */
         }
 
         .card-popular {
-            background-color: #FF9800;
+            background-color: #FFF8E1; /* 연한 노랑 */
+            color: #000000; /* 진한 오렌지 */
         }
 
         .card-notice {
-            background-color: #2196F3;
+            background-color: #E3F2FD; /* 밝은 하늘색 */
+            color: #000000; /* 진한 파랑 */
         }
 
         .card-footer {
@@ -143,7 +147,7 @@
                 <div class="card-body">
                     <span>뉴발란스 992 현재 재고 부족 제품이 5개입니다.</span>
                 </div>
-                <div class="card-body">
+                <div class="card-body">s
                     <span>에어포스1 07 WB 현재 재고 부족 제품이 2개입니다.</span>
                 </div>
                 <div class="card-body">
