@@ -114,8 +114,9 @@
         .btn-success:disabled {
             background-color: #28a745 !important; /* 원하는 색상 */
             color: white !important; /* 텍스트 색상 */
-            opacity: 1; /* 기본적으로 투명도가 낮아지는데 이를 유지 */
-            cursor: not-allowed; /* 기본적으로 비활성화된 상태에서 커서 변경 */
+            opacity: 1 !important; /* 투명도 완전히 없애기 */
+            pointer-events: none; /* 버튼 클릭 방지 */
+            cursor: not-allowed; /* 비활성화 상태에서 커서 변경 */
         }
     </style>
 </head>
@@ -169,7 +170,7 @@
                 <td>08 : 50 : 56</td>
                 <td>             </td>
                 <td>06 : 08 : 53 </td>
-                <td><img src="/resources/enroll.png" class="enroll"> </td>
+                <td><button type="button" class="btn btn-outline-success">수정</button></td>
             </tr>
             <tr>
                 <td>3</td>
@@ -179,7 +180,7 @@
                 <td>08 : 50 : 56</td>
                 <td>15 : 02 : 06</td>
                 <td>06 : 08 : 53</td>
-                <td><img src="/resources/enroll.png" class="enroll"> </td>
+                <td><button type="button" class="btn btn-outline-success">수정</button></td>
             </tr>
             <tr>
                 <td>2</td>
@@ -189,7 +190,7 @@
                 <td>08 : 50 : 56</td>
                 <td>15 : 02 : 06</td>
                 <td>06 : 08 : 53</td>
-                <td><img src="/resources/enroll.png" class="enroll"> </td>
+                <td><button type="button" class="btn btn-outline-success">수정</button></td>
             </tr>
             <tr>
                 <td>2</td>
@@ -199,7 +200,7 @@
                 <td>08 : 50 : 56</td>
                 <td>15 : 02 : 06</td>
                 <td>06 : 08 : 53</td>
-                <td><img src="/resources/enroll.png" class="enroll"> </td>
+                <td><button type="button" class="btn btn-outline-success">수정</button></td>
             </tr>
 
             </tbody>

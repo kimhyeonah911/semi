@@ -1,4 +1,4 @@
-<%--지점장 재고관리 재고 페이지--%>
+<%--지점장 재고관리 재고/입출고  페이지--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
