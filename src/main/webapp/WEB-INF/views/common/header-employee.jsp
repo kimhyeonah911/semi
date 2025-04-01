@@ -54,6 +54,25 @@
     .admin-info {
         text-align: right;
     }
+
+    .status {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .work {
+        background: green;
+        color: white;
+    }
+
+    .off {
+        background: red;
+        color: white;
+    }
 </style>
 
 <div class="container-fluid bg-light py-3" id="header">
@@ -78,5 +97,37 @@
             <div class="fw-bold fs-5">직원1 님</div>
             <div class="text-muted">환영합니다.</div>
         </div>
+        <div>
+            <button id="workButton" class="status">출근/퇴근</button>
+            <p id="realTimeClock"></p>
+        </div>
     </div>
 </div>
+
+<script>
+    const button = document.getElementById("workButton");
+
+    let isWorking = false; // 초기 상태 (퇴근)
+
+    button.addEventListener("click", () => {
+        isWorking = !isWorking;
+
+        if (isWorking) {
+            button.textContent = "근무중";
+            button.classList.add("work");
+            button.classList.remove("off");
+        } else {
+            button.textContent = "퇴근";
+            button.classList.add("off");
+            button.classList.remove("work");
+        }
+    });
+
+    function updateClock() {
+        let now = new Date();
+        let formattedDate = now.toISOString().slice(0, 19).replace("T", " "); // YYYY-MM-DD HH:MM:SS 형식
+        document.getElementById("realTimeClock").innerText = formattedDate;
+    }
+    setInterval(updateClock, 1000); // 1초마다 시간 갱신
+    window.onload = updateClock; // 페이지 로드 시 초기 실행
+</script>
