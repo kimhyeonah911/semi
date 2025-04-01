@@ -7,5 +7,4 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface MemberMapper {
     Member loginMember(String memId, String memPwd);
-
 }

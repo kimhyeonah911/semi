@@ -9,7 +9,6 @@ import java.sql.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
 public class Member {
     private int empNo;
     private String storeId;
@@ -24,4 +23,3 @@ public class Member {
     private Date hireDate;
     private int salary;
 }
-

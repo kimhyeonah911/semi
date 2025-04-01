@@ -23,12 +23,11 @@ import java.util.ArrayList;
 public class MemberController {
 
     private final MemberService memberService;
-//    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
-//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+
     }
 
     @GetMapping("enrollForm.me")
@@ -68,8 +67,6 @@ public class MemberController {
 
         return "index";
     }
-
-
 
 }
 
