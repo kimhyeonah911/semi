@@ -72,7 +72,7 @@
         #stockIn-search-bar{
             width: 80px;
             height: 30px;
-            font-size: 12px;
+            font-size: 14px;
         }
 
         .search-btn{
@@ -296,7 +296,7 @@
                             <option value="0">전체</option>
                             <option value="1">입고 등록</option>
                             <option value="2">입고중</option>
-                            <option value="3">입고완료</option>
+                            <option value="3">입고 완료</option>
                         </select>
                         <input type="date"
                                id="date1"
