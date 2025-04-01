@@ -56,7 +56,7 @@
         }
 
         .card-sales {
-            background-color: #F5F5F5; /* 밝은 회색 */
+            background-color: #EDE7F6; /* 밝은 회색 */
             color: #000000; /* 진한 네이비 */
         }
 
@@ -147,7 +147,7 @@
                 <div class="card-body">
                     <span>뉴발란스 992 현재 재고 부족 제품이 5개입니다.</span>
                 </div>
-                <div class="card-body">s
+                <div class="card-body">
                     <span>에어포스1 07 WB 현재 재고 부족 제품이 2개입니다.</span>
                 </div>
                 <div class="card-body">
@@ -186,9 +186,9 @@
                         {
                             label: '지점별 매출',
                             data: [45, 90, 180, 135, 90, 105, 75, 60, 45, 30], // 지점별 매출 데이터
-                            borderColor: 'rgba(54, 162, 235, 1)', // 선 색상
+                            borderColor: 'rgb(255,120,120)', // 선 색상
                             pointBackgroundColor: 'white',
-                            backgroundColor: 'rgba(54, 162, 235, 0.2)', // 선 아래 채우기 색상
+                            backgroundColor: 'rgba(0,0,0,0.2)', // 선 아래 채우기 색상
                             tension: 0.4 // 곡선 정도
                         }
                     ]
