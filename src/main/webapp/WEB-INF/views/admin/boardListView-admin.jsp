@@ -51,65 +51,63 @@ charset=UTF-8" pageEncoding="UTF-8"%>
 <body>
 <jsp:include page="../common/header-admin.jsp"/>
 <div class="container-fluid">
-    <div class="row">
-        <!-- Sidebar -->
-        <jsp:include page="../common/sidebar-admin.jsp"/>
+    <!-- Sidebar -->
+    <jsp:include page="../common/sidebar-admin.jsp"/>
 
-        <!-- Main content -->
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">공지사항</h1>
-            </div>
+    <!-- Main content -->
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">공지사항</h1>
+        </div>
 
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th>번호</th>
-                        <th>작성자</th>
-                        <th>제목</th>
-                        <th>소속지점</th>
-                        <th>작성날짜</th>
-                        <th>작업</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr onclick="showModal('관리자', '각 지점별 철저히 재고확인', '본사', '2025-03-19', '수정중입니다.')">
-                        <td>필독📢</td>
-                        <td>관리자</td>
-                        <td>각 지점별 철저히 재고확인</td>
-                        <td>본사</td>
-                        <td>2025-03-19</td>
-                        <td><button class="btn btn-sm btn-outline-primary">수정</button></td>
-                    </tr>
-                    <tr onclick="showModal('manager4', '이번 주 토요일(3/23) 매장 운영시간 변경', '학동점', '2025-03-17', '운영시간 변경')">
-                        <td>1</td>
-                        <td>manager4</td>
-                        <td>이번 주 토요일(3/23) 매장 운영시간 변경</td>
-                        <td>학동점</td>
-                        <td>2025-03-17</td>
-                        <td></td>
-                    </tr>
-                    <tr onclick="showModal('manager2', '지점 행사 및 프로모션 공지', '한남점', '2025-03-11', '할인 행사 예정')">
-                        <td>2</td>
-                        <td>manager2</td>
-                        <td>지점 행사 및 프로모션 공지</td>
-                        <td>한남점</td>
-                        <td>2025-03-11</td>
-                        <td></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>작성자</th>
+                    <th>제목</th>
+                    <th>소속지점</th>
+                    <th>작성날짜</th>
+                    <th>작업</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr onclick="showModal('관리자', '각 지점별 철저히 재고확인', '본사', '2025-03-19', '수정중입니다.')">
+                    <td>필독📢</td>
+                    <td>관리자</td>
+                    <td>각 지점별 철저히 재고확인</td>
+                    <td>본사</td>
+                    <td>2025-03-19</td>
+                    <td><button class="btn btn-sm btn-outline-primary">수정</button></td>
+                </tr>
+                <tr onclick="showModal('manager4', '이번 주 토요일(3/23) 매장 운영시간 변경', '학동점', '2025-03-17', '운영시간 변경')">
+                    <td>1</td>
+                    <td>manager4</td>
+                    <td>이번 주 토요일(3/23) 매장 운영시간 변경</td>
+                    <td>학동점</td>
+                    <td>2025-03-17</td>
+                    <td></td>
+                </tr>
+                <tr onclick="showModal('manager2', '지점 행사 및 프로모션 공지', '한남점', '2025-03-11', '할인 행사 예정')">
+                    <td>2</td>
+                    <td>manager2</td>
+                    <td>지점 행사 및 프로모션 공지</td>
+                    <td>한남점</td>
+                    <td>2025-03-11</td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-            <div class="d-flex justify-content-end mt-3">
-                <button class="btn btn-primary" onclick="location.href='/enroll.bo'">✏️ 글쓰기</button>
-            </div>
-            <div class="pagebar-container mt-3">
-                <jsp:include page="../common/pagebar.jsp"/>
-            </div>
-        </main>
-    </div>
+        <div class="d-flex justify-content-end mt-3">
+            <button class="btn btn-primary" onclick="location.href='/enroll.bo'">✏️ 글쓰기</button>
+        </div>
+        <div class="pagebar-container mt-3">
+            <jsp:include page="../common/pagebar.jsp"/>
+        </div>
+    </main>
 </div>
 
 <!-- 모달 창 -->

@@ -116,40 +116,38 @@
 <body>
 <jsp:include page="../common/header-admin.jsp"/>
 <div class="container-fluid" style="margin-top: 130px">
-    <div class="row">
-        <!-- Sidebar -->
-        <jsp:include page="../common/sidebar-admin.jsp"/>
-        <!-- Main content -->
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h2>지점 생성</h2>
+    <!-- Sidebar -->
+    <jsp:include page="../common/sidebar-admin.jsp"/>
+    <!-- Main content -->
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h2>지점 생성</h2>
+        </div>
+        <form>
+            <div class="mb-3">
+                <label for="storeName" class="form-label">지점명</label>
+                <input type="text" class="form-control" id="storeName">
             </div>
-            <form>
-                <div class="mb-3">
-                    <label for="storeName" class="form-label">지점명</label>
-                    <input type="text" class="form-control" id="storeName">
-                </div>
 
-                <div class="mb-3">
-                    <label for="address" class="form-label">주소</label>
-                    <input type="text" class="form-control" id="address">
-                </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">주소</label>
+                <input type="text" class="form-control" id="address">
+            </div>
 
-                <div class="mb-3">
-                    <label for="phoneNumber" class="form-label">매장 전화번호</label>
-                    <input type="text" class="form-control" id="phoneNumber">
-                </div>
+            <div class="mb-3">
+                <label for="phoneNumber" class="form-label">매장 전화번호</label>
+                <input type="text" class="form-control" id="phoneNumber">
+            </div>
 
-                <div class="mb-3">
-                    <label for="registrationDate" class="form-label">등록일</label>
-                    <input type="text" class="form-control" id="registrationDate" value="2025 / 03 / 28" disabled>
-                </div>
-                <button id="createbtn" onclick="">생성</button>
-            </form>
+            <div class="mb-3">
+                <label for="registrationDate" class="form-label">등록일</label>
+                <input type="text" class="form-control" id="registrationDate" value="2025 / 03 / 28" disabled>
+            </div>
+            <button id="createbtn" onclick="">생성</button>
+        </form>
 
 
-        </main>
-    </div>
+    </main>
 </div>
 
 

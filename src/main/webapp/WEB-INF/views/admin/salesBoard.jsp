@@ -130,84 +130,83 @@
 <body>
 <jsp:include page="../common/header-admin.jsp"/>
 <div class="container-fluid" style="margin-top: 130px">
-  <div class="row">
-    <!-- Sidebar -->
-    <jsp:include page="../common/sidebar-admin.jsp"/>
-    <!-- Main content -->
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">지점별 매출 현황</h1>
+  <!-- Sidebar -->
+  <jsp:include page="../common/sidebar-admin.jsp"/>
+  <!-- Main content -->
+  <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">지점별 매출 현황</h1>
+    </div>
+    <!-- 월별 선택 셀렉트 박스 추가 -->
+    <div class="mb-3">
+      <label for="monthSelect" class="form-label">월 선택</label>
+      <select class="form-select" id="monthSelect" aria-label="월 선택">
+        <option value="2025-02">1월</option>
+        <option value="2025-03">2월</option>
+        <option value="2025-04">3월</option>
+        <option value="2025-04">4월</option>
+        <option value="2025-04">5월</option>
+        <option value="2025-04">6월</option>
+        <option value="2025-04">7월</option>
+        <option value="2025-04">8월</option>
+        <option value="2025-04">9월</option>
+        <option value="2025-04">10월</option>
+        <option value="2025-04">11월</option>
+        <option value="2025-04">12월</option>
+        <!-- 추가 월 옵션 -->
+      </select>
+    </div>
+    <!-- 매출 그래프 -->
+    <div>
+      <canvas id="salesChart" width="500" height="400"></canvas>
+    </div>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>번호</th>
+          <th>지점명</th>
+          <th>기간</th>
+          <th>매출액</th>
+          <th>직원수</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>1</td>
+          <td>역삼점</td>
+          <td>02-01~02-28</td>
+          <td>36,254,740</td>
+          <td>7명</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>하남점</td>
+          <td>02-01~02-28</td>
+          <td>31,204,740</td>
+          <td>6명</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>대구점</td>
+          <td>02-01~02-28</td>
+          <td>26,254,740</td>
+          <td>5명</td>
+        </tr>
+        </tbody>
+      </table>
+      <!-- 페이지 바 html부분 -->
+      <div class="pagination">
+        <a href="#" class="disabled">이전</a>
+        <a href="#" class="active">1</a>
+        <a href="#">2</a>
+        <a href="#">다음</a>
       </div>
-      <!-- 월별 선택 셀렉트 박스 추가 -->
-      <div class="mb-3">
-        <label for="monthSelect" class="form-label">월 선택</label>
-        <select class="form-select" id="monthSelect" aria-label="월 선택">
-          <option value="2025-02">1월</option>
-          <option value="2025-03">2월</option>
-          <option value="2025-04">3월</option>
-          <option value="2025-04">4월</option>
-          <option value="2025-04">5월</option>
-          <option value="2025-04">6월</option>
-          <option value="2025-04">7월</option>
-          <option value="2025-04">8월</option>
-          <option value="2025-04">9월</option>
-          <option value="2025-04">10월</option>
-          <option value="2025-04">11월</option>
-          <option value="2025-04">12월</option>
-          <!-- 추가 월 옵션 -->
-        </select>
-      </div>
-      <!-- 매출 그래프 -->
-      <div>
-        <canvas id="salesChart" width="500" height="400"></canvas>
-      </div>
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-          <tr>
-            <th>번호</th>
-            <th>지점명</th>
-            <th>기간</th>
-            <th>매출액</th>
-            <th>직원수</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td>1</td>
-            <td>역삼점</td>
-            <td>02-01~02-28</td>
-            <td>36,254,740</td>
-            <td>7명</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>하남점</td>
-            <td>02-01~02-28</td>
-            <td>31,204,740</td>
-            <td>6명</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>대구점</td>
-            <td>02-01~02-28</td>
-            <td>26,254,740</td>
-            <td>5명</td>
-          </tr>
-          </tbody>
-        </table>
-        <!-- 페이지 바 html부분 -->
-        <div class="pagination">
-          <a href="#" class="disabled">이전</a>
-          <a href="#" class="active">1</a>
-          <a href="#">2</a>
-          <a href="#">다음</a>
-        </div>
 
-      </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
+
 <script>
   // 예시 매출 데이터 (이 부분을 서버에서 동적으로 전달받도록 변경할 수 있음)
   var salesData = {

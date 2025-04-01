@@ -129,57 +129,55 @@
 <body>
 <jsp:include page="../common/header-admin.jsp"/>
 <div class="container-fluid" style="margin-top: 130px">
-    <div class="row">
-        <!-- Sidebar -->
-        <jsp:include page="../common/sidebar-admin.jsp"/>
-        <!-- Main content -->
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">마이페이지</h1>
-            </div>
-            <div class="mypage">
-                <form id="mypage1">
-                    <div>
-                        <label for="name">이름</label>
-                        <input type="text" id="name" value="김현아">
-                    </div>
-                    <div>
-                        <label for="username">아이디</label>
-                        <input type="text" id="username" value="user100">
-                    </div>
-                    <div>
-                        <label for="password">비밀번호</label>
-                        <input type="password" id="password">
-                    </div>
-                    <div>
-                        <label for="passwordConfirm">비밀번호 확인</label>
-                        <input type="password" id="passwordConfirm">
-                    </div>
-                    <div>
-                        <label for="phoneNumber">전화번호</label>
-                        <input type="text" id="phoneNumber" value="010-1234-5678(유저전화번호)">
-                    </div>
-                    <button id="edit" class="btn btn-primary">정보 수정</button>
-                </form>
-                <div id="mypage2">
-                    <h2>근무 정보</h2>
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <i class="fas fa-user-circle" style="font-size: 150px; color: #777777;"></i>
-                    </div>
-                    <div style="margin-bottom: 15px; font-size: 16px;">
-                        <i class="fas fa-building" style="color: #777777; margin-right: 10px;"></i>본사
-                    </div>
-                    <div style="margin-bottom: 15px; font-size: 16px;">
-                        <i class="fas fa-briefcase" style="color: #777777; margin-right: 10px;"></i>관리자
-                    </div>
-                    <div style="margin-bottom: 15px; font-size: 16px;">
-                        <i class="fas fa-map-marker-alt" style="color: #777777; margin-right: 10px;"></i>서울특별시 강남구 테헤란로 123, 3층 (역삼동)
-                    </div>
+    <!-- Sidebar -->
+    <jsp:include page="../common/sidebar-admin.jsp"/>
+    <!-- Main content -->
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">마이페이지</h1>
+        </div>
+        <div class="mypage">
+            <form id="mypage1">
+                <div>
+                    <label for="name">이름</label>
+                    <input type="text" id="name" value="김현아">
                 </div>
-
+                <div>
+                    <label for="username">아이디</label>
+                    <input type="text" id="username" value="user100">
+                </div>
+                <div>
+                    <label for="password">비밀번호</label>
+                    <input type="password" id="password">
+                </div>
+                <div>
+                    <label for="passwordConfirm">비밀번호 확인</label>
+                    <input type="password" id="passwordConfirm">
+                </div>
+                <div>
+                    <label for="phoneNumber">전화번호</label>
+                    <input type="text" id="phoneNumber" value="010-1234-5678(유저전화번호)">
+                </div>
+                <button id="edit" class="btn btn-primary">정보 수정</button>
+            </form>
+            <div id="mypage2">
+                <h2>근무 정보</h2>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <i class="fas fa-user-circle" style="font-size: 150px; color: #777777;"></i>
+                </div>
+                <div style="margin-bottom: 15px; font-size: 16px;">
+                    <i class="fas fa-building" style="color: #777777; margin-right: 10px;"></i>본사
+                </div>
+                <div style="margin-bottom: 15px; font-size: 16px;">
+                    <i class="fas fa-briefcase" style="color: #777777; margin-right: 10px;"></i>관리자
+                </div>
+                <div style="margin-bottom: 15px; font-size: 16px;">
+                    <i class="fas fa-map-marker-alt" style="color: #777777; margin-right: 10px;"></i>서울특별시 강남구 테헤란로 123, 3층 (역삼동)
+                </div>
             </div>
-        </main>
-    </div>
+
+        </div>
+    </main>
 </div>
 
 </body>
