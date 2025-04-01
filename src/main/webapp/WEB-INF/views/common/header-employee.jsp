@@ -55,9 +55,6 @@
         text-align: right;
     }
 
-<<<<<<< HEAD
-
-=======
     /* 버튼 기본 스타일 */
     button {
         padding: 8px 16px;
@@ -81,7 +78,9 @@
     .leave-btn {
         background-color: red;
     }
->>>>>>> 92231eaa661bf13fa622d94beaf01fb0412dcfcf
+    #realTimeClock{
+        width: 200px;
+    }
 </style>
 
 <div class="container-fluid bg-light py-3" id="header">

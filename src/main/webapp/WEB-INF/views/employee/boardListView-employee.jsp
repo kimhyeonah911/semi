@@ -26,10 +26,6 @@ charset=UTF-8" pageEncoding="UTF-8"%>
 <body>
 <jsp:include page="../common/header-employee.jsp"/>
 <div class="container-fluid">
-<<<<<<< HEAD
-=======
-
->>>>>>> 92231eaa661bf13fa622d94beaf01fb0412dcfcf
         <!-- Sidebar -->
         <jsp:include page="../common/sidebar-employee.jsp"/>
 
@@ -86,12 +82,9 @@ charset=UTF-8" pageEncoding="UTF-8"%>
                 <jsp:include page="../common/pagebar.jsp"/>
             </div>
         </main>
-<<<<<<< HEAD
-</div>
-=======
-    </div>
 
->>>>>>> 92231eaa661bf13fa622d94beaf01fb0412dcfcf
+</div>
+
 
 <!-- 모달 창 -->
 <div class="modal fade" id="noticeModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">

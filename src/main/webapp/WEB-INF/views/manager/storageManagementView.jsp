@@ -58,7 +58,7 @@
         }
         .table-container>table{
             width: 100%;
-            font-size: 16px;
+            font-size: 18px;
             color: black;
             text-align: center;
         }
