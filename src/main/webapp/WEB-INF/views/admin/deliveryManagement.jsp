@@ -190,168 +190,167 @@
 <body>
 <jsp:include page="../common/header-admin.jsp"/>
 <div class="container-fluid" style="margin-top: 130px">
-    <div class="row">
-        <!-- Sidebar -->
-        <jsp:include page="../common/sidebar-admin.jsp"/>
-        <!-- Main content -->
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">입고처 관리</h1>
-            </div>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>거래처ID</th>
-                        <th>거래처명</th>
-                        <th>사업자/대표</th>
-                        <th>전화번호</th>
-                        <th>주소</th>
-                        <th>수정</th>
-                        <th>삭제</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="company-id">23</td>
-                        <td class="company-name">뉴발란스</td>
-                        <td class="business-rep">이민우</td>
-                        <td class="phone-number">010-1111-2222</td>
-                        <td class="address">강남대로 412 규정빌딩</td>
-                        <td class="action-buttons">
-                            <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                                <i class="fas fa-edit"></i></button>
-                        </td>
-                        <td class="delete-buttons">
-                            <button class="approve-btn btn btn-danger" onclick="deletebtn(this)">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="bottom">
-                <button onclick="enroll()">거래처 등록</button>
-            </div>
-            <div class="pagination">
-                <a href="#" class="disabled">이전</a>
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-                <a href="#">다음</a>
-            </div>
+    <!-- Sidebar -->
+    <jsp:include page="../common/sidebar-admin.jsp"/>
+    <!-- Main content -->
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">입고처 관리</h1>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>거래처ID</th>
+                    <th>거래처명</th>
+                    <th>사업자/대표</th>
+                    <th>전화번호</th>
+                    <th>주소</th>
+                    <th>수정</th>
+                    <th>삭제</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="company-id">23</td>
+                    <td class="company-name">뉴발란스</td>
+                    <td class="business-rep">이민우</td>
+                    <td class="phone-number">010-1111-2222</td>
+                    <td class="address">강남대로 412 규정빌딩</td>
+                    <td class="action-buttons">
+                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
+                            <i class="fas fa-edit"></i></button>
+                    </td>
+                    <td class="delete-buttons">
+                        <button class="approve-btn btn btn-danger" onclick="deletebtn(this)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="bottom">
+            <button onclick="enroll()">거래처 등록</button>
+        </div>
+        <div class="pagination">
+            <a href="#" class="disabled">이전</a>
+            <a href="#" class="active">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#">다음</a>
+        </div>
 
-            <!-- 삭제 확인 모달 -->
-            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="deleteModalLabel">거래처 삭제 확인</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            정말 거래처를 삭제하시겠습니까?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" id="confirmDeleteBtn">확인</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                        </div>
+        <!-- 삭제 확인 모달 -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">거래처 삭제 확인</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        정말 거래처를 삭제하시겠습니까?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">확인</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- 수정 버튼 누를 시 나오는 모달 창 -->
-            <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <!-- 모달 헤더 -->
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalTitle">거래처 수정</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
+        <!-- 수정 버튼 누를 시 나오는 모달 창 -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <!-- 모달 헤더 -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">거래처 수정</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
 
-                        <!-- 모달 본문 -->
-                        <div class="modal-body">
-                            <form id="editForm">
-                                <div class="mb-3">
-                                    <label for="companyid" class="form-label">거래처ID</label>
-                                    <input type="text" class="form-control" id="companyid">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="companyname" class="form-label">거래처명</label>
-                                    <input type="text" class="form-control" id="companyname">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="BusinessRep" class="form-label">사업자/대표</label>
-                                    <input type="text" class="form-control" id="BusinessRep">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="phone" class="form-label">전화번호</label>
-                                    <input type="text" class="form-control" id="phone">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="repaddress" class="form-label">주소</label>
-                                    <input type="text" class="form-control" id="repaddress">
-                                </div>
-                            </form>
-                        </div>
-                        <!-- 모달 푸터 -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" onclick="saveChanges()">저장</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                        </div>
+                    <!-- 모달 본문 -->
+                    <div class="modal-body">
+                        <form id="editForm">
+                            <div class="mb-3">
+                                <label for="companyid" class="form-label">거래처ID</label>
+                                <input type="text" class="form-control" id="companyid">
+                            </div>
+                            <div class="mb-3">
+                                <label for="companyname" class="form-label">거래처명</label>
+                                <input type="text" class="form-control" id="companyname">
+                            </div>
+                            <div class="mb-3">
+                                <label for="BusinessRep" class="form-label">사업자/대표</label>
+                                <input type="text" class="form-control" id="BusinessRep">
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">전화번호</label>
+                                <input type="text" class="form-control" id="phone">
+                            </div>
+                            <div class="mb-3">
+                                <label for="repaddress" class="form-label">주소</label>
+                                <input type="text" class="form-control" id="repaddress">
+                            </div>
+                        </form>
+                    </div>
+                    <!-- 모달 푸터 -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="saveChanges()">저장</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- 수정 버튼 누를 시 나오는 모달 창 -->
-            <div class="modal fade" id="enrollModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <!-- 모달 헤더 -->
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="enrollmodalTitle">거래처 등록</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
+        <!-- 수정 버튼 누를 시 나오는 모달 창 -->
+        <div class="modal fade" id="enrollModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <!-- 모달 헤더 -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="enrollmodalTitle">거래처 등록</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
 
-                        <!-- 모달 본문 -->
-                        <div class="modal-body">
-                            <form id="enrolleditForm">
-                                <div class="mb-3">
-                                    <label for="companyid" class="form-label">거래처ID</label>
-                                    <input type="text" class="form-control" id="enrollcompanyid">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="companyname" class="form-label">거래처명</label>
-                                    <input type="text" class="form-control" id="enrollcompanyname">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="BusinessRep" class="form-label">사업자/대표</label>
-                                    <input type="text" class="form-control" id="enrollBusinessRep">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="phone" class="form-label">전화번호</label>
-                                    <input type="text" class="form-control" id="enrollphone">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="repaddress" class="form-label">주소</label>
-                                    <input type="text" class="form-control" id="enrollrepaddress">
-                                </div>
-                            </form>
-                        </div>
-                        <!-- 모달 푸터 -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" onclick="">저장</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                        </div>
+                    <!-- 모달 본문 -->
+                    <div class="modal-body">
+                        <form id="enrolleditForm">
+                            <div class="mb-3">
+                                <label for="companyid" class="form-label">거래처ID</label>
+                                <input type="text" class="form-control" id="enrollcompanyid">
+                            </div>
+                            <div class="mb-3">
+                                <label for="companyname" class="form-label">거래처명</label>
+                                <input type="text" class="form-control" id="enrollcompanyname">
+                            </div>
+                            <div class="mb-3">
+                                <label for="BusinessRep" class="form-label">사업자/대표</label>
+                                <input type="text" class="form-control" id="enrollBusinessRep">
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">전화번호</label>
+                                <input type="text" class="form-control" id="enrollphone">
+                            </div>
+                            <div class="mb-3">
+                                <label for="repaddress" class="form-label">주소</label>
+                                <input type="text" class="form-control" id="enrollrepaddress">
+                            </div>
+                        </form>
+                    </div>
+                    <!-- 모달 푸터 -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="">저장</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>
             </div>
-        </main>
-    </div>
+        </div>
+    </main>
+</div>
 </div>
 
 
