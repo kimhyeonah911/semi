@@ -161,7 +161,7 @@
   <div class="right">
     <button onclick="location.href='/list.bo'">공지사항 리스트</button>
     <img class="logo" src="/resources/logo.png" alt="Logo">
-    <form action="./list.bo" method="post">
+    <form action="insert.me" method="post">
       <div class="input-box">
         <input type="text" name="userId" placeholder="ID" required>
       </div>

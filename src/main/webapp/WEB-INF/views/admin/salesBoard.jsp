@@ -196,11 +196,8 @@
         </tbody>
       </table>
       <!-- 페이지 바 html부분 -->
-      <div class="pagination">
-        <a href="#" class="disabled">이전</a>
-        <a href="#" class="active">1</a>
-        <a href="#">2</a>
-        <a href="#">다음</a>
+      <div class="pagebar-container mt-3">
+        <jsp:include page="../common/pagebar.jsp"/>
       </div>
 
     </div>
