@@ -54,6 +54,8 @@
     .admin-info {
         text-align: right;
     }
+
+
 </style>
 
 <div class="container-fluid bg-light py-3" id="header">
@@ -80,3 +82,4 @@
         </div>
     </div>
 </div>
+

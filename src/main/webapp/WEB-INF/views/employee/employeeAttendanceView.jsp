@@ -10,7 +10,7 @@
     main{
       margin-left: 250px;  /* ms-sm-auto */
       /*margin-right: auto;*/
-      width: 86%;  /* col-lg-10 (10/12 * 100%) */
+      width: 85.3%;  /* col-lg-10 (10/12 * 100%) */
       padding-left: 24px;  /* px-md-4 */
       /*padding-right: 24px;*/
       margin-top: 130px;
@@ -83,6 +83,7 @@
 <body>
 
 <jsp:include page="../common/header-employee.jsp" />
+<div class="container-fluid">
 <jsp:include page="../common/sidebar-employee.jsp"/>
 
 <main>
@@ -94,7 +95,7 @@
 
 
     <div class="table-container">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table align-middle">
             <thead>
             <tr>
                 <th>번호</th>
@@ -109,7 +110,7 @@
             <tr>
                 <td>4</td>
                 <td>2025-03-31</td>
-                <td><img src="/resources/출근status.png"></td>
+                <td><span class="badge bg-success bg-">출근</span></td>
                 <td>08 : 50 : 56</td>
                 <td></td>
                 <td>06 : 08 : 53 </td>
@@ -117,7 +118,7 @@
             <tr>
                 <td>4</td>
                 <td>2025-03-19</td>
-                <td><img src="/resources/퇴근status.png"></td>
+                <td><span class="badge bg-secondary">퇴근</span></td>
                 <td>08 : 50 : 56</td>
                 <td>15 : 02 : 06</td>
                 <td>06 : 08 : 53 </td>
@@ -125,7 +126,7 @@
             <tr>
                 <td>4</td>
                 <td>2025-03-19</td>
-                <td><img src="/resources/퇴근status.png"></td>
+                <td><span class="badge bg-secondary">퇴근</span></td>
                 <td>08 : 50 : 56</td>
                 <td>15 : 02 : 06</td>
                 <td>06 : 08 : 53 </td>
@@ -133,7 +134,7 @@
             <tr>
                 <td>4</td>
                 <td>2025-03-19</td>
-                <td><img src="/resources/퇴근status.png"></td>
+                <td><span class="badge bg-secondary">퇴근</span></td>
                 <td>08 : 50 : 56</td>
                 <td>15 : 02 : 06</td>
                 <td>06 : 08 : 53 </td>
@@ -151,6 +152,7 @@
         </div>
     </div>
 </main>
+</div>
 
 
 </body>

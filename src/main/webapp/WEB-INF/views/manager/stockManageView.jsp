@@ -174,7 +174,7 @@
 
   <div id="inventory-section">
     <div class="table-container">
-      <table class="table table-striped table-hover">
+      <table class="table table-striped table-hover align-middle">
         <thead>
         <tr>
           <th>창고명</th>
@@ -241,7 +241,7 @@
 
   <div id="inout-section" style="display: none;">
     <div class="table-container">
-      <table class="table table-striped table-hover">
+      <table class="table table-striped table-hover align-middle">
         <thead>
         <tr>
           <th>입고/출고</th>
@@ -254,7 +254,7 @@
         </thead>
         <tbody>
         <tr>
-          <td><img src="/resources/입고.png"></td>
+          <td><span class="badge bg-primary">입고</span></td>
           <td>238-654-13</td>
           <td>나이키 에어포스 1 '07</td>
           <td>2765-5469</td>
@@ -262,7 +262,7 @@
           <td>3</td>
         </tr>
         <tr>
-          <td><img src="/resources/출고.png"></td>
+          <td><span class="badge bg-danger">출고</span></td>
           <td>238-654-13</td>
           <td>나이키 에어포스 1 '07</td>
           <td>2765-5469</td>
@@ -270,7 +270,7 @@
           <td>3</td>
         </tr>
         <tr>
-          <td><img src="/resources/입고.png"></td>
+          <td><span class="badge bg-primary">입고</span></td>
           <td>238-654-13</td>
           <td>나이키 에어포스 1 '07</td>
           <td>2765-5469</td>
@@ -278,7 +278,7 @@
           <td>3</td>
         </tr>
         <tr>
-          <td><img src="/resources/출고.png"></td>
+          <td><span class="badge bg-danger">출고</span></td>
           <td>238-654-13</td>
           <td>나이키 에어포스 1 '07</td>
           <td>2765-5469</td>

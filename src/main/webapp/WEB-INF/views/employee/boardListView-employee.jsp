@@ -7,40 +7,15 @@ charset=UTF-8" pageEncoding="UTF-8"%>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항</title>
     <style>
-        body{
-            padding-top: 150px;
+        main{
+            margin-left: 250px;  /* ms-sm-auto */
+            /*margin-right: auto;*/
+            width: 85.3%;  /* col-lg-10 (10/12 * 100%) */
+            padding-left: 24px;  /* px-md-4 */
+            /*padding-right: 24px;*/
+            margin-top: 130px;
         }
         tr th,td{
-            text-align: center;
-        }
-        .table th:nth-child(1),
-        .table td:nth-child(1) {
-            width: 10%;
-            text-align: center;
-        }
-        .table th:nth-child(2),
-        .table td:nth-child(2) {
-            width: 15%;
-            padding-left: 20px;
-        }
-        .table th:nth-child(3),
-        .table td:nth-child(3) {
-            width: 30%;
-            padding-left: 20px;
-        }
-        .table th:nth-child(4),
-        .table td:nth-child(4) {
-            width: 15%;
-            text-align: center;
-        }
-        .table th:nth-child(5),
-        .table td:nth-child(5) {
-            width: 20%;
-            text-align: center;
-        }
-        .table th:nth-child(6),
-        .table td:nth-child(6) {
-            width: 10%;
             text-align: center;
         }
         tbody{
@@ -51,12 +26,11 @@ charset=UTF-8" pageEncoding="UTF-8"%>
 <body>
 <jsp:include page="../common/header-employee.jsp"/>
 <div class="container-fluid">
-    <div class="row">
         <!-- Sidebar -->
         <jsp:include page="../common/sidebar-employee.jsp"/>
 
         <!-- Main content -->
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+        <main>
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">공지사항</h1>
             </div>
@@ -108,7 +82,6 @@ charset=UTF-8" pageEncoding="UTF-8"%>
                 <jsp:include page="../common/pagebar.jsp"/>
             </div>
         </main>
-    </div>
 </div>
 
 <!-- 모달 창 -->

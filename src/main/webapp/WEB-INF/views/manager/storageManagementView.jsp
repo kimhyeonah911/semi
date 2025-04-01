@@ -67,10 +67,6 @@
             height: 40px;
         }
 
-        #storage-submit-btn{
-            cursor:pointer;
-        }
-
         .pagination {
             display: flex;
             justify-content: center;
@@ -191,13 +187,13 @@
                 </select>
                 <button type="submit" id="submit-btn">조회</button>
             </div>
-            <img src="/resources/등록.png" id="storage-submit-btn" onclick="showModal()">
+            <button id="storage-submit-btn" type="button" class="btn btn-success" onclick="showModal()">+등록</button>
         </div>
     </form>
 
 
     <div class="table-container">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover align-middle">
             <thead>
             <tr>
                 <th>창고번호</th>
@@ -213,21 +209,21 @@
                 <td>A창고</td>
                 <td>1350</td>
                 <td>1500</td>
-                <td><img src="/resources/delete.png"></td>
+                <td><button type="button" class="btn btn-outline-danger btn-sm">삭제</button></td>
             </tr>
             <tr>
                 <td>2</td>
                 <td>B창고</td>
                 <td>157</td>
                 <td>200</td>
-                <td><img src="/resources/delete.png"></td>
+                <td><button type="button" class="btn btn-outline-danger btn-sm">삭제</button></td>
             </tr>
             <tr>
                 <td>3</td>
                 <td>C창고</td>
                 <td>78</td>
                 <td>100</td>
-                <td><img src="/resources/delete.png"></td>
+                <td><button type="button" class="btn btn-outline-danger btn-sm">삭제</button></td>
             </tr>
             </tbody>
         </table>

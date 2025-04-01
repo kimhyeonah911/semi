@@ -15,6 +15,15 @@
             height: 100%; /* 페이지 전체 높이를 100%로 설정 */
             overflow-y: auto; /* 세로 스크롤이 필요할 때만 보이도록 설정 */
         }
+
+        main{
+            margin-left: 250px;  /* ms-sm-auto */
+            /*margin-right: auto;*/
+            width: 85.3%;  /* col-lg-10 (10/12 * 100%) */
+            padding-left: 24px;  /* px-md-4 */
+            /*padding-right: 24px;*/
+        }
+
         body {
             padding-top: 150px;
         }
@@ -130,7 +139,7 @@
     <!-- 사이드바 -->
     <jsp:include page="../common/sidebar-admin.jsp"/>
     <!-- 메인 내용 -->
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <main>
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">관리자 대시보드</h1>
         </div>

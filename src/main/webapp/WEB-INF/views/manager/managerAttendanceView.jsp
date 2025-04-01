@@ -111,13 +111,6 @@
             height: 30px;
         }
 
-        .btn-success:disabled {
-            background-color: #28a745 !important; /* 원하는 색상 */
-            color: white !important; /* 텍스트 색상 */
-            opacity: 1 !important; /* 투명도 완전히 없애기 */
-            pointer-events: none; /* 버튼 클릭 방지 */
-            cursor: not-allowed; /* 비활성화 상태에서 커서 변경 */
-        }
     </style>
 </head>
 <body>
@@ -148,7 +141,7 @@
     </form>
 
     <div class="table-container">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover align-middle">
             <thead>
             <tr>
                 <th>번호</th>
@@ -166,7 +159,7 @@
                 <td>4</td>
                 <td>2025-03-19</td>
                 <td>박지민</td>
-                <td><button type="button" class="btn btn-success btn-sm" disabled>출근</button></td>
+                <td><span class="badge bg-secondary">퇴근</span></td>
                 <td>08 : 50 : 56</td>
                 <td>             </td>
                 <td>06 : 08 : 53 </td>
@@ -176,7 +169,7 @@
                 <td>3</td>
                 <td>2025-03-19</td>
                 <td>이주찬</td>
-                <td><button type="button" class="btn btn-secondary btn-sm" disabled>퇴근</button></td>
+                <td><span class="badge bg-success bg-">출근</span></td>
                 <td>08 : 50 : 56</td>
                 <td>15 : 02 : 06</td>
                 <td>06 : 08 : 53</td>
@@ -186,7 +179,7 @@
                 <td>2</td>
                 <td>2025-03-19</td>
                 <td>김현아</td>
-                <td><img src="/resources/퇴근status.png"></td>
+                <td><span class="badge bg-secondary">퇴근</span></td>
                 <td>08 : 50 : 56</td>
                 <td>15 : 02 : 06</td>
                 <td>06 : 08 : 53</td>
@@ -196,7 +189,7 @@
                 <td>2</td>
                 <td>2025-03-19</td>
                 <td>황동준</td>
-                <td><img src="/resources/출근status.png"></td>
+                <td><span class="badge bg-success bg-">출근</span></td>
                 <td>08 : 50 : 56</td>
                 <td>15 : 02 : 06</td>
                 <td>06 : 08 : 53</td>
