@@ -17,11 +17,6 @@
     }
 
 
-        .pagination{
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
         select{
             border-radius: 8px;
         }
@@ -43,12 +38,8 @@
             height: 40px;
         }
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 30px;
-            margin-bottom: 10px;
+        .pagebar-container{
+            left:50%;
         }
 
         .pagination a {
@@ -140,14 +131,8 @@
             </tr>
             </tbody>
         </table>
-        <div class="pagination">
-            <a href="#" class="disabled">이전</a>
-            <a href="#" class="active">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a href="#">다음</a>
+        <div class="pagebar-container mt-3">
+            <jsp:include page="../common/pagebar.jsp"/>
         </div>
     </div>
 </main>
