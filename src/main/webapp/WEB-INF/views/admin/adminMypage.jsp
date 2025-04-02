@@ -127,7 +127,7 @@
   </style>
 </head>
 <body>
-<jsp:include page="../common/header-admin.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 <div class="container-fluid" style="margin-top: 130px">
   <!-- Sidebar -->
   <jsp:include page="../common/sidebar-admin.jsp"/>
