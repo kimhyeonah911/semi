@@ -42,7 +42,7 @@
 </head>
 <body>
 
-<jsp:include page="../common/header-employee.jsp" />
+<jsp:include page="../common/header.jsp" />
 <div class="container-fluid">
 <jsp:include page="../common/sidebar-employee.jsp"/>
 

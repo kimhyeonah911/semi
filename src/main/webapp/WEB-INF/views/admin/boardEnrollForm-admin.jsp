@@ -89,7 +89,7 @@
 <body>
 
 <!-- Header -->
-<jsp:include page="../common/header-admin.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 
 <!-- Main Content -->
 <main>

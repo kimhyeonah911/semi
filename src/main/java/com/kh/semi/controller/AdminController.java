@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import java.util.ArrayList;
 
@@ -29,9 +29,13 @@ public class AdminController {
     }
 
     @GetMapping("accept.me")
-    public String acceptMember() {
+    public String acceptMember(Model model) {
+        ArrayList<Member> list = memberService.acceptMemberList();
+        model.addAttribute("acceptMember", list);
+        System.out.println("직원 승인 : " + list);
         return "admin/memberManagement";
     }
+
 
     @GetMapping("list.bo")
     public String selectBoardList(Model model) {
@@ -108,4 +112,31 @@ public class AdminController {
 
     @GetMapping("adminmypage.bo")
     public String adminPage() {return "admin/adminMypage";}
+
+    @PostMapping("/approveMember")
+    public String approveMember(@RequestParam String memId, @RequestParam String storeSelect, HttpSession session, Model model) {
+        System.out.println(storeSelect);
+        int result = memberService.approveMember(memId,storeSelect);
+        if(result > 0){
+            session.setAttribute("alertMsg","직원 승인 완료");
+            return "admin/memberManagement";
+        } else{
+            model.addAttribute("errorMsg", "직원 승인 실패");
+            return "common/errorPage";
+        }
+    }
+
+    @PostMapping("/rejectMember")
+    public String rejectMember(@RequestParam String memId,HttpSession session, Model model) {
+        System.out.println(memId);
+        int result = memberService.rejectMember(memId);
+        if(result > 0){
+            session.setAttribute("alertMsg","직원 승인거부 완료");
+            return "admin/memberManagement";
+        } else{
+            model.addAttribute("errorMsg", "직원 승인거부 실패");
+            return "common/errorPage";
+        }
+    }
+
 }

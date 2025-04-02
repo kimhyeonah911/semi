@@ -114,7 +114,7 @@
 <body>
 
 <!-- Header -->
-<jsp:include page="../common/header-manager.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 
 <!-- Main Content -->
 <main>
