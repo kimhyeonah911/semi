@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 
 
+
 @Controller
 public class MemberController {
 
@@ -36,38 +37,32 @@ public class MemberController {
         return "member/memberEnrollForm";
     }
 
-    @PostMapping("login.me")
-    public ModelAndView loginMember(@ModelAttribute Member member, HttpSession session, ModelAndView mv) {
-        // 로그인을 위한 ID와 비밀번호가 들어온 Member 객체 확인
-        System.out.println("Requested memId: " + member.getMemId());
-        System.out.println("Requested memPwd: " + member.getMemPwd());
-
-        // 서비스 호출하여 로그인 처리
-        Member loginMember = memberService.loginMember(member.getMemId(), member.getMemPwd());
-
-        if (loginMember == null) {
-            mv.addObject("errorMsg", "아이디나 비밀번호가 일치하지 않습니다.");
-            mv.setViewName("common/errorPage");
-
-        } else {
-            mv.addObject("loginUser", loginMember);  // 로그인된 회원 정보 저장
-            mv.setViewName("employee/companyManagement");  // 로그인 성공 시 지점생성 페이지 이동
-            System.out.println(loginMember);
-        }
-
-        return mv;
-    }
-
-
     @GetMapping("logout.me")
     public String logout() {
 
         return "index";
     }
 
+    @PostMapping("login.me")
+    public ModelAndView login(@ModelAttribute Member member, ModelAndView mv, HttpSession session) {
+        // Member 객체에서 memId, memPwd 추출
+        String memId = member.getMemId();
+        String memPwd = member.getMemPwd();
 
+        // MemberService의 loginMember 호출
+        Member loginMember = memberService.loginMember(memId, memPwd);
+        System.out.println(loginMember);
+        // 로그인 성공 여부 확인
+        if (loginMember == null) {
+            session.setAttribute("alertMsg", "아이디나 비밀번호가 일치하지 않습니다.");
+            mv.setViewName("redirect:/");
+        } else {
+            session.setAttribute("loginUser", loginMember); // 로그인된 회원 정보 저장
+            mv.setViewName("redirect:/insert.co");  // 로그인 성공 후 이동
+        }
+        return mv;
+    }
 
-
-}
+    }
 
 
