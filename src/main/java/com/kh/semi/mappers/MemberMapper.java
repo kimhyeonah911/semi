@@ -11,6 +11,8 @@ public interface MemberMapper {
     Member loginMember(String memId, String memPwd);
 
     ArrayList<Member> selectMemberList();
-    ArrayList<Member> acceptMember();
     int insertMember(Member member);
+    int checkId(@Param("memId") String checkId);
+
+    ArrayList<Member> acceptMember();
 }

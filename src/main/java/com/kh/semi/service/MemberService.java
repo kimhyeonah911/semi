@@ -8,6 +8,7 @@ public interface MemberService {
     //로그인
     Member loginMember(String memId, String memPwd);
     int insertMember(Member member);
+    int checkId(String checkId);
 
     ArrayList<Member> selectMemberList();
 }

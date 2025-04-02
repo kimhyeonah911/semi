@@ -40,8 +40,9 @@ public class MemberController {
     }
 
     @GetMapping("logout.me")
-    public String logout() {
-
+    public String logout(HttpSession session) {
+        session.setAttribute("alertMsg", "로그아웃 되었습니다.");
+        session.setAttribute("loginUser", null);
         return "index";
     }
 
@@ -68,11 +69,12 @@ public class MemberController {
     @PostMapping("insert.me")
     public String insertMember(@ModelAttribute Member member, ModelAndView mv, HttpSession session) {
         // Member 객체에서 memId, memPwd, memName, phone 추출
+        String phone = member.getPhone().replaceFirst("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3");
         Member m = new Member();
         m.setMemId(member.getMemId());
         m.setMemPwd(member.getMemPwd());
         m.setMemName(member.getMemName());
-        m.setPhone(member.getPhone());
+        m.setPhone(phone);
 
         // MemberService의 insertMember 호출
         int result = memberService.insertMember(m);

@@ -35,20 +35,8 @@
         FROM MEMBER
         WHERE MEM_ID = #{memId}
         AND MEM_PWD = #{memPwd}
-        AND STATUS = 'Y'
     </select>
-    <select id="selectMemberList" resultMap="memberResult">
-        SELECT M.EMP_NO,
-        M.HIRE_DATE,
-        M.MEM_NAME,
-        S.STORE_NAME,
-        M.POSITION,
-        M.PHONE,
-        M.SALARY
-        FROM MEMBER M
-        JOIN STORE S ON M.STORE_ID = S.STORE_ID
-        WHERE M.STATUS = 'Y'
-        ORDER BY M.EMP_NO ASC
+
     <insert id="insertMember" parameterType="Member">
         INSERT INTO MEMBER (
         EMP_NO,
@@ -66,9 +54,29 @@
         )
     </insert>
 
+    <select id="checkId" resultType="_int">
+        SELECT COUNT(*)
+        FROM MEMBER
+        WHERE MEM_ID = #{memId}
+    </select>
+
     <select id="acceptMember" resultMap="memberResult">
         SELECT EMP_NO, STORE_ID, MEM_ID, MEM_NAME, PHONE, STATUS, CREATE_DATE
         FROM MEMBER
         WHERE STATUS = 'N'
+    </select>
+
+    <select id="selectMemberList" resultMap="memberResult">
+        SELECT M.EMP_NO,
+        M.HIRE_DATE,
+        M.MEM_NAME,
+        S.STORE_NAME,
+        M.POSITION,
+        M.PHONE,
+        M.SALARY
+        FROM MEMBER M
+        JOIN STORE S ON M.STORE_ID = S.STORE_ID
+        WHERE M.STATUS = 'Y'
+        ORDER BY M.EMP_NO ASC
     </select>
 </mapper>
