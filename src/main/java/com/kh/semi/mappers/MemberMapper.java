@@ -9,4 +9,5 @@ import org.apache.ibatis.annotations.Select;
 public interface MemberMapper {
 
     Member loginMember(String memId, String memPwd);
+    int insertMember(Member member);
 }

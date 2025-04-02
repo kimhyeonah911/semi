@@ -18,4 +18,10 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.loginMember(memId, memPwd);
     }
 
+    @Override
+    public int insertMember(Member member) {
+        System.out.println(member);
+        return memberMapper.insertMember(member);
+    }
+
 }
