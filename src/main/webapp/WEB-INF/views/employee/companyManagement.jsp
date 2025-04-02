@@ -110,7 +110,7 @@
     </style>
 </head>
 <body>
-<jsp:include page="../common/header-employee.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 <div class="container-fluid" style="margin-top: 130px">
     <div class="row">
         <!-- Sidebar -->
