@@ -10,5 +10,5 @@ import java.util.ArrayList;
 public interface MemberMapper {
     Member loginMember(String memId, String memPwd);
 
-    ArrayList<Member> acceptMember();
+    ArrayList<Member> selectMemberList();
 }
