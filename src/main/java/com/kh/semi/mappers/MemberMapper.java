@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public interface MemberMapper {
     Member loginMember(String memId, String memPwd);
 
+    ArrayList<Member> selectMemberList();
     ArrayList<Member> acceptMember();
     int insertMember(Member member);
 }
