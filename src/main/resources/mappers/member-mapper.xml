@@ -36,6 +36,13 @@
         AND MEM_PWD = #{memPwd}
         AND STATUS = 'Y'
     </select>
+
+    <select id="acceptMember" resultMap="memberResult">
+        SELECT EMP_NO, STORE_ID, MEM_ID, MEM_NAME, PHONE, STATUS, CREATE_DATE
+        FROM MEMBER
+        WHERE STATUS = 'N'
+    </select>
+
     <insert id="insertMember">
         INSERT INTO MEMBER (
                 EMP_NO,

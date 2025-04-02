@@ -57,6 +57,7 @@
     }
 </style>
 
+
 <div class="container-fluid bg-light py-3" id="header">
     <div class="logo-container">
         <img src="/resources/logo.png" alt="로고">
