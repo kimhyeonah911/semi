@@ -132,13 +132,19 @@
         </style>
     </head>
     <body>
+    <c:if test="${ not empty sessionScope.alertMsg }">
+        <script>
+            alert("${ sessionScope.alertMsg }");
+            <% session.removeAttribute("alertMsg"); %>
+        </script>
+    </c:if>
     <div class="container">
         <!-- 왼쪽 (배경 이미지) -->
         <div class="left"></div>
 
         <!-- 오른쪽 (로그인 폼) -->
         <div class="right">
-            <button onclick="location.href='/list.bo'">공지사항 리스트</button>
+            <button onclick="location.href='/list.bo'">내부 테스트</button>
             <img class="logo" src="/resources/logo.png" alt="Logo" onclick="">
             <form action="login.me" method="post">
                 <div class="input-box">

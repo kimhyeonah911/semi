@@ -44,7 +44,7 @@ public class MemberController {
     }
 
     @PostMapping("login.me")
-    public ModelAndView login(@ModelAttribute Member member, ModelAndView mv) {
+    public ModelAndView login(@ModelAttribute Member member, ModelAndView mv, HttpSession session) {
         // Member 객체에서 memId, memPwd 추출
         String memId = member.getMemId();
         String memPwd = member.getMemPwd();
@@ -54,15 +54,15 @@ public class MemberController {
         System.out.println(loginMember);
         // 로그인 성공 여부 확인
         if (loginMember == null) {
-            mv.addObject("errorMsg", "아이디나 비밀번호가 일치하지 않습니다.");
-            mv.setViewName("common/errorPage");
-
+            session.setAttribute("alertMsg", "아이디나 비밀번호가 일치하지 않습니다.");
+            mv.setViewName("redirect:/");
         } else {
-            mv.addObject("loginUser", loginMember);  // 로그인된 회원 정보 저장
-            mv.setViewName("employee/companyManagement");  // 로그인 성공 시 지점생성 페이지 이동
+            session.setAttribute("loginUser", loginMember); // 로그인된 회원 정보 저장
+            mv.setViewName("redirect:/insert.co");  // 로그인 성공 후 이동
         }
         return mv;
     }
+
     }
 
 
