@@ -83,6 +83,14 @@
     }
 </style>
 
+<c:if test="${ not empty alertMsg}">
+    <script>
+        alert("${alertMsg}");
+    </script>
+    <c:remove var="alertMsg" scope="session"/>
+</c:if>
+
+
 <div class="container-fluid bg-light py-3" id="header">
     <div class="logo-container">
         <img src="/resources/logo.png" alt="로고">

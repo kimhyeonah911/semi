@@ -17,4 +17,9 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.loginMember(memId, memPwd);
     }
 
+    @Override
+    public int insertMember(Member member) {
+        return memberMapper.insertMember(member);
+    }
+
 }

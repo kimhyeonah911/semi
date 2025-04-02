@@ -65,6 +65,24 @@ public class MemberController {
         return "index";
     }
 
+    @PostMapping("insert.me")
+    public String insertMember(Member member, HttpSession session, Model model){
+        System.out.println("memId 값 확인: " + member.getMemId());
+
+
+        int result = memberService.insertMember(member);
+
+
+        System.out.println(member);
+
+        if(result>0){
+            session.setAttribute("alertMsg", "성공적으로 회원가입을 완료하였습니다.");
+            return "redirect:/";
+        } else {
+            model.addAttribute("errorMsg", "회원가입 실패");
+            return "common/errorPage";
+        }
+    }
 
 
 
