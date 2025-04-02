@@ -32,6 +32,7 @@ public class AdminController {
         return "admin/memberManagement";
     }
 
+
     @GetMapping("list.bo")
     public String selectBoardList() {
         return "admin/boardListView-admin";
@@ -90,4 +91,19 @@ public class AdminController {
             return "common/errorPage";
         }
     }
+
+    @PostMapping("/rejectMember")
+    public String rejectMember(@RequestParam String memId,HttpSession session, Model model) {
+        System.out.println(memId);
+        int result = memberService.rejectMember(memId);
+        if(result > 0){
+            session.setAttribute("alertMsg","직원 승인거부 완료");
+            return "admin/memberManagement";
+        } else{
+            model.addAttribute("errorMsg", "직원 승인거부 실패");
+            return "common/errorPage";
+        }
+    }
+
+
 }

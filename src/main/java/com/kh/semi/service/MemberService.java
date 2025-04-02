@@ -15,4 +15,6 @@ public interface MemberService {
     ArrayList<Member> acceptMemberList();
 
     int approveMember(@RequestParam String memId, @RequestParam String storeSelect);
+
+    int rejectMember(@RequestParam String memId);
 }
