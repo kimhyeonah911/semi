@@ -2,9 +2,11 @@ package com.kh.semi.controller;
 
 import com.kh.semi.domain.vo.Board;
 import com.kh.semi.domain.vo.Member;
+import com.kh.semi.domain.vo.Product;
 import com.kh.semi.mappers.BoardMapper;
 import com.kh.semi.service.BoardService;
 import com.kh.semi.service.MemberService;
+import com.kh.semi.service.ProductService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 @Controller
 public class AdminController {
     private final MemberService memberService;
+    private final ProductService productService;
     private final BoardService boardService;
 
     @GetMapping("accept.ma")
@@ -94,13 +97,15 @@ public class AdminController {
     }
 
     @GetMapping("product.bo")
-    public String productManagement() {
+    public String productManagement(Model model) {
+        ArrayList<Product> list = productService.selectProductList();
+        System.out.println("제품 리스트: " + list);
+        model.addAttribute("product", list);
         return "admin/productManagement";
     }
 
     @GetMapping("delivery.ma")
-    public String deliveryManagement() {
-        return "admin/deliveryManagement";
+    public String deliveryManagement() {return "admin/deliveryManagement";
     }
 
     @GetMapping("employee.in")
@@ -112,6 +117,8 @@ public class AdminController {
 
     @GetMapping("adminmypage.bo")
     public String adminPage() {return "admin/adminMypage";}
+
+
 
     @PostMapping("/approveMember")
     public String approveMember(@RequestParam String memId, @RequestParam String storeSelect, HttpSession session, Model model) {
