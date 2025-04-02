@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html;
 charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,6 +55,7 @@ charset=UTF-8" pageEncoding="UTF-8"%>
         tbody{
             cursor: pointer;
         }
+
     </style>
 </head>
 <body>
@@ -79,30 +83,26 @@ charset=UTF-8" pageEncoding="UTF-8"%>
                 </tr>
                 </thead>
                 <tbody>
-                <tr onclick="showModal('관리자', '각 지점별 철저히 재고확인', '본사', '2025-03-19', '수정중입니다.')">
-                    <td>필독📢</td>
-                    <td>관리자</td>
-                    <td>각 지점별 철저히 재고확인</td>
-                    <td>본사</td>
-                    <td>2025-03-19</td>
-                    <td><button class="btn btn-sm btn-outline-primary">수정</button></td>
-                </tr>
-                <tr onclick="showModal('manager4', '이번 주 토요일(3/23) 매장 운영시간 변경', '학동점', '2025-03-17', '운영시간 변경')">
-                    <td>1</td>
-                    <td>manager4</td>
-                    <td>이번 주 토요일(3/23) 매장 운영시간 변경</td>
-                    <td>학동점</td>
-                    <td>2025-03-17</td>
-                    <td></td>
-                </tr>
-                <tr onclick="showModal('manager2', '지점 행사 및 프로모션 공지', '한남점', '2025-03-11', '할인 행사 예정')">
-                    <td>2</td>
-                    <td>manager2</td>
-                    <td>지점 행사 및 프로모션 공지</td>
-                    <td>한남점</td>
-                    <td>2025-03-11</td>
-                    <td></td>
-                </tr>
+                <c:forEach var="b" items="${board}">
+                    <c:set var="formattedDate">
+                        <fmt:formatDate value="${b.createDate}" pattern="yyyy-MM-dd" />
+                    </c:set>
+                    <tr onclick="showModal('${b.memId}', '${b.boardTitle}', '${b.storeName}', '${formattedDate}', '${b.boardContent}')"
+                        class="${b.memId == 'admin' ? 'important-notice' : ''}">
+                        <td>${b.memId == 'admin' ? '필독📢' : b.boardNo}</td>
+                        <td>${b.memId}</td>
+                        <td>${b.boardTitle}</td>
+                        <td>${b.storeName}</td>
+                        <td>${formattedDate}</td>
+                        <td>
+                            <form method="post" action="/delete.bo" style="display:inline;">
+                                <input type="hidden" name="boardNo" value="${b.boardNo}" />
+                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); return confirm('정말 삭제하시겠습니까?');">삭제</button>
+                            </form>
+                        </td>
+                    </tr>
+                </c:forEach>
+
                 </tbody>
             </table>
         </div>
@@ -156,17 +156,36 @@ charset=UTF-8" pageEncoding="UTF-8"%>
     </div>
 </div>
 
+<!-- 삭제 확인 모달 -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">공지사항 삭제</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                정말 이 공지사항을 삭제하시겠습니까?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-danger" onclick="deleteBoard()">삭제</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Bootstrap JS (이 부분은 별도로 로드) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    function showModal(author, title, branch, date, content) {
-        document.getElementById('author').value = author;
-        document.getElementById('title').value = title;
-        document.getElementById('branch').value = branch;
-        document.getElementById('date').value = date;
-        document.getElementById('content').value = content;
+    function showModal(memId, boardTitle, storeName, createDate, boardContent) {
+        document.getElementById("author").value = memId;
+        document.getElementById("title").value = boardTitle;
+        document.getElementById("branch").value = storeName;
+        document.getElementById("date").value = createDate;
+        document.getElementById("content").value = boardContent;
 
         var modalElement = document.getElementById('noticeModal');
 
@@ -178,5 +197,16 @@ charset=UTF-8" pageEncoding="UTF-8"%>
         var modal = new bootstrap.Modal(modalElement);
         modal.show();
     }
+
+    window.onload = function() {
+        var msg = '<c:out value="${sessionScope.alertMsg}"/>';
+        if (msg) {
+            alert(msg);
+            <% session.removeAttribute("alertMsg"); %>
+        }
+    };
+
+
+
 </script>
 </body>

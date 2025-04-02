@@ -1,7 +1,10 @@
 package com.kh.semi.controller;
 
+import com.kh.semi.domain.vo.Board;
 import com.kh.semi.domain.vo.Member;
 import com.kh.semi.domain.vo.Product;
+import com.kh.semi.mappers.BoardMapper;
+import com.kh.semi.service.BoardService;
 import com.kh.semi.service.MemberService;
 import com.kh.semi.service.ProductService;
 import jakarta.servlet.http.HttpSession;
@@ -11,7 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import java.util.ArrayList;
 
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 public class AdminController {
     private final MemberService memberService;
     private final ProductService productService;
+    private final BoardService boardService;
 
     @GetMapping("accept.ma")
     public String acceptManager() {
@@ -37,8 +41,39 @@ public class AdminController {
 
 
     @GetMapping("list.bo")
-    public String selectBoardList() {
+    public String selectBoardList(Model model) {
+        ArrayList<Board> boardlist = boardService.selectBoardList();
+        model.addAttribute("board", boardlist);
+        System.out.println("공지사항 정보 : " + boardlist);
         return "admin/boardListView-admin";
+    }
+
+    @PostMapping("insertlist.bo")
+    public String boardList(Board board, HttpSession session, Model model) {
+        board.setEmpNo(1);
+        System.out.println("게시글 정보 : " + board);
+
+        int result = boardService.insertBoard(board);
+        if(result > 0){
+            session.setAttribute("alertMsg", "게시글 작성 성공");
+            return "redirect:/list.bo";
+        } else {
+            model.addAttribute("errorMsg", "게시글 작성 실패");
+            return "common/errorPage";
+        }
+    }
+
+    @PostMapping("delete.bo")
+    public String deleteBoard(int boardNo, Model model, HttpSession session) {
+        int result = boardService.deleteBoard(boardNo);
+
+        if (result > 0) {
+            session.setAttribute("alertMsg", "게시글을 삭제하였습니다.");
+            return "redirect:/list.bo";
+        } else {
+            model.addAttribute("errorMsg", "게시글 삭제 실패");
+            return "redirect:/list.bo";
+        }
     }
 
     @GetMapping("enroll.bo")
@@ -77,12 +112,11 @@ public class AdminController {
     public String employeeInfoView(Model model) {
         ArrayList<Member> list = memberService.selectMemberList();
         model.addAttribute("member", list);
-        System.out.println("회원 리스트: " + list);
         return "admin/employeeInfoView";
     }
 
     @GetMapping("adminmypage.bo")
-    public String adminPage() {return "adminMypage";}
+    public String adminPage() {return "admin/adminMypage";}
 
 
 
@@ -111,6 +145,5 @@ public class AdminController {
             return "common/errorPage";
         }
     }
-
 
 }
