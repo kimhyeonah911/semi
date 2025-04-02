@@ -57,7 +57,7 @@ public class AdminController {
     }
 
     @PostMapping("delete.bo")
-    public String deleteBoard(@RequestParam("boardNo") int boardNo, Model model, HttpSession session) {
+    public String deleteBoard(int boardNo, Model model, HttpSession session) {
         int result = boardService.deleteBoard(boardNo);
 
         if (result > 0) {
