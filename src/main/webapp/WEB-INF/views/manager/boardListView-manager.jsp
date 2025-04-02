@@ -27,7 +27,7 @@ charset=UTF-8" pageEncoding="UTF-8"%>
     </style>
 </head>
 <body>
-<jsp:include page="../common/header-manager.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 <div class="container-fluid">
         <!-- Sidebar -->
         <jsp:include page="../common/sidebar-manager.jsp"/>
