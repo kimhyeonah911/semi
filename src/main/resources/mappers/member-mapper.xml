@@ -6,6 +6,7 @@
     <resultMap id="memberResult" type="Member">
         <result column="EMP_NO" property="empNo"/>
         <result column="STORE_ID" property="storeId"/>
+        <result column="STORE_NAME" property="storeName"/>
         <result column="MEM_ID" property="memId"/>
         <result column="MEM_PWD" property="memPwd"/>
         <result column="MEM_NAME" property="memName"/>
@@ -35,5 +36,18 @@
         WHERE MEM_ID = #{memId}
         AND MEM_PWD = #{memPwd}
         AND STATUS = 'Y'
+    </select>
+    <select id="selectMemberList" resultMap="memberResult">
+        SELECT M.EMP_NO,
+        M.HIRE_DATE,
+        M.MEM_NAME,
+        S.STORE_NAME,
+        M.POSITION,
+        M.PHONE,
+        M.SALARY
+        FROM MEMBER M
+        JOIN STORE S ON M.STORE_ID = S.STORE_ID
+        WHERE M.STATUS = 'Y'
+        ORDER BY M.EMP_NO ASC
     </select>
 </mapper>

@@ -1,5 +1,7 @@
 <%--본사 직원정보 페이지--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -11,10 +13,8 @@
   <style>
     main{
       margin-left: 250px;  /* ms-sm-auto */
-      /*margin-right: auto;*/
       width: 85.3%;  /* col-lg-10 (10/12 * 100%) */
       padding-left: 24px;  /* px-md-4 */
-      /*padding-right: 24px;*/
       margin-top: 130px;
     }
 
@@ -119,42 +119,17 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>4</td>
-          <td>2025-03-19</td>
-          <td>황동준</td>
-          <td>역삼점</td>
-          <td>지점장</td>
-          <td>010-1111-2222</td>
-          <td>30,152,152</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>2025-03-19</td>
-          <td>김현아</td>
-          <td>역삼점</td>
-          <td>직원</td>
-          <td>010-1111-2222</td>
-          <td>30,152,152</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>2025-03-19</td>
-          <td>이주찬</td>
-          <td>역삼점</td>
-          <td>직원</td>
-          <td>010-1111-2222</td>
-          <td>30,152,152</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>2025-03-19</td>
-          <td>박지민</td>
-          <td>역삼점</td>
-          <td>직원</td>
-          <td>010-1111-2222</td>
-          <td>30,152,152</td>
-        </tr>
+        <c:forEach var="m" items="${member}">
+          <tr>
+            <td>${m.empNo}</td>
+            <td><fmt:formatDate value="${m.hireDate}" pattern="yyyy-MM-dd" /></td>
+            <td>${m.memName}</td>
+            <td>${m.storeName}</td>
+            <td>${m.position}</td>
+            <td>${m.phone}</td>
+            <td>${m.salary}</td>
+          </tr>
+        </c:forEach>
         </tbody>
       </table>
     </div>
