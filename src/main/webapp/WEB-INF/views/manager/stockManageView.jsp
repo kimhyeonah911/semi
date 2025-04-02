@@ -1,4 +1,4 @@
-<%--지점장 재고관리 재고 페이지--%>
+<%--지점장 재고관리 재고/입출고  페이지--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -14,11 +14,6 @@
       padding-top: 130px;
     }
 
-    .pagination{
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-    }
     select{
       border-radius: 8px;
     }
@@ -85,12 +80,9 @@
 
     .table-container>table{
       width: 100%;
-      font-size: 20px;
+      font-size: 16px;
       color: black;
       text-align: center;
-    }
-    .table-container>table>thead{
-      height: 40px;
     }
 
     .pagination {
@@ -174,7 +166,7 @@
 
   <div id="inventory-section">
     <div class="table-container">
-      <table class="table table-striped table-hover">
+      <table class="table table-striped table-hover align-middle">
         <thead>
         <tr>
           <th>창고명</th>
@@ -235,7 +227,7 @@
 
   <div id="inout-section" style="display: none;">
     <div class="table-container">
-      <table class="table table-striped table-hover">
+      <table class="table table-striped table-hover align-middle">
         <thead>
         <tr>
           <th>입고/출고</th>
@@ -248,7 +240,7 @@
         </thead>
         <tbody>
         <tr>
-          <td><img src="/resources/입고.png"></td>
+          <td><span class="badge bg-primary">입고</span></td>
           <td>238-654-13</td>
           <td>나이키 에어포스 1 '07</td>
           <td>2765-5469</td>
@@ -256,7 +248,7 @@
           <td>3</td>
         </tr>
         <tr>
-          <td><img src="/resources/출고.png"></td>
+          <td><span class="badge bg-danger">출고</span></td>
           <td>238-654-13</td>
           <td>나이키 에어포스 1 '07</td>
           <td>2765-5469</td>
@@ -264,7 +256,7 @@
           <td>3</td>
         </tr>
         <tr>
-          <td><img src="/resources/입고.png"></td>
+          <td><span class="badge bg-primary">입고</span></td>
           <td>238-654-13</td>
           <td>나이키 에어포스 1 '07</td>
           <td>2765-5469</td>
@@ -272,7 +264,7 @@
           <td>3</td>
         </tr>
         <tr>
-          <td><img src="/resources/출고.png"></td>
+          <td><span class="badge bg-danger">출고</span></td>
           <td>238-654-13</td>
           <td>나이키 에어포스 1 '07</td>
           <td>2765-5469</td>

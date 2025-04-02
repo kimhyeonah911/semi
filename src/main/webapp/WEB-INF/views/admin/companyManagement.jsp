@@ -14,9 +14,6 @@
         * {
             font-family: "NanumSquareNeo", sans-serif;
         }
-        body {
-            font-family: "IBM Plex Sans KR", sans-serif;
-        }
 
         .table th, .table td {
             text-align: center;

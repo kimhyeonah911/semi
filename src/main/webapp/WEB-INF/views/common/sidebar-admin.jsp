@@ -38,10 +38,6 @@
         }
 
         /* 본문 컨텐츠 */
-        .content {
-            margin-left: 250px;
-            padding: 80px 20px 20px; /* 헤더 공간 확보 */
-        }
     </style>
 </head>
 <body>

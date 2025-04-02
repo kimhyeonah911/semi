@@ -36,5 +36,4 @@
         AND MEM_PWD = #{memPwd}
         AND STATUS = 'Y'
     </select>
-
 </mapper>
