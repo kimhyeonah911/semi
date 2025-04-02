@@ -12,11 +12,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            font-family: "Noto Sans", sans-serif;
+        main{
+            margin-left: 250px;  /* ms-sm-auto */
+            /*margin-right: auto;*/
+            width: 85.3%;  /* col-lg-10 (10/12 * 100%) */
+            padding-left: 24px;  /* px-md-4 */
+            /*padding-right: 24px;*/
+            margin-top: 130px;
         }
 
         .table th, .table td {
@@ -180,11 +182,11 @@
 </head>
 <body>
 <jsp:include page="../common/header-admin.jsp"/>
-<div class="container-fluid" style="margin-top: 130px">
+<div class="container-fluid">
     <!-- Sidebar -->
     <jsp:include page="../common/sidebar-admin.jsp"/>
     <!-- Main content -->
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+    <main>
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">제품관리</h1>
         </div>
