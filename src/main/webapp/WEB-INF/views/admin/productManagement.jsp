@@ -105,6 +105,7 @@
         button:hover {
             background-color: #008F8B;
         }
+
         .bottom{
             display: flex;
             justify-content: center; /* 버튼을 가운데 정렬 */
@@ -112,8 +113,6 @@
             margin-top: 30px;
             padding: 15px;
         }
-
-
     </style>
 </head>
 <body>
@@ -354,36 +353,21 @@
 
 
 
+    // 카테고리 선택 시 상품 필터링
+    $("#categorySelect").on("change", function () {
+        const selectedCategory = $(this).val(); // 선택한 카테고리 값 가져오기
 
+        // 테이블에서 각 상품을 확인하며 필터링
+        $(".product-row").each(function () {
+            const productCategory = $(this).attr("data-category"); // 상품의 카테고리 가져오기
 
-
-    //검색
-    $(document).ready(function () {
-        $("button:contains('조회')").on("click", function () {
-            const selectedCategory = $("#categorySelect").val(); // 선택한 카테고리 값
-            const selectedStatus = $("#sellSelect").val(); // 선택한 판매 상태 값
-            const searchKeyword = $("input[type='text']").val().trim().toLowerCase(); // 입력된 검색어 (공백 제거, 소문자로 변환)
-
-            $(".product-row").each(function () {
-                const productCategory = $(this).attr("data-category"); // 상품의 카테고리
-                const productStatus = $(this).attr("data-status"); // 상품의 판매 상태 (HTML에서 추가 필요)
-                const productName = $(this).find("td:nth-child(3)").text().trim().toLowerCase(); // 상품명 가져오기
-
-                // 필터 조건 확인
-                const categoryMatch = selectedCategory === "" || productCategory === selectedCategory;
-                const statusMatch = selectedStatus === "" || productStatus === selectedStatus;
-                const keywordMatch = searchKeyword === "" || productName.includes(searchKeyword);
-
-                // 모든 조건이 만족하면 보이기, 하나라도 다르면 숨기기
-                if (categoryMatch && statusMatch && keywordMatch) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
+            if (selectedCategory === "" || productCategory === selectedCategory) {
+                $(this).show(); // 선택한 카테고리와 일치하면 보이기
+            } else {
+                $(this).hide(); // 일치하지 않으면 숨기기
+            }
         });
     });
-
 </script>
 
 <script>
