@@ -1,13 +1,22 @@
 package com.kh.semi.controller;
 
+import com.kh.semi.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.ui.Model;
 
+import java.util.ArrayList;
+import java.util.List;
+import com.kh.semi.domain.vo.Member;
 
 @RequiredArgsConstructor
 @Controller
 public class AdminController {
+
+    @Autowired
+    private MemberService memberService;
 
     @GetMapping("accept.ma")
     public String acceptManager() {
@@ -15,7 +24,10 @@ public class AdminController {
     }
 
     @GetMapping("accept.me")
-    public String acceptMember() {
+    public String acceptMember(Model model) {
+        ArrayList<Member> waitMember = memberService.acceptMember();
+        model.addAttribute("waitMember", waitMember);
+
         return "admin/memberManagement";
     }
 
@@ -61,4 +73,6 @@ public class AdminController {
 
     @GetMapping("adminmypage.bo")
     public String adminPage() {return "admin/adminMypage";}
+
+
 }

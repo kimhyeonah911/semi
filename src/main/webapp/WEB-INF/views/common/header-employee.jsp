@@ -78,6 +78,9 @@
     .leave-btn {
         background-color: red;
     }
+    #realTimeClock{
+        width: 200px;
+    }
 </style>
 
 <div class="container-fluid bg-light py-3" id="header">
@@ -148,7 +151,8 @@
 
         function updateClock() {
             let now = new Date();
-            let formattedDate = now.toISOString().slice(0, 19).replace("T", " ");
+            // 한국 시간으로 변환
+            let formattedDate = now.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
             document.getElementById("realTimeClock").innerText = formattedDate;
         }
 
@@ -156,3 +160,4 @@
         window.onload = updateClock;
     </script>
 </div>
+

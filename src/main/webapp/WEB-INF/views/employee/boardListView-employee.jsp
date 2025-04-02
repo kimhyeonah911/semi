@@ -7,7 +7,6 @@ charset=UTF-8" pageEncoding="UTF-8"%>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항</title>
     <style>
-
         main{
             margin-left: 250px;  /* ms-sm-auto */
             /*margin-right: auto;*/
@@ -16,41 +15,7 @@ charset=UTF-8" pageEncoding="UTF-8"%>
             /*padding-right: 24px;*/
             margin-top: 130px;
         }
-
-        body{
-            padding-top: 150px;
-        }
         tr th,td{
-            text-align: center;
-        }
-        .table th:nth-child(1),
-        .table td:nth-child(1) {
-            width: 10%;
-            text-align: center;
-        }
-        .table th:nth-child(2),
-        .table td:nth-child(2) {
-            width: 15%;
-            padding-left: 20px;
-        }
-        .table th:nth-child(3),
-        .table td:nth-child(3) {
-            width: 30%;
-            padding-left: 20px;
-        }
-        .table th:nth-child(4),
-        .table td:nth-child(4) {
-            width: 15%;
-            text-align: center;
-        }
-        .table th:nth-child(5),
-        .table td:nth-child(5) {
-            width: 20%;
-            text-align: center;
-        }
-        .table th:nth-child(6),
-        .table td:nth-child(6) {
-            width: 10%;
             text-align: center;
         }
         tbody{
@@ -61,7 +26,6 @@ charset=UTF-8" pageEncoding="UTF-8"%>
 <body>
 <jsp:include page="../common/header-employee.jsp"/>
 <div class="container-fluid">
-
         <!-- Sidebar -->
         <jsp:include page="../common/sidebar-employee.jsp"/>
 
@@ -118,7 +82,8 @@ charset=UTF-8" pageEncoding="UTF-8"%>
                 <jsp:include page="../common/pagebar.jsp"/>
             </div>
         </main>
-    </div>
+
+</div>
 
 
 <!-- 모달 창 -->
@@ -160,6 +125,8 @@ charset=UTF-8" pageEncoding="UTF-8"%>
         </div>
     </div>
 </div>
+
+<jsp:include page="../common/footer.jsp"/>
 
 <!-- Bootstrap JS (이 부분은 별도로 로드) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

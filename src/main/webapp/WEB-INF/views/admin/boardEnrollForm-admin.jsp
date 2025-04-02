@@ -10,36 +10,21 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+        main{
+            margin-left: 250px;  /* ms-sm-auto */
+            /*margin-right: auto;*/
+            width: 85.3%;  /* col-lg-10 (10/12 * 100%) */
+            /*padding-right: 24px;*/
+            margin-top: 80px;
+            padding: 20px;
+            padding-left: 50px;
+        }
+
         body {
             background-color: #f8f9fa;
         }
 
-        main {
-            display: flex;
-            gap: 20px;
-            padding: 20px;
-        }
 
-        /* 사이드바 */
-        .sidebar {
-            width: 250px;
-            background-color: #343a40;
-            color: white;
-            height: 100vh;
-            padding: 20px;
-        }
-
-        .sidebar a {
-            color: white;
-            text-decoration: none;
-            margin: 10px 0;
-            display: block;
-        }
-
-        .sidebar a:hover {
-            background-color: #495057;
-            padding-left: 10px;
-        }
 
         /* 콘텐츠 */
         .content {

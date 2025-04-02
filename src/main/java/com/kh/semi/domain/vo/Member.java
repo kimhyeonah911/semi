@@ -2,7 +2,7 @@ package com.kh.semi.domain.vo;
 
 import lombok.*;
 
-import java.util.Date;
+import java.sql.Date;
 
 @Getter
 @Setter

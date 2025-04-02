@@ -2,8 +2,12 @@ package com.kh.semi.service;
 
 import com.kh.semi.domain.vo.Member;
 import com.kh.semi.mappers.MemberMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -13,8 +17,6 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member loginMember(String memId, String memPwd) {
-        System.out.println(memId);
-        System.out.println(memPwd);
         return memberMapper.loginMember(memId, memPwd);
     }
 
@@ -22,6 +24,11 @@ public class MemberServiceImpl implements MemberService {
     public int insertMember(Member member) {
         System.out.println(member);
         return memberMapper.insertMember(member);
+    }
+
+    @Override
+    public ArrayList<Member> acceptMember() {
+        return memberMapper.acceptMember();
     }
 
 }
