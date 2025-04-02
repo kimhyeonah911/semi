@@ -37,6 +37,7 @@
         AND MEM_PWD = #{memPwd}
         AND STATUS = 'Y'
     </select>
+
     <select id="selectMemberList" resultMap="memberResult">
         SELECT M.EMP_NO,
         M.HIRE_DATE,
@@ -51,23 +52,6 @@
         ORDER BY M.EMP_NO ASC
     </select>
 
-    <insert id="insertMember">
-        INSERT INTO MEMBER (
-                EMP_NO,
-                MEM_ID,
-                MEM_PWD,
-                MEM_NAME,
-                PHONE,
-                POSITION
-        ) VALUES (
-            EMP_NO.NEXTVAL,
-            #{memId},
-            #{memPwd},
-            #{memName},
-            #{phone},
-            'Member'
-        )
-    </insert>
 
     <select id="acceptMemberList" resultMap="memberResult">
         SELECT
