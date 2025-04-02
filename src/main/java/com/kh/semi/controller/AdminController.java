@@ -1,6 +1,9 @@
 package com.kh.semi.controller;
 
+import com.kh.semi.domain.vo.Board;
 import com.kh.semi.domain.vo.Member;
+import com.kh.semi.mappers.BoardMapper;
+import com.kh.semi.service.BoardService;
 import com.kh.semi.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 @Controller
 public class AdminController {
     private final MemberService memberService;
+    private final BoardService boardService;
 
     @GetMapping("accept.ma")
     public String acceptManager() {
@@ -26,7 +30,10 @@ public class AdminController {
     }
 
     @GetMapping("list.bo")
-    public String selectBoardList() {
+    public String selectBoardList(Model model) {
+        ArrayList<Board> boardlist = boardService.selectBoardList();
+        model.addAttribute("board", boardlist);
+        System.out.println("공지사항 정보 : " + boardlist);
         return "admin/boardListView-admin";
     }
 
@@ -64,7 +71,6 @@ public class AdminController {
     public String employeeInfoView(Model model) {
         ArrayList<Member> list = memberService.selectMemberList();
         model.addAttribute("member", list);
-        System.out.println("회원 리스트: " + list);
         return "admin/employeeInfoView";
     }
 

@@ -1,5 +1,6 @@
 package com.kh.semi.service;
 
+import com.kh.semi.domain.vo.Board;
 import com.kh.semi.domain.vo.Member;
 
 import java.util.ArrayList;
@@ -9,4 +10,6 @@ public interface MemberService {
     Member loginMember(String memId, String memPwd);
 
     ArrayList<Member> selectMemberList();
+
+
 }
