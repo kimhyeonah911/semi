@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 
@@ -38,8 +40,9 @@ public class MemberController {
     }
 
     @GetMapping("logout.me")
-    public String logout() {
-
+    public String logout(HttpSession session) {
+        session.setAttribute("alertMsg", "로그아웃 되었습니다.");
+        session.setAttribute("loginUser", null);
         return "index";
     }
 
@@ -71,4 +74,27 @@ public class MemberController {
         return mv;
     }
 
+    @PostMapping("insert.me")
+    public String insertMember(@ModelAttribute Member member, ModelAndView mv, HttpSession session) {
+        // Member 객체에서 memId, memPwd, memName, phone 추출
+        String phone = member.getPhone().replaceFirst("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3");
+        Member m = new Member();
+        m.setMemId(member.getMemId());
+        m.setMemPwd(member.getMemPwd());
+        m.setMemName(member.getMemName());
+        m.setPhone(phone);
+
+        // MemberService의 insertMember 호출
+        int result = memberService.insertMember(m);
+        // 회원가입 성공 여부 확인
+        if (result > 0) {
+            session.setAttribute("alertMsg", "성공적으로 회원가입을 완료하였습니다.");
+            return "redirect:/";
+        } else {
+            mv.addObject("errorMsg", "회원가입에 실패하였습니다.");
+            return "common/errorPage";
+        }
+    }
 }
+
+

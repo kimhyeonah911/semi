@@ -57,7 +57,7 @@
             width: 130px;
             height: 30px;
             font-size: 13px;
-            padding: 10px;
+            padding: 8px;
             border-radius: 5px;
             appearance: none;
         }
@@ -72,7 +72,7 @@
         #stockIn-search-bar{
             width: 80px;
             height: 30px;
-            font-size: 12px;
+            font-size: 14px;
         }
 
         .search-btn{
@@ -88,7 +88,7 @@
             background-color: #343a40;
             color: white;
             border: none;
-            padding: 4px 10px;
+            padding: 5px 10px 4px;
             font-size: 16px;
             font-weight: bold;
             border-radius: 8px;
@@ -296,7 +296,7 @@
                             <option value="0">전체</option>
                             <option value="1">입고 등록</option>
                             <option value="2">입고중</option>
-                            <option value="3">입고완료</option>
+                            <option value="3">입고 완료</option>
                         </select>
                         <input type="date"
                                id="date1"

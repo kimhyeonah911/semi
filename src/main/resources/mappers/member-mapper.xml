@@ -35,8 +35,31 @@
         FROM MEMBER
         WHERE MEM_ID = #{memId}
         AND MEM_PWD = #{memPwd}
-        AND STATUS = 'Y'
     </select>
+
+    <insert id="insertMember" parameterType="Member">
+        INSERT INTO MEMBER (
+        EMP_NO,
+        MEM_ID,
+        MEM_PWD,
+        MEM_NAME,
+        PHONE
+        )
+        VALUES (
+        EMP_NO.NEXTVAL,
+        #{memId},
+        #{memPwd},
+        #{memName},
+        #{phone}
+        )
+    </insert>
+
+    <select id="checkId" resultType="_int">
+        SELECT COUNT(*)
+        FROM MEMBER
+        WHERE MEM_ID = #{memId}
+    </select>
+
 
     <select id="selectMemberList" resultMap="memberResult">
         SELECT M.EMP_NO,
