@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -9,6 +10,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
   <style>
     main{
       margin-left: 250px;  /* ms-sm-auto */
@@ -135,23 +137,24 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="member" items="${pendingEmployees}">
+        <c:forEach var="m" items="${acceptMember}">
           <tr>
-            <td>${member.empNo}</td>
-            <td>${member.createDate}</td>
-            <td>${member.memId}</td>
-            <td>${member.memName}</td>
-            <td>${member.phone}</td>
+            <td>${m.empNo}</td>
+            <td>${m.createDate}</td>
+            <td>${m.memId}</td>
+            <td>${m.memName}</td>
+            <td>${m.phone}</td>
             <td>
-              <select class="dropdown">
+              <select class="dropdown" id="storeSelect">
+                <option value="하남점">하남점</option>
                 <option value="강남점">강남점</option>
-                <option value="부산점">부산점</option>
-                <option value="대구점">대구점</option>
+                <option value="역삼점">역삼점</option>
+                <option value="선릉점">선릉점</option>
               </select>
             </td>
             <td class="action-buttons">
-              <button class="approve-btn btn btn-success" onclick="approveUser(${member.empNo})">승인</button>
-              <button class="reject-btn btn btn-danger" onclick="rejectUser(${member.empNo})">거부</button>
+              <button class="approve-btn btn btn-success" onclick="approveUser('${m.memId}')">승인</button>
+              <button class="reject-btn btn btn-danger" onclick="rejectUser('${m.memId}')">거부</button>
             </td>
           </tr>
         </c:forEach>
@@ -161,17 +164,29 @@
   </main>
 </div>
 
-
-<!-- Bootstrap JS (이 부분은 별도로 로드) -->
-<%--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>--%>
+<!-- jQuery를 먼저 로드 -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
-  function approveUser(userId) {
-    alert("User " + userId + "님을 직원으로 승인하셨습니다.");
+  function approveUser(memId) {
+    const storeSelect = document.querySelector("#storeSelect").value;
+    console.log('선택한 매장명 : ',  storeSelect);
+    $.ajax({
+      url: '/approveMember',
+      type: 'POST',
+      data: { memId: memId, storeSelect: storeSelect },
+      success: function() {
+        alert('직원 승인 완료!');
+        location.reload();
+      },
+      error: function(error) {
+        alert('오류가 발생했습니다:' + error);
+      }
+    });
   }
 
-  function rejectUser(userId) {
-    alert("User " + userId + "님을 거부하셨습니다.");
+  function rejectUser(memId) {
+    alert("User " + memId + "님을 거부하셨습니다.");
   }
 </script>
 

@@ -24,4 +24,15 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.selectMemberList();
     }
 
+    @Override
+    public ArrayList<Member> acceptMemberList() {
+        return memberMapper.acceptMemberList();
+    }
+
+    @Override
+    public int approveMember(String memId, String storeSelect) {
+        return memberMapper.approveMember(memId,storeSelect);
+    }
+
+
 }
