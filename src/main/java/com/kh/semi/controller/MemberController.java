@@ -59,14 +59,14 @@ public class MemberController {
     }
 
 
-
-
-
     @GetMapping("logout.me")
     public String logout() {
 
         return "index";
     }
+
+
+
 
 }
 
