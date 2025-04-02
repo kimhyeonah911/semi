@@ -87,7 +87,6 @@ charset=UTF-8" pageEncoding="UTF-8"%>
                     <c:set var="formattedDate">
                         <fmt:formatDate value="${b.createDate}" pattern="yyyy-MM-dd" />
                     </c:set>
-
                     <tr onclick="showModal('${b.memId}', '${b.boardTitle}', '${b.storeName}', '${formattedDate}', '${b.boardContent}')"
                         class="${b.memId == 'admin' ? 'important-notice' : ''}">
                         <td>${b.memId == 'admin' ? '필독📢' : b.boardNo}</td>
@@ -95,7 +94,12 @@ charset=UTF-8" pageEncoding="UTF-8"%>
                         <td>${b.boardTitle}</td>
                         <td>${b.storeName}</td>
                         <td>${formattedDate}</td>
-                        <td><button class="btn btn-sm btn-outline-primary">수정</button></td>
+                        <td>
+                            <form method="post" action="/delete.bo" style="display:inline;">
+                                <input type="hidden" name="boardNo" value="${b.boardNo}" />
+                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); return confirm('정말 삭제하시겠습니까?');">삭제</button>
+                            </form>
+                        </td>
                     </tr>
                 </c:forEach>
 
@@ -152,6 +156,25 @@ charset=UTF-8" pageEncoding="UTF-8"%>
     </div>
 </div>
 
+<!-- 삭제 확인 모달 -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">공지사항 삭제</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                정말 이 공지사항을 삭제하시겠습니까?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-danger" onclick="deleteBoard()">삭제</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Bootstrap JS (이 부분은 별도로 로드) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -174,6 +197,16 @@ charset=UTF-8" pageEncoding="UTF-8"%>
         var modal = new bootstrap.Modal(modalElement);
         modal.show();
     }
+
+    window.onload = function() {
+        var msg = '<c:out value="${sessionScope.alertMsg}"/>';
+        if (msg) {
+            alert(msg);
+            <% session.removeAttribute("alertMsg"); %>
+        }
+    };
+
+
 
 </script>
 </body>

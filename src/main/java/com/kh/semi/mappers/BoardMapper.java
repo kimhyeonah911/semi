@@ -9,4 +9,8 @@ import java.util.ArrayList;
 public interface BoardMapper {
 
     ArrayList<Board> selectBoardList();
+
+    int insertBoard(Board board);
+
+    int deleteBoard(int boardNo);
 }

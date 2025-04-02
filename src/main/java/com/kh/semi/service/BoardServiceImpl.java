@@ -19,4 +19,14 @@ public class BoardServiceImpl implements BoardService {
 //        System.out.println("서비스에서 가져온 공지사항 리스트: " + boardList);
         return boardMapper.selectBoardList();
     }
+
+    @Override
+    public int insertBoard(Board board) {
+        return boardMapper.insertBoard(board);
+    }
+
+    @Override
+    public int deleteBoard(int boardNo) {
+        return boardMapper.deleteBoard(boardNo);
+    }
 }

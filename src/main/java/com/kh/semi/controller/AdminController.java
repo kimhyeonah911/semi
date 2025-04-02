@@ -5,10 +5,14 @@ import com.kh.semi.domain.vo.Member;
 import com.kh.semi.mappers.BoardMapper;
 import com.kh.semi.service.BoardService;
 import com.kh.semi.service.MemberService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 
@@ -35,6 +39,34 @@ public class AdminController {
         model.addAttribute("board", boardlist);
         System.out.println("공지사항 정보 : " + boardlist);
         return "admin/boardListView-admin";
+    }
+
+    @PostMapping("insertlist.bo")
+    public String boardList(Board board, HttpSession session, Model model) {
+        board.setEmpNo(1);
+        System.out.println("게시글 정보 : " + board);
+
+        int result = boardService.insertBoard(board);
+        if(result > 0){
+            session.setAttribute("alertMsg", "게시글 작성 성공");
+            return "redirect:/list.bo";
+        } else {
+            model.addAttribute("errorMsg", "게시글 작성 실패");
+            return "common/errorPage";
+        }
+    }
+
+    @PostMapping("delete.bo")
+    public String deleteBoard(@RequestParam("boardNo") int boardNo, Model model, HttpSession session) {
+        int result = boardService.deleteBoard(boardNo);
+
+        if (result > 0) {
+            session.setAttribute("alertMsg", "게시글을 삭제하였습니다.");
+            return "redirect:/list.bo";
+        } else {
+            model.addAttribute("errorMsg", "게시글 삭제 실패");
+            return "redirect:/list.bo";
+        }
     }
 
     @GetMapping("enroll.bo")
@@ -75,5 +107,5 @@ public class AdminController {
     }
 
     @GetMapping("adminmypage.bo")
-    public String adminPage() {return "adminMypage";}
+    public String adminPage() {return "admin/adminMypage";}
 }

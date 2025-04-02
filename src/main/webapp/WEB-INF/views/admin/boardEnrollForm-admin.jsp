@@ -23,9 +23,6 @@
         body {
             background-color: #f8f9fa;
         }
-
-
-
         /* 콘텐츠 */
         .content {
             flex: 1;
@@ -100,22 +97,22 @@
     <jsp:include page="../common/sidebar-admin.jsp"/>
 
     <!-- 글쓰기 폼 -->
-    <div class="content">
-        <h1 align="center">공지사항 글쓰기</h1>
-        <form action="#" method="post">
+    <div class="content"><h1 align="center">공지사항 글쓰기</h1>
+        <form action="insertlist.bo" method="post">
             <div class="input-row">
                 <label for="title">제목</label>
-                <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required>
+                <input type="text" id="title" name="boardTitle" placeholder="제목을 입력하세요" required>
             </div>
             <div class="input-row">
                 <label for="content">내용</label>
-                <textarea id="content" name="content" rows="10" placeholder="공지사항 내용을 입력하세요" required></textarea>
+                <textarea id="content" name="boardContent" rows="10" placeholder="공지사항 내용을 입력하세요" required></textarea>
             </div>
             <div class="d-flex justify-content-end">
-                <button type="submit" class="btn-custom">글쓰기</button>
+                <button type="submit" class="btn-custom">등록하기</button>
                 <button type="reset" class="btn-custom" style="background-color: #dc3545;">취소</button>
             </div>
         </form>
+
     </div>
 </main>
 
