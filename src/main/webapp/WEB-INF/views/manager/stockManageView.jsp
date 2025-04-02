@@ -124,7 +124,7 @@
 
 <body>
 
-<jsp:include page="../common/header-manager.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 <div class="container-fluid">
 <jsp:include page="../common/sidebar-manager.jsp"/>
 

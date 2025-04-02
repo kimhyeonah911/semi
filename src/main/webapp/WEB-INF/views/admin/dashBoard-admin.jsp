@@ -137,7 +137,7 @@
 </head>
 <body>
 
-<jsp:include page="../common/header-admin.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 
 <div class="container-fluid">
     <!-- 사이드바 -->

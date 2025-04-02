@@ -51,14 +51,22 @@ public class MemberController {
 
         // MemberService의 loginMember 호출
         Member loginMember = memberService.loginMember(memId, memPwd);
-        System.out.println(loginMember);
+        System.out.println("로그인한 회원 정보: " + loginMember);
+
         // 로그인 성공 여부 확인
         if (loginMember == null) {
             session.setAttribute("alertMsg", "아이디나 비밀번호가 일치하지 않습니다.");
             mv.setViewName("redirect:/");
         } else {
             session.setAttribute("loginUser", loginMember); // 로그인된 회원 정보 저장
-            mv.setViewName("redirect:/insert.co");  // 로그인 성공 후 이동
+
+            // 헤더에서 쓸 사용자 이름 추출
+            session.setAttribute("memName", loginMember.getMemName()); // 사용자 이름 저장
+
+            // 콘솔에서 확인 (디버깅)
+            System.out.println("세션에 저장된 userName: " + session.getAttribute("userName"));
+
+            mv.setViewName("redirect:/insert.co"); // 로그인 성공 후 이동
         }
         return mv;
     }

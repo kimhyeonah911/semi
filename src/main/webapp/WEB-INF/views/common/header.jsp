@@ -1,4 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    // 세션에서 로그인한 사용자 정보 가져오기
+    String memName = (String) session.getAttribute("memName");
+
+    System.out.println("현재 세션 memName: " + memName);
+%>
 
 <!-- Bootstrap & Font Awesome 적용 -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -57,16 +63,16 @@
     }
 </style>
 
-
 <div class="container-fluid bg-light py-3" id="header">
     <div class="logo-container">
         <img src="/resources/logo.png" alt="로고">
     </div>
-    <div>
-        <button onclick="location.href='/manager.bo'">지점장버전</button>
-        <button onclick="location.href='/employee.bo'">직원버전</button>
-    </div>
+
     <div class="header-right">
+        <div>
+            <button onclick="location.href='/manager.bo'">지점장버전</button>
+            <button onclick="location.href='/employee.bo'">직원버전</button>
+        </div>
         <div>
             <a href="adminmypage.bo" class="text-dark text-decoration-none">
                 <i class="fas fa-user fa-2x"></i>
@@ -80,7 +86,9 @@
             </a>
         </div>
         <div class="admin-info">
-            <div class="fw-bold fs-5">admin 님</div>
+            <div class="fw-bold fs-5">
+                <%= memName != null ? memName + " 님" : "사용자" %>
+            </div>
             <div class="text-muted">환영합니다.</div>
         </div>
     </div>
