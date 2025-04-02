@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.semi.mappers.BoardMapper">
+    <resultMap id="boardResult" type="Board">
+        <result column="BOARD_NO" property="boardNo"/>
+        <result column="EMP_NO" property="empNo"/>
+        <result column="MEM_ID" property="memId"/>
+        <result column="STORE_NAME" property="storeName"/>
+        <result column="BOARD_TITLE" property="boardTitle"/>
+        <result column="BOARD_CONTENT" property="boardContent"/>
+        <result column="CREATE_DATE" property="createDate"/>
+        <result column="BOARD_TYPE" property="boardType"/>
+    </resultMap>
+    <select id="selectBoardList" parameterType="Board" resultMap="boardResult">
+        SELECT
+        B.BOARD_NO,
+        B.EMP_NO,
+        M.MEM_ID,
+        S.STORE_NAME,
+        B.BOARD_TITLE,
+        B.BOARD_CONTENT,
+        B.CREATE_DATE,
+        B.BOARD_TYPE
+        FROM BOARD B
+        JOIN MEMBER M ON B.EMP_NO = M.EMP_NO
+        JOIN STORE S ON M.STORE_ID = S.STORE_ID
+        ORDER BY
+        CASE
+        WHEN M.MEM_ID = 'admin' THEN 0
+        ELSE 1
+        END,
+        B.BOARD_NO ASC
+    </select>
+    <insert id="insertBoard">
+        INSERT INTO BOARD (BOARD_NO, EMP_NO, BOARD_TITLE, BOARD_CONTENT, CREATE_DATE, BOARD_TYPE)
+        VALUES (BOARD_SEQ.NEXTVAL, #{empNo}, #{boardTitle}, #{boardContent}, SYSDATE, 1)
+    </insert>
+    <delete id="deleteBoard">
+        DELETE FROM BOARD WHERE BOARD_NO = #{boardNo}
+    </delete>
+</mapper>
