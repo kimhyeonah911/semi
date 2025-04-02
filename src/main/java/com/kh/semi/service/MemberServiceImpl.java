@@ -34,5 +34,10 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.approveMember(memId,storeSelect);
     }
 
+    @Override
+    public int rejectMember(String memId) {
+        return memberMapper.rejectMember(memId);
+    }
+
 
 }

@@ -176,7 +176,7 @@
       type: 'POST',
       data: { memId: memId, storeSelect: storeSelect },
       success: function() {
-        alert('직원 승인 완료!');
+        alert('직원 승인이 완료되었습니다');
         location.reload();
       },
       error: function(error) {
@@ -186,7 +186,19 @@
   }
 
   function rejectUser(memId) {
-    alert("User " + memId + "님을 거부하셨습니다.");
+    $.ajax({
+      url: '/rejectMember',
+      type: 'POST',
+      data: { memId: memId},
+      success: function() {
+        alert('직원 거부가 완료되었습니다');
+        location.reload();
+      },
+      error: function(error) {
+        alert('오류가 발생했습니다:' + error);
+      }
+    });
+
   }
 </script>
 

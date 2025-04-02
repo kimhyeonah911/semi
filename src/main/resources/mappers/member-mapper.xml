@@ -79,4 +79,10 @@
         WHERE M.MEM_ID =#{memId}
     </update>
 
+    <update id="rejectMember">
+        UPDATE MEMBER
+        SET STATUS = 'D'
+        WHERE MEM_ID = #{memId}
+    </update>
+
 </mapper>
