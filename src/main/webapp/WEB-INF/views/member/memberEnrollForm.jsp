@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html lang="UTF-8">
 <head>
-  <link rel="stylesheet" href="css/style.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign Up Page</title>
@@ -111,7 +110,7 @@
       text-align: center;
     }
 
-    input[name="userId"] {
+    input[name="memId"] {
       background-image: url('/resources/id.png');
       background-repeat: no-repeat;
       background-position: 5px center;
@@ -119,7 +118,7 @@
       background-size: 20px 20px;
     }
 
-    input[name="password"] {
+    input[name="memPwd"], input[name="checkPwd"] {
       background-image: url('/resources/password.png');
       background-repeat: no-repeat;
       background-position: 5px center;
@@ -143,7 +142,7 @@
       background-size: 23px 25px;
     }
 
-    input[name="name"] {
+    input[name="memName"] {
       background-image: url('/resources/name.png');
       background-repeat: no-repeat;
       background-position: 3px center;
@@ -172,7 +171,6 @@
       <div class="input-box">
         <input type="password" name="checkPwd" placeholder="CONFIRM PASSWORD" required>
       </div>
-
       <div class="input-box">
         <input type="text" name="memName" placeholder="Name" required>
       </div>

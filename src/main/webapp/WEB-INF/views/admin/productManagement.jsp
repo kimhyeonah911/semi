@@ -5,7 +5,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>제품관리,수정</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -136,14 +135,15 @@
             <select class="form-select" id="categorySelect" aria-label="카테고리">
                 <option value="">전체</option>
             </select>
-            <input type="text" placeholder="검색어를 입력하세요.">
+            <input type="text" id="searchProduct" placeholder="검색할 상품명을 입력하세요.">
             <button>조회</button>
             <button onclick="enrollShoes()">등록</button>
         </div>
         <div class="table-responsive">
-            <table class="table" id="productTable">
+            <table class="table table-striped table-hover" id="productTable">
                 <thead>
                 <tr>
+                    <th></th>
                     <th>상품번호</th>
                     <th>상품명</th>
                     <th>카테고리</th>
@@ -157,6 +157,7 @@
                 <tbody>
                 <c:forEach var="p" items="${product}">
                     <tr class="product-row" data-category="${p.categoryNo}">
+                        <td><input type="checkbox" name=""></td>
                         <td>${p.productNo}</td>
                         <td>${p.productName}</td>
                         <td>${p.categoryName}</td>
@@ -164,7 +165,7 @@
                         <td>${p.productSize}</td>
                         <td>${p.stockInPrice}</td>
                         <td>${p.stockOutPrice}</td>
-                        <td><button class="approve-btn btn btn-success" onclick="showModal(this)"><i class="fas fa-edit"></i></button></td>
+                        <td style="width: 100px;"><button class="approve-btn btn btn-success" onclick="showModal(this)"><i class="fas fa-edit"></i></button></td>
                     </tr>
                 </c:forEach>
 
@@ -311,6 +312,7 @@
 
 </body>
 
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     //카테고리 셀렉트바 출력하기
 
@@ -349,6 +351,39 @@
             categorySelectBar.appendChild(option);
         }
     }
+
+
+
+
+
+
+    //검색
+    $(document).ready(function () {
+        $("button:contains('조회')").on("click", function () {
+            const selectedCategory = $("#categorySelect").val(); // 선택한 카테고리 값
+            const selectedStatus = $("#sellSelect").val(); // 선택한 판매 상태 값
+            const searchKeyword = $("input[type='text']").val().trim().toLowerCase(); // 입력된 검색어 (공백 제거, 소문자로 변환)
+
+            $(".product-row").each(function () {
+                const productCategory = $(this).attr("data-category"); // 상품의 카테고리
+                const productStatus = $(this).attr("data-status"); // 상품의 판매 상태 (HTML에서 추가 필요)
+                const productName = $(this).find("td:nth-child(3)").text().trim().toLowerCase(); // 상품명 가져오기
+
+                // 필터 조건 확인
+                const categoryMatch = selectedCategory === "" || productCategory === selectedCategory;
+                const statusMatch = selectedStatus === "" || productStatus === selectedStatus;
+                const keywordMatch = searchKeyword === "" || productName.includes(searchKeyword);
+
+                // 모든 조건이 만족하면 보이기, 하나라도 다르면 숨기기
+                if (categoryMatch && statusMatch && keywordMatch) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+    });
+
 </script>
 
 <script>

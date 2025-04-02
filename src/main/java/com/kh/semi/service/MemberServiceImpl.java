@@ -25,11 +25,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public ArrayList<Member> acceptMember() {
-        return memberMapper.acceptMember();
-    }
-
-    @Override
     public ArrayList<Member> selectMemberList() {
         return memberMapper.selectMemberList();
     }
