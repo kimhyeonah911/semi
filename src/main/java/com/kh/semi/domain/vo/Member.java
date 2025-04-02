@@ -22,4 +22,5 @@ public class Member {
     private Date modifyDate;
     private Date hireDate;
     private int salary;
+    private String storeName;
 }
