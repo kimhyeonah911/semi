@@ -14,6 +14,5 @@ public interface MemberMapper {
     ArrayList<Member> acceptMemberList();
     int approveMember(@Param("memId") String memId, @Param("storeSelect") String storeSelect);
     int rejectMember(@Param("memId") String memId);
-    ArrayList<Member> acceptMember();
-    int insertMember(Member member);
+
 }
