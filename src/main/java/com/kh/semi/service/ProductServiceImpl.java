@@ -1,5 +1,6 @@
 package com.kh.semi.service;
 
+import com.kh.semi.domain.vo.Category;
 import com.kh.semi.domain.vo.Product;
 import com.kh.semi.mappers.ProductMapper;
 import lombok.RequiredArgsConstructor;
@@ -16,5 +17,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ArrayList<Product> selectProductList() {
         return productMapper.selectProductList();
+    }
+
+    @Override
+    public ArrayList<Category> getCategoryList() {
+        return productMapper.getCategoryList();
     }
 }

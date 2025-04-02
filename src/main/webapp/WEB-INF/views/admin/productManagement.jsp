@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>제품관리,수정</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -127,22 +128,20 @@
             <h1 class="h2">제품관리</h1>
         </div>
         <div class="mb-3">
-            <select class="form-select" id="monthSelect" aria-label="판매상품">
+            <select class="form-select" id="sellSelect" aria-label="판매상품">
                 <option value="2025-02">판매상품</option>
                 <option value="2025-03">판매 중지 상품</option>
                 <option value="2025-04">판매 삭제 상품</option>
             </select>
-            <select class="form-select" id="shoeSelect" aria-label="신발종류">
-                <option value="2025-02">운동화</option>
-                <option value="2025-03">슬리퍼</option>
-                <option value="2025-04">구두</option>
+            <select class="form-select" id="categorySelect" aria-label="카테고리">
+                <option value="">전체</option>
             </select>
             <input type="text" placeholder="검색어를 입력하세요.">
             <button>조회</button>
             <button onclick="enrollShoes()">등록</button>
         </div>
         <div class="table-responsive">
-            <table class="table">
+            <table class="table" id="productTable">
                 <thead>
                 <tr>
                     <th>상품번호</th>
@@ -157,7 +156,7 @@
                 </thead>
                 <tbody>
                 <c:forEach var="p" items="${product}">
-                    <tr>
+                    <tr class="product-row" data-category="${p.categoryNo}">
                         <td>${p.productNo}</td>
                         <td>${p.productName}</td>
                         <td>${p.categoryName}</td>
@@ -311,6 +310,47 @@
 
 
 </body>
+
+<script>
+    //카테고리 셀렉트바 출력하기
+
+    $(document).ready(function() {
+        getCategoryList(drawCategorySelect);
+    });
+
+
+    function getCategoryList(callback){
+        $.ajax({
+            url: "/api/categoryList",
+            type: "get",
+            success: function (res){
+                callback(res);
+            }, error: function(){
+                console.log("category list ajax 요청 실패");
+            }
+        })
+    }
+
+    function drawCategorySelect(res) {
+        //selectbar가져오기
+        const categorySelectBar = document.querySelector("#categorySelect");
+        //기존select option제거
+        categorySelectBar.innerHTML="";
+        //기본 선택 option추가
+        const defaultOption = document.createElement("option");
+        defaultOption.value="";
+        defaultOption.innerText="전체";
+        categorySelectBar.appendChild(defaultOption);
+        //데이터 받아와서 option 추가
+        for(const category of res){
+            const option = document.createElement("option");
+            option.value= category.categoryNo;
+            option.innerText= category.categoryName;
+            categorySelectBar.appendChild(option);
+        }
+    }
+</script>
+
 <script>
     function showModal(button) {
         var row = button.closest("tr");
