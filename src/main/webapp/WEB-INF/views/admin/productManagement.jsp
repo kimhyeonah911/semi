@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -26,38 +27,6 @@
             vertical-align: middle;
         }
 
-        .table th:nth-child(1),
-        .table td:nth-child(1) {
-            width: 10%;
-        }
-
-        .table th:nth-child(2),
-        .table td:nth-child(2) {
-            width: 15%;
-            padding-left: 20px;
-        }
-
-        .table th:nth-child(3),
-        .table td:nth-child(3) {
-            width: 10%;
-            padding-left: 20px;
-        }
-
-        .table th:nth-child(4),
-        .table td:nth-child(4) {
-            width: 15%;
-        }
-
-        .table th:nth-child(5),
-        .table td:nth-child(5) {
-            width: 20%;
-        }
-
-        .table th:nth-child(6),
-        .table td:nth-child(6) {
-            width: 10%;
-        }
-
         .table {
             margin-top: 10px;
             width: 100%;
@@ -65,7 +34,6 @@
         }
 
         th, td {
-            padding: 10px;
             font-size: 18px;
         }
 
@@ -144,39 +112,7 @@
             margin-top: 30px;
             padding: 15px;
         }
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 30px;
-            margin-bottom: 10px;
-        }
 
-        .pagination a {
-            text-decoration: none;
-            color: #000000;
-            padding: 10px 15px;
-            margin: 0 5px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
-
-        .pagination a:hover {
-            background-color: #717171;
-        }
-
-        .pagination .active {
-            background-color: #000000;
-            color: white;
-            border: 1px solid #000000;
-        }
-
-        .pagination .disabled {
-            color: #ccc;
-            cursor: not-allowed;
-        }
 
     </style>
 </head>
@@ -214,348 +150,29 @@
                     <th>카테고리</th>
                     <th>색상</th>
                     <th>사이즈</th>
-                    <th>가격</th>
+                    <th>입고(구매)가격</th>
+                    <th>출고(판매)가격</th>
                     <th>수정</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td id="shoename">나이키 에어 포스 1 ‘07</td>
-                    <td id="category">운동화</td>
-                    <td id="color">WHITE</td>
-                    <td id="size">230</td>
-                    <td id="price">139,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td id="shoename2">아디다스 슈퍼스타</td>
-                    <td id="category2">운동화</td>
-                    <td id="color2">BLACK</td>
-                    <td id="size2">240</td>
-                    <td id="price2">129,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td id="shoename3">뉴발란스 993</td>
-                    <td id="category3">운동화</td>
-                    <td id="color3">GREY</td>
-                    <td id="size3">250</td>
-                    <td id="price3">175,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="">
-                        238-654-13</td>
-                    <td>뉴발란스 574</td>
-                    <td>운동화</td>
-                    <td>GREY</td>
-                    <td>230</td>
-                    <td>79,000</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                </tr>
+                <c:forEach var="p" items="${product}">
+                    <tr>
+                        <td>${p.productNo}</td>
+                        <td>${p.productName}</td>
+                        <td>${p.categoryName}</td>
+                        <td>${p.color}</td>
+                        <td>${p.productSize}</td>
+                        <td>${p.stockInPrice}</td>
+                        <td>${p.stockOutPrice}</td>
+                        <td><button class="approve-btn btn btn-success" onclick="showModal(this)"><i class="fas fa-edit"></i></button></td>
+                    </tr>
+                </c:forEach>
 
+
+                <script>
+                    console.log(p);
+                </script>
                 </tbody>
             </table>
         </div>
