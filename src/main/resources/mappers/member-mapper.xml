@@ -109,4 +109,40 @@
         WHERE MEM_ID = #{memId}
     </update>
 
+    <select id="acceptManagerList" resultMap="memberResult">
+        SELECT
+        M.EMP_NO,
+        M.CREATE_DATE,
+        M.MEM_ID,
+        M.MEM_NAME,
+        M.PHONE,
+        S.STORE_NAME,
+        M.STORE_ID
+        FROM MEMBER M
+        JOIN STORE S ON M.STORE_ID = S.STORE_ID
+        WHERE M.STATUS = 'Y'
+              AND S.STATUS = 'N'
+              AND M.POSITION = 'employee'
+              AND M.STORE_ID = S.STORE_ID
+        ORDER BY M.EMP_NO ASC
+    </select>
+
+    <update id="approveManagerStore">
+        UPDATE STORE
+        SET STATUS = 'Y'
+        WHERE STORE_ID = #{storeId}
+    </update>
+
+    <update id="approveManagerPosition">
+    UPDATE MEMBER
+    SET POSITION = 'manager'
+    WHERE MEM_ID = #{memId}
+    </update>
+
+    <update id="rejectManager">
+        UPDATE STORE
+        SET STATUS = 'D'
+        WHERE STORE_ID = #{storeId}
+    </update>
+
 </mapper>

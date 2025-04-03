@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -123,68 +124,58 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>1</td>
-          <td>2025 / 02 / 19</td>
-          <td>user01</td>
-          <td>유저1</td>
-          <td>010-3111-2222</td>
-          <td>강남점</td>
-          <td class="action-buttons">
-            <button class="approve-btn btn btn-success" onclick="approveUser(1)">승인</button>
-            <button class="reject-btn btn btn-danger" onclick="rejectUser(1)">거부</button>
-          </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>2025 / 03 / 18</td>
-          <td>user02</td>
-          <td>유저2</td>
-          <td>010-1233-2222</td>
-          <td>역삼점</td>
-          <td class="action-buttons">
-            <button class="approve-btn btn btn-success" onclick="approveUser(2)">승인</button>
-            <button class="reject-btn btn btn-danger" onclick="rejectUser(2)">거부</button>
-          </td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>2025 / 01 / 18</td>
-          <td>user03</td>
-          <td>유저3</td>
-          <td>010-1233-2222</td>
-          <td>하남점</td>
-          <td class="action-buttons">
-            <button class="approve-btn btn btn-success" onclick="approveUser(2)">승인</button>
-            <button class="reject-btn btn btn-danger" onclick="rejectUser(2)">거부</button>
-          </td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>2024 / 12 / 01</td>
-          <td>user04</td>
-          <td>유저4</td>
-          <td>010-1233-2222</td>
-          <td>동역사점</td>
-          <td class="action-buttons">
-            <button class="approve-btn btn btn-success" onclick="approveUser(2)">승인</button>
-            <button class="reject-btn btn btn-danger" onclick="rejectUser(2)">거부</button>
-          </td>
-        </tr>
-
+        <c:forEach var="m" items="${acceptManager}">
+          <tr>
+            <td>${m.empNo}</td>
+            <td>${m.createDate}</td>
+            <td>${m.memId}</td>
+            <td>${m.memName}</td>
+            <td>${m.phone}</td>
+            <td>${m.storeName}</td>
+            <td class="action-buttons">
+              <button class="approve-btn btn btn-success" onclick="approveManager('${m.storeId}', '${m.memId}')">승인</button>
+              <button class="reject-btn btn btn-danger" onclick="rejectManager('${m.storeId}')">거부</button>
+            </td>
+          </tr>
+        </c:forEach>
         </tbody>
       </table>
     </div>
   </main>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 <script>
-  function approveUser(userId) {
-    alert("User " + userId + "님을 지점장으로 승인하셨습니다.");
+  function approveManager(storeId, memId) {
+    $.ajax({
+      url: '/approveManager',
+      type: 'POST',
+      data: { storeId: storeId, memId: memId},
+      success: function() {
+        alert('지점장 승인이 완료되었습니다');
+        location.reload();
+      },
+      error: function(error) {
+        alert('오류가 발생했습니다:' + error);
+      }
+    });
   }
 
-  function rejectUser(userId) {
-    alert("User " + userId + "님을 거부하셨습니다.");
+  function rejectManager(storeId) {
+    $.ajax({
+      url: '/rejectManager',
+      type: 'POST',
+      data: {storeId: storeId},
+      success: function() {
+        alert('지점장 거부가 완료되었습니다');
+        location.reload();
+      },
+      error: function(error) {
+        alert('오류가 발생했습니다:' + error);
+      }
+    });
+
   }
 </script>
 </body>
