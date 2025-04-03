@@ -72,7 +72,7 @@
 
 <jsp:include page="../common/header.jsp" />
 <div class="container-fluid">
-    <jsp:include page="../common/sidebar-manager.jsp"/>
+    <jsp:include page="../common/sidebar.jsp"/>
     <main>
 
         <div class="pt-3 pb-2 mb-3 border-bottom">

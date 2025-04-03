@@ -119,7 +119,7 @@
 <!-- Main Content -->
 <main>
     <!-- Sidebar -->
-    <jsp:include page="../common/sidebar-manager.jsp"/>
+    <jsp:include page="../common/sidebar.jsp"/>
 
     <!-- 글쓰기 폼 -->
     <div class="content">

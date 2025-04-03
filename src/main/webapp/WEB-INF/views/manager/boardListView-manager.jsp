@@ -30,7 +30,7 @@ charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="../common/header.jsp"/>
 <div class="container-fluid">
         <!-- Sidebar -->
-        <jsp:include page="../common/sidebar-manager.jsp"/>
+        <jsp:include page="../common/sidebar.jsp"/>
 
         <!-- Main content -->
         <main>

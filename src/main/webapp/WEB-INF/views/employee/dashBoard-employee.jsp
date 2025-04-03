@@ -181,7 +181,7 @@
 <div class="container-fluid">
 
     <!-- 사이드바 -->
-    <jsp:include page="../common/sidebar-employee.jsp"/>
+    <jsp:include page="../common/sidebar.jsp"/>
 
     <!-- 메인 내용 -->
     <main>
