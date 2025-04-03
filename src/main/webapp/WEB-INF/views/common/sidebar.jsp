@@ -128,7 +128,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/manager.bo">
+                <a class="nav-link" href="/list.bo">
                     <i class="fas fa-bullhorn"></i> 공지사항
                 </a>
             </li>
@@ -169,7 +169,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/employee.bo">
+                <a class="nav-link" href="/list.bo">
                     <i class="fas fa-bullhorn"></i> 공지사항
                 </a>
             </li>

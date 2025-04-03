@@ -3,7 +3,6 @@ package com.kh.semi.controller;
 import com.kh.semi.domain.vo.Board;
 import com.kh.semi.domain.vo.Member;
 import com.kh.semi.domain.vo.Product;
-import com.kh.semi.mappers.BoardMapper;
 import com.kh.semi.service.BoardService;
 import com.kh.semi.service.MemberService;
 import com.kh.semi.service.ProductService;
@@ -45,7 +44,7 @@ public class AdminController {
         ArrayList<Board> boardlist = boardService.selectBoardList();
         model.addAttribute("board", boardlist);
         System.out.println("공지사항 정보 : " + boardlist);
-        return "admin/boardListView-admin";
+        return "admin/boardListView";
     }
 
     @PostMapping("insertlist.bo")
@@ -84,6 +83,18 @@ public class AdminController {
     @GetMapping("update.bo")
     public String updateForm() {
         return "admin/boardUpdate-admin";
+    }
+
+    @PostMapping("noticeupdate.bo")
+    public String noticeUpdate(@RequestParam("boardNo") int boardNo, Board board,  HttpSession session) {
+        int result = boardService.noticeUpdate(board);
+
+        if(result > 0){
+            session.setAttribute("alertMsg", "게시글 수정 성공");
+        } else {
+            session.setAttribute("alertMsg", "게시글 수정 실패 관리자에게 문의");
+        }
+        return "redirect:/list.bo";
     }
 
     @GetMapping("dash.bo")
