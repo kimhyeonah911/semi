@@ -25,7 +25,7 @@
         }
         #search-bar{
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
         }
         #search-bar-1{
             display:flex;
@@ -34,23 +34,6 @@
         }
         #search-bar>img{
             width: 100px;
-        }
-
-        #storage-search-bar{
-            width: 120px;
-            height: 35px;
-            font-size: 22px;
-            margin-right: 20px;
-        }
-
-        #submit-btn{
-            width: 80px;
-            height: 35px;
-            font-size: 22px;
-            border-radius: 8px;
-            margin:0;
-            padding: 0;
-            cursor: pointer;
         }
 
         .table-container{
@@ -105,8 +88,6 @@
             cursor: not-allowed;
         }
 
-
-
         .modal {
             display: none;
             position: fixed;
@@ -142,10 +123,6 @@
             width: 474px;
             height: 50px;
         }
-
-
-
-
     </style>
 </head>
 <body>
@@ -161,20 +138,9 @@
     </div>
 
 
-    <form action="">
-        <div id="search-bar">
-            <div id="search-bar-1">
-                <select id="storage-search-bar">
-                    <option>전체창고</option>
-                    <option>A창고</option>
-                    <option>B창고</option>
-                    <option>C창고</option>
-                </select>
-                <button type="submit" id="submit-btn">조회</button>
-            </div>
-            <button id="storage-submit-btn" type="button" class="btn btn-success" onclick="showModal()">+등록</button>
-        </div>
-    </form>
+    <div id="search-bar">
+        <button id="storage-submit-btn" type="button" class="btn btn-success" onclick="showModal()">+등록</button>
+    </div>
 
 
     <div class="table-container">
