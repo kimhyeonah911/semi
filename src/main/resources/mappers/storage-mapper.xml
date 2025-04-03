@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.semi.mappers.StorageMapper">
+    <resultMap id="storageResult" type="Storage">
+        <result column="STORAGE_NO" property="storageNo"/>
+        <result column="STORAGE_LOCATION" property="storageLocation"/>
+        <result column="ABLE_AMOUNT" property="ableAmount"/>
+        <result column="CURRENT_AMOUNT" property="currentAmount"/>
+    </resultMap>
+
+    <select id="selectStorage" parameterType="Storage" resultMap="storageResult">
+        SELECT *
+        FROM STORAGE
+    </select>
+
+
+
+</mapper>
