@@ -7,6 +7,7 @@ import com.kh.semi.mappers.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,25 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public int rejectMember(String memId) {
         return memberMapper.rejectMember(memId);
+    }
+
+    @Override
+    public ArrayList<Member> acceptManagerList() {
+        return memberMapper.acceptManagerList();
+    }
+
+    @Transactional
+    @Override
+    public int approveManager(String storeId, String memId) {
+        int storeresult = memberMapper.approveManagerStore(storeId);
+        int positionresult = memberMapper.approveManagerPosition(memId);
+
+        if(storeresult>0 && positionresult>0){
+            System.out.println("지점 상태 및 직원 직급 변경 성공");
+        }else{
+            System.out.println("지점 상태 및 직원 직급 변경 실패");
+        }
+        return storeresult + positionresult;
     }
 
 }

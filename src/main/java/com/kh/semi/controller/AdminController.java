@@ -27,7 +27,10 @@ public class AdminController {
     private final BoardService boardService;
 
     @GetMapping("accept.ma")
-    public String acceptManager() {
+    public String acceptManager(Model model) {
+        ArrayList<Member> list = memberService.acceptManagerList();
+        model.addAttribute("acceptManager", list);
+        System.out.println("지점장 승인 : " + list);
         return "admin/managerManagement";
     }
 
@@ -142,6 +145,18 @@ public class AdminController {
             return "admin/memberManagement";
         } else{
             model.addAttribute("errorMsg", "직원 승인거부 실패");
+            return "common/errorPage";
+        }
+    }
+
+    @PostMapping("/approveManager")
+    public String approveManager(@RequestParam String storeId, @RequestParam String memId ,HttpSession session, Model model) {
+        int result = memberService.approveManager(storeId, memId);
+        if(result > 1){
+            session.setAttribute("alertMsg","지점장 승인 완료");
+            return "admin/managerManagement";
+        } else{
+            model.addAttribute("errorMsg", "지점장 승인 실패");
             return "common/errorPage";
         }
     }

@@ -21,4 +21,7 @@ public interface MemberService {
 
     int rejectMember(@RequestParam String memId);
 
+    ArrayList<Member> acceptManagerList();
+
+    int approveManager(@RequestParam String storeId, @RequestParam String memId);
 }
