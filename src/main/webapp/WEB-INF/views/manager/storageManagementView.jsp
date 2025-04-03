@@ -1,5 +1,9 @@
 <%--창고관리(위치관리)페이지--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    String position = (String)session.getAttribute("position");
+%>
 <html>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -138,9 +142,15 @@
     </div>
 
 
-    <div id="search-bar">
-        <button id="storage-submit-btn" type="button" class="btn btn-success" onclick="showModal()">+등록</button>
-    </div>
+    <form action="">
+        <div id="search-bar">
+            <div id="search-bar-1">
+            </div>
+            <% if (position.equals("manager")) { %>
+            <button id="storage-submit-btn" type="button" class="btn btn-success" onclick="showModal()">+등록</button>
+            <% } %>
+        </div>
+    </form>
 
 
     <div class="table-container">
@@ -155,27 +165,19 @@
             </tr>
             </thead>
             <tbody>
+            <c:forEach var="s" items="${storageList}">
             <tr>
-                <td>1</td>
-                <td>A창고</td>
-                <td>1350</td>
-                <td>1500</td>
-                <td><button type="button" class="btn btn-outline-danger btn-sm">삭제</button></td>
+                <td>${s.storageNo}</td>
+                <td>${s.storageLocation}</td>
+                <td>${s.ableAmount}</td>
+                <td>${s.currentAmount}</td>
+                <td>
+                    <% if (position.equals("manager")) { %>
+                    <button type="button" class="btn btn-outline-danger btn-sm">삭제</button>
+                    <% } %>
+                </td>
             </tr>
-            <tr>
-                <td>2</td>
-                <td>B창고</td>
-                <td>157</td>
-                <td>200</td>
-                <td><button type="button" class="btn btn-outline-danger btn-sm">삭제</button></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>C창고</td>
-                <td>78</td>
-                <td>100</td>
-                <td><button type="button" class="btn btn-outline-danger btn-sm">삭제</button></td>
-            </tr>
+            </c:forEach>
             </tbody>
         </table>
         <div class="pagebar-container mt-3">
