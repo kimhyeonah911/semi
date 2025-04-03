@@ -1,9 +1,9 @@
 package com.kh.semi.controller;
 
 import com.kh.semi.domain.vo.Board;
+import com.kh.semi.domain.vo.Client;
 import com.kh.semi.domain.vo.Member;
 import com.kh.semi.domain.vo.Product;
-import com.kh.semi.mappers.BoardMapper;
 import com.kh.semi.service.BoardService;
 import com.kh.semi.service.MemberService;
 import com.kh.semi.service.ProductService;
@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 
 import java.util.ArrayList;
@@ -105,7 +106,28 @@ public class AdminController {
     }
 
     @GetMapping("delivery.ma")
-    public String deliveryManagement() {return "admin/deliveryManagement";
+    public String deliveryManagement(Model model) {
+        ArrayList<Client> list = productService.selectClientList();
+        model.addAttribute("client", list);
+        return "admin/deliveryManagement";
+    }
+
+    @PostMapping("insert.cl")
+    public String insertClient(Client client, HttpSession session, ModelAndView mv) {
+        Client c = new Client();
+        c.setClientName(client.getClientName());
+        c.setClientCeo(client.getClientCeo());
+        c.setClientPhone(client.getClientPhone());
+        c.setClientAddress(client.getClientAddress());
+
+        int result = productService.insertClient(c);
+        if (result > 0) {
+            session.setAttribute("alertMsg", "성공적으로 거래처를 등록하였습니다.");
+            return "redirect:/delivery.ma";
+        } else {
+            mv.addObject("errorMsg", "거래처 등록에 실패하였습니다.");
+            return "common/errorPage";
+        }
     }
 
     @GetMapping("employee.in")

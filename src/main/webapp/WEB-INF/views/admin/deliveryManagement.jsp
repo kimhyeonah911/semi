@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
@@ -10,6 +11,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
         main{
@@ -180,22 +182,24 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td class="company-id">23</td>
-                    <td class="company-name">뉴발란스</td>
-                    <td class="business-rep">이민우</td>
-                    <td class="phone-number">010-1111-2222</td>
-                    <td class="address">강남대로 412 규정빌딩</td>
-                    <td class="action-buttons">
-                        <button class="approve-btn btn btn-success" onclick="showModal(this)">
-                            <i class="fas fa-edit"></i></button>
-                    </td>
-                    <td class="delete-buttons">
-                        <button class="approve-btn btn btn-danger" onclick="deletebtn(this)">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
+                <c:forEach var="c" items="${client}">
+                    <tr data-client-id="${c.clientId}">
+                        <td>${c.clientId}</td>
+                        <td>${c.clientName}</td>
+                        <td>${c.clientCeo}</td>
+                        <td>${c.clientPhone}</td>
+                        <td>${c.clientAddress}</td>
+                        <td class="action-buttons">
+                            <button class="approve-btn btn btn-success" onclick="showModal(this)">
+                                <i class="fas fa-edit"></i></button>
+                        </td>
+                        <td class="delete-buttons">
+                            <button class="approve-btn btn btn-danger" onclick="deletebtn(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </div>
@@ -204,6 +208,133 @@
         </div>
         <div class="pagebar-container mt-3">
             <jsp:include page="../common/pagebar.jsp"/>
+        </div>
+
+        <!-- 등록 버튼 누를 시 나오는 모달 창 -->
+        <div class="modal fade" id="enrollModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <!-- 모달 헤더 -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="enrollmodalTitle">거래처 등록</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <!-- 모달 본문 -->
+                    <form id="enrolleditForm" action="insert.cl" method="POST">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="enrollClientId" class="form-label">거래처ID</label>
+                                <input type="text" class="form-control" id="enrollClientId" placeholder="자동생성" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="enrollClientName" class="form-label">거래처명</label>
+                                <input type="text" class="form-control" id="enrollClientName" name="clientName">
+                            </div>
+                            <div class="mb-3">
+                                <label for="enrollClientCeo" class="form-label">사업자/대표</label>
+                                <input type="text" class="form-control" id="enrollClientCeo" name="clientCeo">
+                            </div>
+                            <div class="mb-3">
+                                <label for="enrollClientPhone" class="form-label">전화번호</label>
+                                <input type="text" class="form-control" id="enrollClientPhone" name="clientPhone">
+                            </div>
+                            <div class="mb-3">
+                                <label for="enrollClientAddress" class="form-label">주소</label>
+                                <input type="text" class="form-control" id="enrollClientAddress" name="clientAddress">
+                            </div>
+                        </div>
+                        <!-- 모달 푸터 -->
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">저장</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- 테이블 어디든 누를 시 나오는 모달 창 -->
+        <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <!-- 모달 헤더 -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="showmodalTitle">거래처 수정</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <!-- 모달 본문 -->
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="showClientId" class="form-label">거래처ID</label>
+                            <input type="text" class="form-control" id="showClientId" name="clientId" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="showClientName" class="form-label">거래처명</label>
+                            <input type="text" class="form-control" id="showClientName" name="clientName" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="showClientCeo" class="form-label">사업자/대표</label>
+                            <input type="text" class="form-control" id="showClientCeo" name="clientCeo" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="showClientPhone" class="form-label">전화번호</label>
+                            <input type="text" class="form-control" id="showClientPhone" name="clientPhone" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="showClientAddress" class="form-label">주소</label>
+                            <input type="text" class="form-control" id="showClientAddress" name="clientAddress" readonly>
+                        </div>
+                    </div>
+                    <!-- 모달 푸터 -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 수정 버튼 누를 시 나오는 모달 창 -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <!-- 모달 헤더 -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">거래처 수정</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <!-- 모달 본문 -->
+                    <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="editClientId" class="form-label">거래처ID</label>
+                                <input type="text" class="form-control" id="editClientId" name="clientId" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editClientName" class="form-label">거래처명</label>
+                                <input type="text" class="form-control" id="editClientName" name="clientName">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editClientCeo" class="form-label">사업자/대표</label>
+                                <input type="text" class="form-control" id="editClientCeo" name="clientCeo">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editClientPhone" class="form-label">전화번호</label>
+                                <input type="text" class="form-control" id="editClientPhone" name="clientPhone">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editClientAddress" class="form-label">주소</label>
+                                <input type="text" class="form-control" id="editClientAddress" name="clientAddress">
+                            </div>
+                    </div>
+                    <!-- 모달 푸터 -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="saveChanges()">저장</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- 삭제 확인 모달 -->
@@ -224,178 +355,156 @@
                 </div>
             </div>
         </div>
-
-        <!-- 수정 버튼 누를 시 나오는 모달 창 -->
-        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <!-- 모달 헤더 -->
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalTitle">거래처 수정</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-
-                    <!-- 모달 본문 -->
-                    <div class="modal-body">
-                        <form id="editForm">
-                            <div class="mb-3">
-                                <label for="companyid" class="form-label">거래처ID</label>
-                                <input type="text" class="form-control" id="companyid">
-                            </div>
-                            <div class="mb-3">
-                                <label for="companyname" class="form-label">거래처명</label>
-                                <input type="text" class="form-control" id="companyname">
-                            </div>
-                            <div class="mb-3">
-                                <label for="BusinessRep" class="form-label">사업자/대표</label>
-                                <input type="text" class="form-control" id="BusinessRep">
-                            </div>
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">전화번호</label>
-                                <input type="text" class="form-control" id="phone">
-                            </div>
-                            <div class="mb-3">
-                                <label for="repaddress" class="form-label">주소</label>
-                                <input type="text" class="form-control" id="repaddress">
-                            </div>
-                        </form>
-                    </div>
-                    <!-- 모달 푸터 -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" onclick="saveChanges()">저장</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 수정 버튼 누를 시 나오는 모달 창 -->
-        <div class="modal fade" id="enrollModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <!-- 모달 헤더 -->
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="enrollmodalTitle">거래처 등록</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-
-                    <!-- 모달 본문 -->
-                    <div class="modal-body">
-                        <form id="enrolleditForm">
-                            <div class="mb-3">
-                                <label for="companyid" class="form-label">거래처ID</label>
-                                <input type="text" class="form-control" id="enrollcompanyid">
-                            </div>
-                            <div class="mb-3">
-                                <label for="companyname" class="form-label">거래처명</label>
-                                <input type="text" class="form-control" id="enrollcompanyname">
-                            </div>
-                            <div class="mb-3">
-                                <label for="BusinessRep" class="form-label">사업자/대표</label>
-                                <input type="text" class="form-control" id="enrollBusinessRep">
-                            </div>
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">전화번호</label>
-                                <input type="text" class="form-control" id="enrollphone">
-                            </div>
-                            <div class="mb-3">
-                                <label for="repaddress" class="form-label">주소</label>
-                                <input type="text" class="form-control" id="enrollrepaddress">
-                            </div>
-                        </form>
-                    </div>
-                    <!-- 모달 푸터 -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" onclick="">저장</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </main>
-</div>
 </div>
 
 
 </body>
 <script>
-    function deletebtn(button) {
-        // 삭제 버튼 클릭 시 모달 열기
-        var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-        deleteModal.show();
-
-        // 확인 버튼 클릭 시 호출될 함수에 대한 설정
-        document.getElementById("confirmDeleteBtn").onclick = function() {
-            // 실제 삭제 작업을 여기서 처리 (예: 해당 행 삭제)
-            var row = button.closest("tr");  // 삭제할 행 찾기
-            row.remove();  // 행 삭제
-
-            // 삭제 완료 후 모달 닫기
-            deleteModal.hide();
-
-            // 알림
-            alert("거래처가 삭제되었습니다.");
-        };
-    }
-
-    function showModal(button) {
-        var row = button.closest("tr");
-
-        // tr에서 각 셀 값 가져오기
-        var companyId = row.cells[0].textContent.trim(); // 거래처 ID
-        var companyName = row.cells[1].textContent.trim();
-        var businessRep = row.cells[2].textContent.trim();
-        var phone = row.cells[3].textContent.trim();
-        var repAddress = row.cells[4].textContent.trim();
-
-        // 모달 입력 필드에 값 설정
-        document.getElementById("companyid").value = companyId;
-        document.getElementById("companyname").value = companyName;
-        document.getElementById("BusinessRep").value = businessRep;
-        document.getElementById("phone").value = phone;
-        document.getElementById("repaddress").value = repAddress;
-
-        // 모달 띄우기
-        var modal = new bootstrap.Modal(document.getElementById("editModal"));
-        modal.show();
-    }
-    function saveChanges() {
-        // 현재 열린 모달에서 수정된 데이터 가져오기
-        var companyId = document.getElementById('companyid').value;
-        var companyName = document.getElementById('companyname').value;
-        var businessRep = document.getElementById('BusinessRep').value;
-        var phoneNumber = document.getElementById('phone').value;
-        var address = document.getElementById('repaddress').value;
-
-        // 현재 수정 중인 행(tr) 찾기
-        var row = document.querySelector(".editing-row");
-
-        if (row) {
-            // companyId를 기반으로 셀 업데이트
-            row.cells[1].textContent = companyName;     // 거래처명
-            row.cells[2].textContent = businessRep;     // 사업자/대표
-            row.cells[3].textContent = phoneNumber;     // 전화번호
-            row.cells[4].textContent = address;         // 주소
-
-            // 수정 완료 후 클래스 제거
-            row.classList.remove("editing-row");
-        } else {
-            alert("수정할 거래처 정보를 찾을 수 없습니다.");
-        }
-
-        // 모달 닫기
-        var modalElement = document.getElementById("editModal");
-        var modalInstance = bootstrap.Modal.getInstance(modalElement);
-        modalInstance.hide();
-
-        // 알림 메시지
-        alert("거래처 정보가 수정되었습니다.");
-    }
-
+    // 거래처 등록 모달 생성
     function enroll() {
         var enrollmodal = new bootstrap.Modal(document.getElementById('enrollModal'));
         enrollmodal.show();
     }
 
+    // 테이블 클릭 시 보기 모달 생성
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll("tbody tr").forEach(row => {
+            row.addEventListener("click", function () {
+                if (!event.target.closest(".action-buttons button") && !event.target.closest(".delete-buttons button")) {
+                    const clientId = this.cells[0].textContent.trim();
+                    const clientName = this.cells[1].textContent.trim();
+                    const clientCeo = this.cells[2].textContent.trim();
+                    const clientPhone = this.cells[3].textContent.trim();
+                    const clientAddress = this.cells[4].textContent.trim();
+
+                    // 모달에 데이터 설정
+                    document.getElementById("showClientId").value = clientId;
+                    document.getElementById("showClientName").value = clientName;
+                    document.getElementById("showClientCeo").value = clientCeo;
+                    document.getElementById("showClientPhone").value = clientPhone;
+                    document.getElementById("showClientAddress").value = clientAddress;
+
+                    // 모달 표시
+                    var modal = new bootstrap.Modal(document.getElementById("showModal"));
+                    modal.show();
+                }
+            });
+        });
+    });
+
+    // 거래처 수정 모달 생성
+    function showModal(button) {
+        var row = button.closest("tr");
+
+        // tr에서 각 셀 값 가져오기
+        var clinetId = row.cells[0].textContent.trim(); // 거래처 ID
+        var clientName = row.cells[1].textContent.trim();
+        var clientCeo = row.cells[2].textContent.trim();
+        var clientPhone = row.cells[3].textContent.trim();
+        var clientAddress = row.cells[4].textContent.trim();
+
+        // 모달 입력 필드에 값 설정
+        document.getElementById("editClientId").value = clinetId;
+        document.getElementById("editClientName").value = clientName;
+        document.getElementById("editClientCeo").value = clientCeo;
+        document.getElementById("editClientPhone").value = clientPhone;
+        document.getElementById("editClientAddress").value = clientAddress;
+
+        // 모달 띄우기
+        var modal = new bootstrap.Modal(document.getElementById("editModal"));
+        modal.show();
+    }
+
+    // 거래처 수정 ajax 및 즉시 반영
+    function saveChanges() {
+        var clientId = document.getElementById('editClientId').value;
+        var clientName = document.getElementById('editClientName').value;
+        var clientCeo = document.getElementById('editClientCeo').value;
+        var clientPhone = document.getElementById('editClientPhone').value;
+        var clientAddress = document.getElementById('editClientAddress').value;
+
+        $.ajax({
+            type: "POST",
+            url: "api/update.cl", // 서버 엔드포인트
+            data: {
+                clientId: clientId,
+                clientName: clientName,
+                clientCeo: clientCeo,
+                clientPhone: clientPhone,
+                clientAddress: clientAddress
+            },
+            success: function(response) {
+                if (response === "success") {
+                    // 테이블에서 해당 거래처 정보 수정
+                    var row = findRowByClientId(clientId);
+
+                    if (row) {
+                        row.cells[1].textContent = clientName;
+                        row.cells[2].textContent = clientCeo;
+                        row.cells[3].textContent = clientPhone;
+                        row.cells[4].textContent = clientAddress;
+                    }
+
+                    document.getElementById('editClientName').value = clientName;
+                    document.getElementById('editClientCeo').value = clientCeo;
+                    document.getElementById('editClientPhone').value = clientPhone;
+                    document.getElementById('editClientAddress').value = clientAddress;
+
+                    // 알림 메시지
+                    alert("수정이 완료되었습니다.");
+                } else {
+                    alert("수정에 실패했습니다.");
+                }
+            },
+            error: function() {
+                alert("서버와의 통신에 실패했습니다.");
+            }
+        });
+    }
+
+    // 거래처 수정 후 테이블 즉시 반영
+    function findRowByClientId(clientId) {
+        var rows = document.querySelectorAll("tr[data-client-id]");
+        for (var i = 0; i < rows.length; i++) {
+            if (rows[i].getAttribute("data-client-id") === clientId.toString()) {
+                return rows[i];
+            }
+        }
+        return null;
+    }
+
+    // 거래처 삭제 모달 생성 및 삭제 ajax
+    function deletebtn(button) {
+        var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        deleteModal.show();
+
+        document.getElementById("confirmDeleteBtn").onclick = function() {
+            // 삭제할 행(tr) 찾기 및 clientId 가져오기
+            var row = button.closest("tr");
+            var clientId = row.getAttribute("data-client-id");
+
+            // AJAX 요청으로 서버에 삭제 요청 전송
+            $.ajax({
+                type: "POST",
+                url: "api/delete.cl",
+                data: { clientId: clientId },
+                success: function(response) {
+                    if (response === "success") {
+                        // 서버 삭제 성공 시 UI에서 행 삭제
+                        row.remove();
+                        alert("거래처가 삭제되었습니다.");
+                    } else {
+                        alert("삭제에 실패했습니다.");
+                    }
+                },
+                error: function() {
+                    alert("서버와의 통신에 실패했습니다.");
+                }
+            });
+
+            deleteModal.hide();
+        };
+    }
 </script>
 </html>

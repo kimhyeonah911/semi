@@ -46,7 +46,7 @@
         PHONE
         )
         VALUES (
-        EMP_NO.NEXTVAL,
+        EMP_SEQ.NEXTVAL,
         #{memId},
         #{memPwd},
         #{memName},
@@ -96,9 +96,10 @@
     <update id="approveMember">
         UPDATE MEMBER M
         SET M.STATUS = 'Y',
-            M.STORE_ID = (SELECT S.STORE_ID
-                          FROM STORE S
-                          WHERE S.STORE_NAME = #{storeSelect})
+        M.POSITION = 'employee',
+        M.STORE_ID = (SELECT S.STORE_ID
+        FROM STORE S
+        WHERE S.STORE_NAME = #{storeSelect})
         WHERE M.MEM_ID =#{memId}
     </update>
 
