@@ -66,8 +66,10 @@ public class MemberController {
             // 헤더에서 쓸 사용자 이름 추출
             session.setAttribute("memName", loginMember.getMemName()); // 사용자 이름 저장
 
+            session.setAttribute("position", loginMember.getPosition());
             // 콘솔에서 확인 (디버깅)
             System.out.println("세션에 저장된 userName: " + session.getAttribute("userName"));
+            System.out.println("세션에 저장된 position: " + session.getAttribute("position"));
 
             mv.setViewName("redirect:/insert.co"); // 로그인 성공 후 이동
         }

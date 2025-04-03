@@ -94,7 +94,7 @@
 <!-- Main Content -->
 <main>
     <!-- Sidebar -->
-    <jsp:include page="../common/sidebar-admin.jsp"/>
+    <jsp:include page="../common/sidebar.jsp"/>
 
     <!-- 글쓰기 폼 -->
     <div class="content"><h1 align="center">공지사항 글쓰기</h1>
