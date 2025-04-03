@@ -9,4 +9,6 @@ import java.util.ArrayList;
 public interface StorageMapper {
 
     ArrayList<Storage> selectStorage();
+    int insertStorage(Storage storage);
+    int deleteStorage(int storageNo);
 }

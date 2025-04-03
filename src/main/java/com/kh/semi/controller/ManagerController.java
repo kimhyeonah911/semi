@@ -2,16 +2,13 @@ package com.kh.semi.controller;
 
 import com.kh.semi.domain.vo.Storage;
 import com.kh.semi.service.StorageService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 
@@ -55,6 +52,21 @@ public class ManagerController {
         ArrayList<Storage> list = storageService.selectStorage();
         model.addAttribute("storageList", list);
         return "manager/storageManagementView";
+    }
+
+    @PostMapping("insert.sto")
+    public String insertStorage(Storage storage, HttpSession session, ModelAndView mv) {
+        Storage s = new Storage();
+        s.setStorageLocation(storage.getStorageLocation());
+        s.setAbleAmount(storage.getAbleAmount());
+        int result = storageService.insertStorage(s);
+        if (result > 0) {
+            session.setAttribute("alertMsg", "성공적으로 창고를 등록하였습니다.");
+            return "redirect:/storage.lo";
+        } else {
+            mv.addObject("errorMsg", "창고 등록에 실패하였습니다.");
+            return "common/errorPage";
+        }
     }
 
     @GetMapping("stockManage.bo")
