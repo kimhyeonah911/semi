@@ -594,19 +594,6 @@ function updateProductDelete() {
     function editSave(){
         const form = document.getElementById("editForm");
 
-        console.log("📌 선택된 form:", form);
-        if (!form) {
-            alert("❌ editForm을 찾을 수 없음");
-            return;
-        }
-
-        console.log("📌 Form HTML:", form.outerHTML);
-
-        const formData = new FormData(form);
-        for (const [key, value] of formData.entries()) {
-            console.log(`입력 데이터: ${key} = ${value}`);
-        }
-
         // 필수 입력값 검증
         const requiredFields = [
             {id: "editProductName", message: "상품명을 입력해주세요."},
