@@ -84,8 +84,6 @@
             display: none;
             position: fixed;
             z-index: 1000;
-            left: 0;
-            top: 0;
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
@@ -101,19 +99,6 @@
             border-radius: 10px;
             position: relative;
             text-align: left;
-        }
-
-        hr{
-            border : 1px solid black;
-        }
-
-        #modal-btn-div > img{
-            cursor:pointer;
-        }
-
-        .input-space-1> input{
-            width: 474px;
-            height: 50px;
         }
 
         .input-space> input{
@@ -153,7 +138,9 @@
                 <th>창고명</th>
                 <th>현재 보관 수량</th>
                 <th>보관 가능 수량</th>
+                <% if (position.equals("manager")) { %>
                 <th>삭제</th>
+                <% } %>
             </tr>
             </thead>
             <tbody>
@@ -163,14 +150,11 @@
                 <td>${s.storageLocation}</td>
                 <td>${s.currentAmount}</td>
                 <td>${s.ableAmount}</td>
+                <% if (position.equals("manager")) { %>
                 <td>
-                    <% if (position.equals("manager")) { %>
                     <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDelete(this)">삭제</button>
-                    <% } %>
-                    <% if (position.equals("employee")) { %>
-                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDelete(this)" disabled>삭제</button>
-                    <% } %>
                 </td>
+                <% } %>
             </tr>
             </c:forEach>
             </tbody>
