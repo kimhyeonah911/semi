@@ -28,9 +28,15 @@
             align-items: center;
         }
 
-        .left-group {
+        #left-group {
             display: flex;
             gap: 10px; /* 요소 간격 조정 */
+            align-items: center;
+            margin-bottom: 0px;
+        }
+
+        #right-group{
+
         }
 
 
@@ -75,19 +81,13 @@
             width: 100px;  /* 원하는 너비로 조정 */
         }
         #enrollImage{
-            width: 100px;
-        }
-
-        .main-content {
-            padding-left: 2rem;
-            padding-right: 2rem;
+            width: 300px;
         }
 
         .mb-3 {
             display: flex;
             gap: 20px; /* 요소들 간 간격을 20px로 설정 */
             align-items: center; /* 세로 중앙 정렬 */
-            margin-bottom: 10px;
         }
 
         #sellSelect, #categorySelectBar{
@@ -130,6 +130,10 @@
             padding: 15px;
         }
 
+        .modal-body input{
+            width: 300px;
+        }
+
     </style>
 </head>
 <body>
@@ -144,8 +148,8 @@
         </div>
         <div class="button-container">
             <!-- 왼쪽: 판매 상태, 카테고리, 검색, 조회 버튼 -->
-            <div class="left-group mb-3" >
-                <select  class="form-select" id="sellSelect" aria-label="판매상태">
+            <div id="left-group">
+                <select class="form-select" id="sellSelect" aria-label="판매상태">
                     <option value="sell">판매 상품</option>
                     <option value="stop">판매 중지 상품</option>
                     <option value="deleted">판매 삭제된 상품</option>
@@ -156,8 +160,10 @@
                 <input type="text" id="searchProduct" placeholder="검색할 상품명을 입력하세요.">
                 <button class="btn btn-primary" >조회</button>
             </div>
-            <!-- 오른쪽: 상품 등록 버튼 -->
-            <button id="enrollProductBtn" onclick="showEnrollForm()" class="btn btn-success mb-2">+ 상품 등록</button>
+            <div id="right-group">
+                <!-- 오른쪽: 상품 등록 버튼 -->
+                <button id="enrollProductBtn" onclick="showEnrollForm()" class="btn btn-success">+ 상품 등록</button>
+            </div>
         </div>
         <div class="table-responsive">
             <table class="table table-striped table-hover" id="productTable">
@@ -178,13 +184,13 @@
                 <c:forEach var="p" items="${product}">
                     <tr class="product-tr" data-category="${p.categoryNo}" data-status="${p.status}" data-product-id="${p.productNo}">
                         <td><input type="checkbox" name="product-checkbox"></td>
-                        <td>${p.productNo}</td>
-                        <td>${p.productName}</td>
-                        <td>${p.categoryName}</td>
-                        <td>${p.color}</td>
-                        <td>${p.productSize}</td>
-                        <td>${p.stockInPrice}</td>
-                        <td>${p.stockOutPrice}</td>
+                        <td class="td-productNo">${p.productNo}</td>
+                        <td class="td-productName">${p.productName}</td>
+                        <td class="td-categoryName" >${p.categoryName}</td>
+                        <td class="td-color">${p.color}</td>
+                        <td class="td-productSize">${p.productSize}</td>
+                        <td class="td-stockInPrice">${p.stockInPrice}</td>
+                        <td class="td-stockOutPrice">${p.stockOutPrice}</td>
                         <td style="width: 100px;"><button class="approve-btn btn btn-success" onclick="showEditForm(this)"><i class="fas fa-edit"></i></button></td>
                     </tr>
                 </c:forEach>
@@ -193,14 +199,13 @@
         </div>
 
         <div class="bottom">
-            <button id="pauseButton" class="btn btn-warning" onclick="updateProductStatus()">중지</button>
-            <button id="deleteButton" class="btn btn-danger" onclick="updateProductStatus()">삭제</button>
+            <button id="pauseButton" class="btn btn-warning" onclick="updateProductPause()">중지</button>
+            <button id="deleteButton" class="btn btn-danger" onclick="updateProductDelete()">삭제</button>
         </div>
 
         <div class="pagebar-container mt-3">
             <jsp:include page="../common/pagebar.jsp"/>
         </div>
-
 
 
         <!-- 등록버튼 누를 시 나오는 모달 창 -->
@@ -215,18 +220,18 @@
 
                     <!-- 모달 본문 -->
                     <div class="modal-body">
-                        <form id="enrollForm">
-                            <div class="mb-3">
-                                <label for="enrollProductNo" class="form-label">상품번호</label>
-                                <input type="text" class="form-control" id="enrollProductNo" name="productNo" placeholder="자동 생성" readonly>
-                            </div>
+                        <form id="enrollForm" action="/enrollProduct" method="post" enctype="multipart/form-data">
+<%--                            <div class="mb-3">--%>
+<%--                                <label for="enrollProductNo" class="form-label">상품번호</label>--%>
+<%--                                <input type="text" class="form-control" id="enrollProductNo" name="productNo" placeholder="자동 생성" readonly>--%>
+<%--                            </div>--%>
                             <div class="mb-3">
                                 <label for="enrollProductName" class="form-label">상품명</label>
                                 <input type="text" class="form-control" id="enrollProductName" name="productName">
                             </div>
                             <div class="mb-3">
-                                <label for="selectCategory" class="form-label">카테고리</label>
-                                <select class="form-select categorySelectBar" id="selectCategory" aria-label="카테고리" name="categoryNo"></select>
+                                <label for="selectEnrollCategory" class="form-label">카테고리</label>
+                                <select class="form-select categorySelectBar" id="selectEnrollCategory" aria-label="카테고리" name="categoryNo"></select>
                             </div>
                             <div class="mb-3">
                                 <label for="enrollColor" class="form-label">색상</label>
@@ -246,13 +251,12 @@
                             </div>
                             <div class="mb-3">
                                 <label for="selectClient" class="form-label">입고처</label>
-                                <select class="form-select ClientSelectBar" id="selectClient" aria-label="입고처" name="clientId">
-                                    <option value="">입고처 선택</option>
+                                <select class="form-select clientSelectBar" id="selectClient" aria-label="입고처" name="clientId">
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="enrollImage" class="form-label">이미지 삽입</label>
-                                <input type="file" class="form-control" id="enrollImage" accept="image/*" name="ImageUrl">
+                                <input type="file" class="form-control" id="enrollImage" accept="image/*" name="enrollImage">
                             </div>
                         </form>
                     </div>
@@ -279,37 +283,38 @@
 
                     <!-- 모달 본문 -->
                     <div class="modal-body">
-                        <form id="editForm">
+                        <form id="editForm" action="/updateProduct" method="post">
+                            <input type="hidden" name="productNo" id="editProductNo">
                             <div class="mb-3">
-                                <label for="modalShoeName" class="form-label">상품명</label>
-                                <input type="text" class="form-control" id="modalShoeName">
+                                <label for="editProductName" class="form-label">상품명</label>
+                                <input type="text" class="form-control" id="editProductName" name="productName">
                             </div>
                             <div class="mb-3">
-                                <label for="modalCategory" class="form-label">카테고리</label>
-                                <select class="form-select categorySelectBar" id="modalCategory">
-                                    <option value="구두">구두</option>
-                                    <option value="운동화">운동화</option>
-                                    <option value="슬리퍼">슬리퍼</option>
-                                </select>
+                                <label for="selectEditCategory" class="form-label">카테고리</label>
+                                <select class="form-select categorySelectBar" id="selectEditCategory" aria-label="카테고리" name="categoryNo"></select>
                             </div>
                             <div class="mb-3">
-                                <label for="modalColor" class="form-label">색상</label>
-                                <input type="text" class="form-control" id="modalColor">
+                                <label for="editColor" class="form-label">색상</label>
+                                <input type="text" class="form-control" id="editColor" name="color">
                             </div>
                             <div class="mb-3">
-                                <label for="modalSize" class="form-label">사이즈</label>
-                                <input type="text" class="form-control" id="modalSize">
+                                <label for="editSize" class="form-label">사이즈</label>
+                                <input type="text" class="form-control" id="editSize" name="productSize">
                             </div>
                             <div class="mb-3">
-                                <label for="modalPrice" class="form-label">가격</label>
-                                <input type="text" class="form-control" id="modalPrice">
+                                <label for="editStockInPrice" class="form-label">입고가격</label>
+                                <input type="text" class="form-control" id="editStockInPrice" name="stockInPrice">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editStockOutPrice" class="form-label">출고가격</label>
+                                <input type="text" class="form-control" id="editStockOutPrice" name="stockOutPrice">
                             </div>
                         </form>
                     </div>
 
                     <!-- 모달 푸터 -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" onclick="saveChanges()">확인</button>
+                        <button type="button" class="btn btn-primary" onclick="editSave()">확인</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>
@@ -322,7 +327,28 @@
 </div>
 
 
-</body>
+
+
+
+<c:if test="${not empty alert}">
+<script>
+    alert("${alert}");
+</script>
+</c:if>
+
+<c:if test="${showModal eq 'enrollModal'}">
+<script>
+    $(document).ready(function() {
+        $('#enrollModal').modal('show'); // 모달 자동 열기
+    });
+</script>
+
+
+
+
+
+
+</c:if>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script> //카테고리 셀렉트바 출력
@@ -368,21 +394,22 @@ function drawCategorySelect(res) {
 }
 
 //입고처 셀렉트바 불러오기
-$(document).ready(function() {
-    getClientList(drawClientSelect);
-});
+// 모달이 열릴 때 클라이언트 리스트 다시 불러오기
+    $('#enrollModal').on('show.bs.modal', function () {
+        getClientList(drawClientSelect);
+    });
 
-
-function getClientList(callback){
+function getClientList(callback) {
     $.ajax({
         url: "/api/clientList",
         type: "get",
-        success: function (res){
+        success: function (res) {
             callback(res);
-        }, error: function(){
+        },
+        error: function () {
             console.log("client list ajax 요청 실패");
         }
-    })
+    });
 }
 
 function drawClientSelect(res) {
@@ -391,13 +418,13 @@ function drawClientSelect(res) {
         // 기존 옵션 제거
         clientSelectBar.innerHTML = "";
 
-        // //기본 선택 option 추가 (단, 모달에는 추가 X)
-        // if (!categorySelectBar.closest(".modal")) {
-        //     const defaultOption = document.createElement("option");
-        //     defaultOption.value = "";
-        //     defaultOption.innerText = "전체";
-        //     categorySelectBar.appendChild(defaultOption);
-        // }
+        // 🔹 placeholder 역할을 하는 기본 옵션 추가
+        const placeholderOption = document.createElement("option");
+        placeholderOption.value = "";
+        placeholderOption.innerText = "옵션을 선택하세요";
+        placeholderOption.disabled = true;
+        placeholderOption.selected = true;
+        clientSelectBar.appendChild(placeholderOption);
 
         // 데이터 받아와서 option 추가
         res.forEach(client => {
@@ -408,157 +435,219 @@ function drawClientSelect(res) {
         });
     });
 }
-
 </script>
 
-<script> //판매 중지, 삭제 버튼
-    $(document).ready(function() {
-        $("#pauseButton").click(function() {
-            updateProductStatus("/api/updateProductPause", "선택 상품 판매가 중지되었습니다.", "선택 상품 판매 중지에 실패했습니다. 다시 시도해주세요."); // 판매 중지
-        });
-
-        $("#deleteButton").click(function() {
-            updateProductStatus("/api/updateProductDelete", "선택 상품이 삭제되었습니다.", "선택 상품 삭제에 실패했습니다. 다시 시도해주세요."); // 상품 삭제
-        });
+<script> //판매 중지 버튼
+function updateProductPause() {
+    let selectedProductsNo = [];
+    $('input[name="product-checkbox"]:checked').each(function() {
+        selectedProductsNo.push($(this).closest("tr").data("product-id"));
     });
 
-    function updateProductStatus(url, successMsg, errorMsg) {
-        let selectedProductsNo = [];
-        $('input[name="product-checkbox"]:checked').each(function() {
-            selectedProductsNo.push($(this).closest("tr").data("product-id"));
-        });
-
-        if (selectedProductsNo.length === 0) {
-            alert("상품을 선택해주세요.");
-            return;
-        }
-
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: {productNos: selectedProductsNo.join(",")},
-            success: function(res) {
-                if (res.success) {
-                    alert(successMsg);
-                    location.reload();
-                } else {
-                    alert(errorMsg);
-                }
-            },
-            error: function() {
-                alert("서버 오류 발생. 다시 시도해주세요.");
-            }
-        });
+    if (selectedProductsNo.length === 0) {
+        alert("상품을 선택해주세요.");
+        return;
     }
+
+
+    $.ajax({
+        url: "/api/updateProductPause",
+        type: "POST",
+        data: { productNos: selectedProductsNo.join(",") },
+        dataType: "text",
+        success: function(res) {
+            console.log("🔹 서버 응답 데이터:", res);
+            console.log("🔹 응답 타입:", typeof res);
+
+            if (res.trim() === "success") {
+                alert("선택한 상품의 판매가 중지되었습니다.");
+                location.reload();
+            } else {
+                alert("판매 중지에 실패했습니다. 다시 시도해주세요.");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log(location.origin);
+            console.error("AJAX 오류:", status, error);
+            console.error("서버 응답:", xhr.responseText);
+            alert("서버 오류 발생. 다시 시도해주세요.");
+        }
+    });
+}
+
+//판매 삭제 버튼
+function updateProductDelete() {
+    let selectedProductsNo = [];
+    $('input[name="product-checkbox"]:checked').each(function() {
+        selectedProductsNo.push($(this).closest("tr").data("product-id"));
+    });
+
+    if (selectedProductsNo.length === 0) {
+        alert("상품을 선택해주세요.");
+        return;
+    }
+
+    $.ajax({
+        url: "/api/updateProductDelete",
+        type: "POST",
+        data: { productNos: selectedProductsNo.join(",") },
+        dataType: "text",
+        success: function(res) {
+            console.log("🔹 서버 응답 데이터:", res);
+            console.log("🔹 응답 타입:", typeof res);
+
+            if (res.trim() === "success") {
+                alert("선택한 상품이 삭제되었습니다.");
+                location.reload();
+            } else {
+                alert("상품 삭제에 실패하였습니다. 다시 시도해주세요.");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log(location.origin);
+            console.error("AJAX 오류:", status, error);
+            console.error("서버 응답:", xhr.responseText);
+            alert("서버 오류 발생. 다시 시도해주세요.");
+        }
+    });
+}
 </script>
 
 
 
 <script>
+    //상품등록
     function showEnrollForm(){
-        // 등록 모달 띄우기
         new bootstrap.Modal(document.querySelector("#enrollModal")).show();
     }
 
     function enrollSave(){
         const form = document.getElementById("enrollForm");
-        const formData = new FormData(form);
 
         // 필수 입력값 검증
         const requiredFields = [
             {id: "enrollProductName", message: "상품명을 입력해주세요."},
-            {id: "selectCategory", message: "카테고리를 선택해주세요."},
+            {id: "selectEnrollCategory", message: "카테고리를 선택해주세요."},
             {id: "enrollColor", message: "색상을 입력해주세요."},
             {id: "enrollSize", message: "사이즈를 입력해주세요."},
             {id: "enrollStockInPrice", message: "입고 가격을 입력해주세요."},
             {id: "enrollStockOutPrice", message: "판매 가격을 입력해주세요."},
-            {id: "selectClient", message: "입고처를 입력해주세요."},
-            {id: "enrollImage", message: "이미지를 첨부해주세요."}
+            {id: "selectClient", message: "입고처를 입력해주세요.", type: "select"},
+            {id: "enrollImage", message: "이미지를 첨부해주세요.", type: "file"}
         ];
 
-        for (const field of requiredFields) {
+        for(const field of requiredFields){
             const input = document.getElementById(field.id);
-            if (!input || input.value.trim() === "") {
-                alert(field.message);
-                input.focus(); // 입력이 안 된 필드로 포커스 이동
-                return;
+            if(!input)continue;
+
+            if(field.type==="select") {
+                if (!input.value) {
+                    alert(field.message);
+                    input.focus();
+                    return;
+                }
+            } else if(field.type==="file") {
+                if (input.files.length === 0) {
+                    alert(field.message);
+                    input.focus();
+                    return;
+                }
+            } else {
+                if(input.value.trim() ===""){
+                    alert(field.message);
+                    input.focus();
+                    return;
+                }
             }
         }
 
-
-        $.ajax({
-                    type: "POST",
-                    url: "/api/enrollProduct",
-                    processData: false,
-                    contentType: false,
-                    data: formData,
-                    success: function () {
-                        alert("상품이 등록되었습니다!");
-                        $("#enrollForm")[0].reset(); // 입력 필드 초기화
-                        $("#enrollModal").hide(); // 모달 닫기
-                    },
-                    error: function () {
-                        alert("상품 등록에 실패했습니다.");
-                    }
-                });
+        form.action="/enrollProduct";
+        form.submit();
     }
 
 
+    //상품 수정
+    function showEditForm(button){
+        new bootstrap.Modal(document.querySelector("#editModal")).show();
 
-    function showEditForm(button) {
-        var row = button.closest("tr");
-        // 기존에 "editing-row"가 있던 행에서 제거
-        document.querySelectorAll(".editing-row").forEach(r => r.classList.remove("editing-row"));
+        const tr =$(button).closest("tr");
 
-        // 현재 클릭한 행에 "editing-row" 추가
-        row.classList.add("editing-row");
-        // tr에서 각 셀 값 가져오기
-        var shoeName = row.cells[1].textContent.trim();
-        var category = row.cells[2].textContent.trim();
-        var color = row.cells[3].textContent.trim();
-        var size = row.cells[4].textContent.trim();
-        var price = row.cells[5].textContent.trim();
+        const productNo = tr.data("product-id");
+        const productName = tr.find(".td-productName").text().trim();
+        const categoryNo = tr.data("category");
+        const color = tr.find(".td-color").text().trim();
+        const productSize = tr.find(".td-productSize").text().trim();
+        const stockInPrice = tr.find(".td-stockInPrice").text().trim();
+        const stockOutPrice = tr.find(".td-stockOutPrice").text().trim();
 
-        // 모달 입력 필드에 값 설정
-        document.getElementById("modalShoeName").value = shoeName;
-        document.getElementById("modalCategory").value = category;
-        document.getElementById("modalColor").value = color;
-        document.getElementById("modalSize").value = size;
-        document.getElementById("modalPrice").value = price;
+        $("#editProductNo").val(productNo);
+        $("#editProductName").val(productName);
+        $("#selectEditCategory").val(categoryNo).prop("selected", true);
+        $("#editColor").val(color);
+        $("#editSize").val(productSize);
+        $("#editStockInPrice").val(Number(stockInPrice.replace(/[^0-9]/g, "")));
+        $("#editStockOutPrice").val(Number(stockOutPrice.replace(/[^0-9]/g, "")));
 
-        // 모달 띄우기
-        var modal = new bootstrap.Modal(document.getElementById("editModal"));
-        modal.show();
+        console.log("✅ 모달 값 설정 완료:", { productName, categoryNo, color, productSize, stockInPrice, stockOutPrice });
     }
 
-    function saveChanges() {
-        // 현재 열린 모달에서 수정된 데이터 가져오기
-        var updatedShoeName = document.getElementById("modalShoeName").value;
-        var updatedCategory = document.getElementById("modalCategory").value;
-        var updatedColor = document.getElementById("modalColor").value;
-        var updatedSize = document.getElementById("modalSize").value;
-        var updatedPrice = document.getElementById("modalPrice").value;
+    function editSave(){
+        const form = document.getElementById("editForm");
 
-        // 현재 수정 중인 행(tr) 찾기
-        var row = document.querySelector(".editing-row");
-
-        if (row) {
-            row.cells[1].textContent = updatedShoeName;
-            row.cells[2].textContent = updatedCategory;
-            row.cells[3].textContent = updatedColor;
-            row.cells[4].textContent = updatedSize;
-            row.cells[5].textContent = updatedPrice;
-
-            // 수정 완료 후 클래스 제거
-            row.classList.remove("editing-row");
+        console.log("📌 선택된 form:", form);
+        if (!form) {
+            alert("❌ editForm을 찾을 수 없음");
+            return;
         }
 
-        // 모달 닫기
-        var modalElement = document.getElementById("editModal");
-        var modalInstance = bootstrap.Modal.getInstance(modalElement);
-        modalInstance.hide();
+        console.log("📌 Form HTML:", form.outerHTML);
+
+        const formData = new FormData(form);
+        for (const [key, value] of formData.entries()) {
+            console.log(`입력 데이터: ${key} = ${value}`);
+        }
+
+        // 필수 입력값 검증
+        const requiredFields = [
+            {id: "editProductName", message: "상품명을 입력해주세요."},
+            {id: "selectEditCategory", message: "카테고리를 선택해주세요."},
+            {id: "editColor", message: "색상을 입력해주세요."},
+            {id: "editSize", message: "사이즈를 입력해주세요."},
+            {id: "editStockInPrice", message: "입고 가격을 입력해주세요."},
+            {id: "editStockOutPrice", message: "판매 가격을 입력해주세요."},
+        ];
+
+        for(const field of requiredFields){
+            const input = document.getElementById(field.id);
+            if(!input)continue;
+
+            if(field.type==="select") {
+                if (!input.value) {
+                    alert(field.message);
+                    input.focus();
+                    return;
+                }
+            } else {
+                if(input.value.trim() ===""){
+                    alert(field.message);
+                    input.focus();
+                    return;
+                }
+            }
+        }
+
+        form.action="/updateProduct";
+        form.submit();
     }
+
+
+
+
+
+
+
 
 
 </script>
+</body>
 </html>

@@ -15,4 +15,6 @@ public interface ProductMapper {
     ArrayList<Client> getClientList();
     int updateProductPause(List<Integer> productNoList);
     int updateProductDelete(List<Integer> productNoList);
+    int enrollProduct(Product p);
+    int updateProduct(Product p);
 }

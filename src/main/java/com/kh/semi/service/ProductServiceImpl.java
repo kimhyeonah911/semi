@@ -40,4 +40,14 @@ public class ProductServiceImpl implements ProductService {
     public int updateProductDelete(List<Integer> productNoList) {
         return productMapper.updateProductDelete(productNoList);
     }
+
+    @Override
+    public int enrollProduct(Product p) {
+        return productMapper.enrollProduct(p);
+    }
+
+    @Override
+    public int updateProduct(Product p) {
+        return productMapper.updateProduct(p);
+    }
 }

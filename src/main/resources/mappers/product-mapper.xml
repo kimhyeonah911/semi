@@ -54,7 +54,7 @@
         SELECT CLIENT_ID,
                 CLIENT_NAME
         FROM CLIENT
-        ORDER BY CLIENT_NO ASC
+        ORDER BY CLIENT_ID ASC
     </select>
     <update id="updateProductPause">
         UPDATE PRODUCT
@@ -71,5 +71,40 @@
         <foreach item="productNo" collection="productNoList" open="(" separator="," close=")">
             #{productNo}
         </foreach>
+    </update>
+    <insert id="enrollProduct" parameterType="Product">
+        INSERT INTO PRODUCT (
+            PRODUCT_NO,
+            CLIENT_ID,
+            CATEGORY_NO,
+            PRODUCT_NAME,
+            COLOR,
+            PRODUCT_SIZE,
+            REGISTRATION_DATE,
+            STOCK_IN_PRICE,
+            STOCK_OUT_PRICE,
+            IMAGE_URL
+        ) VALUES (
+            PRODUCT_SEQ.NEXTVAL,
+            #{clientId},
+            #{categoryNo},
+            #{productName},
+            #{color},
+            #{productSize},
+            SYSDATE,
+            #{stockInPrice},
+            #{stockOutPrice},
+            #{imageUrl}
+        )
+    </insert>
+    <update id="updateProduct">
+        UPDATE PRODUCT
+            SET PRODUCT_NAME = #{productName},
+                CATEGORY_NO = #{categoryNo},
+                COLOR = #{color},
+                PRODUCT_SIZE = #{productSize},
+                STOCK_IN_PRICE = #{stockInPrice},
+                STOCK_OUT_PRICE = #{stockOutPrice}
+        WHERE PRODUCT_NO = #{productNo}
     </update>
 </mapper>

@@ -32,7 +32,7 @@ public class APIProductController {
         return list;
     }
 
-    @GetMapping("/categoryList")
+    @GetMapping("/clientList")
     public ArrayList<Client> getClientList() {
         ArrayList<Client> list = productService.getClientList();
         if (list == null) {
@@ -44,23 +44,28 @@ public class APIProductController {
     }
 
     @PostMapping("/updateProductPause")
-    public ResponseEntity<?> updateProductPause(@RequestParam("productNos") String productNos) { //1,2,3이런 형태로 들어옴
+    @ResponseBody
+    public String updateProductPause(@RequestParam("productNos") String productNos) { //1,2,3이런 형태로 들어옴
         //1,2,3 형태로 들어온 번호들을 리스트로 추출
-        List<Integer> productNoList = Arrays.stream(productNos.split(",")) //split -> ["1", "2", "3" ..]배열로 바뀜 //Arrays.stream -> Stream<String> = "1", "2", ..형태로 변환
-                                            .map(Integer::parseInt) //"1"를 1로 변환 (문자열을 숫자로 변)
-                                            .toList(); //최종적으로 숫자 리스트로 변환
 
-        int result = productService.updateProductPause(productNoList);
+            System.out.println("🔹 updateProductPause 실행됨! productNos: " + productNos);
+            List<Integer> productNoList = Arrays.stream(productNos.split(",")) //split -> ["1", "2", "3" ..]배열로 바뀜 //Arrays.stream -> Stream<String> = "1", "2", ..형태로 변환
+                    .map(Integer::parseInt) //"1"를 1로 변환 (문자열을 숫자로 변)
+                    .toList(); //최종적으로 숫자 리스트로 변환
 
-        if (result > 0){
-            return ResponseEntity.ok(Collections.singletonMap("success", true));
-        } else {
-            return ResponseEntity.ok(Collections.singletonMap("success", false));
-        }
+            int result = productService.updateProductPause(productNoList);
+
+            System.out.println("🔹 업데이트 결과: " + result);
+            String response =  result > 0 ? "success" : "fail";
+            System.out.println("🔹 최종 응답: " + response);
+
+            return response;
+
     }
 
     @PostMapping("/updateProductDelete")
-    public ResponseEntity<?> updateProductDelete(@RequestParam("productNos") String productNos) { //1,2,3이런 형태로 들어옴
+    @ResponseBody
+    public String updateProductDelete(@RequestParam("productNos") String productNos) { //1,2,3이런 형태로 들어옴
         //1,2,3 형태로 들어온 번호들을 리스트로 추출
         List<Integer> productNoList = Arrays.stream(productNos.split(",")) //split -> ["1", "2", "3" ..]배열로 바뀜 //Arrays.stream -> Stream<String> = "1", "2", ..형태로 변환
                 .map(Integer::parseInt) //"1"를 1로 변환 (문자열을 숫자로 변)
@@ -68,11 +73,9 @@ public class APIProductController {
 
         int result = productService.updateProductDelete(productNoList);
 
-        if (result > 0){
-            return ResponseEntity.ok(Collections.singletonMap("success", true));
-        } else {
-            return ResponseEntity.ok(Collections.singletonMap("success", false));
-        }
+        return result > 0 ? "success" : "fail";
     }
+
+
 
 }
