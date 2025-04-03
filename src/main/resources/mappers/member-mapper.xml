@@ -96,6 +96,7 @@
     <update id="approveMember">
         UPDATE MEMBER M
         SET M.STATUS = 'Y',
+            M.POSITION = 'employee',
             M.STORE_ID = (SELECT S.STORE_ID
                           FROM STORE S
                           WHERE S.STORE_NAME = #{storeSelect})

@@ -83,7 +83,7 @@
 <jsp:include page="../common/header.jsp" />
 <div class="container-fluid">
   <!-- Sidebar -->
-  <jsp:include page="../common/sidebar-admin.jsp"/>
+  <jsp:include page="../common/sidebar.jsp"/>
 
   <!-- Main content -->
   <main>
