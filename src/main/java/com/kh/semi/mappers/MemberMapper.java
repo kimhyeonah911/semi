@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Mapper
 public interface MemberMapper {
@@ -17,4 +18,7 @@ public interface MemberMapper {
     int approveMember(@Param("memId") String memId, @Param("storeSelect") String storeSelect);
     int rejectMember(@Param("memId") String memId);
 
+    ArrayList<String> getStoreList();
+
+    List<Member> getEmployeesByStore(String store);
 }
