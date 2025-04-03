@@ -73,4 +73,9 @@ public class MemberServiceImpl implements MemberService {
         return storeresult + positionresult;
     }
 
+    @Override
+    public int rejectManager(String storeId) {
+        return memberMapper.rejectManager(storeId);
+    }
+
 }

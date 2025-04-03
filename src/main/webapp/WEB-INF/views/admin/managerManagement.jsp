@@ -166,7 +166,7 @@
     $.ajax({
       url: '/rejectManager',
       type: 'POST',
-      data: { storeId: storeId},
+      data: {storeId: storeId},
       success: function() {
         alert('지점장 거부가 완료되었습니다');
         location.reload();

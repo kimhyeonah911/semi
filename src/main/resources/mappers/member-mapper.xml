@@ -139,4 +139,10 @@
     WHERE MEM_ID = #{memId}
     </update>
 
+    <update id="rejectManager">
+        UPDATE STORE
+        SET STATUS = 'D'
+        WHERE STORE_ID = #{storeId}
+    </update>
+
 </mapper>

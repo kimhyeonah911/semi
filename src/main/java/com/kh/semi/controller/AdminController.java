@@ -159,6 +159,21 @@ public class AdminController {
             model.addAttribute("errorMsg", "지점장 승인 실패");
             return "common/errorPage";
         }
+
     }
+
+    @PostMapping("/rejectManager")
+    public String rejectManager(@RequestParam String storeId,HttpSession session, Model model) {
+        System.out.println(storeId);
+        int result = memberService.rejectManager(storeId);
+        if(result > 0){
+            session.setAttribute("alertMsg","지점장 승인거부 완료");
+            return "admin/memberManagement";
+        } else{
+            model.addAttribute("errorMsg", "지점장 승인거부 실패");
+            return "common/errorPage";
+        }
+    }
+
 
 }
