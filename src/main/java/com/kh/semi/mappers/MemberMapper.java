@@ -9,6 +9,8 @@ import java.util.ArrayList;
 @Mapper
 public interface MemberMapper {
     Member loginMember(String memId, String memPwd);
+    int insertMember(Member member);
+    int checkId(@Param("memId") String checkId);
 
     ArrayList<Member> selectMemberList();
     ArrayList<Member> acceptMemberList();

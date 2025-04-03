@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -20,6 +21,16 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member loginMember(String memId, String memPwd) {
         return memberMapper.loginMember(memId, memPwd);
+    }
+
+    @Override
+    public int insertMember(Member member) {
+        return memberMapper.insertMember(member);
+    }
+
+    @Override
+    public int checkId(String checkId) {
+        return memberMapper.checkId(checkId);
     }
 
     @Override
