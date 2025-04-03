@@ -22,6 +22,13 @@
         <result column="CATEGORY_NAME" property="categoryName"/>
         <result column="STATUS" property="status"/>
     </resultMap>
+    <resultMap id="clientResult" type="Client">
+        <result column="CLIENT_ID" property="clientId"/>
+        <result column="CLIENT_NAME" property="clientName"/>
+        <result column="CLIENT_CEO" property="clientCEO"/>
+        <result column="CLIENT_PHONE" property="clientPhone"/>
+        <result column="CLIENT_ADDRESS" property="clientAddress"/>
+    </resultMap>
     <select id="selectProductList" resultMap="productResult">
         SELECT P.PRODUCT_NO,
                 P.PRODUCT_NAME,
@@ -43,4 +50,26 @@
         FROM CATEGORY
         ORDER BY CATEGORY_NO ASC
     </select>
+    <select id="getClientList" resultMap="clientResult">
+        SELECT CLIENT_ID,
+                CLIENT_NAME
+        FROM CLIENT
+        ORDER BY CLIENT_NO ASC
+    </select>
+    <update id="updateProductPause">
+        UPDATE PRODUCT
+        SET STATUS = 'P'
+        WHERE PRODUCT_NO IN
+        <foreach item="productNo" collection="productNoList" open="(" separator="," close=")">
+            #{productNo}
+        </foreach>
+    </update>
+    <update id="updateProductDelete">
+        UPDATE PRODUCT
+        SET STATUS = 'D'
+        WHERE PRODUCT_NO IN
+        <foreach item="productNo" collection="productNoList" open="(" separator="," close=")">
+            #{productNo}
+        </foreach>
+    </update>
 </mapper>
