@@ -167,6 +167,9 @@
                     <% if (position.equals("manager")) { %>
                     <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDelete(this)">삭제</button>
                     <% } %>
+                    <% if (position.equals("employee")) { %>
+                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDelete(this)" disabled>삭제</button>
+                    <% } %>
                 </td>
             </tr>
             </c:forEach>
