@@ -19,4 +19,9 @@ public interface ProductMapper {
     int enrollProduct(Product p);
     int updateProduct(Product p);
     List<Product> searchProduct(String status, Integer categoryNo, String keyword);
+
+    ArrayList<Client> selectClientList();
+    int insertClient(Client client);
+    int updateClient(Client client);
+    int deleteClient(int clientId);
 }

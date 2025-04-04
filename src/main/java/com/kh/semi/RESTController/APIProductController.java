@@ -10,6 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -113,6 +118,39 @@ public class APIProductController {
         model.addAttribute("list", list);
         return list;
     }
+
+    @GetMapping("/productList")
+    public ArrayList<Product> selectProductList(){
+        return productService.selectProductList();
+    }
+
+    @PostMapping("update.cl")
+    public String updateClient(Client client) {
+        Client c = new Client();
+        c.setClientId(client.getClientId());
+        c.setClientName(client.getClientName());
+        c.setClientCeo(client.getClientCeo());
+        c.setClientPhone(client.getClientPhone());
+        c.setClientAddress(client.getClientAddress());
+
+        int result = productService.updateClient(c);
+        if (result > 0) {
+            return "success";
+        } else {
+            return "fail";
+        }
+    }
+
+    @PostMapping("delete.cl")
+    public String deleteClient(int clientId) {
+        int result = productService.deleteClient(clientId);
+        if (result > 0) {
+            return "success";
+        } else {
+            return "fail";
+        }
+    }
+
 
 
 }

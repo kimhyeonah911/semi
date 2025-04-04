@@ -11,7 +11,8 @@ import lombok.*;
 public class Client {
     private int clientId;
     private String clientName;
-    private String clientCEO;
+    private String clientCeo;
     private String clientPhone;
     private String clientAddress;
+    private String status;
 }

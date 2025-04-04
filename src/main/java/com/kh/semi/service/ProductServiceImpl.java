@@ -60,4 +60,25 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> searchProduct(String status, Integer categoryNo, String keyword) {
         return productMapper.searchProduct(status, categoryNo, keyword);
     }
+
+
+    @Override
+    public ArrayList<Client> selectClientList() {
+        return productMapper.selectClientList();
+    }
+
+    @Override
+    public int insertClient(Client client) {
+        return productMapper.insertClient(client);
+    }
+
+    @Override
+    public int updateClient(Client client) {
+        return productMapper.updateClient(client);
+    }
+
+    @Override
+    public int deleteClient(int clientId) {
+        return productMapper.deleteClient(clientId);
+    }
 }
