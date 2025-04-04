@@ -10,11 +10,12 @@ import java.util.List;
 
 @Service
 public interface ProductService {
-    ArrayList<Product> selectProductList();
+    List<Product> getProductLIst();
     ArrayList<Category> getCategoryList();
     ArrayList<Client> getClientList();
     int updateProductPause(List<Integer> productNoList);
     int updateProductDelete(List<Integer> productNoList);
     int enrollProduct(Product p);
     int updateProduct(Product p);
+    List<Product> searchProduct(String status, Integer categoryNo, String keyword);
 }

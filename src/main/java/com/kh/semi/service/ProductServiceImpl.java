@@ -17,8 +17,8 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 
     @Override
-    public ArrayList<Product> selectProductList() {
-        return productMapper.selectProductList();
+    public List<Product> getProductLIst() {
+        return productMapper.getProductLIst();
     }
 
     @Override
@@ -49,5 +49,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public int updateProduct(Product p) {
         return productMapper.updateProduct(p);
+    }
+
+    @Override
+    public List<Product> searchProduct(String status, Integer categoryNo, String keyword) {
+        return productMapper.searchProduct(status, categoryNo, keyword);
     }
 }

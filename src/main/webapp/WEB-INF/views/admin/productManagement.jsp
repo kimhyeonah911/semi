@@ -148,18 +148,19 @@
         </div>
         <div class="button-container">
             <!-- 왼쪽: 판매 상태, 카테고리, 검색, 조회 버튼 -->
+            <form id="search-form">
             <div id="left-group">
-                <select class="form-select" id="sellSelect" aria-label="판매상태">
-                    <option value="sell">판매 상품</option>
-                    <option value="stop">판매 중지 상품</option>
-                    <option value="deleted">판매 삭제된 상품</option>
+                <select class="form-select" id="productStatusSelect" name="selectedStatus" aria-label="판매상태">
+                    <option value="Y" selected>판매 상품</option>
+                    <option value="P">판매 중지 상품</option>
+                    <option value="D">판매 삭제된 상품</option>
                 </select>
-                <select class="form-select categorySelectBar" id="categorySelectBar" aria-label="카테고리">
-                    <option value="all">전체</option>
+                <select class="form-select categorySelectBar" id="categorySelectBar" aria-label="카테고리" name="selectedCategory">
                 </select>
-                <input type="text" id="searchProduct" placeholder="검색할 상품명을 입력하세요.">
-                <button class="btn btn-primary" >조회</button>
+                <input type="text" id="searchKeyword" placeholder="검색할 상품명을 입력하세요." name="searchedKeyword">
+                <button type="submit" class="btn btn-primary">조회</button>
             </div>
+            </form>
             <div id="right-group">
                 <!-- 오른쪽: 상품 등록 버튼 -->
                 <button id="enrollProductBtn" onclick="showEnrollForm()" class="btn btn-success">+ 상품 등록</button>
@@ -180,20 +181,20 @@
                     <th>수정</th>
                 </tr>
                 </thead>
-                <tbody>
-                <c:forEach var="p" items="${product}">
-                    <tr class="product-tr" data-category="${p.categoryNo}" data-status="${p.status}" data-product-id="${p.productNo}">
-                        <td><input type="checkbox" name="product-checkbox"></td>
-                        <td class="td-productNo">${p.productNo}</td>
-                        <td class="td-productName">${p.productName}</td>
-                        <td class="td-categoryName" >${p.categoryName}</td>
-                        <td class="td-color">${p.color}</td>
-                        <td class="td-productSize">${p.productSize}</td>
-                        <td class="td-stockInPrice">${p.stockInPrice}</td>
-                        <td class="td-stockOutPrice">${p.stockOutPrice}</td>
-                        <td style="width: 100px;"><button class="approve-btn btn btn-success" onclick="showEditForm(this)"><i class="fas fa-edit"></i></button></td>
-                    </tr>
-                </c:forEach>
+                <tbody id="product-list">
+<%--                <c:forEach var="p" items="${product}">--%>
+<%--                    <tr class="product-tr" data-category="${p.categoryNo}" data-status="${p.status}" data-product-id="${p.productNo}">--%>
+<%--                        <td><input type="checkbox" name="product-checkbox"></td>--%>
+<%--                        <td class="td-productNo">${p.productNo}</td>--%>
+<%--                        <td class="td-productName">${p.productName}</td>--%>
+<%--                        <td class="td-categoryName" >${p.categoryName}</td>--%>
+<%--                        <td class="td-color">${p.color}</td>--%>
+<%--                        <td class="td-productSize">${p.productSize}</td>--%>
+<%--                        <td class="td-stockInPrice">${p.stockInPrice}</td>--%>
+<%--                        <td class="td-stockOutPrice">${p.stockOutPrice}</td>--%>
+<%--                        <td style="width: 100px;"><button class="approve-btn btn btn-success" onclick="showEditForm(this)"><i class="fas fa-edit"></i></button></td>--%>
+<%--                    </tr>--%>
+<%--                </c:forEach>--%>
                 </tbody>
             </table>
         </div>
@@ -342,15 +343,41 @@
         $('#enrollModal').modal('show'); // 모달 자동 열기
     });
 </script>
-
-
-
-
-
-
 </c:if>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: '/api/getProductList',  // 서버로 요청
+            method: 'GET',
+            success: function(data) {
+                let tbodyContent = '';
+                data.forEach(function(p) {
+                    tbodyContent += "<tr class='product-tr' data-category='" + p.categoryNo + "' data-status='" + p.status + "' data-product-id='" + p.productNo + "'>" +
+                        "<td><input type='checkbox' name='product-checkbox'></td>" +
+                        "<td class='td-productNo'>" + p.productNo + "</td>" +
+                        "<td class='td-productName'>" + p.productName + "</td>" +
+                        "<td class='td-categoryName'>" + p.categoryName + "</td>" +
+                        "<td class='td-color'>" + p.color + "</td>" +
+                        "<td class='td-productSize'>" + p.productSize + "</td>" +
+                        "<td class='td-stockInPrice'>" + p.stockInPrice + "</td>" +
+                        "<td class='td-stockOutPrice'>" + p.stockOutPrice + "</td>" +
+                        "<td style='width: 100px;'>" +
+                        "<button class='approve-btn btn btn-success' onclick='showEditForm(this)'>" +
+                        "<i class='fas fa-edit'></i>" +
+                        "</button>" +
+                        "</td>" +
+                        "</tr>";
+                });
+                $('#product-list').html(tbodyContent);   // 테이블에 동적으로 삽입
+            },
+            error: function(error) {
+                console.error('데이터를 불러오는 데 실패했습니다:', error);
+            }
+        });
+    });
+</script>
 <script> //카테고리 셀렉트바 출력
     $(document).ready(function() {
         getCategoryList(drawCategorySelect);
@@ -627,14 +654,70 @@ function updateProductDelete() {
         form.submit();
     }
 
+</script>
 
+<script>
+    $(document).ready(function() {
+        // 폼 제출 시 AJAX 요청 처리
+        $('#search-form').on('submit', function(e) {
+            e.preventDefault();  // 기본 폼 제출을 방지
+            // 폼에 제출된 데이터 가져오기
+            const keyword = document.getElementById('searchKeyword').value.trim();
+            const status = document.getElementById('productStatusSelect').value;
+            const categoryNo = document.getElementById('categorySelectBar').value;
 
+            console.log(categoryNo);
 
+            // AJAX 요청 보내기
+            $.ajax({
+                url: '/api/searchProduct',  // 서버로 요청
+                method: 'GET',
+                data: {
+                    searchedKeyword: keyword,
+                    selectedStatus: status,
+                    selectedCategory: categoryNo
+                },
+                success: function(data) {
+                    const tableBody = $('#product-list tbody');
+                    tableBody.empty();  // 기존 결과 비우기
 
+                    let tbodyContent = "";
 
+                    if(data.length === 0){
+                        tbodyContent = '<tr><td colspan="9" class="text-center">조회 결과가 없습니다.</td></tr>';
+                    } else {
+                        data.forEach(function (p) {
+                            tbodyContent += "<tr class='product-tr' data-category='" + p.categoryNo + "' data-status='" + p.status + "' data-product-id='" + p.productNo + "'>" +
+                                "<td><input type='checkbox' name='product-checkbox'></td>" +
+                                "<td class='td-productNo'>" + p.productNo + "</td>" +
+                                "<td class='td-productName'>" + p.productName + "</td>" +
+                                "<td class='td-categoryName'>" + p.categoryName + "</td>" +
+                                "<td class='td-color'>" + p.color + "</td>" +
+                                "<td class='td-productSize'>" + p.productSize + "</td>" +
+                                "<td class='td-stockInPrice'>" + p.stockInPrice + "</td>" +
+                                "<td class='td-stockOutPrice'>" + p.stockOutPrice + "</td>" +
+                                "<td style='width: 100px;'>" +
+                                "<button class='approve-btn btn btn-success' onclick='showEditForm(this)'>" +
+                                "<i class='fas fa-edit'></i>" +
+                                "</button>" +
+                                "</td>" +
+                                "</tr>";
+                        });
+                    }
+                    $('#product-list').html(tbodyContent);   // 테이블에 동적으로 삽입
 
-
-
+                    // 폼의 값들을 다시 설정 (검색 후에도 값들이 남도록)
+                    $('#searchKeyword').val(keyword);
+                    $('#productStatusSelect').val(status);
+                    $('#categorySelectBar').val(categoryNo);
+                },
+                error: function(error) {
+                    console.error('데이터를 불러오는 데 실패했습니다:', error);
+                }
+            });
+        });
+    });
+    
 </script>
 </body>
 </html>

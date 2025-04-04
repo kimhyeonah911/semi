@@ -9,12 +9,16 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ProductController {
@@ -26,8 +30,9 @@ public class ProductController {
         this.productService = productService;
     }
 
+
     @PostMapping("/enrollProduct")
-    public String enrollProduct(@ModelAttribute Product product, @RequestParam(value="enrollImage", required=false)MultipartFile enrollImage, RedirectAttributes redirectAttributes, HttpSession session){
+    public String enrollProduct(@ModelAttribute Product product, @RequestParam(value = "enrollImage", required = false) MultipartFile enrollImage, RedirectAttributes redirectAttributes, HttpSession session) {
         //product객체에서 productName, categoryNo, color, productSize, stockInPrice, stockOutPrice, clientId, imageUrl
         Product p = new Product();
         p.setProductName(product.getProductName());
@@ -38,9 +43,9 @@ public class ProductController {
         p.setStockOutPrice(product.getStockOutPrice());
         p.setClientId(product.getClientId());
 
-        if(enrollImage != null && !enrollImage.isEmpty()){
+        if (enrollImage != null && !enrollImage.isEmpty()) {
             String imageUrl = Template.saveFile(enrollImage, session, "/resources/productImg/");
-            if(imageUrl != null){
+            if (imageUrl != null) {
                 p.setImageUrl("/resources/productImg/" + imageUrl);
             }
 
@@ -48,7 +53,7 @@ public class ProductController {
 
         int result = productService.enrollProduct(p);
 
-        if(result>0){
+        if (result > 0) {
             redirectAttributes.addFlashAttribute("alert", "성공적으로 상품이 등록되었습니다.");
             return "redirect:/product.bo";
         } else {
@@ -59,7 +64,7 @@ public class ProductController {
     }
 
     @PostMapping("/updateProduct")
-    public String updateProduct(@ModelAttribute Product product, RedirectAttributes redirectAttributes, HttpSession session){
+    public String updateProduct(@ModelAttribute Product product, RedirectAttributes redirectAttributes) {
         Product p = new Product();
         p.setProductNo(product.getProductNo());
         p.setProductName(product.getProductName());
@@ -71,7 +76,7 @@ public class ProductController {
 
         int result = productService.updateProduct(p);
 
-        if(result>0){
+        if (result > 0) {
             redirectAttributes.addFlashAttribute("alert", "성공적으로 상품이 수정되었습니다.");
             return "redirect:/product.bo";
         } else {
@@ -81,4 +86,5 @@ public class ProductController {
         }
 
     }
+
 }

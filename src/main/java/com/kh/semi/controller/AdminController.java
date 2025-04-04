@@ -100,12 +100,7 @@ public class AdminController {
     }
 
     @GetMapping("product.bo")
-    public String productManagement(Model model) {
-        ArrayList<Product> list = productService.selectProductList();
-        System.out.println("제품 리스트: " + list);
-        model.addAttribute("product", list);
-        return "admin/productManagement";
-    }
+    public String productManagement() {return "admin/productManagement";}
 
     @GetMapping("delivery.ma")
     public String deliveryManagement() {return "admin/deliveryManagement";

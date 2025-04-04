@@ -2,10 +2,13 @@ package com.kh.semi.RESTController;
 
 import com.kh.semi.domain.vo.Category;
 import com.kh.semi.domain.vo.Client;
+import com.kh.semi.domain.vo.Product;
 import com.kh.semi.service.ProductService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -20,6 +23,12 @@ public class APIProductController {
 
     @Autowired
     private ProductService productService;
+
+    @GetMapping("/getProductList")
+    public List<Product> getProductLIst() {
+        List<Product> list = productService.getProductLIst();
+        return list;
+    }
 
     @GetMapping("/categoryList")
     public ArrayList<Category> getCategoryList() {
@@ -76,6 +85,24 @@ public class APIProductController {
         return result > 0 ? "success" : "fail";
     }
 
+    @GetMapping("/searchProduct")
+    public List<Product> searchProduct(@RequestParam(required = false) String selectedStatus,
+                                @RequestParam(required = false) String selectedCategory,
+                                @RequestParam(required = false) String searchedKeyword,
+                                HttpSession session, Model model) {
+        String status = (selectedStatus != null) ? selectedStatus : "Y";
+        Integer categoryNo = (selectedCategory != null && !selectedCategory.isEmpty())
+                ? Integer.parseInt(selectedCategory)
+                : null;
+        String keyword = searchedKeyword != null ? searchedKeyword.toLowerCase().trim() : "";
+        System.out.println("status: " + status);
+        System.out.println("categoryNo: " + categoryNo);
+        System.out.println("keyword: " + keyword);
+        List<Product> list = productService.searchProduct(status, categoryNo, keyword);
+        System.out.println(list);
+        model.addAttribute("list", list);
+        return list;
+    }
 
 
 }
