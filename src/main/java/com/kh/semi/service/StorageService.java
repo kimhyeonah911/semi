@@ -6,4 +6,6 @@ import java.util.ArrayList;
 
 public interface StorageService {
     ArrayList<Storage> selectStorage();
+    int insertStorage(Storage storage);
+    int deleteStorage(int storageNo);
 }

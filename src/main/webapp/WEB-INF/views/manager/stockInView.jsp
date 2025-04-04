@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    String position = (String)session.getAttribute("position");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <title>Title</title>
@@ -119,6 +123,7 @@
         }
 
         .table2-container {
+            height: 33px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -210,7 +215,8 @@
         .list-space2{
             width: 100%;
             height: 90%;
-            max-height: 600px;
+            max-height: 560px;
+            overflow-y: auto;
         }
 
         .input-space2>input:nth-child(1){
@@ -272,8 +278,6 @@
             margin-bottom: auto;
         }
 
-
-
     </style>
 </head>
 <body>
@@ -301,20 +305,18 @@
                         <input type="date"
                                id="date1"
                                max="2050-12-31"
-                               min="2020-01-01"
-                               value="2025-03-26">
+                               min="2020-01-01">
                         ~
                         <input type="date"
                                id="date2"
                                max="2050-12-31"
-                               min="2020-01-01"
-                               value="2025-03-26">
-                        <button type="button" class="search-btn" id="submit-btn">조회</button>
+                               min="2020-01-01">
+                        <button type="button" class="search-btn" id="submit-btn" onclick="searchStock()">조회</button>
                     </div>
                     <button class="storage-btn" id="storage-submit-btn" onclick="showModal()">입고서 등록</button>
                 </div>
                 <div>
-                    <table class="table table1 table-striped table-hover">
+                    <table class="table table1 table-striped table-hover" id="stock-table">
                         <thead>
                         <tr>
                             <th>입고번호</th>
@@ -328,16 +330,43 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>5761-8183</td>
-                            <td><button type="button" class="btn btn-secondary btn-sm" disabled>입고 등록</button></td>
-                            <td>2025-03-18</td>
-                            <td>2025-03-24</td>
-                            <td>172,000</td>
-                            <td>USER01</td>
-                            <td><button type="button" class="btn btn-outline-success btn-sm" onclick="showUpdateModal()">수정</button></td>
-                            <td><button type="button" class="btn btn-outline-danger btn-sm">취소</button></td>
-                        </tr>
+                        <c:choose>
+                            <c:when test="${not empty stock}">
+                                <c:forEach var="s" items="${stock}">
+                                    <c:if test="${s.stockStatus eq 'STOCK_IN_REGISTERED' or s.stockStatus eq 'STOCK_IN_PROGRESS' or s.stockStatus eq 'STOCK_IN_COMPLETED'}">
+
+                                        <tr data-storage-no="${s.stockNo}">
+                                            <td>${s.stockNo}</td>
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${s.stockStatus eq 'STOCK_IN_REGISTERED'}">
+                                                        <button type="button" class="btn btn-secondary btn-sm" disabled>입고 등록</button>
+                                                    </c:when>
+                                                    <c:when test="${s.stockStatus eq 'STOCK_IN_PROGRESS'}">
+                                                        <button type="button" class="btn btn-warning btn-sm" disabled>입고중</button>
+                                                    </c:when>
+                                                    <c:when test="${s.stockStatus eq 'STOCK_IN_COMPLETED'}">
+                                                        <button type="button" class="btn btn-success btn-sm" disabled>입고 완료</button>
+                                                    </c:when>
+                                                </c:choose>
+                                            </td>
+                                            <td>${s.stockDate}</td>
+                                            <td>${s.expDate}</td>
+                                            <td>아직모룸</td>
+                                            <td>${s.stockEmp}</td>
+                                            <td><button type="button" class="btn btn-outline-success btn-sm" onclick="showUpdateModal()">수정</button></td>
+                                            <td><button type="button" class="btn btn-outline-danger btn-sm">취소</button></td>
+                                        </tr>
+                                    </c:if>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <tr>
+                                    <td colspan="5">입고 데이터가 없습니다.</td>
+                                </tr>
+                            </c:otherwise>
+                        </c:choose>
+
                         </tbody>
 
                     </table>
@@ -355,7 +384,11 @@
                         <div style="font-weight: bold; font-size: 14px;">총 수량 2</div>
                         <div style="font-weight: bold; font-size: 14px;">총 공급가액 1,200원 + 총 부가세 120원 = 총 합계금액 1,320원</div>
                     </div>
-                    <button class="storage-btn" id="storage-approve-btn">입고 승인</button>
+                    <% if (position.equals("manager")) { %>
+                    <td>
+                        <button class="storage-btn" id="storage-approve-btn">입고 승인</button>
+                    </td>
+                    <% } %>
                 </div>
 
                 <div>
@@ -442,7 +475,7 @@
 
                         <h6 style="font-size: 13px;">2 품목 총 수량 3 합계금액 67,000원 + 부가세 660원 = 총 67,660원</h6>
                         <hr>
-                        <table class="table modal-table1 table-striped table-hover">
+                        <table class="table modal-table1 table-striped table-hover" id="stockIn-table">
                             <thead>
                             <tr>
                                 <th colspan="2" style="width: 35%;">품목</th>
@@ -590,7 +623,7 @@
                         <input type="button" value="조회">
                     </div>
                     <div class="list-space2">
-                        <table class="table modal-table1 table-striped table-hover">
+                        <table class="table modal-table1 table-striped table-hover" id="product-table">
                             <thead>
                             <tr>
                                 <th colspan="2" style="width: 35%;">품목</th>
@@ -599,43 +632,121 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td><input type="checkbox" class="row-checkbox"></td>
-                                <td class="list-table-item">
-                                    <img src="/resources/logo.png" style="width: 50px; height: 50px;" alt="제품사진">
-                                    <div class="product-info">
-                                        <p style="font-size: 14px;">238-654-13</p>
-                                        <p style="font-weight:600; font-size: 14px;">나이키 에어 포스 1 ‘07</p>
-                                        <p style="font-size: 12px;">운동화 WHITE 230</p>
-                                    </div>
-                                </td>
-                                <td>46,000</td>
-                                <td>47,000</td>
-                            </tr>
+
                             </tbody>
                         </table>
-                        <div class="pagination">
-                            <a href="#" class="disabled">이전</a>
-                            <a href="#" class="active">1</a>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#">5</a>
-                            <a href="#">다음</a>
-                        </div>
                     </div>
                 </form>
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-primary">확인</button>
+                <button type="button" class="btn btn-primary" id="product-selection-btn">확인</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    window.onload = function () {
+        const today = new Date();
+        const formatted = today.toISOString().slice(0, 10); // YYYY-MM-DD 형식으로 자르기
+
+        document.getElementById("date1").value = formatted;
+        document.getElementById("date2").value = formatted;
+    }
+
+    //검색 조건으로 입고 리스트 가져오기
+    function searchStock() {
+        let stockStatus = $("#stockIn-search-bar").val();
+        let startDate = $("#date1").val();
+        let endDate = $("#date2").val();
+
+        $.ajax({
+            url: "/api/searchStock",
+            type: "GET",
+            data: {
+                stockStatus: stockStatus,
+                startDate: startDate,
+                endDate: endDate
+            },
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                updateStockTable(response);
+            },
+            error: function () {
+                console.error("ajax 통신 오류");
+            }
+        });
+    }
+
+    //조회한 정보들로 테이블 그리기
+    function updateStockTable(data) {
+        let tableBody = $("#stock-table tbody");
+        tableBody.empty(); // 기존 tbody 비우기
+
+        if (data.length === 0) {
+            tableBody.append("<tr><td colspan='8'>검색 결과가 없습니다.</td></tr>");
+            return;
+        }
+
+        data.forEach(stock => {
+            let statusBtn = "";
+            editBtn = `<button type="button" class="btn btn-outline-success btn-sm" onclick="showUpdateModal()">수정</button>`;
+            removeBtn = `<button type="button" class="btn btn-outline-danger btn-sm">취소</button>`
+            switch (stock.stockStatus) {
+                case "STOCK_IN_REGISTERED":
+                    statusBtn = `<button type="button" class="btn btn-secondary btn-sm" disabled>입고 등록</button>`;
+                    break;
+                case "STOCK_IN_PROGRESS":
+                    statusBtn = `<button type="button" class="btn btn-warning btn-sm" disabled>입고중</button>`;
+                    break;
+                case "STOCK_IN_COMPLETED":
+                    statusBtn = `<button type="button" class="btn btn-success btn-sm" disabled>입고 완료</button>`;
+                    break;
+            }
+
+            const stockTr = document.createElement("tr");
+            stockTr.setAttribute("data-storage-no", stock.stockNo);
+
+            // 각 칸 만들어서 추가
+            const tdNo = document.createElement("td");
+            tdNo.innerText = stock.stockNo;
+            stockTr.appendChild(tdNo);
+
+            const tdStatus = document.createElement("td");
+            tdStatus.innerHTML = statusBtn; // HTML로 버튼 삽입
+            stockTr.appendChild(tdStatus);
+
+            const tdDate = document.createElement("td");
+            tdDate.innerText = stock.stockDate;
+            stockTr.appendChild(tdDate);
+
+            const tdExp = document.createElement("td");
+            tdExp.innerText = stock.expDate;
+            stockTr.appendChild(tdExp);
+
+            const tdMoney = document.createElement("td");
+            tdMoney.innerText = "아직 모룸";
+            stockTr.appendChild(tdMoney);
+
+            const tdEmp = document.createElement("td");
+            tdEmp.innerText = stock.stockEmp;
+            stockTr.appendChild(tdEmp);
+
+            const tdUpdate = document.createElement("td");
+            tdUpdate.innerHTML = editBtn;
+            stockTr.appendChild(tdUpdate);
+
+            const tdCancel = document.createElement("td");
+            tdCancel.innerHTML = removeBtn;
+            stockTr.appendChild(tdCancel);
+
+            tableBody.append(stockTr);
+        });
+    }
+
     // 입고서 등록 모달
     function showModal() {
         var modalElement = document.getElementById('modal1');
@@ -658,9 +769,71 @@
             return;
         }
 
-        var modal = new bootstrap.Modal(modalElement);
-        modal.show();
+        $.ajax({
+            url: "/api/productList",
+            type: "GET",
+            dataType: "json",
+            success: function (response) {
+                var modal = new bootstrap.Modal(modalElement);
+                modal.show();
+                createProductTable(response);
+            },
+            error: function () {
+                console.error("제품 리스트 로딩 실패");
+            }
+        });
     }
+
+    //제품 정보들로 테이블 구성
+    function createProductTable(data) {
+        let tableBody = $("#product-table tbody");
+        tableBody.empty(); // 기존 tbody 비우기
+
+        if (data.length === 0) {
+            tableBody.append("<tr><td colspan='8'>제품이 없습니다.</td></tr>");
+            return;
+        }
+
+        data.forEach(product => {
+            let checkBox = `<input type="checkbox" class="row-checkbox">`;
+
+            // 이미지가 비어있으면 기본 이미지로 대체
+            let imageUrl = product.imageUrl && product.imageUrl.trim() !== "" ? product.imageUrl : "/resources/default.png";
+            let imgSrc = '<img src="' + imageUrl + '" style="width: 50px; height: 50px;" alt="제품사진">';
+
+            // 제품 정보 텍스트
+            let productInfo =
+                "<div class=\"product-info\">" +
+                "<p style=\"font-size: 14px;\">" + product.productNo + "</p>" +
+                "<p style=\"font-weight:600; font-size: 14px;\">" + product.productName + "</p>" +
+                "<p style=\"font-size: 12px;\">" + product.categoryName + " " + product.color + " " + product.productSize + "</p>" +
+                "</div>";
+
+            const productTr = document.createElement("tr");
+            productTr.setAttribute("data-product-no", product.productNo);
+
+            const tdCheck = document.createElement("td");
+            tdCheck.innerHTML = checkBox;
+            productTr.appendChild(tdCheck);
+
+            const tdProduct = document.createElement("td");
+            tdProduct.classList.add("list-table-item");
+            tdProduct.innerHTML = imgSrc + productInfo;
+            productTr.appendChild(tdProduct);
+
+            const tdInPrice = document.createElement("td");
+            tdInPrice.innerText = product.stockInPrice;
+            productTr.appendChild(tdInPrice);
+
+            const tdOutPrice = document.createElement("td");
+            tdOutPrice.innerText = product.stockOutPrice;
+            productTr.appendChild(tdOutPrice);
+
+            tableBody.append(productTr);
+        });
+
+    }
+
 
     // 입고서 수정 모달
     function showUpdateModal() {
@@ -675,31 +848,123 @@
         modal.show();
     }
 
-    // 체크박스 클릭하면 tr 정보 가져오기 & 다른 곳 클릭해도 체크박스 활성화
-    document.addEventListener("DOMContentLoaded", function () {
-        const checkboxes = document.querySelectorAll(".row-checkbox");
+    let selectedRows = []; // 선택된 행 데이터를 저장하는 배열
 
-        checkboxes.forEach((checkbox) => {
-            const row = checkbox.closest("tr");
+    document.addEventListener("click", function (event) {
+        const row = event.target.closest("tr");
 
-            row.addEventListener("click", function (event) {
-                if (event.target.type !== "checkbox") {
-                    checkbox.checked = !checkbox.checked;
+        if (row) {
+            const targetCheckbox = row.querySelector(".row-checkbox");
+
+            // 체크박스가 아닌 곳 클릭 시 체크박스 토글
+            if (event.target.type !== "checkbox") {
+                targetCheckbox.checked = !targetCheckbox.checked;
+            }
+
+            const productInfoDiv = row.querySelector(".product-info");
+
+            // 각 정보 추출
+            const productNo = productInfoDiv.querySelector("p:nth-child(1)")?.innerText.trim();
+            const productName = productInfoDiv.querySelector("p:nth-child(2)")?.innerText.trim();
+            const etcInfo = productInfoDiv.querySelector("p:nth-child(3)")?.innerText.trim();
+            const [categoryName, color, productSize] = etcInfo.split(" ");
+
+            const stockInPrice = row.querySelector("td:nth-child(3)")?.innerText.trim();
+            const stockOutPrice = row.querySelector("td:nth-child(4)")?.innerText.trim();
+            const imageUrl = row.querySelector("img")?.getAttribute("src");
+
+            const rowData = {
+                productNo,
+                productName,
+                categoryName,
+                color,
+                productSize,
+                stockInPrice,
+                stockOutPrice,
+                imageUrl
+            };
+
+            if (targetCheckbox.checked) {
+                // 중복 추가 방지
+                if (!selectedRows.some(item => item.productNo === rowData.productNo)) {
+                    selectedRows.push(rowData);
                 }
+            } else {
+                // 체크 해제 시 해당 항목 제거
+                selectedRows = selectedRows.filter(item => item.productNo !== rowData.productNo);
+            }
 
-                if (checkbox.checked) {
-                    const rowData = [];
-                    row.querySelectorAll("td").forEach((td, index) => {
-                        if (!td.querySelector("input") && !td.querySelector("img")) {
-                            rowData.push(td.innerText.trim());
-                        }
-                    });
-
-                    console.log("선택된 행 데이터:", rowData);
-                }
-            });
-        });
+            console.log("선택된 행 데이터:", selectedRows);
+        }
     });
+
+    // 선택 버튼 클릭 시 데이터 전달
+    document.getElementById("product-selection-btn").addEventListener("click", function () {
+        if (selectedRows.length === 0) {
+            console.warn("선택된 제품이 없습니다.");
+            return;
+        }
+        console.log("최종 선택된 데이터:", selectedRows);
+        createStockInTable(selectedRows);
+    });
+
+    //입고서 테이블 구성
+    function createStockInTable(data) {
+        let tableBody = $("#stockIn-table tbody");
+        tableBody.empty(); // 기존 tbody 비우기
+
+        if (data.length === 0) {
+            tableBody.append("<tr><td colspan='8'>제품이 없습니다.</td></tr>");
+            return;
+        }
+
+        data.forEach(product => {
+            // 이미지가 비어있으면 기본 이미지로 대체
+            let imageUrl = product.imageUrl && product.imageUrl.trim() !== "" ? product.imageUrl : "/resources/default.png";
+            let imgSrc = '<img src="' + imageUrl + '" style="width: 50px; height: 50px;" alt="제품사진">';
+            let inputAmount = `<input type="number" min="1" value="1" style="width:50px;">`;
+            let selectTax = `<select id="update-taxation">
+                                    <option value="0">과세</option>
+                                    <option value="1">비과세</option>
+                                	</select>`;
+
+            // 제품 정보 텍스트
+            let productInfo =
+                "<div class=\"product-info\">" +
+                "<p style=\"font-size: 14px;\">" + product.productNo + "</p>" +
+                "<p style=\"font-weight:600; font-size: 14px;\">" + product.productName + "</p>" +
+                "<p style=\"font-size: 12px;\">" + product.categoryName + " " + product.color + " " + product.productSize + "</p>" +
+                "</div>";
+
+            const productTr = document.createElement("tr");
+            productTr.setAttribute("data-product-no", product.productNo);
+
+            const tdProduct = document.createElement("td");
+            tdProduct.classList.add("list-table-item");
+            tdProduct.innerHTML = imgSrc + productInfo;
+            productTr.appendChild(tdProduct);
+
+            const tdNone = document.createElement("td");
+            productTr.appendChild(tdNone);
+
+            const tdInput = document.createElement("td");
+            tdInput.innerHTML = inputAmount;
+            productTr.appendChild(tdInput);
+
+            const tdInPrice = document.createElement("td");
+            tdInPrice.innerText = product.stockInPrice;
+            productTr.appendChild(tdInPrice);
+
+            const tdselect = document.createElement("td");
+            tdselect.innerHTML = selectTax;
+            productTr.appendChild(tdselect);
+
+            tableBody.append(productTr);
+        });
+
+    }
+
+
 </script>
 
 </body>

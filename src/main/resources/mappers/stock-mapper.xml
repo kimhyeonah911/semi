@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.semi.mappers.StockMapper">
+    <resultMap id="stockResult" type="Stock">
+        <result column="STOCK_NO" property="stockNo"/>
+        <result column="STOCK_EMP" property="stockEmp"/>
+        <result column="STOCK_DATE" property="stockDate"/>
+        <result column="EXP_DATE" property="expDate"/>
+        <result column="STOCK_STATUS" property="stockStatus"/>
+    </resultMap>
+
+    <select id="selectStockList" parameterType="Stock" resultMap="stockResult">
+        SELECT STOCK_NO,
+        STOCK_EMP,
+        TO_CHAR(STOCK_DATE, 'YYYY-MM-DD') AS STOCK_DATE,
+        TO_CHAR(EXP_DATE, 'YYYY-MM-DD') AS EXP_DATE,
+        STOCK_STATUS
+        FROM STOCK
+        ORDER BY STOCK_NO
+    </select>
+
+    <select id="searchStockList" parameterType="map" resultMap="stockResult">
+        SELECT
+        STOCK_NO,
+        STOCK_EMP,
+        TO_CHAR(STOCK_DATE, 'YYYY-MM-DD') AS STOCK_DATE,
+        TO_CHAR(EXP_DATE, 'YYYY-MM-DD') AS EXP_DATE,
+        STOCK_STATUS
+        FROM STOCK
+        <where>
+            <choose>
+                <when test="stockStatus != null and stockStatus == 1">
+                    AND STOCK_STATUS = 'STOCK_IN_REGISTERED'
+                </when>
+                <when test="stockStatus != null and stockStatus == 2">
+                    AND STOCK_STATUS = 'STOCK_IN_PROGRESS'
+                </when>
+                <when test="stockStatus != null and stockStatus == 3">
+                    AND STOCK_STATUS = 'STOCK_IN_COMPLETED'
+                </when>
+                <otherwise>
+                    AND STOCK_STATUS IN ('STOCK_IN_REGISTERED', 'STOCK_IN_PROGRESS', 'STOCK_IN_COMPLETED')
+                </otherwise>
+            </choose>
+
+            <if test="startDate != null and startDate != ''">
+                AND STOCK_DATE BETWEEN #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND #{endDate}
+            </if>
+        </where>
+        ORDER BY STOCK_NO
+    </select>
+
+
+
+</mapper>

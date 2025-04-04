@@ -22,20 +22,28 @@
         <result column="CATEGORY_NAME" property="categoryName"/>
         <result column="STATUS" property="status"/>
     </resultMap>
-    <select id="selectProductList" resultMap="productResult">
-        SELECT P.PRODUCT_NO,
-                P.PRODUCT_NAME,
-                P.CATEGORY_NO,
-                C.CATEGORY_NAME,
-                P.COLOR,
-                P.PRODUCT_SIZE,
-                P.STOCK_IN_PRICE,
-                P.STOCK_OUT_PRICE,
-                P.STATUS
+    <resultMap id="clientResult" type="Client">
+        <result column="CLIENT_ID" property="clientId"/>
+        <result column="CLIENT_NAME" property="clientName"/>
+        <result column="CLIENT_CEO" property="clientCeo"/>
+        <result column="CLIENT_PHONE" property="clientPhone"/>
+        <result column="CLIENT_ADDRESS" property="clientAddress"/>
+        <result column="STATUS" property="status"/>
+    </resultMap>
+    <select id="getProductLIst" resultType="Product">
+        SELECT P.PRODUCT_NO AS productNo,
+                P.PRODUCT_NAME AS productName,
+                P.CATEGORY_NO AS categoryNo,
+                C.CATEGORY_NAME AS categoryName,
+                P.COLOR AS color,
+                P.PRODUCT_SIZE AS productSize,
+                P.STOCK_IN_PRICE AS stockInPrice,
+                P.STOCK_OUT_PRICE AS stockOutPrice,
+                P.STATUS AS status
         FROM PRODUCT P
         JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
         WHERE P.STATUS = 'Y'
-        ORDER BY P.PRODUCT_NO ASC
+        ORDER BY P.PRODUCT_NO DESC
     </select>
     <select id="getCategoryList" resultMap="categoryResult">
         SELECT CATEGORY_NO,
@@ -43,4 +51,142 @@
         FROM CATEGORY
         ORDER BY CATEGORY_NO ASC
     </select>
+    <select id="getClientList" resultMap="clientResult">
+        SELECT CLIENT_ID,
+                CLIENT_NAME
+        FROM CLIENT
+        ORDER BY CLIENT_ID ASC
+    </select>
+    <update id="updateProductPause">
+        UPDATE PRODUCT
+        SET STATUS = 'P'
+        WHERE PRODUCT_NO IN
+        <foreach item="productNo" collection="productNoList" open="(" separator="," close=")">
+            #{productNo}
+        </foreach>
+    </update>
+    <update id="updateProductDelete">
+        UPDATE PRODUCT
+        SET STATUS = 'D'
+        WHERE PRODUCT_NO IN
+        <foreach item="productNo" collection="productNoList" open="(" separator="," close=")">
+            #{productNo}
+        </foreach>
+    </update>
+    <update id="updateProductRestart">
+        UPDATE PRODUCT
+        SET STATUS = 'Y'
+        WHERE PRODUCT_NO IN
+        <foreach item="productNo" collection="productNoList" open="(" separator="," close=")">
+            #{productNo}
+        </foreach>
+    </update>
+    <insert id="enrollProduct" parameterType="Product">
+        INSERT INTO PRODUCT (
+            PRODUCT_NO,
+            CLIENT_ID,
+            CATEGORY_NO,
+            PRODUCT_NAME,
+            COLOR,
+            PRODUCT_SIZE,
+            REGISTRATION_DATE,
+            STOCK_IN_PRICE,
+            STOCK_OUT_PRICE,
+            IMAGE_URL
+        ) VALUES (
+            PRODUCT_SEQ.NEXTVAL,
+            #{clientId},
+            #{categoryNo},
+            #{productName},
+            #{color},
+            #{productSize},
+            SYSDATE,
+            #{stockInPrice},
+            #{stockOutPrice},
+            #{imageUrl}
+        )
+    </insert>
+    <update id="updateProduct">
+        UPDATE PRODUCT
+            SET PRODUCT_NAME = #{productName},
+                CATEGORY_NO = #{categoryNo},
+                COLOR = #{color},
+                PRODUCT_SIZE = #{productSize},
+                STOCK_IN_PRICE = #{stockInPrice},
+                STOCK_OUT_PRICE = #{stockOutPrice}
+        WHERE PRODUCT_NO = #{productNo}
+    </update>
+    <select id="searchProduct" resultType="Product">
+        SELECT P.PRODUCT_NO AS productNo,
+                P.PRODUCT_NAME AS productName,
+                P.CATEGORY_NO AS categoryNo,
+                C.CATEGORY_NAME AS categoryName,
+                P.COLOR AS color,
+                P.PRODUCT_SIZE AS productSize,
+                P.STOCK_IN_PRICE AS stockInPrice,
+                P.STOCK_OUT_PRICE AS stockOutPrice,
+                P.STATUS AS status
+                FROM PRODUCT P
+        JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
+        <where>
+            <!-- status가 null이 아니면 필터링 -->
+            <if test="status != null and status != ''">
+                AND P.STATUS = #{status}
+            </if>
+
+            <!-- categoryNo가 null이 아니면 필터링 -->
+            <if test="categoryNo != null">
+                AND P.CATEGORY_NO = #{categoryNo}
+            </if>
+
+            <!-- searchedKeyword가 null이 아니면 필터링 -->
+            <if test="keyword != null and keyword != ''">
+                AND LOWER(P.PRODUCT_NAME) LIKE '%' || #{keyword} || '%'
+            </if>
+        </where>
+        ORDER BY P.PRODUCT_NO ASC
+    </select>
+
+    <select id="selectClientList" resultMap="clientResult">
+        SELECT CLIENT_ID,
+        CLIENT_NAME,
+        CLIENT_CEO,
+        CLIENT_PHONE,
+        CLIENT_ADDRESS
+        FROM CLIENT
+        WHERE STATUS = 'Y'
+        ORDER BY CLIENT_ID
+    </select>
+
+    <insert id="insertClient" parameterType="Client">
+        INSERT INTO CLIENT (
+        CLIENT_ID,
+        CLIENT_NAME,
+        CLIENT_CEO,
+        CLIENT_PHONE,
+        CLIENT_ADDRESS
+        )
+        VALUES (
+        CLIENT_SEQ.NEXTVAL,
+        #{clientName},
+        #{clientCeo},
+        #{clientPhone},
+        #{clientAddress}
+        )
+    </insert>
+
+    <update id="updateClient">
+        UPDATE CLIENT
+        SET CLIENT_NAME = #{clientName},
+            CLIENT_CEO = #{clientCeo},
+            CLIENT_PHONE = #{clientPhone},
+            CLIENT_ADDRESS = #{clientAddress}
+        WHERE CLIENT_ID = #{clientId}
+    </update>
+
+    <update id="deleteClient">
+        UPDATE CLIENT
+        SET STATUS = 'N'
+        WHERE CLIENT_ID = #{clientId}
+    </update>
 </mapper>

@@ -34,4 +34,8 @@ public interface MemberMapper {
     int countAllMembers();
 
     ArrayList<Member> selectMemberListByPage(RowBounds rowBounds);
+
+    int updatePhone(@Param("phone") String phone, @Param("memId") String memId);
+    int updatePwd(@Param("newPwd") String newPwd, @Param("memPwd") String memPwd, @Param("memId") String memId);
+
 }

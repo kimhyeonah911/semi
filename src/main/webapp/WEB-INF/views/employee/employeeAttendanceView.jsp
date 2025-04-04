@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--직원 출퇴근 페이지--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -67,39 +69,36 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>4</td>
-                <td>2025-03-31</td>
-                <td><span class="badge bg-success bg-">출근</span></td>
-                <td>08 : 50 : 56</td>
-                <td></td>
-                <td>06 : 08 : 53 </td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>2025-03-19</td>
-                <td><span class="badge bg-secondary">퇴근</span></td>
-                <td>08 : 50 : 56</td>
-                <td>15 : 02 : 06</td>
-                <td>06 : 08 : 53 </td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>2025-03-19</td>
-                <td><span class="badge bg-secondary">퇴근</span></td>
-                <td>08 : 50 : 56</td>
-                <td>15 : 02 : 06</td>
-                <td>06 : 08 : 53 </td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>2025-03-19</td>
-                <td><span class="badge bg-secondary">퇴근</span></td>
-                <td>08 : 50 : 56</td>
-                <td>15 : 02 : 06</td>
-                <td>06 : 08 : 53 </td>
-            </tr>
+
+            <c:forEach var="att" items="${attendList}">
+                <tr>
+                    <td>${att.attendanceNo}</td>
+                    <td><fmt:formatDate value="${att.clockIn}" pattern="yyyy-MM-dd"/></td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${att.status == 'W'}">
+                                <span class="badge bg-success">출근</span>
+                            </c:when>
+                            <c:when test="${att.status == 'L'}">
+                                <span class="badge bg-secondary">퇴근</span>
+                            </c:when>
+                        </c:choose>
+                    </td>
+                    <td><fmt:formatDate value="${att.clockIn}" pattern="HH : mm : ss"/></td>
+                    <td>
+                        <c:if test="${not empty att.clockOut}">
+                            <fmt:formatDate value="${att.clockOut}" pattern="HH : mm : ss"/>
+                        </c:if>
+                    </td>
+                    <td>
+                        <c:if test="${not empty att.workTime}">
+                            ${att.workTime}
+                        </c:if>
+                    </td>
+                </tr>
+            </c:forEach>
             </tbody>
+
         </table>
         <div class="pagebar-container mt-3">
             <jsp:include page="../common/pagebar.jsp"/>
