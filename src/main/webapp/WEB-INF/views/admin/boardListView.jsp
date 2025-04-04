@@ -117,11 +117,11 @@ charset=UTF-8" pageEncoding="UTF-8"%>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="b" items="${board}">
+                <c:forEach var="b" items="${listpage}">
                     <c:set var="formattedDate">
                         <fmt:formatDate value="${b.createDate}" pattern="yyyy-MM-dd" />
                     </c:set>
-                    <tr onclick="showModal('${b.boardNo}', '${b.memId}', '${b.boardTitle}', '${b.storeName}', '${formattedDate}', '${b.boardContent}', '${b.boardNo}')">
+                    <tr onclick="showModal('${b.boardNo}', '${b.memId}', '${b.boardTitle}', '${b.storeName}', '${formattedDate}', '${b.boardContent}')">
                         <td>${b.memId == 'admin' ? '필독📢' : b.boardNo}</td>
                         <td>${b.memId}</td>
                         <td>${b.boardTitle}</td>
@@ -137,12 +137,11 @@ charset=UTF-8" pageEncoding="UTF-8"%>
                                             삭제
                                         </button>
                                     </form>
-                                    <button onclick="event.stopPropagation(); editModal('${b.boardNo}', '${b.memId}', '${b.boardTitle}', '${b.storeName}', '${formattedDate}', '${b.boardContent}', '${b.boardNo}')"
+                                    <button onclick="editModal('${b.boardNo}', '${b.memId}', '${b.boardTitle}', '${b.storeName}', '${formattedDate}', '${b.boardContent}'); event.stopPropagation();"
                                             class="btn btn-sm btn-outline-primary">
                                         수정
                                     </button>
                                 </c:when>
-
                                 <c:when test="${loginUser.position == 'manager' and loginUser.memId == b.memId}">
                                     <form method="post" action="/delete.bo" style="display:inline;">
                                         <input type="hidden" name="boardNo" value="${b.boardNo}" />
@@ -151,7 +150,7 @@ charset=UTF-8" pageEncoding="UTF-8"%>
                                             삭제
                                         </button>
                                     </form>
-                                    <button onclick="event.stopPropagation(); editModal('${b.boardNo}', '${b.memId}', '${b.boardTitle}', '${b.storeName}', '${formattedDate}', '${b.boardContent}', '${b.boardNo}')"
+                                    <button onclick="editModal('${b.boardNo}', '${b.memId}', '${b.boardTitle}', '${b.storeName}', '${formattedDate}', '${b.boardContent}'); event.stopPropagation();"
                                             class="btn btn-sm btn-outline-primary">
                                         수정
                                     </button>
@@ -159,8 +158,8 @@ charset=UTF-8" pageEncoding="UTF-8"%>
                             </c:choose>
                         </td>
                     </tr>
-                </c:forEach>
 
+                </c:forEach>
 
                 </tbody>
             </table>
@@ -173,7 +172,6 @@ charset=UTF-8" pageEncoding="UTF-8"%>
         </c:if>
 
         <div class="pagination">
-            <!-- 이전 버튼 -->
             <!-- 이전 버튼 -->
             <c:choose>
             <c:when test="${pi.currentPage == 1}">
@@ -205,6 +203,7 @@ charset=UTF-8" pageEncoding="UTF-8"%>
             <a href="${pageUrl}?cpage=${pi.currentPage + 1}">다음</a>
             </c:otherwise>
             </c:choose>
+        </div>
     </main>
 </div>
 
@@ -316,7 +315,6 @@ charset=UTF-8" pageEncoding="UTF-8"%>
     </div>
 </div>
 
-
 <!-- Bootstrap JS (이 부분은 별도로 로드) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -341,12 +339,15 @@ charset=UTF-8" pageEncoding="UTF-8"%>
 
 
     function showModal(boardNo, memId, boardTitle, storeName, createDate, boardContent) {
+
         document.getElementById("noticedetailBoardNo").value = boardNo;
         document.getElementById("noticedetailAuthor").value = memId;
         document.getElementById("noticedetailTitleInput").value = boardTitle;
         document.getElementById("noticedetailBranch").value = storeName;
         document.getElementById("noticedetailDate").value = createDate;
         document.getElementById("noticedetailContent").value = boardContent;
+        console.log(boardNo, memId, boardTitle, storeName, createDate, boardContent);
+
 
         var modalElement = document.getElementById('noticedetailModal');
         if (!modalElement) {

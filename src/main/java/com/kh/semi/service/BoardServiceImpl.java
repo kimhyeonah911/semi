@@ -18,10 +18,17 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public ArrayList<Board> selectBoardList() {
-//        ArrayList<Board> boardList = boardMapper.selectBoardList();
-//        System.out.println("서비스에서 가져온 공지사항 리스트: " + boardList);
+        ArrayList<Board> boardList = boardMapper.selectBoardList();
+
+//        // 공지사항 리스트 출력
+//        System.out.println("📌 서비스에서 가져온 공지사항 리스트: " + boardList);
+//        // boardContent 값 개별 출력
+//        for (Board board : boardList) {
+//            System.out.println("📌 공지사항 내용: " + board.getBoardContent());
+//        }
         return boardMapper.selectBoardList();
     }
+
 
     @Override
     public int insertBoard(Board board) {
@@ -44,9 +51,14 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public ArrayList<Member> selectBoardListByPage(PageInfo pi) {
+    public ArrayList<Board> selectBoardListByPage(PageInfo pi) {
         int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
         RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
         return boardMapper.selectBoardListByPage(rowBounds);
+    }
+
+    @Override
+    public ArrayList<Board> selectBoardListTop3() {
+        return boardMapper.selectBoardListTop3();
     }
 }

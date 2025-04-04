@@ -7,7 +7,7 @@ import com.kh.semi.domain.vo.PageInfo;
 import java.util.ArrayList;
 
 public interface BoardService {
-    ArrayList<Board> selectBoardList();
+
 
     int insertBoard(Board board);
 
@@ -17,5 +17,9 @@ public interface BoardService {
 
     int countAllBoard();
 
-    ArrayList<Member> selectBoardListByPage(PageInfo pi);
+    ArrayList<Board> selectBoardList();
+
+    ArrayList<Board> selectBoardListByPage(PageInfo pi);
+
+    ArrayList<Board> selectBoardListTop3();
 }

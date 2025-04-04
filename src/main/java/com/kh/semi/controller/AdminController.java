@@ -47,21 +47,24 @@ public class AdminController {
 
     @GetMapping("list.bo")
     public String selectBoardList(@RequestParam(defaultValue = "1") int cpage, Model model) {
-        // 페이징바 처리 코드
-        int listCount = boardService.countAllBoard(); // 전체 직원 수
-        int pageLimit = 5;     // 하단에 보여질 페이징 바 수
-        int boardLimit = 10;   // 한 페이지에 보여질 직원 수
 
+        // 페이징바 처리 코드
+        int listCount = boardService.countAllBoard(); // 전체 게시글 수
+        int pageLimit = 5;     // 하단에 보여질 페이징 바 수
+        int boardLimit = 10;   // 한 페이지에 보여질 게시글 수
 
         PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
 
-        ArrayList<Member> listpage = boardService.selectBoardListByPage(pi);
-        model.addAttribute("board", listpage);
+        ArrayList<Board> listpage = boardService.selectBoardListByPage(pi);
+        model.addAttribute("listpage", listpage);  // 변경: listpage로 모델에 추가
         model.addAttribute("pi", pi);
         model.addAttribute("pageUrl", "list.bo");
+        System.out.println("공지사항 리스트 : " + listpage);
+        System.out.println("PageInfo: " + pi);
 
         return "admin/boardListView";
     }
+
 
     @PostMapping("insertlist.bo")
     public String boardList(Board board, HttpSession session, Model model) {
@@ -76,6 +79,7 @@ public class AdminController {
             model.addAttribute("errorMsg", "게시글 작성 실패");
             return "common/errorPage";
         }
+
     }
 
     @PostMapping("delete.bo")
@@ -114,7 +118,13 @@ public class AdminController {
     }
 
     @GetMapping("dash.bo")
-    public String dashBoard() {
+    public String dashBoard(Model model) {
+
+        ArrayList<Board> noticeList = boardService.selectBoardListTop3();
+
+        // 공지사항 리스트를 모델에 추가
+        model.addAttribute("noticeList", noticeList);
+
         return "admin/dashBoard-admin";
     }
 

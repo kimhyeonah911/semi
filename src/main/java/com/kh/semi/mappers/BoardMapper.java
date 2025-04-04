@@ -20,5 +20,7 @@ public interface BoardMapper {
 
     int countAllBoard();
 
-    ArrayList<Member> selectBoardListByPage(RowBounds rowBounds);
+    ArrayList<Board> selectBoardListByPage(RowBounds rowBounds);
+
+    ArrayList<Board> selectBoardListTop3();
 }
