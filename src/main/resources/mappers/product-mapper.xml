@@ -72,6 +72,14 @@
             #{productNo}
         </foreach>
     </update>
+    <update id="updateProductRestart">
+        UPDATE PRODUCT
+        SET STATUS = 'Y'
+        WHERE PRODUCT_NO IN
+        <foreach item="productNo" collection="productNoList" open="(" separator="," close=")">
+            #{productNo}
+        </foreach>
+    </update>
     <insert id="enrollProduct" parameterType="Product">
         INSERT INTO PRODUCT (
             PRODUCT_NO,

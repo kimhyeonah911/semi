@@ -42,6 +42,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public int updateProductRestart(List<Integer> productNoList) {
+        return productMapper.updateProductRestart(productNoList);
+    }
+
+    @Override
     public int enrollProduct(Product p) {
         return productMapper.enrollProduct(p);
     }

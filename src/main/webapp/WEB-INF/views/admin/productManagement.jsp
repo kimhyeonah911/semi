@@ -536,6 +536,43 @@ function updateProductDelete() {
         }
     });
 }
+
+//판매 재시작 버튼
+function updateProductRestart() {
+
+    console.log("재시작함수실행");
+
+    let selectedProductsNo = [];
+    $('input[name="product-checkbox"]:checked').each(function() {
+        selectedProductsNo.push($(this).closest("tr").data("product-id"));
+    });
+
+    if (selectedProductsNo.length === 0) {
+        alert("상품을 선택해주세요.");
+        return;
+    }
+
+    $.ajax({
+        url: "/api/updateProductRestart",
+        type: "POST",
+        data: { productNos: selectedProductsNo.join(",") },
+        dataType: "text",
+        success: function(res) {
+            if (res.trim() === "success") {
+                alert("선택한 상품 판매가 재시작 되었습니다.");
+                location.reload();
+            } else {
+                alert("상품 판매 재시작에 실패하였습니다. 다시 시도해주세요.");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX 오류:", status, error);
+            console.error("서버 응답:", xhr.responseText);
+            alert("서버 오류 발생. 다시 시도해주세요.");
+        }
+    });
+}
+
 </script>
 
 
@@ -718,10 +755,13 @@ function updateProductDelete() {
                     }
                     $('#product-list').html(tbodyContent);   // 테이블에 동적으로 삽입
 
+                    changePauseBtn(status);
+
                     // 폼의 값들을 다시 설정 (검색 후에도 값들이 남도록)
                     $('#searchKeyword').val(keyword);
                     $('#productStatusSelect').val(status);
                     $('#categorySelectBar').val(categoryNo);
+
                 },
                 error: function() {
                     console.error('상품을 검색하는데 실패했습니다:', error);
@@ -729,7 +769,50 @@ function updateProductDelete() {
                 }
             });
         });
+
+        function changePauseBtn(status){
+            const pauseBtn = document.getElementById("pauseButton");
+            const deleteBtn = document.getElementById("deleteButton")
+
+            if(status === "P"){
+                pauseBtn.textContent = "재시작";
+                pauseBtn.classList.remove("btn-warning");
+                pauseBtn.classList.add("btn-primary");
+                pauseBtn.disabled = false;
+                pauseBtn.onclick = updateProductRestart;
+
+                deleteBtn.textContent = "삭제";
+                deleteBtn.classList.remove("btn-secondary");
+                deleteBtn.classList.add("btn-danger");
+                deleteBtn.disabled = false;
+            } else if (status === "D") {
+                pauseBtn.classList.remove("btn-warning", "btn-primary");
+                pauseBtn.classList.add("btn-secondary");
+                pauseBtn.disabled = true;
+                pauseBtn.onclick = null;
+
+                deleteBtn.classList.remove("btn-danger");
+                deleteBtn.classList.add("btn-secondary");
+                deleteBtn.disabled = true;
+                deleteBtn.onclick = null;
+
+            } else {
+                pauseBtn.textContent = "중지";
+                pauseBtn.classList.remove("btn-primary", "btn-secondary");
+                pauseBtn.classList.add("btn-warning");
+                pauseBtn.disabled = false;  // 버튼 활성화
+                pauseBtn.onclick = updateProductPause;
+
+                deleteBtn.textContent = "삭제";
+                deleteBtn.classList.remove("btn-secondary");
+                deleteBtn.classList.add("btn-danger");
+                deleteBtn.disabled = false;
+                deleteBtn.onclick = updateProductDelete;
+            }
+        }
     });
+
+
 
 </script>
 </body>

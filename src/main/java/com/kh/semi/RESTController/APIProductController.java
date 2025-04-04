@@ -83,6 +83,19 @@ public class APIProductController {
         return result > 0 ? "success" : "fail";
     }
 
+    @PostMapping("/updateProductRestart")
+    @ResponseBody
+    public String updateProductRestart(@RequestParam("productNos") String productNos) { //1,2,3이런 형태로 들어옴
+        //1,2,3 형태로 들어온 번호들을 리스트로 추출
+        List<Integer> productNoList = Arrays.stream(productNos.split(",")) //split -> ["1", "2", "3" ..]배열로 바뀜 //Arrays.stream -> Stream<String> = "1", "2", ..형태로 변환
+                .map(Integer::parseInt) //"1"를 1로 변환 (문자열을 숫자로 변)
+                .toList(); //최종적으로 숫자 리스트로 변환
+
+        int result = productService.updateProductRestart(productNoList);
+
+        return result > 0 ? "success" : "fail";
+    }
+
     @GetMapping("/searchProduct")
     public List<Product> searchProduct(@RequestParam(required = false) String selectedStatus,
                                 @RequestParam(required = false) String selectedCategory,

@@ -15,6 +15,7 @@ public interface ProductService {
     ArrayList<Client> getClientList();
     int updateProductPause(List<Integer> productNoList);
     int updateProductDelete(List<Integer> productNoList);
+    int updateProductRestart(List<Integer> productNoList);
     int enrollProduct(Product p);
     int updateProduct(Product p);
     List<Product> searchProduct(String status, Integer categoryNo, String keyword);
