@@ -163,6 +163,25 @@
         WHERE STORE_ID = #{storeId}
     </update>
 
+    <select id="selectMemberListByPage" resultMap="memberResult">
+        SELECT DISTINCT M.EMP_NO,
+        M.HIRE_DATE,
+        M.MEM_NAME,
+        S.STORE_NAME,
+        M.POSITION,
+        M.PHONE,
+        M.SALARY
+        FROM MEMBER M
+        JOIN STORE S ON M.STORE_ID = S.STORE_ID
+        WHERE M.STATUS = 'Y'
+        ORDER BY M.EMP_NO ASC
+    </select>
+
+    <select id="countAllMembers" resultType="int">
+        SELECT COUNT(*) FROM MEMBER
+        WHERE STATUS = 'Y'
+    </select>
+
     <update id="updatePhone">
         UPDATE MEMBER
         SET PHONE = #{phone}
@@ -175,5 +194,6 @@
         WHERE MEM_ID = #{memId}
         AND MEM_PWD = #{memPwd}
     </update>
+
 
 </mapper>

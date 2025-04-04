@@ -3,6 +3,7 @@ package com.kh.semi.service;
 import com.kh.semi.domain.vo.Attendance;
 import com.kh.semi.domain.vo.Member;
 
+import com.kh.semi.domain.vo.PageInfo;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
@@ -33,8 +34,14 @@ public interface MemberService {
 
     int rejectManager(@RequestParam String storeId);
 
+
+    int countAllMembers();
+
+    ArrayList<Member> selectMemberListByPage(PageInfo pi);
+
     int updatePhone(String phone, String memId);
 
     int updatePwd(String newPwd, String memPwd, String memId);
+
 
 }
