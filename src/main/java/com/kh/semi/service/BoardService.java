@@ -10,4 +10,6 @@ public interface BoardService {
     int insertBoard(Board board);
 
     int deleteBoard(int boardNo);
+
+    int noticeUpdate(Board board);
 }

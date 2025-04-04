@@ -24,7 +24,7 @@ public class ManagerController {
 
     @GetMapping("manager.bo")
     public String managerBoardList() {
-        return "manager/boardListView-manager";
+        return "admin/boardListView";
     }
 
 

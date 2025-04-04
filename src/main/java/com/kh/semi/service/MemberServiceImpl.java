@@ -74,8 +74,31 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public ArrayList<String> getStoreList() {
+        return memberMapper.getStoreList();
+    }
+
+
+    @Override
+    public List<Member> getEmployeesByStore(String store) {
+        return memberMapper.getEmployeesByStore(store);
+    }
+
+    @Override
     public int rejectManager(String storeId) {
         return memberMapper.rejectManager(storeId);
     }
 
+
+    @Override
+    public int updatePhone(String phone, String memId) {
+        return memberMapper.updatePhone(phone,memId);
+    }
+
+    @Override
+    public int updatePwd(String newPwd, String memPwd, String memId) {
+        return memberMapper.updatePwd(newPwd, memPwd, memId);
+    }
+
 }
+
