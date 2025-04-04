@@ -1,5 +1,7 @@
 package com.kh.semi.controller;
 
+import com.kh.semi.domain.vo.Storage;
+import com.kh.semi.service.StorageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 @Controller
 public class ManagerController {
 
-
+    private final StorageService storageService;
 
 
     @GetMapping("manager.bo")
@@ -49,7 +51,9 @@ public class ManagerController {
     }
 
     @GetMapping("storage.lo")
-    public String storageManagement() {
+    public String storageManagement(Model model) {
+        ArrayList<Storage> list = storageService.selectStorage();
+        model.addAttribute("storageList", list);
         return "manager/storageManagementView";
     }
 

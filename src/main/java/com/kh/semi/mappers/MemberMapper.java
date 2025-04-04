@@ -3,6 +3,7 @@ package com.kh.semi.mappers;
 import com.kh.semi.domain.vo.Member;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,14 @@ public interface MemberMapper {
     int approveMember(@Param("memId") String memId, @Param("storeSelect") String storeSelect);
     int rejectMember(@Param("memId") String memId);
 
+
     ArrayList<String> getStoreList();
 
     List<Member> getEmployeesByStore(String store);
+
+    ArrayList<Member> acceptManagerList();
+    int approveManagerStore(@Param("storeId") String storeId);
+    int approveManagerPosition(@Param("memId") String memId);
+    int rejectManager(@Param("storeId") String storeId);
+
 }
