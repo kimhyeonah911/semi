@@ -2,6 +2,7 @@ package com.kh.semi.RESTController;
 
 import com.kh.semi.domain.vo.Category;
 import com.kh.semi.domain.vo.Client;
+import com.kh.semi.domain.vo.Product;
 import com.kh.semi.service.ProductService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,11 @@ public class APIProductController {
         }
         System.out.println("카테고리 리스트: " + list);
         return list;
+    }
+
+    @GetMapping("/productList")
+    public ArrayList<Product> selectProductList(){
+        return productService.selectProductList();
     }
 
     @PostMapping("update.cl")

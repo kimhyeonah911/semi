@@ -1,6 +1,8 @@
 package com.kh.semi.controller;
 
+import com.kh.semi.domain.vo.Stock;
 import com.kh.semi.domain.vo.Storage;
+import com.kh.semi.service.StockService;
 import com.kh.semi.service.StorageService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +18,8 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 @Controller
 public class ManagerController {
-
     private final StorageService storageService;
+    private final StockService stockService;
 
 
     @GetMapping("manager.bo")
@@ -75,7 +77,9 @@ public class ManagerController {
     }
 
     @GetMapping("stockIn.sto")
-    public String stockInManagement() {
+    public String stockInManagement(Model model) {
+        ArrayList<Stock> list = stockService.selectStockList();
+        model.addAttribute("stock", list);
         return "manager/stockInView";
     }
 

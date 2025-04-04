@@ -40,6 +40,7 @@
                 P.PRODUCT_SIZE,
                 P.STOCK_IN_PRICE,
                 P.STOCK_OUT_PRICE,
+                P.IMAGE_URL,
                 P.STATUS
         FROM PRODUCT P
         JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
