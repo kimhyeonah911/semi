@@ -31,4 +31,8 @@ public interface MemberService {
     List<Member> getEmployeesByStore(String store);
 
     int rejectManager(@RequestParam String storeId);
+
+    int updatePhone(String phone, String memId);
+
+    int updatePwd(String newPwd, String memPwd, String memId);
 }

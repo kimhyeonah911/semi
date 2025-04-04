@@ -17,24 +17,30 @@
         <result column="MODIFY_DATE" property="modifyDate"/>
         <result column="HIRE_DATE" property="hireDate"/>
         <result column="SALARY" property="salary"/>
+        <result column="WORKDATE" property="workDate"/>
+        <result column="STORE_ADDRESS" property="storeAddress"/>
     </resultMap>
     <select id="loginMember" parameterType="Member" resultMap="memberResult">
         SELECT
-        EMP_NO,
-        STORE_ID,
-        MEM_ID,
-        MEM_PWD,
-        MEM_NAME,
-        PHONE,
-        POSITION,
-        STATUS,
-        CREATE_DATE,
-        MODIFY_DATE,
-        HIRE_DATE,
-        SALARY
-        FROM MEMBER
-        WHERE MEM_ID = #{memId}
-        AND MEM_PWD = #{memPwd}
+        M.EMP_NO,
+        M.STORE_ID,
+        S.STORE_NAME,
+        S.STORE_ADDRESS,
+        M.MEM_ID,
+        M.MEM_PWD,
+        M.MEM_NAME,
+        M.PHONE,
+        M.POSITION,
+        M.STATUS,
+        M.CREATE_DATE,
+        M.MODIFY_DATE,
+        M.HIRE_DATE,
+        M.SALARY,
+        CEIL(SYSDATE - M.CREATE_DATE) AS WORKDATE
+        FROM MEMBER M
+        LEFT JOIN STORE S ON M.STORE_ID = S.STORE_ID
+        WHERE M.MEM_ID = #{memId}
+              AND M.MEM_PWD = #{memPwd}
     </select>
 
     <insert id="insertMember" parameterType="Member">
@@ -155,6 +161,19 @@
         UPDATE STORE
         SET STATUS = 'D'
         WHERE STORE_ID = #{storeId}
+    </update>
+
+    <update id="updatePhone">
+        UPDATE MEMBER
+        SET PHONE = #{phone}
+        WHERE MEM_ID = #{memId}
+    </update>
+
+    <update id="updatePwd">
+        UPDATE MEMBER
+        SET MEM_PWD = #{newPwd}
+        WHERE MEM_ID = #{memId}
+        AND MEM_PWD = #{memPwd}
     </update>
 
 </mapper>

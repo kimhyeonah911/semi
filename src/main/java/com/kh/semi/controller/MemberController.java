@@ -2,24 +2,15 @@ package com.kh.semi.controller;
 
 import com.kh.semi.domain.vo.Member;
 import com.kh.semi.service.MemberService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.ArrayList;
-
 
 
 @Controller
@@ -64,6 +55,10 @@ public class MemberController {
             session.setAttribute("memName", loginMember.getMemName());
             session.setAttribute("position", loginMember.getPosition());
 
+            session.setAttribute("loginMember", loginMember);
+            // 콘솔에서 확인 (디버깅)
+
+
             // 권한에 따라 리다이렉트
             String position = loginMember.getPosition();
             if ("admin".equals(position)) {
@@ -98,6 +93,44 @@ public class MemberController {
         } else {
             mv.addObject("errorMsg", "회원가입에 실패하였습니다.");
             return "common/errorPage";
+        }
+    }
+
+    @PostMapping("updatePhone")
+    public String updatePhone(String phone, String memId, HttpSession session, Model model) {
+        int result = memberService.updatePhone(phone, memId);
+        if (result > 0){
+            Member loginUser = (Member) session.getAttribute("loginUser");
+            loginUser.setPhone(phone);
+            session.setAttribute("loginUser", loginUser);
+            session.setAttribute("alertMsg","전화번호 변경 완료");
+            return "common/mypage";
+        } else{
+            model.addAttribute("errorMsg", "전화번호 변경 실패");
+            return "common/mypage";
+        }
+    }
+
+    @GetMapping("mypage.bo")
+    public String adminPage() {
+
+        return "common/mypage";
+    }
+
+    @ResponseBody
+    @PostMapping("/updatePwd")
+    public String updatePwd(String newPwd, String memPwd, String memId, HttpSession session, Model model) {
+
+
+        int result = memberService.updatePwd(newPwd, memPwd, memId);
+        System.out.printf("result  : " + result);
+        if (result > 0){
+            Member loginUser = (Member) session.getAttribute("loginUser");
+            loginUser.setMemPwd(newPwd);
+            session.setAttribute("loginUser", loginUser);
+            return "success";
+        } else{
+            return "false";
         }
     }
 }

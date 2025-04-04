@@ -136,6 +136,7 @@ public class AdminController {
         return "admin/employeeInfoView";
     }
 
+
     @GetMapping("employeeList")
     @ResponseBody // JSON 형태로 반환
     public List<Member> getFilteredEmployees(@RequestParam(value = "store", required = false) String store) {
@@ -155,6 +156,7 @@ public class AdminController {
 
     @GetMapping("adminmypage.bo")
     public String adminPage() {return "admin/adminMypage";}
+
 
 
 
