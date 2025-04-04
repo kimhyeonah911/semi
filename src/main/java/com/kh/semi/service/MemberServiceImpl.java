@@ -1,5 +1,6 @@
 package com.kh.semi.service;
 
+import com.kh.semi.domain.vo.Attendance;
 import com.kh.semi.domain.vo.Board;
 import com.kh.semi.domain.vo.Member;
 import com.kh.semi.mappers.BoardMapper;
@@ -99,6 +100,7 @@ public class MemberServiceImpl implements MemberService {
     public int updatePwd(String newPwd, String memPwd, String memId) {
         return memberMapper.updatePwd(newPwd, memPwd, memId);
     }
+
 
 }
 

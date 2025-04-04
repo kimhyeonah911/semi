@@ -1,5 +1,7 @@
 package com.kh.semi.controller;
 
+import com.kh.semi.domain.vo.Attendance;
+import com.kh.semi.service.AttendanceService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 @Controller
 
 public class EmployeeController {
+    private final AttendanceService attendanceService;
 
     @GetMapping("employee.bo")
     public String employeeBoardList() {
@@ -29,8 +32,11 @@ public class EmployeeController {
         return "employee/companyManagement";
     }
 
-    @GetMapping("attendance.em")
-    public String attendanceManagement() {
+    @GetMapping("/attendance.em")
+    public String attendancePage(@RequestParam("empNo") int empNo, Model model) {
+        ArrayList<Attendance> attendList = attendanceService.getAttendanceMy(empNo);
+        model.addAttribute("attendList", attendList);
+        System.out.println(attendList);
         return "employee/employeeAttendanceView";
     }
 
