@@ -119,11 +119,6 @@ public class APIProductController {
         return list;
     }
 
-    @GetMapping("/productList")
-    public ArrayList<Product> selectProductList(){
-        return productService.selectProductList();
-    }
-
     @PostMapping("update.cl")
     public String updateClient(Client client) {
         Client c = new Client();
