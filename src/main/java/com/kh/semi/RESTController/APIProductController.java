@@ -64,9 +64,7 @@ public class APIProductController {
 
             int result = productService.updateProductPause(productNoList);
 
-            System.out.println("🔹 업데이트 결과: " + result);
             String response =  result > 0 ? "success" : "fail";
-            System.out.println("🔹 최종 응답: " + response);
 
             return response;
 
@@ -90,14 +88,13 @@ public class APIProductController {
                                 @RequestParam(required = false) String selectedCategory,
                                 @RequestParam(required = false) String searchedKeyword,
                                 HttpSession session, Model model) {
+
         String status = (selectedStatus != null) ? selectedStatus : "Y";
         Integer categoryNo = (selectedCategory != null && !selectedCategory.isEmpty())
                 ? Integer.parseInt(selectedCategory)
                 : null;
         String keyword = searchedKeyword != null ? searchedKeyword.toLowerCase().trim() : "";
-        System.out.println("status: " + status);
-        System.out.println("categoryNo: " + categoryNo);
-        System.out.println("keyword: " + keyword);
+
         List<Product> list = productService.searchProduct(status, categoryNo, keyword);
         System.out.println(list);
         model.addAttribute("list", list);

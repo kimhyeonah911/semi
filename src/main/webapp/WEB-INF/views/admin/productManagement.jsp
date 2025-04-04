@@ -494,7 +494,6 @@ function updateProductPause() {
             }
         },
         error: function(xhr, status, error) {
-            console.log(location.origin);
             console.error("AJAX 오류:", status, error);
             console.error("서버 응답:", xhr.responseText);
             alert("서버 오류 발생. 다시 시도해주세요.");
@@ -531,7 +530,6 @@ function updateProductDelete() {
             }
         },
         error: function(xhr, status, error) {
-            console.log(location.origin);
             console.error("AJAX 오류:", status, error);
             console.error("서버 응답:", xhr.responseText);
             alert("서버 오류 발생. 다시 시도해주세요.");
@@ -556,9 +554,9 @@ function updateProductDelete() {
             {id: "enrollProductName", message: "상품명을 입력해주세요."},
             {id: "selectEnrollCategory", message: "카테고리를 선택해주세요."},
             {id: "enrollColor", message: "색상을 입력해주세요."},
-            {id: "enrollSize", message: "사이즈를 입력해주세요."},
-            {id: "enrollStockInPrice", message: "입고 가격을 입력해주세요."},
-            {id: "enrollStockOutPrice", message: "판매 가격을 입력해주세요."},
+            {id: "enrollSize", message: "사이즈를 입력해주세요.", type: "number"},
+            {id: "enrollStockInPrice", message: "입고 가격을 입력해주세요.", type: "number"},
+            {id: "enrollStockOutPrice", message: "판매 가격을 입력해주세요.", type: "number"},
             {id: "selectClient", message: "입고처를 입력해주세요.", type: "select"},
             {id: "enrollImage", message: "이미지를 첨부해주세요.", type: "file"}
         ];
@@ -579,8 +577,15 @@ function updateProductDelete() {
                     input.focus();
                     return;
                 }
+            } else if (field.type === "number") {
+                // 숫자인지 확인 (음수 포함 가능)
+                if (!/^-?\d+$/.test(input.value.trim())) {
+                    alert(field.message + " (숫자만 입력 가능합니다.)");
+                    input.focus();
+                    return;
+                }
             } else {
-                if(input.value.trim() ===""){
+                if (input.value.trim() === "") {
                     alert(field.message);
                     input.focus();
                     return;
@@ -588,7 +593,7 @@ function updateProductDelete() {
             }
         }
 
-        form.action="/enrollProduct";
+        form.action = "/enrollProduct";
         form.submit();
     }
 
@@ -626,9 +631,9 @@ function updateProductDelete() {
             {id: "editProductName", message: "상품명을 입력해주세요."},
             {id: "selectEditCategory", message: "카테고리를 선택해주세요."},
             {id: "editColor", message: "색상을 입력해주세요."},
-            {id: "editSize", message: "사이즈를 입력해주세요."},
-            {id: "editStockInPrice", message: "입고 가격을 입력해주세요."},
-            {id: "editStockOutPrice", message: "판매 가격을 입력해주세요."},
+            {id: "editSize", message: "사이즈를 입력해주세요.", type: "number"},
+            {id: "editStockInPrice", message: "입고 가격을 입력해주세요.", type: "number"},
+            {id: "editStockOutPrice", message: "판매 가격을 입력해주세요.", type: "number"},
         ];
 
         for(const field of requiredFields){
@@ -641,8 +646,15 @@ function updateProductDelete() {
                     input.focus();
                     return;
                 }
+            } else if (field.type === "number") {
+                // 숫자인지 확인 (음수 포함 가능)
+                if (!/^-?\d+$/.test(input.value.trim())) {
+                    alert(field.message + " (숫자만 입력 가능합니다.)");
+                    input.focus();
+                    return;
+                }
             } else {
-                if(input.value.trim() ===""){
+                if (input.value.trim() === "") {
                     alert(field.message);
                     input.focus();
                     return;
@@ -711,13 +723,14 @@ function updateProductDelete() {
                     $('#productStatusSelect').val(status);
                     $('#categorySelectBar').val(categoryNo);
                 },
-                error: function(error) {
-                    console.error('데이터를 불러오는 데 실패했습니다:', error);
+                error: function() {
+                    console.error('상품을 검색하는데 실패했습니다:', error);
+                    alert('상품을 검색하는데 실패했습니다');
                 }
             });
         });
     });
-    
+
 </script>
 </body>
 </html>
