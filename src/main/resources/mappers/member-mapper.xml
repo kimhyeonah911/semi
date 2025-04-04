@@ -52,7 +52,7 @@
         PHONE
         )
         VALUES (
-        EMP_NO.NEXTVAL,
+        EMP_SEQ.NEXTVAL,
         #{memId},
         #{memPwd},
         #{memName},
