@@ -22,6 +22,15 @@
         <result column="CATEGORY_NAME" property="categoryName"/>
         <result column="STATUS" property="status"/>
     </resultMap>
+    <resultMap id="clientResult" type="Client">
+        <result column="CLIENT_ID" property="clientId"/>
+        <result column="CLIENT_NAME" property="clientName"/>
+        <result column="CLIENT_CEO" property="clientCeo"/>
+        <result column="CLIENT_PHONE" property="clientPhone"/>
+        <result column="CLIENT_ADDRESS" property="clientAddress"/>
+        <result column="STATUS" property="status"/>
+    </resultMap>
+
     <select id="selectProductList" resultMap="productResult">
         SELECT P.PRODUCT_NO,
                 P.PRODUCT_NAME,
@@ -31,6 +40,7 @@
                 P.PRODUCT_SIZE,
                 P.STOCK_IN_PRICE,
                 P.STOCK_OUT_PRICE,
+                P.IMAGE_URL,
                 P.STATUS
         FROM PRODUCT P
         JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
@@ -43,4 +53,47 @@
         FROM CATEGORY
         ORDER BY CATEGORY_NO ASC
     </select>
+
+    <select id="selectClientList" resultMap="clientResult">
+        SELECT CLIENT_ID,
+        CLIENT_NAME,
+        CLIENT_CEO,
+        CLIENT_PHONE,
+        CLIENT_ADDRESS
+        FROM CLIENT
+        WHERE STATUS = 'Y'
+        ORDER BY CLIENT_ID
+    </select>
+
+    <insert id="insertClient" parameterType="Client">
+        INSERT INTO CLIENT (
+        CLIENT_ID,
+        CLIENT_NAME,
+        CLIENT_CEO,
+        CLIENT_PHONE,
+        CLIENT_ADDRESS
+        )
+        VALUES (
+        CLIENT_SEQ.NEXTVAL,
+        #{clientName},
+        #{clientCeo},
+        #{clientPhone},
+        #{clientAddress}
+        )
+    </insert>
+
+    <update id="updateClient">
+        UPDATE CLIENT
+        SET CLIENT_NAME = #{clientName},
+            CLIENT_CEO = #{clientCeo},
+            CLIENT_PHONE = #{clientPhone},
+            CLIENT_ADDRESS = #{clientAddress}
+        WHERE CLIENT_ID = #{clientId}
+    </update>
+
+    <update id="deleteClient">
+        UPDATE CLIENT
+        SET STATUS = 'N'
+        WHERE CLIENT_ID = #{clientId}
+    </update>
 </mapper>

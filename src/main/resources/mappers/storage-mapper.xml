@@ -13,8 +13,23 @@
     <select id="selectStorage" parameterType="Storage" resultMap="storageResult">
         SELECT *
         FROM STORAGE
+        ORDER BY STORAGE_NO
     </select>
 
+    <insert id="insertStorage" parameterType="Storage">
+        INSERT INTO STORAGE (
+         STORAGE_NO,
+         STORAGE_LOCATION,
+         ABLE_AMOUNT
+        ) VALUES(
+        STORAGE_SEQ.NEXTVAL,
+        #{storageLocation},
+        #{ableAmount}
+        )
+    </insert>
 
-
+    <delete id="deleteStorage">
+        DELETE FROM STORAGE
+        WHERE STORAGE_NO = #{storageNo}
+    </delete>
 </mapper>

@@ -19,4 +19,14 @@ public class StorageServiceImpl implements StorageService {
     public ArrayList<Storage> selectStorage() {
         return storageMapper.selectStorage();
     }
+
+    @Override
+    public int insertStorage(Storage storage) {
+        return storageMapper.insertStorage(storage);
+    }
+
+    @Override
+    public int deleteStorage(int storageNo) {
+        return storageMapper.deleteStorage(storageNo);
+    }
 }
