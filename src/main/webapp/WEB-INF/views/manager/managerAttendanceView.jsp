@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--지점장 출퇴근 페이지--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -110,47 +112,35 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>4</td>
-                    <td>2025-03-19</td>
-                    <td>박지민</td>
-                    <td><span class="badge bg-secondary">퇴근</span></td>
-                    <td>08 : 50 : 56</td>
-                    <td>             </td>
-                    <td>06 : 08 : 53 </td>
-                    <td><button type="button" class="btn btn-outline-primary btn-sm">수정</button></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>2025-03-19</td>
-                    <td>이주찬</td>
-                    <td><span class="badge bg-success bg-">출근</span></td>
-                    <td>08 : 50 : 56</td>
-                    <td>15 : 02 : 06</td>
-                    <td>06 : 08 : 53</td>
-                    <td><button type="button" class="btn btn-outline-primary btn-sm">수정</button></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>2025-03-19</td>
-                    <td>김현아</td>
-                    <td><span class="badge bg-secondary">퇴근</span></td>
-                    <td>08 : 50 : 56</td>
-                    <td>15 : 02 : 06</td>
-                    <td>06 : 08 : 53</td>
-                    <td><button type="button" class="btn btn-outline-primary btn-sm">수정</button></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>2025-03-19</td>
-                    <td>황동준</td>
-                    <td><span class="badge bg-success bg-">출근</span></td>
-                    <td>08 : 50 : 56</td>
-                    <td>15 : 02 : 06</td>
-                    <td>06 : 08 : 53</td>
-                    <td><button type="button" class="btn btn-outline-primary btn-sm">수정</button></td>
-                </tr>
 
+                <c:forEach var="l" items="${list}">
+                    <tr>
+                        <td>${l.attendanceNo}</td>
+                        <td><fmt:formatDate value="${l.clockIn}" pattern="yyyy-MM-dd"/></td>
+                        <td>${l.empName}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${l.status == 'W'}">
+                                    <span class="badge bg-success">출근</span>
+                                </c:when>
+                                <c:when test="${l.status == 'L'}">
+                                    <span class="badge bg-secondary">퇴근</span>
+                                </c:when>
+                            </c:choose>
+                        </td>
+                        <td><fmt:formatDate value="${l.clockIn}" pattern="HH : mm : ss"/></td>
+                        <td>
+                            <c:if test="${not empty l.clockOut}">
+                                <fmt:formatDate value="${l.clockOut}" pattern="HH : mm : ss"/>
+                            </c:if>
+                        </td>
+                        <td>
+                            <c:if test="${not empty l.workTime}">
+                                ${l.workTime}
+                            </c:if>
+                        </td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
             <div class="pagebar-container mt-3">
