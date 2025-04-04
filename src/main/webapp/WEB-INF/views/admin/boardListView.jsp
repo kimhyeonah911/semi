@@ -135,9 +135,12 @@ charset=UTF-8" pageEncoding="UTF-8"%>
             </table>
         </div>
 
-        <div class="d-flex justify-content-end mt-3">
-            <button class="btn btn-primary" onclick="location.href='/enroll.bo'">✏️ 글쓰기</button>
-        </div>
+        <c:if test="${loginUser.position == 'admin' or loginUser.position == 'manager'}">
+            <div class="d-flex justify-content-end mt-3">
+                <button class="btn btn-primary" onclick="location.href='/enroll.bo'">✏️ 글쓰기</button>
+            </div>
+        </c:if>
+
         <div class="pagebar-container mt-3">
             <jsp:include page="../common/pagebar.jsp"/>
         </div>
@@ -301,8 +304,5 @@ charset=UTF-8" pageEncoding="UTF-8"%>
             <% session.removeAttribute("alertMsg"); %>
         }
     };
-
-
-
 </script>
 </body>

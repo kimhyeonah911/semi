@@ -48,33 +48,36 @@ public class MemberController {
 
     @PostMapping("login.me")
     public ModelAndView login(@ModelAttribute Member member, ModelAndView mv, HttpSession session) {
-        // Member 객체에서 memId, memPwd 추출
+        // 입력값
         String memId = member.getMemId();
         String memPwd = member.getMemPwd();
 
-        // MemberService의 loginMember 호출
+        // 로그인 시도
         Member loginMember = memberService.loginMember(memId, memPwd);
         System.out.println("로그인한 회원 정보: " + loginMember);
 
-        // 로그인 성공 여부 확인
         if (loginMember == null) {
             session.setAttribute("alertMsg", "아이디나 비밀번호가 일치하지 않습니다.");
             mv.setViewName("redirect:/");
         } else {
-            session.setAttribute("loginUser", loginMember); // 로그인된 회원 정보 저장
-
-            // 헤더에서 쓸 사용자 이름 추출
-            session.setAttribute("memName", loginMember.getMemName()); // 사용자 이름 저장
-
+            session.setAttribute("loginUser", loginMember);
+            session.setAttribute("memName", loginMember.getMemName());
             session.setAttribute("position", loginMember.getPosition());
-            // 콘솔에서 확인 (디버깅)
-            System.out.println("세션에 저장된 userName: " + session.getAttribute("userName"));
-            System.out.println("세션에 저장된 position: " + session.getAttribute("position"));
 
-            mv.setViewName("redirect:/insert.co"); // 로그인 성공 후 이동
+            // 권한에 따라 리다이렉트
+            String position = loginMember.getPosition();
+            if ("admin".equals(position)) {
+                mv.setViewName("admin/dashBoard-admin");
+            } else if ("manager".equals(position) || "employee".equals(position)) {
+                mv.setViewName("employee/dashBoard-employee");
+            } else {
+                // 정의되지 않은 포지션일 경우 기본 페이지로
+                mv.setViewName("redirect:/insert.co");
+            }
         }
         return mv;
     }
+
 
     @PostMapping("insert.me")
     public String insertMember(@ModelAttribute Member member, ModelAndView mv, HttpSession session) {
