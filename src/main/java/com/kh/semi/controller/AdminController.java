@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.util.ArrayList;
@@ -115,12 +116,7 @@ public class AdminController {
     }
 
     @GetMapping("product.bo")
-    public String productManagement(Model model) {
-        ArrayList<Product> list = productService.selectProductList();
-        System.out.println("제품 리스트: " + list);
-        model.addAttribute("product", list);
-        return "admin/productManagement";
-    }
+    public String productManagement() {return "admin/productManagement";}
 
     @GetMapping("delivery.ma")
     public String deliveryManagement(Model model) {
@@ -130,7 +126,7 @@ public class AdminController {
     }
 
     @PostMapping("insert.cl")
-    public String insertClient(Client client, HttpSession session, ModelAndView mv) {
+    public String insertClient(Client client, RedirectAttributes redirectAttributes, ModelAndView mv) {
         Client c = new Client();
         c.setClientName(client.getClientName());
         c.setClientCeo(client.getClientCeo());
@@ -139,7 +135,7 @@ public class AdminController {
 
         int result = productService.insertClient(c);
         if (result > 0) {
-            session.setAttribute("alertMsg", "성공적으로 거래처를 등록하였습니다.");
+            redirectAttributes.addFlashAttribute("alertMsg", "성공적으로 거래처를 등록하였습니다.");
             return "redirect:/delivery.ma";
         } else {
             mv.addObject("errorMsg", "거래처 등록에 실패하였습니다.");
