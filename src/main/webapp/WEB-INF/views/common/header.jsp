@@ -74,7 +74,7 @@
             <button onclick="location.href='/employee.bo'">직원버전</button>
         </div>
         <div>
-            <a href="adminmypage.bo" class="text-dark text-decoration-none">
+            <a href="mypage.bo" class="text-dark text-decoration-none">
                 <i class="fas fa-user fa-2x"></i>
                 <div>마이페이지</div>
             </a>

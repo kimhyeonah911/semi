@@ -5,6 +5,7 @@ import com.kh.semi.domain.vo.Member;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface MemberService {
     //로그인
@@ -25,5 +26,13 @@ public interface MemberService {
 
     int approveManager(@RequestParam String storeId, @RequestParam String memId);
 
+    ArrayList<String> getStoreList();
+
+    List<Member> getEmployeesByStore(String store);
+
     int rejectManager(@RequestParam String storeId);
+
+    int updatePhone(String phone, String memId);
+
+    int updatePwd(String newPwd, String memPwd, String memId);
 }

@@ -21,7 +21,7 @@ public class EmployeeController {
 
     @GetMapping("employee.bo")
     public String employeeBoardList() {
-        return "employee/boardListView-employee";
+        return "admin/boardListView";
     }
 
     @GetMapping("insert.co")
