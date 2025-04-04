@@ -16,5 +16,6 @@ public class Attendance {
     private Date clockIn;
     private Date clockOut;
     private String status;
-
+    private String workTime;
+    private String empName;
 }

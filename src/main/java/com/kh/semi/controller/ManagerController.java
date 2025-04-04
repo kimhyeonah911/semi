@@ -1,6 +1,9 @@
 package com.kh.semi.controller;
 
+import com.kh.semi.domain.vo.Attendance;
 import com.kh.semi.domain.vo.Storage;
+import com.kh.semi.service.AttendanceService;
+import com.kh.semi.service.MemberService;
 import com.kh.semi.service.StorageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 public class ManagerController {
 
     private final StorageService storageService;
+    private final AttendanceService attendanceService;
 
 
     @GetMapping("manager.bo")
@@ -41,7 +45,9 @@ public class ManagerController {
     }
 
     @GetMapping("attendance.ma")
-    public String attendanceManagement() {
+    public String attendanceManagement(Model model, String storeId) {
+        ArrayList<Attendance> list = attendanceService.getMyAttendanceList(storeId);
+        model.addAttribute("list", list);
         return "manager/managerAttendanceView";
     }
 
@@ -71,5 +77,7 @@ public class ManagerController {
     public String stockOutManagement() {
         return "manager/stockOutView";
     }
+
+
 
 }

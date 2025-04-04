@@ -1,5 +1,6 @@
 package com.kh.semi.service;
 
+import com.kh.semi.domain.vo.Attendance;
 import com.kh.semi.domain.vo.Member;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,4 +36,5 @@ public interface MemberService {
     int updatePhone(String phone, String memId);
 
     int updatePwd(String newPwd, String memPwd, String memId);
+
 }
