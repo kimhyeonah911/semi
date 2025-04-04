@@ -473,7 +473,7 @@
                             <button type="button" class="add-product-btn" id="add-product-btn" onclick="showModal2()">+ 품목 추가</button>
                         </div>
 
-                        <h6 style="font-size: 13px;">2 품목 총 수량 3 합계금액 67,000원 + 부가세 660원 = 총 67,660원</h6>
+                        <h6 style="font-size: 13px;" id="allProductInfo">0 품목 총 수량 0 합계금액 0원 + 부가세 0원 = 총 0원</h6>
                         <hr>
                         <table class="table modal-table1 table-striped table-hover" id="stockIn-table">
                             <thead>
@@ -486,26 +486,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td colspan="2" class="list-table-item">
-                                    <img src="/resources/logo.png" style="width: 50px; height: 50px;" alt="제품사진">
-                                    <div class="product-info">
-                                        <p style="font-size: 14px;">238-654-13</p>
-                                        <p style="font-weight:600; font-size: 14px;">나이키 에어 포스 1 ‘07s</p>
-                                        <p style="font-size: 12px;">운동화 WHITE 230</p>
-                                    </div>
-                                </td>
-                                <td></td>
-                                <td><label>
-                                    <input type="number" min="1" value="1" style="width:50px;">
-                                </label></td>
-                                <td>47,000</td>
-                                <td><select id="taxation">
-                                    <option value="0">과세</option>
-                                    <option value="1">비과세</option>
-                                </select></td>
-                                <td><button type="button" class="btn btn-outline-danger btn-sm">삭제</button></td>
-                            </tr>
+
                             </tbody>
                         </table>
                     </div>
@@ -906,6 +887,16 @@
         }
         console.log("최종 선택된 데이터:", selectedRows);
         createStockInTable(selectedRows);
+
+        // 이미 열려 있는 모달 인스턴스를 찾아서 닫기
+        var modalElement = document.getElementById('modal2');
+        var modalInstance = bootstrap.Modal.getInstance(modalElement);
+
+        if (modalInstance) {
+            modalInstance.hide(); // 기존 인스턴스가 있다면 닫기
+        } else {
+            console.error("모달 인스턴스를 찾을 수 없습니다.");
+        }
     });
 
     //입고서 테이블 구성
@@ -927,6 +918,7 @@
                                     <option value="0">과세</option>
                                     <option value="1">비과세</option>
                                 	</select>`;
+            let cancelBtn = `<button type="button" class="btn btn-outline-danger btn-sm">삭제</button>`;
 
             // 제품 정보 텍스트
             let productInfo =
@@ -958,6 +950,10 @@
             const tdselect = document.createElement("td");
             tdselect.innerHTML = selectTax;
             productTr.appendChild(tdselect);
+
+            const tdBtn = document.createElement("td");
+            tdBtn.innerHTML = cancelBtn;
+            productTr.appendChild(tdBtn);
 
             tableBody.append(productTr);
         });
