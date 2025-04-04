@@ -2,7 +2,7 @@
     <!DOCTYPE html>
     <html lang="UTF-8">
     <head>
-        <link rel="stylesheet" href="css/style.css">
+<%--        <link rel="stylesheet" href="css/style.css">--%>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login Page</title>
@@ -132,12 +132,12 @@
         </style>
     </head>
     <body>
-    <c:if test="${ not empty sessionScope.alertMsg }">
-        <script>
-            alert("${ sessionScope.alertMsg }");
-            <% session.removeAttribute("alertMsg"); %>
-        </script>
-    </c:if>
+<%--    <c:if test="${ not empty sessionScope.alertMsg }">--%>
+<%--        <script>--%>
+<%--            alert("${ sessionScope.alertMsg }");--%>
+<%--            <% session.removeAttribute("alertMsg"); %>--%>
+<%--        </script>--%>
+<%--    </c:if>--%>
     <div class="container">
         <!-- 왼쪽 (배경 이미지) -->
         <div class="left"></div>
