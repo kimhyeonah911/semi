@@ -2,6 +2,7 @@ package com.kh.semi.controller;
 
 import com.kh.semi.domain.vo.Board;
 import com.kh.semi.domain.vo.Member;
+import com.kh.semi.domain.vo.PageInfo;
 import com.kh.semi.domain.vo.Product;
 import com.kh.semi.service.BoardService;
 import com.kh.semi.service.MemberService;
@@ -45,10 +46,20 @@ public class AdminController {
 
 
     @GetMapping("list.bo")
-    public String selectBoardList(Model model) {
-        ArrayList<Board> boardlist = boardService.selectBoardList();
-        model.addAttribute("board", boardlist);
-        System.out.println("공지사항 정보 : " + boardlist);
+    public String selectBoardList(@RequestParam(defaultValue = "1") int cpage, Model model) {
+        // 페이징바 처리 코드
+        int listCount = boardService.countAllBoard(); // 전체 직원 수
+        int pageLimit = 5;     // 하단에 보여질 페이징 바 수
+        int boardLimit = 10;   // 한 페이지에 보여질 직원 수
+
+
+        PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
+
+        ArrayList<Member> listpage = boardService.selectBoardListByPage(pi);
+        model.addAttribute("board", listpage);
+        model.addAttribute("pi", pi);
+        model.addAttribute("pageUrl", "list.bo");
+
         return "admin/boardListView";
     }
 
@@ -125,14 +136,24 @@ public class AdminController {
     }
 
     @GetMapping("employee.in")
-    public String employeeInfoView(Model model) {
-        ArrayList<Member> list = memberService.selectMemberList();
-        model.addAttribute("member", list);
-        System.out.println(list);
+    public String employeeInfoView(@RequestParam(defaultValue = "1") int cpage, Model model) {
 
         // DB에서 중복 없는 지점 목록 가져오기
         ArrayList<String> storeList = memberService.getStoreList();
         model.addAttribute("storeList", storeList);
+
+        // 페이징바 처리 코드
+        int listCount = memberService.countAllMembers(); // 전체 직원 수
+        int pageLimit = 5;     // 하단에 보여질 페이징 바 수
+        int boardLimit = 10;   // 한 페이지에 보여질 직원 수
+        model.addAttribute("pageUrl", "employee.in");
+
+        PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
+
+        ArrayList<Member> listpage = memberService.selectMemberListByPage(pi);
+        model.addAttribute("member", listpage);
+        model.addAttribute("pi", pi);
+
         return "admin/employeeInfoView";
     }
 

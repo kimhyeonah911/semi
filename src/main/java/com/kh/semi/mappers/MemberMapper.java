@@ -1,8 +1,10 @@
 package com.kh.semi.mappers;
 
 import com.kh.semi.domain.vo.Member;
+import com.kh.semi.domain.vo.PageInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.security.core.parameters.P;
 
 import java.util.ArrayList;
@@ -29,4 +31,7 @@ public interface MemberMapper {
     int approveManagerPosition(@Param("memId") String memId);
     int rejectManager(@Param("storeId") String storeId);
 
+    int countAllMembers();
+
+    ArrayList<Member> selectMemberListByPage(RowBounds rowBounds);
 }
