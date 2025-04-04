@@ -78,4 +78,14 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.rejectManager(storeId);
     }
 
+    @Override
+    public int updatePhone(String phone, String memId) {
+        return memberMapper.updatePhone(phone,memId);
+    }
+
+    @Override
+    public int updatePwd(String newPwd, String memPwd, String memId) {
+        return memberMapper.updatePwd(newPwd, memPwd, memId);
+    }
+
 }

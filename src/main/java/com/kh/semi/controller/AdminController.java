@@ -3,7 +3,6 @@ package com.kh.semi.controller;
 import com.kh.semi.domain.vo.Board;
 import com.kh.semi.domain.vo.Member;
 import com.kh.semi.domain.vo.Product;
-import com.kh.semi.mappers.BoardMapper;
 import com.kh.semi.service.BoardService;
 import com.kh.semi.service.MemberService;
 import com.kh.semi.service.ProductService;
@@ -118,8 +117,6 @@ public class AdminController {
         return "admin/employeeInfoView";
     }
 
-    @GetMapping("adminmypage.bo")
-    public String adminPage() {return "admin/adminMypage";}
 
 
 

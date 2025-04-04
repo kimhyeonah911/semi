@@ -26,4 +26,8 @@ public interface MemberService {
     int approveManager(@RequestParam String storeId, @RequestParam String memId);
 
     int rejectManager(@RequestParam String storeId);
+
+    int updatePhone(String phone, String memId);
+
+    int updatePwd(String newPwd, String memPwd, String memId);
 }
