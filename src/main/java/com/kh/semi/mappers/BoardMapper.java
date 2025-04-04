@@ -1,7 +1,9 @@
 package com.kh.semi.mappers;
 
 import com.kh.semi.domain.vo.Board;
+import com.kh.semi.domain.vo.Member;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.ArrayList;
 
@@ -15,4 +17,10 @@ public interface BoardMapper {
     int deleteBoard(int boardNo);
 
     int noticeUpdate(Board board);
+
+    int countAllBoard();
+
+    ArrayList<Board> selectBoardListByPage(RowBounds rowBounds);
+
+    ArrayList<Board> selectBoardListTop3();
 }
