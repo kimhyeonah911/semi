@@ -186,7 +186,6 @@ public class AdminController {
         return "admin/employeeInfoView";
     }
 
-
     @GetMapping("employeeList")
     @ResponseBody // JSON 형태로 반환
     public List<Member> getFilteredEmployees(@RequestParam(value = "store", required = false) String store) {
