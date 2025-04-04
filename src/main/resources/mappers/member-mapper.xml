@@ -67,7 +67,7 @@
     </select>
 
     <select id="selectMemberList" resultMap="memberResult">
-        SELECT M.EMP_NO,
+        SELECT DISTINCT M.EMP_NO,
         M.HIRE_DATE,
         M.MEM_NAME,
         S.STORE_NAME,
@@ -77,6 +77,18 @@
         FROM MEMBER M
         JOIN STORE S ON M.STORE_ID = S.STORE_ID
         WHERE M.STATUS = 'Y'
+        ORDER BY M.EMP_NO ASC
+    </select>
+    <select id="getStoreList" resultType="string">
+        SELECT DISTINCT STORE_NAME FROM STORE ORDER BY STORE_NAME ASC
+    </select>
+    <select id="getEmployeesByStore" resultMap="memberResult">
+        SELECT M.EMP_NO, M.HIRE_DATE, M.MEM_NAME, S.STORE_NAME,
+        M.POSITION, M.PHONE, M.SALARY
+        FROM MEMBER M
+        JOIN STORE S ON M.STORE_ID = S.STORE_ID
+        WHERE M.STATUS = 'Y'
+        AND S.STORE_NAME = #{store}
         ORDER BY M.EMP_NO ASC
     </select>
 

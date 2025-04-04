@@ -2,9 +2,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>직원정보</title>
@@ -93,15 +95,13 @@
 
     <form action="">
       <div id="search-bar" class="d-flex mb-3">
-        <select id="name-search-bar" class="form-select w-auto me-2">
-          <option>전체</option>
-          <option>역삼점</option>
-          <option>한남점</option>
-          <option>잠실점</option>
-          <option>강남점</option>
-          <option>송파점</option>
+        <select id="storeSelect" class="form-select w-auto me-2">
+          <option value="전체">전체</option>
+          <c:forEach var="store" items="${storeList}">
+            <option value="${store}">${store}</option>
+          </c:forEach>
         </select>
-        <button type="submit" class="btn btn-dark">조회</button>
+        <button type="button" id="filterBtn" class="btn btn-dark">조회</button>
       </div>
     </form>
 
@@ -118,7 +118,7 @@
           <th>연봉</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="employeeTable">
         <c:forEach var="m" items="${member}">
           <tr>
             <td>${m.empNo}</td>
@@ -139,6 +139,48 @@
     </div>
   </main>
 </div>
+<script>
+
+  $(document).ready(function () {
+    $("#filterBtn").click(function () {
+      let selectedStore = $("#storeSelect").val(); // 선택한 지점 가져오기
+
+      $.ajax({
+        url: "employeeList", // 컨트롤러에서 처리할 엔드포인트
+        type: "GET",
+        data: { store: selectedStore },
+        dataType: "json", // JSON 응답 받기
+        success: function (response) {
+          let tbody = $("#employeeTable");
+          tbody.empty(); // 기존 데이터 삭제
+
+          if (response.length === 0) {
+            tbody.append("<tr><td colspan='7' class='text-center'>해당 지점에 직원이 없습니다.</td></tr>");
+          } else {
+            response.forEach(m => {
+              let row = `<tr>
+                            <td>\${m.empNo}</td>
+                            <td>\${m.hireDate}</td>
+                            <td>\${m.memName}</td>
+                            <td>\${m.storeName}</td>
+                            <td>\${m.position}</td>
+                            <td>\${m.phone}</td>
+                            <td>\${m.salary}</td>
+                        </tr>`;
+              tbody.append(row);
+              console.log("선택한 지점: ", selectedStore);
+            });
+          }
+        },
+        error: function () {
+          console.log("직원 필터링 실패");
+          alert("직원 목록을 불러오지 못했습니다.");
+        }
+      });
+    });
+  });
+</script>
+
 
 </body>
 </html>

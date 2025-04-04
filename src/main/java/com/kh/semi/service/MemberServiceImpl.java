@@ -74,9 +74,21 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public ArrayList<String> getStoreList() {
+        return memberMapper.getStoreList();
+    }
+
+
+    @Override
+    public List<Member> getEmployeesByStore(String store) {
+        return memberMapper.getEmployeesByStore(store);
+    }
+
+    @Override
     public int rejectManager(String storeId) {
         return memberMapper.rejectManager(storeId);
     }
+
 
     @Override
     public int updatePhone(String phone, String memId) {
@@ -89,3 +101,4 @@ public class MemberServiceImpl implements MemberService {
     }
 
 }
+

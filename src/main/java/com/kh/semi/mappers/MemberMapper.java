@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.parameters.P;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Mapper
 public interface MemberMapper {
@@ -17,10 +18,20 @@ public interface MemberMapper {
     ArrayList<Member> acceptMemberList();
     int approveMember(@Param("memId") String memId, @Param("storeSelect") String storeSelect);
     int rejectMember(@Param("memId") String memId);
+
+
+    ArrayList<String> getStoreList();
+
+    List<Member> getEmployeesByStore(String store);
+
     ArrayList<Member> acceptManagerList();
     int approveManagerStore(@Param("storeId") String storeId);
     int approveManagerPosition(@Param("memId") String memId);
     int rejectManager(@Param("storeId") String storeId);
+
     int updatePhone(@Param("phone") String phone, @Param("memId") String memId);
     int updatePwd(@Param("newPwd") String newPwd, @Param("memPwd") String memPwd, @Param("memId") String memId);
+
+
+
 }
