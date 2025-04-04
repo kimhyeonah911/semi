@@ -49,10 +49,10 @@
 
     #submit-btn {
       width: 80px;
-      height: 35px;
-      font-size: 22px;
-      border-radius: 8px;
-      cursor: pointer;
+      /*height: 35px;*/
+      /*font-size: 22px;*/
+      /*border-radius: 8px;*/
+      /*cursor: pointer;*/
     }
 
     input[type="date"]{
@@ -83,40 +83,6 @@
       font-size: 16px;
       color: black;
       text-align: center;
-    }
-
-    .pagination {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 30px;
-      margin-bottom: 10px;
-    }
-
-    .pagination a {
-      text-decoration: none;
-      color: #000000;
-      padding: 10px 15px;
-      margin: 0 5px;
-      border-radius: 5px;
-      border: 1px solid #ddd;
-      font-size: 16px;
-      transition: background-color 0.3s ease;
-    }
-
-    .pagination a:hover {
-      background-color: #717171;
-    }
-
-    .pagination .active {
-      background-color: #000000;
-      color: white;
-      border: 1px solid #000000;
-    }
-
-    .pagination .disabled {
-      color: #ccc;
-      cursor: not-allowed;
     }
 
   </style>
@@ -158,7 +124,7 @@
       <input type="date" id="end-date">
     </div>
 
-    <button type="submit" id="submit-btn">조회</button>
+    <button class="btn btn-primary" type="submit" id="submit-btn">조회</button>
   </div>
 
 
