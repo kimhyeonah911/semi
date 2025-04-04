@@ -22,15 +22,13 @@ public interface MemberService {
 
     int rejectMember(@RequestParam String memId);
 
+    ArrayList<Member> acceptManagerList();
+
+    int approveManager(@RequestParam String storeId, @RequestParam String memId);
 
     ArrayList<String> getStoreList();
 
     List<Member> getEmployeesByStore(String store);
 
-    ArrayList<Member> acceptManagerList();
-
-    int approveManager(@RequestParam String storeId, @RequestParam String memId);
-
     int rejectManager(@RequestParam String storeId);
-
 }

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,21 +55,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public ArrayList<String> getStoreList() {
-        return memberMapper.getStoreList();
-    }
-
-    @Override
-    public List<Member> getEmployeesByStore(String store) {
-        return memberMapper.getEmployeesByStore(store);
-
     public ArrayList<Member> acceptManagerList() {
         return memberMapper.acceptManagerList();
     }
 
     @Transactional
     @Override
-    public int approveManager(@RequestParam String storeId, String memId) {
+    public int approveManager(String storeId, String memId) {
         int storeresult = memberMapper.approveManagerStore(storeId);
         int positionresult = memberMapper.approveManagerPosition(memId);
 
@@ -83,9 +74,19 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public ArrayList<String> getStoreList() {
+        return memberMapper.getStoreList();
+    }
+
+
+    @Override
+    public List<Member> getEmployeesByStore(String store) {
+        return memberMapper.getEmployeesByStore(store);
+    }
+
+    @Override
     public int rejectManager(String storeId) {
         return memberMapper.rejectManager(storeId);
-
     }
 
 }
