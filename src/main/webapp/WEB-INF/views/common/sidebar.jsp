@@ -1,5 +1,7 @@
+<%@ page import="com.kh.semi.domain.vo.Member" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+    Member loginUser = (Member)session.getAttribute("loginUser");
     String position = (String)session.getAttribute("position");
 %>
 <!DOCTYPE html>
@@ -123,7 +125,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/attendance.ma">
+                <a class="nav-link" href="/attendance.ma?storeId=${loginUser.storeId}">
                     <i class="fas fa-users"></i> 근태 관리
                 </a>
             </li>
@@ -164,7 +166,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/attendance.em">
+                <a class="nav-link" href="/attendance.em?empNo=${loginUser.empNo}">
                     <i class="fas fa-users"></i> 근태 관리
                 </a>
             </li>
