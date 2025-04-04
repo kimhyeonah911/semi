@@ -347,6 +347,7 @@
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
+    //초기 리스트 불러오기
     $(document).ready(function() {
         $.ajax({
             url: '/api/getProductList',  // 서버로 요청

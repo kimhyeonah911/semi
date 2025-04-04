@@ -299,6 +299,10 @@
       document.getElementById("inout-search").style.display = "flex";
     }
   });
+
+
+  // 재고 리스트 불러오기
+
 </script>
 </body>
 </html>

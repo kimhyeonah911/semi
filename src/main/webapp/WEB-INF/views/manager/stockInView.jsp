@@ -964,7 +964,19 @@
 
     }
 
+    //date2는 date1보다 나중값 입력되기
+    document.getElementById("date1").addEventListener("change", function () {
+        let date1 = this.value;
+        let date2 = document.getElementById("date2");
 
+        // date2의 최소값을 date1보다 하루 이후로 설정
+        date2.min = date1 ? new Date(new Date(date1).setDate(new Date(date1).getDate() + 1)).toISOString().split("T")[0] : "2020-01-01";
+
+        // 만약 date2가 date1보다 이전 날짜라면 초기화
+        if (date2.value && date2.value <= date1) {
+            date2.value = "";
+        }
+    });
 </script>
 
 </body>
