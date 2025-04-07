@@ -154,12 +154,15 @@
                 url: '/clockInOut',
                 data: { type: "in" },
                 success: function(response) {
-                    if (response === "출근 완료") {
-                        alert(response);
+                    if (response.startsWith("redirect:")) {
+                        alert("출근 완료");
                         let workButton = document.getElementById("workButton");
                         workButton.innerText = "근무중";
                         workButton.classList.remove("start-btn");
                         workButton.classList.add("working-btn");
+
+                        // redirect 이동
+                        window.location.href = response.replace("redirect:", "");
                     } else {
                         alert("출근 실패 또는 이미 출근 처리됨");
                     }
@@ -170,19 +173,23 @@
             });
         }
 
+
         function 퇴근() {
             $.ajax({
                 type: "POST",
                 url: '/clockInOut',
                 data: { type: "out" },
                 success: function(response) {
-                    if(response=="퇴근 완료") {
-                        alert(response);
+                    if (response.startsWith("redirect:")) {
+                        alert("퇴근 완료");
                         let workButton = document.getElementById("workButton");
                         workButton.innerText = "출근";
                         workButton.classList.remove("working-btn");
                         workButton.classList.add("start-btn");
-                    } else{
+
+                        // redirect 이동
+                        window.location.href = response.replace("redirect:", "");
+                    } else {
                         alert("퇴근 실패 또는 이미 퇴근 처리됨");
                     }
                 },
@@ -191,6 +198,7 @@
                 }
             });
         }
+
 
         function updateClock() {
             let now = new Date();

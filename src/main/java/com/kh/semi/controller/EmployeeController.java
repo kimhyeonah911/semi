@@ -49,9 +49,8 @@ public class EmployeeController {
     @PostMapping("/clockInOut")
     public String clockInOut(@RequestParam String type, HttpSession session) {
         Member loginUser = (Member) session.getAttribute("loginUser");
-
         if (loginUser == null) {
-            return "로그인 필요";
+            return "redirect:/login";
         }
 
         Attendance attendance = new Attendance();
@@ -61,28 +60,27 @@ public class EmployeeController {
             attendance.setClockIn(new Date());
             attendance.setStatus("W");
             int result = attendanceService.insertClockIn(attendance);
-            System.out.println(result);
-            if(result>0){
+            if(result > 0){
                 session.setAttribute("isWorking", true);
-                return "출근 완료";
-            }else{
+                return "redirect:/attendance.em?empNo=" + loginUser.getEmpNo();
+            } else {
                 return "출근 실패";
             }
-
         } else if ("out".equals(type)) {
-            attendance.setClockOut(new Date()); //
+            attendance.setClockOut(new Date());
             attendance.setStatus("L");
             int result = attendanceService.updateClockOut(attendance);
-            if(result>0){
+            if(result > 0){
                 session.setAttribute("isWorking", false);
-                return "퇴근 완료";
-            }else{
+                return "redirect:/attendance.em?empNo=" + loginUser.getEmpNo();
+            } else {
                 return "퇴근 실패";
             }
         }
 
         return "잘못된 요청";
     }
+
 
 
 
