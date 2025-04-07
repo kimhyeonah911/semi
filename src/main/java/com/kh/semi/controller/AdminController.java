@@ -57,14 +57,13 @@ public class AdminController {
         int boardLimit = 10;   // 한 페이지에 보여질 게시글 수
 
         PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
-
         ArrayList<Board> listpage = boardService.selectBoardListByPage(pi);
+        System.out.println(listpage);
         model.addAttribute("listpage", listpage);  // 변경: listpage로 모델에 추가
         model.addAttribute("pi", pi);
         model.addAttribute("pageUrl", "list.bo");
         System.out.println("공지사항 리스트 : " + listpage);
         System.out.println("PageInfo: " + pi);
-
         return "admin/boardListView";
     }
 

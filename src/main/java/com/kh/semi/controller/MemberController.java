@@ -115,7 +115,6 @@ public class MemberController {
 
     @GetMapping("mypage.bo")
     public String adminPage() {
-
         return "common/mypage";
     }
 
