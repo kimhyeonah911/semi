@@ -335,38 +335,38 @@
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
-    //초기 리스트 불러오기
-    $(document).ready(function() {
-        $.ajax({
-            url: '/api/getProductList',  // 서버로 요청
-            method: 'GET',
-            success: function(data) {
-                let tbodyContent = '';
-                data.forEach(function(p) {
-                    tbodyContent +=
-                        "<tr class='product-tr' data-category='" + p.categoryNo + "' data-status='" + p.status + "' data-product-id='" + p.productNo + "'>" +
-                        "<td><input type='checkbox' name='product-checkbox'></td>" +
-                        "<td class='td-productNo'>" + p.productNo + "</td>" +
-                        "<td class='td-productName'>" + p.productName + "</td>" +
-                        "<td class='td-categoryName'>" + p.categoryName + "</td>" +
-                        "<td class='td-color'>" + p.color + "</td>" +
-                        "<td class='td-productSize'>" + p.productSize + "</td>" +
-                        "<td class='td-stockInPrice'>" + p.stockInPrice + "</td>" +
-                        "<td class='td-stockOutPrice'>" + p.stockOutPrice + "</td>" +
-                        "<td style='width: 100px;'>" +
-                        "<button class='approve-btn btn btn-success' onclick='showEditForm(this)'>" +
-                        "<i class='fas fa-edit'></i>" +
-                        "</button>" +
-                        "</td>" +
-                        "</tr>";
-                });
-                $('#product-list').html(tbodyContent);   // 테이블에 동적으로 삽입
-            },
-            error: function(error) {
-                console.error('데이터를 불러오는 데 실패했습니다:', error);
-            }
-        });
-    });
+    // //초기 리스트 불러오기
+    // $(document).ready(function() {
+    //     $.ajax({
+    //         url: '/api/getProductList',  // 서버로 요청
+    //         method: 'GET',
+    //         success: function(data) {
+    //             let tbodyContent = '';
+    //             data.forEach(function(p) {
+    //                 tbodyContent +=
+    //                     "<tr class='product-tr' data-category='" + p.categoryNo + "' data-status='" + p.status + "' data-product-id='" + p.productNo + "'>" +
+    //                     "<td><input type='checkbox' name='product-checkbox'></td>" +
+    //                     "<td class='td-productNo'>" + p.productNo + "</td>" +
+    //                     "<td class='td-productName'>" + p.productName + "</td>" +
+    //                     "<td class='td-categoryName'>" + p.categoryName + "</td>" +
+    //                     "<td class='td-color'>" + p.color + "</td>" +
+    //                     "<td class='td-productSize'>" + p.productSize + "</td>" +
+    //                     "<td class='td-stockInPrice'>" + p.stockInPrice + "</td>" +
+    //                     "<td class='td-stockOutPrice'>" + p.stockOutPrice + "</td>" +
+    //                     "<td style='width: 100px;'>" +
+    //                     "<button class='approve-btn btn btn-success' onclick='showEditForm(this)'>" +
+    //                     "<i class='fas fa-edit'></i>" +
+    //                     "</button>" +
+    //                     "</td>" +
+    //                     "</tr>";
+    //             });
+    //             $('#product-list').html(tbodyContent);   // 테이블에 동적으로 삽입
+    //         },
+    //         error: function(error) {
+    //             console.error('데이터를 불러오는 데 실패했습니다:', error);
+    //         }
+    //     });
+    // });
 </script>
 <script> //카테고리 셀렉트바 출력
     $(document).ready(function() {
@@ -753,6 +753,8 @@ function updateProductRestart() {
                 }
             });
         });
+
+        $('#search-form').trigger('submit');
 
         function changePauseBtn(status){
             const pauseBtn = document.getElementById("pauseButton");
