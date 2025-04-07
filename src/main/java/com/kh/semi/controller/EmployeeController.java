@@ -2,10 +2,7 @@ package com.kh.semi.controller;
 
 import com.kh.semi.domain.vo.Attendance;
 import com.kh.semi.domain.vo.Member;
-<<<<<<< HEAD
-=======
 import com.kh.semi.domain.vo.Store;
->>>>>>> b7ea442bf6c9982b970f185acdd70790a242ba2b
 import com.kh.semi.service.AttendanceService;
 import com.kh.semi.service.MemberService;
 import com.kh.semi.service.StoreService;
@@ -13,18 +10,12 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-<<<<<<< HEAD
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-=======
 import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
->>>>>>> b7ea442bf6c9982b970f185acdd70790a242ba2b
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -88,7 +79,7 @@ public class EmployeeController {
         return "employee/dashBoard-employee";
     }
 
-<<<<<<< HEAD
+
     @ResponseBody
     @PostMapping("/clockInOut")
     public String clockInOut(@RequestParam String type, HttpSession session) {
@@ -125,10 +116,4 @@ public class EmployeeController {
         return "잘못된 요청";
     }
 
-
-
-
-
-=======
->>>>>>> b7ea442bf6c9982b970f185acdd70790a242ba2b
 }

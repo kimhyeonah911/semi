@@ -127,7 +127,4 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.selectMemberListByStore(storeName, rowBounds);
     }
 
-
-
-
 }
