@@ -13,52 +13,43 @@
         <result column="WORKTIME" property="workTime"/>
         <result column="EMP_NAME" property="empName"/>
     </resultMap>
-
-    <select id="getAttendanceList" parameterType="Attendance" resultMap="attendanceResult">
-
-        SELECT
-        FROM ATTENDANCE
-
-    </select>
-
     <select id="getAttendanceMy" parameterType="Attendance" resultMap="attendanceResult">
         SELECT ATTENDANCE_NO,
-                EMP_NO,
-                CLOCK_IN,
-                CLOCK_OUT,
-                TRUNC(CLOCK_IN) AS WORKDAY,
-                STATUS,
-                CASE
-                WHEN CLOCK_OUT IS NOT NULL THEN
-                FLOOR((CLOCK_OUT - CLOCK_IN) * 24) || '시간 ' ||
-                FLOOR(MOD((CLOCK_OUT - CLOCK_IN) * 24 * 60, 60)) || '분'
-                ELSE NULL
-                END AS WORKTIME
+        EMP_NO,
+        CLOCK_IN,
+        CLOCK_OUT,
+        TRUNC(CLOCK_IN) AS WORKDAY,
+        STATUS,
+        CASE
+        WHEN CLOCK_OUT IS NOT NULL THEN
+        FLOOR((CLOCK_OUT - CLOCK_IN) * 24) || '시간 ' ||
+        FLOOR(MOD((CLOCK_OUT - CLOCK_IN) * 24 * 60, 60)) || '분'
+        ELSE NULL
+        END AS WORKTIME
         FROM ATTENDANCE
         WHERE EMP_NO = #{empNo}
         ORDER BY ATTENDANCE_NO DESC
     </select>
 
     <select id="getMyAttendanceList" parameterType="Attendance" resultMap="attendanceResult">
-                SELECT
-                a.ATTENDANCE_NO,
-                a.EMP_NO,
-                m.MEM_NAME AS EMP_NAME,
-                a.CLOCK_IN,
-                a.CLOCK_OUT,
-                TRUNC(a.CLOCK_IN) AS WORKDAY,
-                a.STATUS,
-                CASE
-                WHEN a.CLOCK_OUT IS NOT NULL THEN
-                FLOOR((a.CLOCK_OUT - a.CLOCK_IN) * 24) || '시간 ' ||
-                FLOOR(MOD((a.CLOCK_OUT - a.CLOCK_IN) * 24 * 60, 60)) || '분'
-                ELSE NULL
-                END AS WORKTIME
+        SELECT
+        a.ATTENDANCE_NO,
+        a.EMP_NO,
+        m.MEM_NAME AS EMP_NAME,
+        a.CLOCK_IN,
+        a.CLOCK_OUT,
+        TRUNC(a.CLOCK_IN) AS WORKDAY,
+        a.STATUS,
+        CASE
+        WHEN a.CLOCK_OUT IS NOT NULL THEN
+        FLOOR((a.CLOCK_OUT - a.CLOCK_IN) * 24) || '시간 ' ||
+        FLOOR(MOD((a.CLOCK_OUT - a.CLOCK_IN) * 24 * 60, 60)) || '분'
+        ELSE NULL
+        END AS WORKTIME
         FROM ATTENDANCE a
         JOIN MEMBER m ON a.EMP_NO = m.EMP_NO
         WHERE m.STORE_ID = #{storeId}
         AND TRUNC(a.CLOCK_IN) = TRUNC(SYSDATE)
         ORDER BY a.ATTENDANCE_NO DESC
-
     </select>
 </mapper>

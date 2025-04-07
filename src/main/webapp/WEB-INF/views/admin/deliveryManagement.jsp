@@ -156,6 +156,40 @@
             margin-top: 30px;
             padding: 15px;
         }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        .pagination a {
+            text-decoration: none;
+            color: #000000;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .pagination a:hover {
+            background-color: #717171;
+        }
+
+        .pagination .active {
+            background-color: #000000;
+            color: white;
+            border: 1px solid #000000;
+        }
+
+        .pagination .disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -206,9 +240,42 @@
         <div class="bottom">
             <button onclick="enroll()">거래처 등록</button>
         </div>
-        <div class="pagebar-container mt-3">
-            <jsp:include page="../common/pagebar.jsp"/>
-        </div>
+
+        <c:if test="${pi.maxPage > 1}">
+            <div class="pagination">
+                <!-- 이전 버튼 -->
+                <c:choose>
+                    <c:when test="${pi.currentPage == 1}">
+                        <a href="#" class="disabled">이전</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${pageUrl}?cpage=${pi.currentPage - 1}">이전</a>
+                    </c:otherwise>
+                </c:choose>
+
+                <!-- 숫자 버튼 -->
+                <c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
+                    <c:choose>
+                        <c:when test="${i == pi.currentPage}">
+                            <a href="#" class="active">${i}</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${pageUrl}?cpage=${i}">${i}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+
+                <!-- 다음 버튼 -->
+                <c:choose>
+                    <c:when test="${pi.currentPage == pi.maxPage}">
+                        <a href="#" class="disabled">다음</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${pageUrl}?cpage=${pi.currentPage + 1}">다음</a>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </c:if>
 
         <!-- 등록 버튼 누를 시 나오는 모달 창 -->
         <div class="modal fade" id="enrollModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">

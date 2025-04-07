@@ -137,12 +137,23 @@ public class AdminController {
     }
 
     @GetMapping("product.bo")
-    public String productManagement() {return "admin/productManagement";}
+    public String productManagement( Model model) {
+        return "admin/productManagement";
+    }
 
     @GetMapping("delivery.ma")
-    public String deliveryManagement(Model model) {
-        ArrayList<Client> list = productService.selectClientList();
-        model.addAttribute("client", list);
+    public String deliveryManagement(@RequestParam(defaultValue = "1") int cpage, Model model) {
+        // 페이징바 처리 코드
+        int listCount = productService.deliveryCount(); // 전체 입고처 수
+        int pageLimit = 5;     // 하단에 보여질 페이징 바 수
+        int boardLimit = 10;   // 한 페이지에 보여질 입고처 수
+        model.addAttribute("pageUrl", "delivery.ma");
+        PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
+
+        ArrayList<Client> listpage = productService.selectdeliveryListByPage(pi);
+        model.addAttribute("client", listpage); // jsp el 태그에서 db 값 불러올 때 clent 변수로 불러옴 << 확인 부탁
+        model.addAttribute("pi", pi);
+
         return "admin/deliveryManagement";
     }
 
@@ -165,26 +176,33 @@ public class AdminController {
     }
 
     @GetMapping("employee.in")
-    public String employeeInfoView(@RequestParam(defaultValue = "1") int cpage, Model model) {
+    public String employeeInfoView(
+            @RequestParam(defaultValue = "1") int cpage,
+            @RequestParam(required = false, defaultValue = "전체") String storeName,
+            Model model) {
 
-        // DB에서 중복 없는 지점 목록 가져오기
         ArrayList<String> storeList = memberService.getStoreList();
         model.addAttribute("storeList", storeList);
 
-        // 페이징바 처리 코드
-        int listCount = memberService.countAllMembers(); // 전체 직원 수
-        int pageLimit = 5;     // 하단에 보여질 페이징 바 수
-        int boardLimit = 10;   // 한 페이지에 보여질 직원 수
+        int listCount = storeName.equals("전체") ?
+                memberService.countAllMembers() :
+                memberService.countMembersByStore(storeName);
+
+        int pageLimit = 5;
+        int boardLimit = 10;
+        PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
+        model.addAttribute("pi", pi);
         model.addAttribute("pageUrl", "employee.in");
 
-        PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
+        ArrayList<Member> list = storeName.equals("전체") ?
+                memberService.selectMemberListByPage(pi) :
+                memberService.selectMemberListByStore(pi, storeName);
 
-        ArrayList<Member> listpage = memberService.selectMemberListByPage(pi);
-        model.addAttribute("member", listpage);
-        model.addAttribute("pi", pi);
-
+        model.addAttribute("member", list);
+        model.addAttribute("selectedStore", storeName); // 혹시 필요하면
         return "admin/employeeInfoView";
     }
+
 
     @GetMapping("employeeList")
     @ResponseBody // JSON 형태로 반환

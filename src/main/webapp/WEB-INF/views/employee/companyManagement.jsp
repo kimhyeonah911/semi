@@ -112,7 +112,6 @@
 <body>
 <jsp:include page="../common/header.jsp"/>
 <div class="container-fluid" style="margin-top: 130px">
-    <div class="row">
         <!-- Sidebar -->
         <jsp:include page="../common/sidebar.jsp"/>
         <!-- Main content -->
@@ -120,33 +119,31 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h2>지점 생성(지점장만 입력해주세요)</h2>
             </div>
-            <form>
+            <form action="insertShop.co" method="post">
                 <div class="mb-3">
                     <label for="storeName" class="form-label">지점명</label>
-                    <input type="text" class="form-control" id="storeName">
+                    <input type="text" class="form-control" id="storeName" name="storeName">
                 </div>
 
                 <div class="mb-3">
                     <label for="address" class="form-label">주소</label>
-                    <input type="text" class="form-control" id="address">
+                    <input type="text" class="form-control" id="address" name="address">
                 </div>
 
                 <div class="mb-3">
                     <label for="phoneNumber" class="form-label">매장 전화번호</label>
-                    <input type="text" class="form-control" id="phoneNumber">
+                    <input type="text" class="form-control" id="phoneNumber" name="phone">
                 </div>
 
                 <div class="mb-3">
                     <label for="registrationDate" class="form-label">등록일</label>
                     <input type="text" class="form-control" id="registrationDate" value="2025 / 03 / 28" disabled>
                 </div>
-                <button id="createbtn" onclick="">생성</button>
+                <button id="createbtn" type="submit">생성</button>
             </form>
-
 
         </main>
     </div>
-</div>
 
 
 </body>

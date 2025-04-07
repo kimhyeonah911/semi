@@ -40,7 +40,7 @@
         FROM MEMBER M
         LEFT JOIN STORE S ON M.STORE_ID = S.STORE_ID
         WHERE M.MEM_ID = #{memId}
-              AND M.MEM_PWD = #{memPwd}
+        AND M.MEM_PWD = #{memPwd}
     </select>
 
     <insert id="insertMember" parameterType="Member">
@@ -114,10 +114,10 @@
     <update id="approveMember">
         UPDATE MEMBER M
         SET M.STATUS = 'Y',
-            M.POSITION = 'employee',
-            M.STORE_ID = (SELECT S.STORE_ID
-                          FROM STORE S
-                          WHERE S.STORE_NAME = #{storeSelect})
+        M.POSITION = 'employee',
+        M.STORE_ID = (SELECT S.STORE_ID
+        FROM STORE S
+        WHERE S.STORE_NAME = #{storeSelect})
         WHERE M.MEM_ID =#{memId}
     </update>
 
@@ -139,9 +139,9 @@
         FROM MEMBER M
         JOIN STORE S ON M.STORE_ID = S.STORE_ID
         WHERE M.STATUS = 'Y'
-              AND S.STATUS = 'N'
-              AND M.POSITION = 'employee'
-              AND M.STORE_ID = S.STORE_ID
+        AND S.STATUS = 'N'
+        AND M.POSITION = 'employee'
+        AND M.STORE_ID = S.STORE_ID
         ORDER BY M.EMP_NO ASC
     </select>
 
@@ -152,9 +152,9 @@
     </update>
 
     <update id="approveManagerPosition">
-    UPDATE MEMBER
-    SET POSITION = 'manager'
-    WHERE MEM_ID = #{memId}
+        UPDATE MEMBER
+        SET POSITION = 'manager'
+        WHERE MEM_ID = #{memId}
     </update>
 
     <update id="rejectManager">
@@ -194,6 +194,36 @@
         WHERE MEM_ID = #{memId}
         AND MEM_PWD = #{memPwd}
     </update>
+
+
+    <select id="countMembersByStore" resultType="int" parameterType="String">
+        SELECT COUNT(*)
+        FROM MEMBER M
+        JOIN STORE S ON M.STORE_ID = S.STORE_ID
+        WHERE S.STORE_NAME = #{storeName}
+    </select>
+
+    <!-- 지점별 직원 목록 -->
+    <select id="selectMemberListByStore" resultMap="memberResult" parameterType="map">
+        SELECT
+        M.EMP_NO,
+        M.STORE_ID,
+        M.MEM_ID,
+        M.MEM_PWD,
+        M.MEM_NAME,
+        M.PHONE,
+        M.POSITION,
+        M.STATUS,
+        M.CREATE_DATE,
+        M.MODIFY_DATE,
+        M.HIRE_DATE,
+        M.SALARY,
+        S.STORE_NAME
+        FROM MEMBER M
+        JOIN STORE S ON M.STORE_ID = S.STORE_ID
+        WHERE S.STORE_NAME = #{storeName}
+        ORDER BY M.EMP_NO DESC
+    </select>
 
 
 </mapper>

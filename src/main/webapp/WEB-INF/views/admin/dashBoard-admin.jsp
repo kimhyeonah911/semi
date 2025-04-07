@@ -151,7 +151,6 @@
         </div>
 
         <div class="card-container">
-
             <!-- 부족한 재고 카드 -->
             <div class="dashboard-card card-warning" style="grid-area: warning;">
                 <div class="card-title">⚠️ 부족한 재고</div>
