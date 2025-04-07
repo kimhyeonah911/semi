@@ -1,10 +1,14 @@
 package com.kh.semi.RESTController;
 
+import com.kh.semi.domain.vo.Storage;
 import com.kh.semi.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api")
@@ -21,4 +25,17 @@ public class APIStorageController {
             return "fail";
         }
     }
+
+    @GetMapping("/getStorageList")
+    public ArrayList<Storage> getStorageList() {
+        ArrayList<Storage> list = storageService.getStorageList();
+        if (list == null) {
+            System.out.println("Storage list is null");
+        } else {
+            System.out.println("Storage list : " + list);
+        }
+        return list;
+    }
+
+
 }

@@ -32,4 +32,10 @@
         DELETE FROM STORAGE
         WHERE STORAGE_NO = #{storageNo}
     </delete>
+
+    <select id="getStorageList" parameterType="Storage" resultMap="storageResult" >
+        SELECT DISTINCT STORAGE_LOCATION,
+                        STORAGE_NO
+        FROM STORAGE
+    </select>
 </mapper>

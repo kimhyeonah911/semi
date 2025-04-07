@@ -31,7 +31,7 @@
       margin-right: 20px; /* 각 요소 간 간격 */
     }
 
-    #storage-search-bar {
+    #storage-select-bar {
       width: 120px;
       height: 35px;
       font-size: 22px;
@@ -109,22 +109,20 @@
 
     <!-- 재고 관련 옵션 (창고명, 상품명 검색) -->
     <div id="inventory-search" class="search-fields">
-      <select id="storage-search-bar">
-        <option>창고명</option>
-        <option>A창고</option>
-        <option>B창고</option>
-        <option>C창고</option>
+      <select id="storage-select-bar">
+          <%--창고명 옵션--%>
       </select>
       <input type="text" placeholder="상품명" id="product-search-bar">
+      <button class="btn btn-primary" type="submit" id="inventory-search-btn" onclick="inventorySearch()">조회</button>
     </div>
 
     <!-- 입출고 관련 옵션 (날짜 범위) -->
     <div id="inout-search" class="search-fields" style="display: none;">
       <input type="date" id="start-date"> <span id="wave"> ~ </span>
       <input type="date" id="end-date">
+      <button class="btn btn-primary" type="submit" id="stockInOut-search-btn" onclick="stockInOutSearch">조회</button>
     </div>
 
-    <button class="btn btn-primary" type="submit" id="submit-btn">조회</button>
   </div>
 
 
@@ -144,43 +142,8 @@
           <th>재고수량</th>
         </tr>
         </thead>
-        <tbody>
-        <tr>
-          <td>A</td>
-          <td>238-654-13</td>
-          <td>나이키 에어포스 1 '07</td>
-          <td>운동화</td>
-          <td>WHITE</td>
-          <td>230</td>
-          <td>20</td>
-        </tr>
-        <tr>
-          <td>A</td>
-          <td>238-654-14</td>
-          <td>나이키 에어포스 1 '07</td>
-          <td>운동화</td>
-          <td>BLACK</td>
-          <td>250</td>
-          <td>14</td>
-        </tr>
-        <tr>
-          <td>B</td>
-          <td>238-623-14</td>
-          <td>아디다스 슈퍼스타</td>
-          <td>운동화</td>
-          <td>PINK</td>
-          <td>250</td>
-          <td>30</td>
-        </tr>
-        <tr>
-          <td>C</td>
-          <td>218-643-86</td>
-          <td>어그 클래식 샌들</td>
-          <td>샌들</td>
-          <td>BROWN</td>
-          <td>220</td>
-          <td>15</td>
-        </tr>
+        <tbody id="inventory-list">
+          <%-- 재고 리스트 --%>
         </tbody>
       </table>
       <div class="pagebar-container mt-3">
@@ -247,6 +210,8 @@
 </main>
 </div>
 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   // 재고/입출고 선택 시 섹션 전환 및 필드 표시 전환
   document.getElementById("search-option-bar").addEventListener("change", function () {
@@ -266,8 +231,126 @@
     }
   });
 
+  //창고명 셀렉트바 불러오기
+    $(document).ready(function(){
+      getStorageList(drawStorageList);
+    });
+
+    function getStorageList(callback){
+      $.ajax({
+        url: "/api/getStorageList",
+        type: "GET",
+        success : function (res){
+          console.log(res);
+          callback(res);
+        }, error: function(){
+          console.log("storage list ajax 요청 실패");
+        }
+      })
+    }
+
+    function drawStorageList(res){
+      //창고 셀렉트 바
+      const storageSelectBar = document.getElementById("storage-select-bar")
+      storageSelectBar.innerHTML = "";
+
+      //placeholder 역할 기본 옵션
+      const placeholderOption = document.createElement("option");
+      placeholderOption.value = "";
+      placeholderOption.innerText = "전체창고";
+      storageSelectBar.appendChild(placeholderOption);
+
+      //data(res) option에 추가
+      res.forEach(storage => {
+        const option = document.createElement("option");
+        option.value = storage.storageNo;
+        option.innerText = storage.storageLocation;
+        storageSelectBar.appendChild(option);
+      });
+    }
 
   // 재고 리스트 불러오기
+  $(document).ready(function(){
+
+    console.log("재고리스트")
+    $.ajax({
+      url : '/api/getInventoryList',
+      method: 'GET',
+      success : function(res){
+        console.log(res)
+        let tbodyContent = '';
+        res.forEach(function(i){
+          tbodyContent +=
+                  "<tr class='inventory-tr'>" +
+                  "<td class='td-storageName'>" + i.storageLocation + "</td>" +
+                  "<td class='td-productNo'>" + i.productNo + "</td>" +
+                  "<td class='td-productName'>" + i.productName + "</td>" +
+                  "<td class='td-categoryName'>" + i.categoryName + "</td>" +
+                  "<td class='td-color'>" + i.color + "</td>" +
+                  "<td class='td-productSize'>" + i.productSize + "</td>" +
+                  "<td class='td-quantity'>" + i.quantity + "</td>" +
+                  "</tr>";
+        })
+        $('#inventory-list').html(tbodyContent);
+      },
+
+      error : function (error) {
+        console.error('데이터를 불러오는데 실패했습니다: ', error);
+        alert('데이터를 불러오는데 실패했습니다 : ' + error);
+      }
+    });
+  });
+
+    //재고 리스트 - 창고 셀렉트 , 상품명 검색
+    function inventorySearch(){
+      const storageNo = document.getElementById("storage-select-bar").value;
+      const keyword = document.getElementById("product-search-bar").value.trim();
+
+      $.ajax({
+        url : '/api/searchInventoryList',
+        method: 'GET',
+        data: {
+          selectedStorageNo: storageNo,
+          searchedKeyword: keyword
+      },
+        success: function (data){
+          const tableBody = $('#inventory-list');
+          tableBody.empty();
+
+          let tbodyContent= "";
+
+          if(data.length === 0){
+            tbodyContent = '<tr><td colspan="9" class="text-center">조회 결과가 없습니다.</td></tr>';
+          } else {
+            data.forEach(function(i){
+              tbodyContent +=
+                      "<tr class='inventory-tr'>" +
+                      "<td class='td-storageName'>" + i.storageLocation + "</td>" +
+                      "<td class='td-productNo'>" + i.productNo + "</td>" +
+                      "<td class='td-productName'>" + i.productName + "</td>" +
+                      "<td class='td-categoryName'>" + i.categoryName + "</td>" +
+                      "<td class='td-color'>" + i.color + "</td>" +
+                      "<td class='td-productSize'>" + i.productSize + "</td>" +
+                      "<td class='td-quantity'>" + i.quantity + "</td>" +
+                      "</tr>";
+            });
+          }
+          $('#inventory-list').html(tbodyContent);
+
+          $('#storage-select-bar').value(storageNo);
+          $('#product-search-bar').value(keyword);
+
+
+        },
+        error: function(error){
+          console.error('상품을 검색하는데 실패했습니다:', error);
+          alert('상품을 검색하는데 실패했습니다');
+        }
+      });
+    }
+
+    //입출고리스트 불러오기
+
 
 </script>
 </body>

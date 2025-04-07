@@ -182,19 +182,7 @@
                 </tr>
                 </thead>
                 <tbody id="product-list">
-<%--                <c:forEach var="p" items="${product}">--%>
-<%--                    <tr class="product-tr" data-category="${p.categoryNo}" data-status="${p.status}" data-product-id="${p.productNo}">--%>
-<%--                        <td><input type="checkbox" name="product-checkbox"></td>--%>
-<%--                        <td class="td-productNo">${p.productNo}</td>--%>
-<%--                        <td class="td-productName">${p.productName}</td>--%>
-<%--                        <td class="td-categoryName" >${p.categoryName}</td>--%>
-<%--                        <td class="td-color">${p.color}</td>--%>
-<%--                        <td class="td-productSize">${p.productSize}</td>--%>
-<%--                        <td class="td-stockInPrice">${p.stockInPrice}</td>--%>
-<%--                        <td class="td-stockOutPrice">${p.stockOutPrice}</td>--%>
-<%--                        <td style="width: 100px;"><button class="approve-btn btn btn-success" onclick="showEditForm(this)"><i class="fas fa-edit"></i></button></td>--%>
-<%--                    </tr>--%>
-<%--                </c:forEach>--%>
+                    <%--상품 리스트 자리--%>
                 </tbody>
             </table>
         </div>
@@ -222,10 +210,10 @@
                     <!-- 모달 본문 -->
                     <div class="modal-body">
                         <form id="enrollForm" action="/enrollProduct" method="post" enctype="multipart/form-data">
-<%--                            <div class="mb-3">--%>
-<%--                                <label for="enrollProductNo" class="form-label">상품번호</label>--%>
-<%--                                <input type="text" class="form-control" id="enrollProductNo" name="productNo" placeholder="자동 생성" readonly>--%>
-<%--                            </div>--%>
+                            <div class="mb-3">
+                                <label for="enrollProductNo" class="form-label">상품번호</label>
+                                <input disabled type="text" class="form-control" id="enrollProductNo" name="productNo" placeholder="자동 생성" readonly>
+                            </div>
                             <div class="mb-3">
                                 <label for="enrollProductName" class="form-label">상품명</label>
                                 <input type="text" class="form-control" id="enrollProductName" name="productName">
@@ -355,7 +343,8 @@
             success: function(data) {
                 let tbodyContent = '';
                 data.forEach(function(p) {
-                    tbodyContent += "<tr class='product-tr' data-category='" + p.categoryNo + "' data-status='" + p.status + "' data-product-id='" + p.productNo + "'>" +
+                    tbodyContent +=
+                        "<tr class='product-tr' data-category='" + p.categoryNo + "' data-status='" + p.status + "' data-product-id='" + p.productNo + "'>" +
                         "<td><input type='checkbox' name='product-checkbox'></td>" +
                         "<td class='td-productNo'>" + p.productNo + "</td>" +
                         "<td class='td-productName'>" + p.productName + "</td>" +
@@ -446,7 +435,7 @@ function drawClientSelect(res) {
         // 기존 옵션 제거
         clientSelectBar.innerHTML = "";
 
-        // 🔹 placeholder 역할을 하는 기본 옵션 추가
+        //placeholder 역할을 하는 기본 옵션 추가
         const placeholderOption = document.createElement("option");
         placeholderOption.value = "";
         placeholderOption.innerText = "옵션을 선택하세요";
@@ -463,9 +452,9 @@ function drawClientSelect(res) {
         });
     });
 }
-</script>
 
-<script> //판매 중지 버튼
+
+//판매 중지 버튼
 function updateProductPause() {
     let selectedProductsNo = [];
     $('input[name="product-checkbox"]:checked').each(function() {
@@ -574,11 +563,7 @@ function updateProductRestart() {
     });
 }
 
-</script>
 
-
-
-<script>
     //상품등록
     function showEnrollForm(){
         new bootstrap.Modal(document.querySelector("#enrollModal")).show();
@@ -704,9 +689,7 @@ function updateProductRestart() {
         form.submit();
     }
 
-</script>
-
-<script>
+    //상품검색
     $(document).ready(function() {
         // 폼 제출 시 AJAX 요청 처리
         $('#search-form').on('submit', function(e) {
@@ -764,7 +747,7 @@ function updateProductRestart() {
                     $('#categorySelectBar').val(categoryNo);
 
                 },
-                error: function() {
+                error: function(error) {
                     console.error('상품을 검색하는데 실패했습니다:', error);
                     alert('상품을 검색하는데 실패했습니다');
                 }

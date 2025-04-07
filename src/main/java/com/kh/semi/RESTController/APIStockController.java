@@ -23,4 +23,5 @@ public class APIStockController {
         return stockService.searchStockList(stockStatus, startDate, endDate);
     }
 
+
 }

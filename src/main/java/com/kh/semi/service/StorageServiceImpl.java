@@ -29,4 +29,7 @@ public class StorageServiceImpl implements StorageService {
     public int deleteStorage(int storageNo) {
         return storageMapper.deleteStorage(storageNo);
     }
+
+    @Override
+    public ArrayList<Storage> getStorageList() { return storageMapper.getStorageList(); }
 }

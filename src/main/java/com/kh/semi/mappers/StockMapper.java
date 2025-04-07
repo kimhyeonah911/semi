@@ -12,5 +12,4 @@ public interface StockMapper {
     ArrayList<Stock> searchStockList(@Param("stockStatus") String stockStatus,
                                      @Param("startDate") String startDate,
                                      @Param("endDate") String endDate);
-
 }

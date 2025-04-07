@@ -21,4 +21,5 @@ public class StockServiceImpl implements StockService {
     public ArrayList<Stock> searchStockList(String stockStatus, String startDate, String endDate) {
         return stockMapper.searchStockList(stockStatus, startDate, endDate);
     }
+
 }

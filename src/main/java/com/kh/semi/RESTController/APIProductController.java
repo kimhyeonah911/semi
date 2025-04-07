@@ -104,8 +104,7 @@ public class APIProductController {
     @GetMapping("/searchProduct")
     public List<Product> searchProduct(@RequestParam(required = false) String selectedStatus,
                                 @RequestParam(required = false) String selectedCategory,
-                                @RequestParam(required = false) String searchedKeyword,
-                                HttpSession session, Model model) {
+                                @RequestParam(required = false) String searchedKeyword) {
 
         String status = (selectedStatus != null) ? selectedStatus : "Y";
         Integer categoryNo = (selectedCategory != null && !selectedCategory.isEmpty())
@@ -115,7 +114,6 @@ public class APIProductController {
 
         List<Product> list = productService.searchProduct(status, categoryNo, keyword);
         System.out.println(list);
-        model.addAttribute("list", list);
         return list;
     }
 
