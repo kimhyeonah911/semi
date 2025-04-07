@@ -134,13 +134,45 @@
       </table>
     </div>
 
-    <div class="pagebar-container mt-3">
-      <jsp:include page="../common/pagebar.jsp"/>
-    </div>
+    <c:if test="${pi.maxPage > 1}">
+      <div class="pagination">
+        <!-- 이전 버튼 -->
+        <c:choose>
+          <c:when test="${pi.currentPage == 1}">
+            <a href="#" class="disabled">이전</a>
+          </c:when>
+          <c:otherwise>
+            <a href="${pageUrl}?cpage=${pi.currentPage - 1}">이전</a>
+          </c:otherwise>
+        </c:choose>
+
+        <!-- 숫자 버튼 -->
+        <c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
+          <c:choose>
+            <c:when test="${i == pi.currentPage}">
+              <a href="#" class="active">${i}</a>
+            </c:when>
+            <c:otherwise>
+              <a href="${pageUrl}?cpage=${i}">${i}</a>
+            </c:otherwise>
+          </c:choose>
+        </c:forEach>
+
+        <!-- 다음 버튼 -->
+        <c:choose>
+          <c:when test="${pi.currentPage == pi.maxPage}">
+            <a href="#" class="disabled">다음</a>
+          </c:when>
+          <c:otherwise>
+            <a href="${pageUrl}?cpage=${pi.currentPage + 1}">다음</a>
+          </c:otherwise>
+        </c:choose>
+      </div>
+    </c:if>
+
   </main>
 </div>
 <script>
-
   $(document).ready(function () {
     $("#filterBtn").click(function () {
       let selectedStore = $("#storeSelect").val(); // 선택한 지점 가져오기
