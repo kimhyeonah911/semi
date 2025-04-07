@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -32,5 +33,32 @@ public class AttendanceServiceImpl implements AttendanceService {
     public ArrayList<Attendance> getMyAttendanceList(String storeId) {
         return attendanceMapper.getMyAttendanceList(storeId);
     }
+
+    @Override
+    public int updateAttendance(Attendance attendance) {
+        return attendanceMapper.updateAttendance(attendance);
+    }
+
+    @Override
+    public ArrayList<Attendance> selectAttendance(Map<String, Object> paramMap) {
+        return attendanceMapper.selectAttendance(paramMap);
+    }
+
+    @Override
+    public int insertClockIn(Attendance attendance) {
+        return attendanceMapper.insertClockIn(attendance);
+    }
+
+    @Override
+    public int updateClockOut(Attendance attendance) {
+        return attendanceMapper.updateClockOut(attendance);
+    }
+
+    @Override
+    public boolean isClockedIn(int empNo) {
+        return attendanceMapper.isClockedIn(empNo);
+    }
+
+
 }
 
