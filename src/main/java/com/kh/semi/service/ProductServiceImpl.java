@@ -1,10 +1,9 @@
 package com.kh.semi.service;
 
-import com.kh.semi.domain.vo.Category;
-import com.kh.semi.domain.vo.Client;
-import com.kh.semi.domain.vo.Product;
+import com.kh.semi.domain.vo.*;
 import com.kh.semi.mappers.ProductMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -80,5 +79,23 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public int deleteClient(int clientId) {
         return productMapper.deleteClient(clientId);
+    }
+
+//    @Override
+//    public int countAllProducts() {
+//        return productMapper.countAllProducts();
+//    }
+
+
+    @Override
+    public int deliveryCount() {
+        return productMapper.deliveryCount();
+    }
+
+    @Override
+    public ArrayList<Client> selectdeliveryListByPage(PageInfo pi) {
+        int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+        RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+        return productMapper.selectdeliveryListByPage(rowBounds);
     }
 }

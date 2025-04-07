@@ -1,8 +1,6 @@
 package com.kh.semi.service;
 
-import com.kh.semi.domain.vo.Category;
-import com.kh.semi.domain.vo.Client;
-import com.kh.semi.domain.vo.Product;
+import com.kh.semi.domain.vo.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,5 +23,12 @@ public interface ProductService {
     int updateClient(Client client);
     int deleteClient(int clientId);
 
+//    int countAllProducts();
+//
+//    ArrayList<Product> selectProductListByPage(PageInfo pi);
+
+    int deliveryCount();
+
+    ArrayList<Client> selectdeliveryListByPage(PageInfo pi);
 }
 
