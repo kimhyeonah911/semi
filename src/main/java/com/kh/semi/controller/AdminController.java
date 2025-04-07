@@ -1,13 +1,10 @@
 package com.kh.semi.controller;
 
-import com.kh.semi.domain.vo.Board;
-import com.kh.semi.domain.vo.Client;
-import com.kh.semi.domain.vo.Member;
-import com.kh.semi.domain.vo.PageInfo;
-import com.kh.semi.domain.vo.Product;
+import com.kh.semi.domain.vo.*;
 import com.kh.semi.service.BoardService;
 import com.kh.semi.service.MemberService;
 import com.kh.semi.service.ProductService;
+import com.kh.semi.service.StoreService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -30,6 +27,7 @@ public class AdminController {
     private final MemberService memberService;
     private final ProductService productService;
     private final BoardService boardService;
+    private final StoreService storeService;
 
     @GetMapping("accept.ma")
     public String acceptManager(Model model) {
@@ -42,8 +40,11 @@ public class AdminController {
     @GetMapping("accept.me")
     public String acceptMember(Model model) {
         ArrayList<Member> list = memberService.acceptMemberList();
+        ArrayList<Store> storeList = storeService.getStores();
+        model.addAttribute("storeList", storeList);
         model.addAttribute("acceptMember", list);
         System.out.println("직원 승인 : " + list);
+        System.out.println("지점 목록 : " + storeList);
         return "admin/memberManagement";
     }
 

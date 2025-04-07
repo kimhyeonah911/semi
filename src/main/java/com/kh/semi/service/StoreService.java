@@ -7,4 +7,5 @@ import java.util.ArrayList;
 
 public interface StoreService {
     int insertCompany(Store store);
+    ArrayList<Store> getStores();
 }

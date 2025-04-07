@@ -13,11 +13,8 @@
         <result column="WORKTIME" property="workTime"/>
         <result column="EMP_NAME" property="empName"/>
     </resultMap>
-<<<<<<< HEAD
 
 
-=======
->>>>>>> b7ea442bf6c9982b970f185acdd70790a242ba2b
     <select id="getAttendanceMy" parameterType="Attendance" resultMap="attendanceResult">
         SELECT ATTENDANCE_NO,
         EMP_NO,
