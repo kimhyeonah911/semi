@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.semi.mappers.StoreMapper">
+    <resultMap id="storeResult" type="Store">
+        <result column="STORE_ID" property="storeId"/>
+        <result column="STORE_NAME" property="storeName"/>
+        <result column="STORE_PHONE" property="phone"/>
+        <result column="CREATE_DATE" property="createDate"/>
+        <result column="STATUS" property="status"/>
+    </resultMap>
+    <insert id="insertCompany">
+        INSERT INTO STORE (
+        STORE_ID,
+        STORE_NAME,
+        STORE_ADDRESS,
+        STORE_PHONE
+        )
+        VALUES (
+        STORE_SEQ.NEXTVAL,
+        #{storeName},
+        #{address},
+        #{phone}
+        )
+    </insert>
+
+</mapper>

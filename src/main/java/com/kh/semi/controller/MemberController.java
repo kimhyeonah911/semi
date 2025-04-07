@@ -64,17 +64,18 @@ public class MemberController {
 
             String position = loginMember.getPosition();
             if ("admin".equals(position)) {
-                mv.setViewName("admin/dashBoard-admin");
-            } else if ("manager".equals(position) || "employee".equals(position)) {
-                mv.setViewName("employee/dashBoard-employee");
+                mv.setViewName("redirect:/dash.bo");
+            } else if ("manager".equals(position))  {
+                mv.setViewName("redirect:/dash-manager.bo");
+            } else if ("employee".equals(position)) {
+                mv.setViewName("redirect:/dash-employee.bo");
             } else {
                 // 정의되지 않은 포지션일 경우 기본 페이지로
-                mv.setViewName("redirect:/insert.co");
+                mv.setViewName("forward:/insert.co");
             }
         }
         return mv;
     }
-
 
     @PostMapping("insert.me")
     public String insertMember(@ModelAttribute Member member, ModelAndView mv, HttpSession session) {
