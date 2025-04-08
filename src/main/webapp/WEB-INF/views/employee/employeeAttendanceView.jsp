@@ -39,8 +39,42 @@
         .table-container>table>thead{
             height: 40px;
         }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }
 
-    </style>
+    .pagination a {
+        text-decoration: none;
+        color: #000000;
+        padding: 10px 15px;
+        margin: 0 5px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .pagination a:hover {
+        background-color: #717171;
+    }
+
+    .pagination .active {
+        background-color: #000000;
+        color: white;
+        border: 1px solid #000000;
+    }
+
+    .pagination .disabled {
+        color: #ccc;
+        cursor: not-allowed;
+    }
+
+
+  </style>
 </head>
 <body>
 
@@ -53,9 +87,6 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">근태관리</h1>
     </div>
-
-
-
     <div class="table-container">
         <table class="table table-striped table align-middle">
             <thead>
@@ -70,7 +101,7 @@
             </thead>
             <tbody>
 
-            <c:forEach var="att" items="${attendList}">
+            <c:forEach var="att" items="${listpage}">
                 <tr>
                     <td>${att.attendanceNo}</td>
                     <td><fmt:formatDate value="${att.clockIn}" pattern="yyyy-MM-dd"/></td>
@@ -100,8 +131,38 @@
             </tbody>
 
         </table>
-        <div class="pagebar-container mt-3">
-            <jsp:include page="../common/pagebar.jsp"/>
+        <div class="pagination">
+            <!-- 이전 버튼 -->
+            <c:choose>
+                <c:when test="${pi.currentPage == 1}">
+                    <a href="#" class="disabled">이전</a>
+                </c:when>
+                <c:otherwise>
+                    <a href="${pageUrl}&cpage=${pi.currentPage - 1}">이전</a>
+                </c:otherwise>
+            </c:choose>
+
+            <!-- 숫자 버튼 -->
+            <c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
+                <c:choose>
+                    <c:when test="${i == pi.currentPage}">
+                        <a href="#" class="active">${i}</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${pageUrl}&cpage=${i}">${i}</a>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+
+            <!-- 다음 버튼 -->
+            <c:choose>
+                <c:when test="${pi.currentPage == pi.maxPage}">
+                    <a href="#" class="disabled">다음</a>
+                </c:when>
+                <c:otherwise>
+                    <a href="${pageUrl}&cpage=${pi.currentPage + 1}">다음</a>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
 </main>

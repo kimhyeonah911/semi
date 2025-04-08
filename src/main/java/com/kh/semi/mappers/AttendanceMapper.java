@@ -2,8 +2,10 @@ package com.kh.semi.mappers;
 
 import com.kh.semi.domain.vo.Attendance;
 import com.kh.semi.domain.vo.Board;
+import com.kh.semi.domain.vo.PageInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -20,4 +22,14 @@ public interface AttendanceMapper {
     int insertClockIn(Attendance attendance);
     int updateClockOut(Attendance attendance);
     boolean isClockedIn(int empNo);
+
+
+    // 근태관리 페이징 바
+    int getTotalAttendanceCount(int empNo);
+    ArrayList<Attendance> selectAttendancListByPage(Map<String, Object> paramMap, RowBounds rowBounds);
+
+    int getAttendanceCount(Map<String, Object> paramMap);
+    ArrayList<Attendance> selectAttendanceListPage(Map<String, Object> paramMap, RowBounds rowBounds);
+
+
 }
