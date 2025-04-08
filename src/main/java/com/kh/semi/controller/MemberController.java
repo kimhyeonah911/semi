@@ -69,9 +69,14 @@ public class MemberController {
             session.setAttribute("loginMember", loginMember);
             boolean isWorking = attendanceService.isClockedIn(loginMember.getEmpNo());
             session.setAttribute("isWorking", isWorking); //
+<<<<<<< HEAD
 
             session.setAttribute("empNo", loginMember.getEmpNo());
 
+=======
+            session.setAttribute("empNo", loginMember.getEmpNo());
+
+>>>>>>> 16aef471423d16bb9c6f1f28c33407c8fc06a628
             String position = loginMember.getPosition();
 
             if ("manager".equals(position) || "employee".equals(position)) {
