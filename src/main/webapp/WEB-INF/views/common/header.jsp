@@ -129,54 +129,79 @@
             </div>
             <div class="text-muted">환영합니다.</div>
         </div>
-        <% if(position.equals("employee")){ %>
+        <%
+            Boolean working = (Boolean) session.getAttribute("isWorking");
+            boolean isWorking = (working != null && working);
+            if (position.equals("employee")) {
+        %>
         <div style="margin-top: 20px; text-align: center;">
-            <button id="workButton" class="start-btn" onclick="출근()">출근</button>
+            <button id="workButton"
+                    class="<%= isWorking ? "working-btn" : "start-btn" %>"
+                    onclick="<%= isWorking ? "" : "출근()" %>"
+                    <%= isWorking ? "disabled" : "" %>>
+                <%= isWorking ? "근무중" : "출근" %>
+            </button>
             <button id="leaveButton" class="leave-btn" onclick="퇴근()">퇴근</button>
             <p id="realTimeClock" style="margin-top: 10px; font-weight: bold; font-size: 15px"></p>
         </div>
-        <%}%>
+        <% } %>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function 출근() {
-            const now = new Date();
-            const formattedTime = now.getFullYear() + "-" +
-                String(now.getMonth() + 1).padStart(2, '0') + "-" +
-                String(now.getDate()).padStart(2, '0') + " " +
-                String(now.getHours()).padStart(2, '0') + ":" +
-                String(now.getMinutes()).padStart(2, '0') + ":" +
-                String(now.getSeconds()).padStart(2, '0');
+            $.ajax({
+                type: "POST",
+                url: '/clockInOut',
+                data: { type: "in" },
+                success: function(response) {
+                    if (response.startsWith("redirect:")) {
+                        alert("출근 완료");
+                        let workButton = document.getElementById("workButton");
+                        workButton.innerText = "근무중";
+                        workButton.classList.remove("start-btn");
+                        workButton.classList.add("working-btn");
 
-            alert("출근 시간이 기록되었습니다: " + formattedTime);
-
-            // 버튼 텍스트 변경 + 색상 변경
-            let workButton = document.getElementById("workButton");
-            workButton.innerText = "근무중";
-            workButton.classList.remove("start-btn");
-            workButton.classList.add("working-btn");
+                        // redirect 이동
+                        window.location.href = response.replace("redirect:", "");
+                    } else {
+                        alert("출근 실패 또는 이미 출근 처리됨");
+                    }
+                },
+                error: function() {
+                    alert("출근 기록이 안됌!");
+                }
+            });
         }
+
 
         function 퇴근() {
-            const now = new Date();
-            const formattedTime = now.getFullYear() + "-" +
-                String(now.getMonth() + 1).padStart(2, '0') + "-" +
-                String(now.getDate()).padStart(2, '0') + " " +
-                String(now.getHours()).padStart(2, '0') + ":" +
-                String(now.getMinutes()).padStart(2, '0') + ":" +
-                String(now.getSeconds()).padStart(2, '0');
+            $.ajax({
+                type: "POST",
+                url: '/clockInOut',
+                data: { type: "out" },
+                success: function(response) {
+                    if (response.startsWith("redirect:")) {
+                        alert("퇴근 완료");
+                        let workButton = document.getElementById("workButton");
+                        workButton.innerText = "출근";
+                        workButton.classList.remove("working-btn");
+                        workButton.classList.add("start-btn");
 
-            alert("퇴근 시간이 기록되었습니다: " + formattedTime);
-
-            // 버튼 텍스트 원래대로 변경 + 색상 원래대로 변경
-            let workButton = document.getElementById("workButton");
-            workButton.innerText = "출근";
-            workButton.classList.remove("working-btn");
-            workButton.classList.add("start-btn");
+                        // redirect 이동
+                        window.location.href = response.replace("redirect:", "");
+                    } else {
+                        alert("퇴근 실패 또는 이미 퇴근 처리됨");
+                    }
+                },
+                error: function() {
+                    alert("퇴근 기록이 안됌!");
+                }
+            });
         }
+
 
         function updateClock() {
             let now = new Date();
-            // 한국 시간으로 변환
             let formattedDate = now.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
             document.getElementById("realTimeClock").innerText = formattedDate;
         }
@@ -184,5 +209,6 @@
         setInterval(updateClock, 1000);
         window.onload = updateClock;
     </script>
+
 
 </div>

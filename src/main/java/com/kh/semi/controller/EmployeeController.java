@@ -10,14 +10,15 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 @RequiredArgsConstructor
@@ -76,6 +77,43 @@ public class EmployeeController {
     @GetMapping("dash-employee.bo")
     public String dashEmployee() {
         return "employee/dashBoard-employee";
+    }
+
+
+    @ResponseBody
+    @PostMapping("/clockInOut")
+    public String clockInOut(@RequestParam String type, HttpSession session) {
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        if (loginUser == null) {
+            return "redirect:/login";
+        }
+
+        Attendance attendance = new Attendance();
+        attendance.setEmpNo(loginUser.getEmpNo());
+
+        if ("in".equals(type)) {
+            attendance.setClockIn(new Date());
+            attendance.setStatus("W");
+            int result = attendanceService.insertClockIn(attendance);
+            if(result > 0){
+                session.setAttribute("isWorking", true);
+                return "redirect:/attendance.em?empNo=" + loginUser.getEmpNo();
+            } else {
+                return "출근 실패";
+            }
+        } else if ("out".equals(type)) {
+            attendance.setClockOut(new Date());
+            attendance.setStatus("L");
+            int result = attendanceService.updateClockOut(attendance);
+            if(result > 0){
+                session.setAttribute("isWorking", false);
+                return "redirect:/attendance.em?empNo=" + loginUser.getEmpNo();
+            } else {
+                return "퇴근 실패";
+            }
+        }
+
+        return "잘못된 요청";
     }
 
 }

@@ -1,6 +1,6 @@
 package com.kh.semi.mappers;
 
-import org.apache.catalina.Store;
+import com.kh.semi.domain.vo.Store;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
@@ -9,4 +9,5 @@ import java.util.ArrayList;
 public interface StoreMapper {
 
    int insertCompany(com.kh.semi.domain.vo.Store storename);
+   ArrayList<Store> getStores();
 }

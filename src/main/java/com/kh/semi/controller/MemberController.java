@@ -1,6 +1,7 @@
 package com.kh.semi.controller;
 
 import com.kh.semi.domain.vo.Member;
+import com.kh.semi.service.AttendanceService;
 import com.kh.semi.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class MemberController {
 
     private final MemberService memberService;
+    private final AttendanceService attendanceService;
 
     @Autowired
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, AttendanceService attendanceService) {
         this.memberService = memberService;
-
+        this.attendanceService = attendanceService;
     }
 
     @GetMapping("enrollForm.me")
@@ -54,12 +56,12 @@ public class MemberController {
             session.setAttribute("loginUser", loginMember);
             session.setAttribute("memName", loginMember.getMemName());
             session.setAttribute("position", loginMember.getPosition());
-
             session.setAttribute("loginMember", loginMember);
-            // 콘솔에서 확인 (디버깅)
+            boolean isWorking = attendanceService.isClockedIn(loginMember.getEmpNo());
+            session.setAttribute("isWorking", isWorking); //
 
 
-            // 권한에 따라 리다이렉트
+
             String position = loginMember.getPosition();
             if ("admin".equals(position)) {
                 mv.setViewName("redirect:/dash.bo");
@@ -114,7 +116,6 @@ public class MemberController {
 
     @GetMapping("mypage.bo")
     public String adminPage() {
-
         return "common/mypage";
     }
 

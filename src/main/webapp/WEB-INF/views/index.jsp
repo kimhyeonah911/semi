@@ -1,4 +1,6 @@
-    <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <!DOCTYPE html>
     <html lang="UTF-8">
     <head>
@@ -132,12 +134,12 @@
         </style>
     </head>
     <body>
-<%--    <c:if test="${ not empty sessionScope.alertMsg }">--%>
-<%--        <script>--%>
-<%--            alert("${ sessionScope.alertMsg }");--%>
-<%--            <% session.removeAttribute("alertMsg"); %>--%>
-<%--        </script>--%>
-<%--    </c:if>--%>
+    <c:if test="${ not empty sessionScope.alertMsg }">
+       <script>
+           alert("${ sessionScope.alertMsg }");
+            <% session.removeAttribute("alertMsg"); %>
+       </script>
+    </c:if>
     <div class="container">
         <!-- 왼쪽 (배경 이미지) -->
         <div class="left"></div>

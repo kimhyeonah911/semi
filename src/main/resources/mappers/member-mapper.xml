@@ -139,9 +139,9 @@
         FROM MEMBER M
         JOIN STORE S ON M.STORE_ID = S.STORE_ID
         WHERE M.STATUS = 'Y'
-        AND S.STATUS = 'N'
-        AND M.POSITION = 'employee'
-        AND M.STORE_ID = S.STORE_ID
+              AND S.STATUS = 'N'
+              AND M.POSITION = 'employee'
+              AND M.STORE_ID = S.STORE_ID
         ORDER BY M.EMP_NO ASC
     </select>
 
