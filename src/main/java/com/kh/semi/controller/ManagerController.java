@@ -139,12 +139,9 @@ public class ManagerController {
         ArrayList<Storage> list2 = storageService.selectStorage();
         ArrayList<Client> list3 = productService.selectClientList();
         ArrayList<StockProduct> list4 = stockService.selectStockProductList();
-<<<<<<< HEAD
         System.out.println("입고 제품들 !: " + list);
-=======
         ArrayList<Product> list5 = productService.selectImageUrl();
 
->>>>>>> a8afa2b4c9da8781ab798819110fb891c4a6aaf3
         model.addAttribute("stock", list);
         model.addAttribute("storage", list2);
         model.addAttribute("client", list3);
