@@ -14,51 +14,119 @@
         <result column="EMP_NAME" property="empName"/>
     </resultMap>
 
-    <select id="getAttendanceList" parameterType="Attendance" resultMap="attendanceResult">
-
-        SELECT
-        FROM ATTENDANCE
-
-    </select>
 
     <select id="getAttendanceMy" parameterType="Attendance" resultMap="attendanceResult">
         SELECT ATTENDANCE_NO,
-                EMP_NO,
-                CLOCK_IN,
-                CLOCK_OUT,
-                TRUNC(CLOCK_IN) AS WORKDAY,
-                STATUS,
-                CASE
-                WHEN CLOCK_OUT IS NOT NULL THEN
-                FLOOR((CLOCK_OUT - CLOCK_IN) * 24) || '시간 ' ||
-                FLOOR(MOD((CLOCK_OUT - CLOCK_IN) * 24 * 60, 60)) || '분'
-                ELSE NULL
-                END AS WORKTIME
+        EMP_NO,
+        CLOCK_IN,
+        CLOCK_OUT,
+        TRUNC(CLOCK_IN) AS WORKDAY,
+        STATUS,
+        CASE
+        WHEN CLOCK_OUT IS NOT NULL THEN
+        FLOOR((CLOCK_OUT - CLOCK_IN) * 24) || '시간 ' ||
+        FLOOR(MOD((CLOCK_OUT - CLOCK_IN) * 24 * 60, 60)) || '분'
+        ELSE NULL
+        END AS WORKTIME
         FROM ATTENDANCE
         WHERE EMP_NO = #{empNo}
         ORDER BY ATTENDANCE_NO DESC
     </select>
 
     <select id="getMyAttendanceList" parameterType="Attendance" resultMap="attendanceResult">
-                SELECT
-                a.ATTENDANCE_NO,
-                a.EMP_NO,
-                m.MEM_NAME AS EMP_NAME,
-                a.CLOCK_IN,
-                a.CLOCK_OUT,
-                TRUNC(a.CLOCK_IN) AS WORKDAY,
-                a.STATUS,
-                CASE
-                WHEN a.CLOCK_OUT IS NOT NULL THEN
-                FLOOR((a.CLOCK_OUT - a.CLOCK_IN) * 24) || '시간 ' ||
-                FLOOR(MOD((a.CLOCK_OUT - a.CLOCK_IN) * 24 * 60, 60)) || '분'
-                ELSE NULL
-                END AS WORKTIME
+        SELECT
+        a.ATTENDANCE_NO,
+        a.EMP_NO,
+        m.MEM_NAME AS EMP_NAME,
+        a.CLOCK_IN,
+        a.CLOCK_OUT,
+        TRUNC(a.CLOCK_IN) AS WORKDAY,
+        a.STATUS,
+        CASE
+        WHEN a.CLOCK_OUT IS NOT NULL THEN
+        FLOOR((a.CLOCK_OUT - a.CLOCK_IN) * 24) || '시간 ' ||
+        FLOOR(MOD((a.CLOCK_OUT - a.CLOCK_IN) * 24 * 60, 60)) || '분'
+        ELSE NULL
+        END AS WORKTIME
         FROM ATTENDANCE a
         JOIN MEMBER m ON a.EMP_NO = m.EMP_NO
         WHERE m.STORE_ID = #{storeId}
-        AND TRUNC(a.CLOCK_IN) = TRUNC(SYSDATE)
+        AND TO_CHAR(a.CLOCK_IN, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+        AND m.POSITION = 'employee'
         ORDER BY a.ATTENDANCE_NO DESC
-
     </select>
+
+    <update id="updateAttendance">
+        UPDATE attendance
+        SET
+                clock_in = #{clockIn},
+                clock_out = #{clockOut},
+                status = #{status}
+        WHERE attendance_no = #{attendanceNo}
+    </update>
+
+    <select id="selectAttendance" parameterType="map" resultMap="attendanceResult">
+        SELECT
+        a.ATTENDANCE_NO,
+        a.EMP_NO,
+        m.MEM_NAME AS EMP_NAME,
+        a.CLOCK_IN,
+        a.CLOCK_OUT,
+        TRUNC(a.CLOCK_IN) AS WORKDAY,
+        a.STATUS,
+        CASE
+        WHEN a.CLOCK_OUT IS NOT NULL THEN
+        FLOOR((a.CLOCK_OUT - a.CLOCK_IN) * 24) || '시간 ' ||
+        FLOOR(MOD((a.CLOCK_OUT - a.CLOCK_IN) * 24 * 60, 60)) || '분'
+        ELSE NULL
+        END AS WORKTIME
+        FROM ATTENDANCE a
+        JOIN MEMBER m ON a.EMP_NO = m.EMP_NO
+        WHERE m.STORE_ID = #{storeId}
+        <if test="empName != null and empName != ''">
+            AND m.MEM_NAME = #{empName}
+        </if>
+        <if test="startDate != null and endDate != null">
+        AND TRUNC(a.CLOCK_IN) BETWEEN #{startDate} AND #{endDate}
+    </if>
+        ORDER BY a.ATTENDANCE_NO DESC
+    </select>
+
+    <insert id="insertClockIn" parameterType="Attendance">
+        INSERT INTO ATTENDANCE (
+        ATTENDANCE_NO,
+        EMP_NO,
+        CLOCK_IN,
+        STATUS
+        ) VALUES (
+        ATTENDANCE_SEQ.NEXTVAL,
+        #{empNo},
+        #{clockIn},
+        #{status}
+        )
+    </insert>
+
+    <update id="updateClockOut" parameterType="Attendance">
+        UPDATE ATTENDANCE
+        SET CLOCK_OUT = #{clockOut},
+        STATUS = #{status}
+        WHERE ATTENDANCE_NO =
+            (SELECT ATTENDANCE_NO
+             FROM (
+             SELECT ATTENDANCE_NO
+             FROM ATTENDANCE
+             WHERE EMP_NO = #{empNo} AND CLOCK_OUT IS NULL
+             ORDER BY ATTENDANCE_NO DESC
+        ) WHERE ROWNUM = 1
+        )
+    </update>
+
+    <select id="isClockedIn" parameterType="int" resultType="boolean">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+        FROM ATTENDANCE
+        WHERE EMP_NO = #{empNo}
+        AND CLOCK_OUT IS NULL
+        AND TRUNC(CLOCK_IN) = TRUNC(SYSDATE)
+    </select>
+
 </mapper>

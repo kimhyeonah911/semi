@@ -1,14 +1,14 @@
 package com.kh.semi.service;
 
-import com.kh.semi.domain.vo.Category;
-import com.kh.semi.domain.vo.Client;
-import com.kh.semi.domain.vo.Product;
+import com.kh.semi.domain.vo.*;
 import com.kh.semi.mappers.ProductMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -67,10 +67,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> searchProduct(String status, Integer categoryNo, String keyword) {
-        return productMapper.searchProduct(status, categoryNo, keyword);
+    public List<Product> searchProduct(Map<String, Object> paramMap) {
+        return productMapper.searchProduct(paramMap);
     }
 
+    @Override
+    public int countProduct(Map<String, Object> paramMap) {
+        return productMapper.countProduct(paramMap);
+    }
 
     @Override
     public ArrayList<Client> selectClientList() {
@@ -90,5 +94,23 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public int deleteClient(int clientId) {
         return productMapper.deleteClient(clientId);
+    }
+
+//    @Override
+//    public int countAllProducts() {
+//        return productMapper.countAllProducts();
+//    }
+
+
+    @Override
+    public int deliveryCount() {
+        return productMapper.deliveryCount();
+    }
+
+    @Override
+    public ArrayList<Client> selectdeliveryListByPage(PageInfo pi) {
+        int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+        RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+        return productMapper.selectdeliveryListByPage(rowBounds);
     }
 }

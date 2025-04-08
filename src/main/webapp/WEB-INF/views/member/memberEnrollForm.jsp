@@ -185,7 +185,7 @@
       </div>
 
       <div class="input-box">
-        <input type="text" name="phone" id="phone" placeholder="Phone" required>
+        <input type="text" name="phone" id="phone" placeholder="Phone - 빼고 입력하세요." required>
       </div>
 
       <button type="submit" class="btn signup-btn" id="submit-button" onclick="location.href='/insert.co'">회원가입</button>
@@ -250,15 +250,15 @@
     const pwd = pwdInput.value.trim();
     const pwdP = document.querySelector("#pwdP");
 
-      clearTimeout(eventFlag); //아직 실행되지 않은 setTimeout 취소
-      eventFlag = setTimeout(function () {
-        if (pwd.length < 8) {
-          pwdP.style.display = "flex";
-          pwdP.style.color = "red";
-        } else {
-          pwdP.style.display = "none";
-        }
-      }, 500);
+    clearTimeout(eventFlag); //아직 실행되지 않은 setTimeout 취소
+    eventFlag = setTimeout(function () {
+      if (pwd.length < 8) {
+        pwdP.style.display = "flex";
+        pwdP.style.color = "red";
+      } else {
+        pwdP.style.display = "none";
+      }
+    }, 500);
   }
 
   function pwdCheck(pwdInput) {

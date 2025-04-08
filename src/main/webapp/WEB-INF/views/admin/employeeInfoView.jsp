@@ -93,17 +93,18 @@
       <h1 class="h2">직원정보</h1>
     </div>
 
-    <form action="">
+    <form action="employee.in" method="get">
       <div id="search-bar" class="d-flex mb-3">
-        <select id="storeSelect" class="form-select w-auto me-2">
+        <select id="storeSelect" name="storeName" class="form-select w-auto me-2">
           <option value="전체">전체</option>
           <c:forEach var="store" items="${storeList}">
-            <option value="${store}">${store}</option>
+            <option value="${store}" ${param.storeName == store ? 'selected' : ''}>${store}</option>
           </c:forEach>
         </select>
-        <button type="button" id="filterBtn" class="btn btn-dark">조회</button>
+        <button type="submit" class="btn btn-dark">조회</button>
       </div>
     </form>
+
 
     <div class="table-responsive">
       <table class="table table-striped table-hover">
@@ -134,52 +135,84 @@
       </table>
     </div>
 
-    <div class="pagebar-container mt-3">
-      <jsp:include page="../common/pagebar.jsp"/>
-    </div>
+    <c:if test="${pi.maxPage > 1}">
+      <div class="pagination">
+        <!-- 이전 버튼 -->
+        <c:choose>
+          <c:when test="${pi.currentPage == 1}">
+            <a href="#" class="disabled">이전</a>
+          </c:when>
+          <c:otherwise>
+            <a href="${pageUrl}?cpage=${pi.currentPage - 1}">이전</a>
+          </c:otherwise>
+        </c:choose>
+
+        <!-- 숫자 버튼 -->
+        <c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
+          <c:choose>
+            <c:when test="${i == pi.currentPage}">
+              <a href="#" class="active">${i}</a>
+            </c:when>
+            <c:otherwise>
+              <a href="${pageUrl}?cpage=${i}">${i}</a>
+            </c:otherwise>
+          </c:choose>
+        </c:forEach>
+
+        <!-- 다음 버튼 -->
+        <c:choose>
+          <c:when test="${pi.currentPage == pi.maxPage}">
+            <a href="#" class="disabled">다음</a>
+          </c:when>
+          <c:otherwise>
+            <a href="${pageUrl}?cpage=${pi.currentPage + 1}">다음</a>
+          </c:otherwise>
+        </c:choose>
+      </div>
+    </c:if>
+
   </main>
 </div>
-<script>
+<%--<script>--%>
+<%--  $(document).ready(function () {--%>
+<%--    $("#filterBtn").click(function () {--%>
+<%--      let selectedStore = $("#storeSelect").val(); // 선택한 지점 가져오기--%>
 
-  $(document).ready(function () {
-    $("#filterBtn").click(function () {
-      let selectedStore = $("#storeSelect").val(); // 선택한 지점 가져오기
+<%--      $.ajax({--%>
+<%--        url: "employeeList", // 컨트롤러에서 처리할 엔드포인트--%>
+<%--        type: "GET",--%>
+<%--        data: { store: selectedStore },--%>
+<%--        dataType: "json", // JSON 응답 받기--%>
+<%--        success: function (response) {--%>
+<%--          let tbody = $("#employeeTable");--%>
+<%--          tbody.empty(); // 기존 데이터 삭제--%>
 
-      $.ajax({
-        url: "employeeList", // 컨트롤러에서 처리할 엔드포인트
-        type: "GET",
-        data: { store: selectedStore },
-        dataType: "json", // JSON 응답 받기
-        success: function (response) {
-          let tbody = $("#employeeTable");
-          tbody.empty(); // 기존 데이터 삭제
-
-          if (response.length === 0) {
-            tbody.append("<tr><td colspan='7' class='text-center'>해당 지점에 직원이 없습니다.</td></tr>");
-          } else {
-            response.forEach(m => {
-              let row = `<tr>
-                            <td>\${m.empNo}</td>
-                            <td>\${m.hireDate}</td>
-                            <td>\${m.memName}</td>
-                            <td>\${m.storeName}</td>
-                            <td>\${m.position}</td>
-                            <td>\${m.phone}</td>
-                            <td>\${m.salary}</td>
-                        </tr>`;
-              tbody.append(row);
-              console.log("선택한 지점: ", selectedStore);
-            });
-          }
-        },
-        error: function () {
-          console.log("직원 필터링 실패");
-          alert("직원 목록을 불러오지 못했습니다.");
-        }
-      });
-    });
-  });
-</script>
+<%--          if (response.length === 0) {--%>
+<%--            tbody.append("<tr><td colspan='7' class='text-center'>해당 지점에 직원이 없습니다.</td></tr>");--%>
+<%--          } else {--%>
+<%--            response.forEach(m => {--%>
+<%--              let row = `<tr>--%>
+<%--                            <td>\${m.empNo}</td>--%>
+<%--                            <td>\${m.hireDate}</td>--%>
+<%--                            <td>\${m.memName}</td>--%>
+<%--                            <td>\${m.storeName}</td>--%>
+<%--                            <td>\${m.position}</td>--%>
+<%--                            <td>\${m.phone}</td>--%>
+<%--                            <td>\${m.salary}</td>--%>
+<%--                        </tr>`;--%>
+<%--              tbody.append(row);--%>
+<%--              console.log("선택한 지점: ", selectedStore);--%>
+<%--            });--%>
+<%--          }--%>
+<%--        },--%>
+<%--        error: function () {--%>
+<%--          console.log("직원 필터링 실패");--%>
+<%--          alert("직원 목록을 불러오지 못했습니다.");--%>
+<%--        }--%>
+<%--      });--%>
+<%--    });--%>
+<%--  });--%>
+<%--</script>--%>
 
 
 </body>

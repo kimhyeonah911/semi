@@ -3,8 +3,10 @@ package com.kh.semi.service;
 import com.kh.semi.domain.vo.Attendance;
 import com.kh.semi.domain.vo.Board;
 import com.kh.semi.domain.vo.Member;
+import com.kh.semi.domain.vo.PageInfo;
 import com.kh.semi.mappers.BoardMapper;
 import com.kh.semi.mappers.MemberMapper;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -90,6 +92,18 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.rejectManager(storeId);
     }
 
+    @Override
+    public int countAllMembers() {
+        return memberMapper.countAllMembers();
+    }
+
+    @Override
+    public ArrayList<Member> selectMemberListByPage(PageInfo pi) {
+        int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+        RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+        return memberMapper.selectMemberListByPage(rowBounds);
+    }
+
 
     @Override
     public int updatePhone(String phone, String memId) {
@@ -101,6 +115,16 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.updatePwd(newPwd, memPwd, memId);
     }
 
+    @Override
+    public int countMembersByStore(String storeName) {
+        return memberMapper.countMembersByStore(storeName);
+    }
+
+    @Override
+    public ArrayList<Member> selectMemberListByStore(PageInfo pi, String storeName) {
+        int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+        RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+        return memberMapper.selectMemberListByStore(storeName, rowBounds);
+    }
 
 }
-

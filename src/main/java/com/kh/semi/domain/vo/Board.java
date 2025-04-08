@@ -12,7 +12,7 @@ import java.sql.Date;
 @ToString
 public class Board {
     private int boardNo;
-    private int empNo; // int -> Integer로 수정
+    private int empNo; // 작성자 고유 번호
     private String boardTitle;
     private String boardContent;
     private Date createDate;

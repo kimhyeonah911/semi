@@ -26,7 +26,7 @@
     .btn-primary:hover { background-color: #6686e8; border-color: #224abe; }
     .modal-content { border-radius: 15px; }
     .btn-close { background-color: transparent !important; }
-    #edit-phone-btn { border-style: double; background: #dee2f1; }
+    #edit-phone-btn { border-style: double; background: #dee2f1; margin-top: -2px; height: 49px}
     #edit-phone-btn:hover { background: #b8c4f8; }
     .mb-3{padding: 8px;}
     .form-label{padding-left: 5px}

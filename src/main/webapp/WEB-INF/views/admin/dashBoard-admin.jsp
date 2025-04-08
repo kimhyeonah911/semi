@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -149,7 +151,6 @@
         </div>
 
         <div class="card-container">
-
             <!-- 부족한 재고 카드 -->
             <div class="dashboard-card card-warning" style="grid-area: warning;">
                 <div class="card-title">⚠️ 부족한 재고</div>
@@ -247,17 +248,12 @@
                 <div class="card-footer">재고 확인 필요</div>
             </div>
 
-            <!-- 공지사항 카드 -->
             <div class="dashboard-card card-notice" style="grid-area: notice;">
                 <div class="card-title">📢 공지사항</div>
-                <div class="card-body">
-                    <span>1. 다음 주 월요일에는 시스템 점검이 예정되어 있습니다.</span>
-                </div>
-                <div class="card-body">
-                    <span>2.각 지점 재고관리 철저히 확인 바람.</span>
-                </div>
-                <div class="card-body">
-                    <span>3. 이번 주 목요일 ㄱㄴㄷ마켓 엑스포박람회 참석 예정</span>
+                <div class="card-body" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <c:forEach var="b" items="${noticeList}">
+                            <p>${b.boardContent}</p>
+                        </c:forEach>
                 </div>
                 <div class="card-footer">
                     <button class="btn btn-light" onclick="location.href='/list.bo'">자세히 보기</button>

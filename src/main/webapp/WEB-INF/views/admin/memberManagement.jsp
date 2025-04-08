@@ -146,10 +146,9 @@
             <td>${m.phone}</td>
             <td>
               <select class="dropdown" id="storeSelect">
-                <option value="하남점">하남점</option>
-                <option value="강남점">강남점</option>
-                <option value="역삼점">역삼점</option>
-                <option value="선릉점">선릉점</option>
+                <c:forEach items="${storeList}" var="store">
+                  <option value="${store.storeName}">${store.storeName}</option>
+                </c:forEach>
               </select>
             </td>
             <td class="action-buttons">
