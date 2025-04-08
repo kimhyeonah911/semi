@@ -188,7 +188,7 @@
         ORDER BY STOCK_NO, PRODUCT_NO
     </select>
 
-    <update id="updateStockStatus">
+    <update id="updateStockInStatus">
         UPDATE STOCK
         SET STOCK_STATUS = 'STOCK_IN_PROGRESS',
         MODIFY_DATE = SYSDATE
