@@ -9,17 +9,13 @@ import org.apache.ibatis.session.RowBounds;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface InventoryMapper {
     ArrayList<Inventory> getInventoryList();
-    ArrayList<Inventory> searchInventoryList(Integer storageNo, String keyword);
-    List<StockProduct> searchStockProductList(@Param("startDate") String startDate,
-                                              @Param("endDate") String endDate,
-                                              @Param("keyword") String keyword,
-                                              RowBounds rowBounds);
-
-    int countStockProductList(@Param("startDate") String startDate,
-                              @Param("endDate") String endDate,
-                              @Param("keyword") String keyword);
+    ArrayList<Inventory> searchInventoryList(Map<String, Object> paramMap);
+    int countInventoryList(Map<String, Object> paramMap);
+    List<StockProduct> searchStockProductList(Map<String, Object> paramMap);
+    int countStockProductList(Map<String, Object> paramMap);
 }

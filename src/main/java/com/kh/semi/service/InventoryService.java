@@ -6,11 +6,13 @@ import com.kh.semi.domain.vo.StockProduct;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public interface InventoryService {
     ArrayList<Inventory> getInventoryList();
-    ArrayList<Inventory> searchInventoryList(Integer storageNo, String keyword);
-    List<StockProduct> searchStockProductList(String startDate, String endDate, String keyword, PageInfo pageInfo);
-    int countStockProductList(String startDate, String endDate, String keyword);
+    ArrayList<Inventory> searchInventoryList(Map<String, Object> paramMap);
+    int countInventoryList(Map<String, Object> paramMap);
+    List<StockProduct> searchStockProductList(Map<String, Object> paramMap);
+    int countStockProductList(Map<String, Object> paramMap);
 
 }

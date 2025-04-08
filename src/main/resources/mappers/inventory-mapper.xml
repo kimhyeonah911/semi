@@ -44,7 +44,7 @@
         JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
         ORDER BY P.PRODUCT_NO ASC
     </select>
-    <select id="searchInventoryList" parameterType="Inventory" resultMap="inventoryResult">
+    <select id="searchInventoryList" parameterType="map" resultMap="inventoryResult">
         SELECT
             S.STORAGE_LOCATION,
             P.PRODUCT_NO,
@@ -66,8 +66,24 @@
             </if>
         </where>
         ORDER BY P.PRODUCT_NO ASC
+        OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
     </select>
-    <select id="searchStockProductList" resultMap="stockProductResult">
+    <select id="countInventoryList" resultType="int">
+        SELECT COUNT(*)
+        FROM INVENTORY I
+        JOIN STORAGE S ON I.STORAGE_NO = S.STORAGE_NO
+        JOIN PRODUCT P ON I.PRODUCT_NO = P.PRODUCT_NO
+        JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
+        <where>
+            <if test="storageNo != null">
+                AND I.STORAGE_NO = #{storageNo}
+            </if>
+            <if test="keyword != null and keyword !=''">
+                AND LOWER(P.PRODUCT_NAME) LIKE '%' || #{keyword} || '%'
+            </if>
+        </where>
+    </select>
+    <select id="searchStockProductList" parameterType="map" resultMap="stockProductResult">
         SELECT
         S.STOCK_STATUS,
         SP.PRODUCT_NO,
@@ -81,26 +97,21 @@
         JOIN PRODUCT P ON P.PRODUCT_NO = SP.PRODUCT_NO
         JOIN STOCK S ON S.STOCK_NO = SP.STOCK_NO
         WHERE S.STOCK_STATUS IN ('STOCK_IN_COMPLETED', 'STOCK_OUT_COMPLETED')
-        <if test="startDate != null">
-            AND S.STOCK_DATE &gt;= #{startDate}
-        </if>
-        <if test="endDate != null">
-            AND S.STOCK_DATE &lt;= #{endDate}
+        <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+            AND S.STOCK_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
         </if>
         <if test="keyword != null and keyword != ''">
             AND P.PRODUCT_NAME LIKE '%' || #{keyword} || '%'
         </if>
         ORDER BY S.STOCK_DATE DESC
-        <if test="rowBounds != null">
-            LIMIT #{rowBounds.offset}, #{rowBounds.limit}
-        </if>
+        OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
     </select>
     <select id="countStockProductList" resultType="int">
         SELECT COUNT(*)
         FROM STOCK_PRODUCT SP
         JOIN PRODUCT P ON P.PRODUCT_NO = SP.PRODUCT_NO
         JOIN STOCK S ON S.STOCK_NO = SP.STOCK_NO
-        <where>
+        WHERE S.STOCK_STATUS IN ('STOCK_IN_COMPLETED', 'STOCK_OUT_COMPLETED')
             <if test="startDate != null and startDate != ''">
                 AND S.STOCK_DATE &gt;= TO_DATE(#{startDate}, 'YYYY-MM-DD')
             </if>
@@ -110,6 +121,5 @@
             <if test="keyword != null and keyword != ''">
                 AND P.PRODUCT_NAME LIKE '%' || #{keyword} || '%'
             </if>
-        </where>
     </select>
 </mapper>

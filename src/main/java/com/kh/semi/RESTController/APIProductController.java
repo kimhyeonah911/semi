@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 @RestController
@@ -97,19 +95,44 @@ public class APIProductController {
     }
 
     @GetMapping("/searchProduct")
-    public List<Product> searchProduct(@RequestParam(required = false) String selectedStatus,
+    public Map<String, Object> searchProduct(@RequestParam(required = false) String selectedStatus,
                                 @RequestParam(required = false) String selectedCategory,
-                                @RequestParam(required = false) String searchedKeyword) {
-
+                                @RequestParam(required = false) String searchedKeyword,
+                                @RequestParam(defaultValue = "1") int page,
+                                @RequestParam(defaultValue = "10") int pageSize) {
         String status = (selectedStatus != null) ? selectedStatus : "Y";
         Integer categoryNo = (selectedCategory != null && !selectedCategory.isEmpty())
                 ? Integer.parseInt(selectedCategory)
                 : null;
         String keyword = searchedKeyword != null ? searchedKeyword.toLowerCase().trim() : "";
 
-        List<Product> list = productService.searchProduct(status, categoryNo, keyword);
-        System.out.println(list);
-        return list;
+        int offset = (page - 1) * pageSize;
+
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("status", status);
+        paramMap.put("categoryNo", categoryNo);
+        paramMap.put("keyword", keyword);
+        paramMap.put("offset", offset);
+        paramMap.put("limit", pageSize);
+
+
+        List<Product> list = productService.searchProduct(paramMap);
+
+        int totalCount = productService.countProduct(paramMap);
+        int maxPage = (int)Math.ceil((double)totalCount / pageSize);
+
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("currentPage", page);
+        pageInfo.put("maxPage", maxPage);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", list);
+        result.put("totalCount", totalCount);
+        result.put("pageInfo", pageInfo);
+
+        System.out.println("result : " + result);
+
+        return result;
     }
 
     @PostMapping("update.cl")

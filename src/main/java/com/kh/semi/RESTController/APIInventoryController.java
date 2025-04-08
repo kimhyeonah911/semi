@@ -8,10 +8,7 @@ import com.kh.semi.service.InventoryService;
 import com.kh.semi.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,46 +34,77 @@ public class APIInventoryController {
     }
 
     @GetMapping("/searchInventoryList")
-    public ArrayList<Inventory> searchInventoryList( @RequestParam(required = false) String selectedStorageNo,
-                                                     @RequestParam(required = false) String searchedKeyword){
+    public Map<String, Object> searchInventoryList( @RequestParam(required = false) String selectedStorageNo,
+                                                     @RequestParam(required = false) String searchedKeyword,
+                                                     @RequestParam(defaultValue = "1") int page,
+                                                     @RequestParam(defaultValue = "10") int pageSize){
         Integer storageNo = (selectedStorageNo != null && !selectedStorageNo.isEmpty()) ? Integer.parseInt(selectedStorageNo) : null;
         String keyword = searchedKeyword != null ? searchedKeyword.toLowerCase().trim() : "";
 
-        ArrayList<Inventory> list = inventoryService.searchInventoryList(storageNo, keyword);
+        int offset = (page - 1) * pageSize;
 
-        return list;
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("storageNo", storageNo);
+        paramMap.put("keyword", keyword);
+        paramMap.put("offset", offset);
+        paramMap.put("limit", pageSize);
+
+        List<Inventory> list = inventoryService.searchInventoryList(paramMap);
+
+        int totalCount = inventoryService.countInventoryList(paramMap);
+        int maxPage = (int)Math.ceil((double)totalCount / pageSize);
+
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("currentPage", page);
+        pageInfo.put("maxPage", maxPage);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", list);
+        result.put("totalCount", totalCount);
+        result.put("pageInfo", pageInfo);
+
+        System.out.println("result : " + result);
+
+        return result;
     }
 
+
     @GetMapping("/searchStockProductList")
-    public Map<String, Object> searchStockProductList(
-            @RequestParam(required = false) String selectedStartDate,
-            @RequestParam(required = false) String selectedEndDate,
-            @RequestParam(required = false) String searchedKeyword,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "5") int pageSize
-    ){
+    @ResponseBody
+    public Map<String, Object> searchStockProductList( @RequestParam(required = false) String selectedStartDate,
+                                                       @RequestParam(required = false) String selectedEndDate,
+                                                       @RequestParam(required = false) String searchedKeyword,
+                                                       @RequestParam(defaultValue = "1") int page,
+                                                       @RequestParam(defaultValue = "5") int pageSize) {
+        String keyword = searchedKeyword != null ? searchedKeyword.toLowerCase().trim() : "";
 
-        //전체 데이터 개수
-        int totalCount = inventoryService.countStockProductList(
-                selectedStartDate, selectedEndDate, searchedKeyword );
+        int offset = (page - 1) * pageSize;
 
-        //PageInfo 객체 생성
-        PageInfo pageInfo = new PageInfo(totalCount, page, pageSize, pageSize);
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("startDate", selectedStartDate);
+        paramMap.put("endDate", selectedEndDate);
+        paramMap.put("keyword", keyword);
+        paramMap.put("offset", offset);
+        paramMap.put("limit", pageSize);
 
+        // 리스트 가져오기
+        List<StockProduct> list = inventoryService.searchStockProductList(paramMap);
 
-        //입출고 목록 가져오기
-        List<StockProduct> stockList = inventoryService.searchStockProductList(
-                selectedStartDate, selectedEndDate, searchedKeyword, pageInfo);
+        // 전체 개수 (페이징 계산용)
+        int totalCount = inventoryService.countStockProductList(paramMap);
+        int maxPage = (int)Math.ceil((double)totalCount / pageSize);
 
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("currentPage", page);
+        pageInfo.put("maxPage", maxPage);
 
-        // 응답에 포함할 데이터 준비
         Map<String, Object> result = new HashMap<>();
-        result.put("list", stockList);
+        result.put("list", list);
         result.put("totalCount", totalCount);
-        result.put("pageInfo", pageInfo);  // PageInfo 추가
+        result.put("pageInfo", pageInfo);
 
-        System.out.println(stockList);
+        System.out.println("result : " + result);
+
         return result;
-
     }
 }

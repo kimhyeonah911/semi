@@ -170,7 +170,6 @@
       <input type="text" placeholder="상품명" id="stockProduct-search-bar">
       <button class="btn btn-primary" type="submit" id="stockInOut-search-btn" onclick="stockProductSearch()">조회</button>
     </div>
-
   </div>
 
 
@@ -194,9 +193,8 @@
           <%-- 재고 리스트 --%>
         </tbody>
       </table>
-      <div class="pagebar-container mt-3">
-        <jsp:include page="../common/pagebar.jsp"/>
-      </div>
+      <!-- 재고용 -->
+      <div id="inventory-pagebar" class="pagination"></div>
     </div>
   </div>
 
@@ -221,14 +219,15 @@
           <!--입출고 리스트 -->
         </tbody>
       </table>
-
-      <div id="stockProduct-pagebar" class="pagination"></div>
-
+        <!-- 입출고용 -->
+        <div id="stockProduct-pagebar" class="pagination"></div>
       </div>
     </div>
-  </div>
+
 </main>
 </div>
+
+
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -243,6 +242,7 @@
       document.getElementById("inout-section").style.display = "none";
       document.getElementById("inventory-search").style.display = "flex";
       document.getElementById("inout-search").style.display = "none";
+      inventorySearch();
     } else if (selectedValue === "inout") {
       document.getElementById("inventory-section").style.display = "none";
       document.getElementById("inout-section").style.display = "block";
@@ -290,6 +290,10 @@
       });
     }
 
+
+  let currentPage = 1;
+  const pageSize = 10;
+
     //3. 재고 조회
   $(document).ready(function () {
     // 조회 버튼 클릭 시 재고 검색
@@ -298,13 +302,30 @@
       inventorySearch();
     });
 
+    //재고 검색창에서 엔터 눌렀을 때
+    $('#product-search-bar').on('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        inventorySearch();
+      }
+    });
+
+    //입출고 검색창에서 엔터 눌렀을 때
+    $('#stockProduct-search-bar').on('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        stockProductSearch();
+      }
+    });
+
     // 페이지 로드시 자동 조회
     inventorySearch();
   });
 
 
   // 재고 검색/조회 함수
-  function inventorySearch() {
+  function inventorySearch(page=1) {
+    currentPage = page;
     const storageNo = $('#storage-select-bar').val();
     const keyword = $('#product-search-bar').val().trim();
 
@@ -313,9 +334,18 @@
       method: 'GET',
       data: {
         selectedStorageNo: storageNo,
-        searchedKeyword: keyword
+        searchedKeyword: keyword,
+        page: page,
+        pageSize: pageSize
       },
-      success: function (data) {
+      success: function (res) {
+
+        const data = res.list;
+        const totalCount = res.totalCount;
+        const pageInfo = res.pageInfo;
+
+        console.log(totalCount);
+
         let tbodyContent = "";
 
         if (data.length === 0) {
@@ -336,6 +366,7 @@
         }
 
         $('#inventory-list').html(tbodyContent);
+        drawPagebar(pageInfo, '#inventory-pagebar', 'inventorySearch');
 
         // 검색 조건 유지
         $('#storage-select-bar').val(storageNo);
@@ -350,9 +381,6 @@
 
 
     //입출고리스트 불러오기
-
-  let currentPage = 1;
-  const pageSize = 5;
 
   function stockProductSearch(page=1){
     currentPage = page;
@@ -372,29 +400,19 @@
       },
       success: function (res){
 
-        console.log("요청 보낼 데이터:", {
-          selectedStartDate: startDate,
-          selectedEndDate: endDate,
-          searchedKeyword: keyword,
-          page: page,
-          pageSize: pageSize
-        });
-
-
-        console.log("서버 응답:", res); //서버응답데이터확인호로로로로로로롤
 
         const data = res.list;
         const totalCount = res.totalCount;
         const pageInfo = res.pageInfo;
-        console.log("총개수:", totalCount); //총갯수호호ㅗ로로로로롤
+
         let tbodyContent = "";
 
         if(!data || data.length === 0){
           tbodyContent = '<tr><td colspan="9" class="text-center">조회 결과가 없습니다.</td></tr>';
         } else {
           data.forEach(function(sp){
-            let badgeClass = '';
-            let badgeText = '';
+            let badgeClass = "";
+            let badgeText = "";
 
             if (sp.stockStatus === 'STOCK_IN_COMPLETED'){
               badgeClass = 'bg-primary';
@@ -422,7 +440,7 @@
           });
         }
         $('#inout-list').html(tbodyContent);
-        drawStockProductPagebar(pageInfo);
+        drawPagebar(pageInfo, '#stockProduct-pagebar', 'stockProductSearch');
 
         $('#start-date').val(startDate);
         $('#end-date').val(endDate);
@@ -435,22 +453,19 @@
   }
 
 
-  function drawStockProductPagebar(pageInfo){
+  function drawPagebar(pageInfo, containerId, searchFunctionName){
     const totalPages = pageInfo.maxPage; // PageInfo에서 총 페이지 수 가져오기
     const currentPage = pageInfo.currentPage;
-    const pagebar = $('#stockProduct-pagebar');
+    const pagebar = $(containerId);
     pagebar.empty();
 
-
-
-    // 페이지가 1개 이하일 경우 페이지바를 표시하지 않음
     if (totalPages <= 1) return;
 
     let pageHTML = "<div class='pagination'>";
 
     // 이전 버튼
     if (currentPage > 1) {
-      pageHTML += "<a href='javascript:void(0);' onclick='stockProductSearch(" + (currentPage - 1) + ")'>이전</a>";
+      pageHTML += "<a href='javascript:void(0);' onclick='" + searchFunctionName + "(" + (currentPage - 1) + ")'>이전</a>";
     } else {
       pageHTML += "<a class='disabled'>이전</a>";
     }
@@ -458,15 +473,15 @@
     // 숫자 버튼
     for (let i = 1; i <= totalPages; i++) {
       if (i === currentPage) {
-        pageHTML += "<a class='active'>" + i + "</a>"; // currentPage에는 active 클래스 추가
+        pageHTML += "<a class='active'>" + i + "</a>";
       } else {
-        pageHTML += "<a href='javascript:void(0);' onclick='stockProductSearch(" + i + ")'>" + i + "</a>";
+        pageHTML += "<a href='javascript:void(0);' onclick='" + searchFunctionName + "(" + i + ")'>" + i + "</a>";
       }
     }
 
     // 다음 버튼
     if (currentPage < totalPages) {
-      pageHTML += "<a href='javascript:void(0);' onclick='stockProductSearch(" + (currentPage + 1) + ")'>다음</a>";
+      pageHTML += "<a href='javascript:void(0);' onclick='" + searchFunctionName + "(" + (currentPage + 1) + ")'>다음</a>";
     } else {
       pageHTML += "<a class='disabled'>다음</a>";
     }
@@ -475,7 +490,7 @@
 
     pagebar.html(pageHTML);
 
-    console.log("페이지바 HTML:", pageHTML); // 디버깅을 위한 콘솔 출력
+    console.log("페이지바 HTML:", pageHTML);
   }
 </script>
 </body>
