@@ -23,12 +23,12 @@ public interface AttendanceMapper {
     int updateClockOut(Attendance attendance);
     boolean isClockedIn(int empNo);
 
+
     // 근태관리 페이징 바
     int getTotalAttendanceCount(int empNo);
     ArrayList<Attendance> selectAttendancListByPage(Map<String, Object> paramMap, RowBounds rowBounds);
 
     int getAttendanceCount(String storeId);
-
     ArrayList<Attendance> selectAttendanceListPage(String storeId, RowBounds rowBounds);
 
 }

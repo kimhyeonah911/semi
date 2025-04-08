@@ -1,10 +1,18 @@
 package com.kh.semi.controller;
 
 import com.kh.semi.domain.vo.*;
+
+import com.kh.semi.domain.vo.Attendance;
+import com.kh.semi.domain.vo.Member;
+import com.kh.semi.domain.vo.Stock;
+import com.kh.semi.domain.vo.Storage;
+
 import com.kh.semi.service.AttendanceService;
 import com.kh.semi.service.MemberService;
 import com.kh.semi.service.StockService;
 import com.kh.semi.service.StorageService;
+import com.kh.semi.domain.vo.*;
+import com.kh.semi.service.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,13 +30,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
 @RequiredArgsConstructor
 @Controller
 public class ManagerController {
     private final StorageService storageService;
     private final StockService stockService;
     private final AttendanceService attendanceService;
+    private final ProductService productService;
 
 
     @GetMapping("manager.bo")
@@ -120,7 +128,13 @@ public class ManagerController {
     @GetMapping("stockIn.sto")
     public String stockInManagement(Model model) {
         ArrayList<Stock> list = stockService.selectStockList();
+        ArrayList<Storage> list2 = storageService.selectStorage();
+        ArrayList<Client> list3 = productService.selectClientList();
+        ArrayList<StockProduct> list4 = stockService.selectStockProductList();
         model.addAttribute("stock", list);
+        model.addAttribute("storage", list2);
+        model.addAttribute("client", list3);
+        model.addAttribute("stockProduct", list4);
         return "manager/stockInView";
     }
 
@@ -132,7 +146,20 @@ public class ManagerController {
     @PostMapping("updateAttendance.ma")
     public String updateAttendance(Attendance attendance, HttpSession session) {
 
+        int result = attendanceService.updateAttendance(attendance);
+        if(result > 0){
+            session.setAttribute("alertMsg", "근태 관리 수정 성공");
+        } else {
+            session.setAttribute("alertMsg", "근태 관리 수정 실패");
+        }
+        return "redirect:/attendance.ma";
+    }
 
+    @GetMapping("selectAttendance.ma")
+    public String selectAttendance(@RequestParam(required = false) String empName,
+                                   @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                                   @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+                                   HttpSession session, Model model) {
         // 기존 코드
         int result = attendanceService.updateAttendance(attendance);
         if(result > 0){
@@ -149,7 +176,6 @@ public class ManagerController {
                                    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
                                    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
                                    HttpSession session, Model model) {
-
         String storeId = ((Member) session.getAttribute("loginUser")).getStoreId();
 
         Map<String, Object> paramMap = new HashMap<>();

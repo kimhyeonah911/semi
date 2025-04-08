@@ -13,4 +13,7 @@ public interface StorageService {
     int StorageCount();
 
     ArrayList<Storage> selectStorageCount(PageInfo pi);
+
+    ArrayList<Storage> getStorageList();
+
 }

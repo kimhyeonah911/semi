@@ -43,4 +43,6 @@ public class StorageServiceImpl implements StorageService {
         RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
         return storageMapper.selectStorageCount(rowBounds);
     }
+
+    public ArrayList<Storage> getStorageList() { return storageMapper.getStorageList(); }
 }

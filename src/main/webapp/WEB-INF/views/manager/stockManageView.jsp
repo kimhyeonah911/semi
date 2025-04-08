@@ -31,7 +31,7 @@
       margin-right: 20px; /* 각 요소 간 간격 */
     }
 
-    #storage-search-bar {
+    #storage-select-bar {
       width: 120px;
       height: 35px;
       font-size: 22px;
@@ -47,12 +47,21 @@
       border-radius: 8px;
     }
 
-    #submit-btn {
-      width: 80px;
+    #stockProduct-search-bar{
+      width: 300px;
       height: 35px;
+      padding: 5px;
+      margin-right: 10px;
       font-size: 22px;
       border-radius: 8px;
-      cursor: pointer;
+    }
+
+    #submit-btn {
+      width: 80px;
+      /*height: 35px;*/
+      /*font-size: 22px;*/
+      /*border-radius: 8px;*/
+      /*cursor: pointer;*/
     }
 
     input[type="date"]{
@@ -84,6 +93,7 @@
       color: black;
       text-align: center;
     }
+
 
     .pagination {
       display: flex;
@@ -119,6 +129,9 @@
       cursor: not-allowed;
     }
 
+
+
+
   </style>
 </head>
 
@@ -143,22 +156,20 @@
 
     <!-- 재고 관련 옵션 (창고명, 상품명 검색) -->
     <div id="inventory-search" class="search-fields">
-      <select id="storage-search-bar">
-        <option>창고명</option>
-        <option>A창고</option>
-        <option>B창고</option>
-        <option>C창고</option>
+      <select id="storage-select-bar">
+          <%--창고명 옵션--%>
       </select>
       <input type="text" placeholder="상품명" id="product-search-bar">
+      <button class="btn btn-primary" type="submit" id="inventory-search-btn" onclick="inventorySearch()">조회</button>
     </div>
 
     <!-- 입출고 관련 옵션 (날짜 범위) -->
     <div id="inout-search" class="search-fields" style="display: none;">
       <input type="date" id="start-date"> <span id="wave"> ~ </span>
       <input type="date" id="end-date">
+      <input type="text" placeholder="상품명" id="stockProduct-search-bar">
+      <button class="btn btn-primary" type="submit" id="stockInOut-search-btn" onclick="stockProductSearch()">조회</button>
     </div>
-
-    <button type="submit" id="submit-btn">조회</button>
   </div>
 
 
@@ -178,48 +189,12 @@
           <th>재고수량</th>
         </tr>
         </thead>
-        <tbody>
-        <tr>
-          <td>A</td>
-          <td>238-654-13</td>
-          <td>나이키 에어포스 1 '07</td>
-          <td>운동화</td>
-          <td>WHITE</td>
-          <td>230</td>
-          <td>20</td>
-        </tr>
-        <tr>
-          <td>A</td>
-          <td>238-654-14</td>
-          <td>나이키 에어포스 1 '07</td>
-          <td>운동화</td>
-          <td>BLACK</td>
-          <td>250</td>
-          <td>14</td>
-        </tr>
-        <tr>
-          <td>B</td>
-          <td>238-623-14</td>
-          <td>아디다스 슈퍼스타</td>
-          <td>운동화</td>
-          <td>PINK</td>
-          <td>250</td>
-          <td>30</td>
-        </tr>
-        <tr>
-          <td>C</td>
-          <td>218-643-86</td>
-          <td>어그 클래식 샌들</td>
-          <td>샌들</td>
-          <td>BROWN</td>
-          <td>220</td>
-          <td>15</td>
-        </tr>
+        <tbody id="inventory-list">
+          <%-- 재고 리스트 --%>
         </tbody>
       </table>
-      <div class="pagebar-container mt-3">
-        <jsp:include page="../common/pagebar.jsp"/>
-      </div>
+      <!-- 재고용 -->
+      <div id="inventory-pagebar" class="pagination"></div>
     </div>
   </div>
 
@@ -233,56 +208,31 @@
           <th>입고/출고</th>
           <th>상품번호</th>
           <th>상품명</th>
+          <th>색상</th>
+          <th>사이즈</th>
           <th>지시번호</th>
           <th>일자</th>
           <th>수량</th>
         </tr>
         </thead>
-        <tbody>
-        <tr>
-          <td><span class="badge bg-primary">입고</span></td>
-          <td>238-654-13</td>
-          <td>나이키 에어포스 1 '07</td>
-          <td>2765-5469</td>
-          <td>2025-03-24</td>
-          <td>3</td>
-        </tr>
-        <tr>
-          <td><span class="badge bg-danger">출고</span></td>
-          <td>238-654-13</td>
-          <td>나이키 에어포스 1 '07</td>
-          <td>2765-5469</td>
-          <td>2025-03-24</td>
-          <td>3</td>
-        </tr>
-        <tr>
-          <td><span class="badge bg-primary">입고</span></td>
-          <td>238-654-13</td>
-          <td>나이키 에어포스 1 '07</td>
-          <td>2765-5469</td>
-          <td>2025-03-24</td>
-          <td>3</td>
-        </tr>
-        <tr>
-          <td><span class="badge bg-danger">출고</span></td>
-          <td>238-654-13</td>
-          <td>나이키 에어포스 1 '07</td>
-          <td>2765-5469</td>
-          <td>2025-03-24</td>
-          <td>3</td>
-        </tr>
+        <tbody id="inout-list">
+          <!--입출고 리스트 -->
         </tbody>
       </table>
-      <div class="pagebar-container mt-3">
-        <jsp:include page="../common/pagebar.jsp"/>
+        <!-- 입출고용 -->
+        <div id="stockProduct-pagebar" class="pagination"></div>
       </div>
     </div>
-  </div>
+
 </main>
 </div>
 
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  // 재고/입출고 선택 시 섹션 전환 및 필드 표시 전환
+  // 1. 재고/입출고 선택 시 섹션 전환 및 필드 표시 전환
   document.getElementById("search-option-bar").addEventListener("change", function () {
     const selectedValue = this.value;
 
@@ -292,13 +242,254 @@
       document.getElementById("inout-section").style.display = "none";
       document.getElementById("inventory-search").style.display = "flex";
       document.getElementById("inout-search").style.display = "none";
+      inventorySearch();
     } else if (selectedValue === "inout") {
       document.getElementById("inventory-section").style.display = "none";
       document.getElementById("inout-section").style.display = "block";
       document.getElementById("inventory-search").style.display = "none";
       document.getElementById("inout-search").style.display = "flex";
+      stockProductSearch();
     }
   });
+
+  //2. 창고명 셀렉트바 불러오기
+    $(document).ready(function(){
+      getStorageList(drawStorageList);
+    });
+
+    function getStorageList(callback){
+      $.ajax({
+        url: "/api/getStorageList",
+        type: "GET",
+        success : function (res){
+          console.log(res);
+          callback(res);
+        }, error: function(){
+          console.log("storage list ajax 요청 실패");
+        }
+      })
+    }
+
+    function drawStorageList(res){
+      //창고 셀렉트 바
+      const storageSelectBar = document.getElementById("storage-select-bar")
+      storageSelectBar.innerHTML = "";
+
+      //placeholder 역할 기본 옵션
+      const placeholderOption = document.createElement("option");
+      placeholderOption.value = "";
+      placeholderOption.innerText = "전체창고";
+      storageSelectBar.appendChild(placeholderOption);
+
+      //data(res) option에 추가
+      res.forEach(storage => {
+        const option = document.createElement("option");
+        option.value = storage.storageNo;
+        option.innerText = storage.storageLocation;
+        storageSelectBar.appendChild(option);
+      });
+    }
+
+
+  let currentPage = 1;
+  const pageSize = 10;
+
+    //3. 재고 조회
+  $(document).ready(function () {
+    // 조회 버튼 클릭 시 재고 검색
+    $('#inventory-search-btn').on('click', function (e) {
+      e.preventDefault();
+      inventorySearch();
+    });
+
+    //재고 검색창에서 엔터 눌렀을 때
+    $('#product-search-bar').on('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        inventorySearch();
+      }
+    });
+
+    //입출고 검색창에서 엔터 눌렀을 때
+    $('#stockProduct-search-bar').on('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        stockProductSearch();
+      }
+    });
+
+    // 페이지 로드시 자동 조회
+    inventorySearch();
+  });
+
+
+  // 재고 검색/조회 함수
+  function inventorySearch(page=1) {
+    currentPage = page;
+    const storageNo = $('#storage-select-bar').val();
+    const keyword = $('#product-search-bar').val().trim();
+
+    $.ajax({
+      url: '/api/searchInventoryList',
+      method: 'GET',
+      data: {
+        selectedStorageNo: storageNo,
+        searchedKeyword: keyword,
+        page: page,
+        pageSize: pageSize
+      },
+      success: function (res) {
+
+        const data = res.list;
+        const totalCount = res.totalCount;
+        const pageInfo = res.pageInfo;
+
+        console.log(totalCount);
+
+        let tbodyContent = "";
+
+        if (data.length === 0) {
+          tbodyContent = '<tr><td colspan="9" class="text-center">조회 결과가 없습니다.</td></tr>';
+        } else {
+          data.forEach(function (i) {
+            tbodyContent +=
+                    "<tr class='inventory-tr'>" +
+                    "<td class='td-storageName'>" + i.storageLocation + "</td>" +
+                    "<td class='td-productNo'>" + i.productNo + "</td>" +
+                    "<td class='td-productName'>" + i.productName + "</td>" +
+                    "<td class='td-categoryName'>" + i.categoryName + "</td>" +
+                    "<td class='td-color'>" + i.color + "</td>" +
+                    "<td class='td-productSize'>" + i.productSize + "</td>" +
+                    "<td class='td-quantity'>" + i.quantity + "</td>" +
+                    "</tr>";
+          });
+        }
+
+        $('#inventory-list').html(tbodyContent);
+        drawPagebar(pageInfo, '#inventory-pagebar', 'inventorySearch');
+
+        // 검색 조건 유지
+        $('#storage-select-bar').val(storageNo);
+        $('#product-search-bar').val(keyword);
+      },
+      error: function (error) {
+        console.error('재고를 검색하는데 실패했습니다:', error);
+        alert('재고를 검색하는데 실패했습니다');
+      }
+    });
+  }
+
+
+    //입출고리스트 불러오기
+
+  function stockProductSearch(page=1){
+    currentPage = page;
+    const startDate = document.getElementById('start-date').value;
+    const endDate = document.getElementById('end-date').value;
+    const keyword = document.getElementById('stockProduct-search-bar').value.trim();
+
+    $.ajax({
+      url: '/api/searchStockProductList',
+      method: 'GET',
+      data: {
+        selectedStartDate: startDate,
+        selectedEndDate: endDate,
+        searchedKeyword: keyword,
+        page: page,
+        pageSize: pageSize
+      },
+      success: function (res){
+
+
+        const data = res.list;
+        const totalCount = res.totalCount;
+        const pageInfo = res.pageInfo;
+
+        let tbodyContent = "";
+
+        if(!data || data.length === 0){
+          tbodyContent = '<tr><td colspan="9" class="text-center">조회 결과가 없습니다.</td></tr>';
+        } else {
+          data.forEach(function(sp){
+            let badgeClass = "";
+            let badgeText = "";
+
+            if (sp.stockStatus === 'STOCK_IN_COMPLETED'){
+              badgeClass = 'bg-primary';
+              badgeText = '입고';
+            } else if (sp.stockStatus === 'STOCK_OUT_COMPLETED') {
+              badgeClass = 'bg-danger';
+              badgeText = '출고';
+            } else {
+              badgeClass = 'bg-secondary';
+              badgeText = '기타';
+            }
+
+            tbodyContent +=
+                    "<tr>" +
+                    "<td><span class='badge " + badgeClass + "'>" + badgeText + "</span></td>" +
+                    "<td>" + sp.productNo + "</td>" +
+                    "<td>" + sp.productName + "</td>" +
+                    "<td>" + sp.color + "</td>" +
+                    "<td>" + sp.productSize + "</td>" +
+                    "<td>" + sp.stockNo + "</td>" +
+                    "<td>" + sp.stockDate + "</td>" +
+                    "<td>" + sp.amount + "</td>" +
+                    "</tr>";
+
+          });
+        }
+        $('#inout-list').html(tbodyContent);
+        drawPagebar(pageInfo, '#stockProduct-pagebar', 'stockProductSearch');
+
+        $('#start-date').val(startDate);
+        $('#end-date').val(endDate);
+      },
+      error: function (error) {
+        console.error('입출고 리스트 불러오기에 실패했습니다:', error);
+        alert('입출고 리스트 불러오기에 실패했습니다');
+      }
+    });
+  }
+
+
+  function drawPagebar(pageInfo, containerId, searchFunctionName){
+    const totalPages = pageInfo.maxPage; // PageInfo에서 총 페이지 수 가져오기
+    const currentPage = pageInfo.currentPage;
+    const pagebar = $(containerId);
+    pagebar.empty();
+
+    if (totalPages <= 1) return;
+
+    let pageHTML = "<div class='pagination'>";
+
+    // 이전 버튼
+    if (currentPage > 1) {
+      pageHTML += "<a href='javascript:void(0);' onclick='" + searchFunctionName + "(" + (currentPage - 1) + ")'>이전</a>";
+    } else {
+      pageHTML += "<a class='disabled'>이전</a>";
+    }
+
+    // 숫자 버튼
+    for (let i = 1; i <= totalPages; i++) {
+      if (i === currentPage) {
+        pageHTML += "<a class='active'>" + i + "</a>";
+      } else {
+        pageHTML += "<a href='javascript:void(0);' onclick='" + searchFunctionName + "(" + i + ")'>" + i + "</a>";
+      }
+    }
+
+    // 다음 버튼
+    if (currentPage < totalPages) {
+      pageHTML += "<a href='javascript:void(0);' onclick='" + searchFunctionName + "(" + (currentPage + 1) + ")'>다음</a>";
+    } else {
+      pageHTML += "<a class='disabled'>다음</a>";
+    }
+
+    pageHTML += "</div>";
+
+    pagebar.html(pageHTML);
+  }
 </script>
 </body>
 </html>

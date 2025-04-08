@@ -30,5 +30,4 @@ public interface AttendanceService {
     int getAttendanceCount(String storeId);
 
     ArrayList<Attendance> selectAttendanceListPage(String storeId, PageInfo pi);
-
 }

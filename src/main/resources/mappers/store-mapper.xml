@@ -25,4 +25,9 @@
         )
     </insert>
 
+    <select id="getStores" resultType="Store" resultMap="storeResult">
+        SELECT store_name
+        FROM store
+        WHERE status = 'N' OR status = 'Y'
+    </select>
 </mapper>

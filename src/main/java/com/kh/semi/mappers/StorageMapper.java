@@ -13,6 +13,9 @@ public interface StorageMapper {
     int insertStorage(Storage storage);
     int deleteStorage(int storageNo);
 
+
     int storageCount();
     ArrayList<Storage> selectStorageCount(RowBounds rowBounds);
+    ArrayList<Storage> getStorageList();
+
 }

@@ -203,7 +203,10 @@
         function updateClock() {
             let now = new Date();
             let formattedDate = now.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
-            document.getElementById("realTimeClock").innerText = formattedDate;
+            let clock = document.getElementById("realTimeClock")
+            if(clock){
+                clock.innerText = formattedDate;
+            }
         }
 
         setInterval(updateClock, 1000);

@@ -51,10 +51,10 @@
         FROM ATTENDANCE a
         JOIN MEMBER m ON a.EMP_NO = m.EMP_NO
         WHERE m.STORE_ID = #{storeId}
+        AND TO_CHAR(a.CLOCK_IN, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
         AND m.POSITION = 'employee'
         ORDER BY a.ATTENDANCE_NO DESC
     </select>
-
 
     <update id="updateAttendance">
         UPDATE attendance
@@ -70,6 +70,7 @@
         a.ATTENDANCE_NO,
         a.EMP_NO,
         m.MEM_NAME,
+        m.MEM_NAME AS EMP_NAME,
         a.CLOCK_IN,
         a.CLOCK_OUT,
         TRUNC(a.CLOCK_IN) AS WORKDAY,
@@ -179,7 +180,5 @@
         WHERE M.STORE_ID = #{storeId}
         ORDER BY A.CLOCK_OUT DESC
     </select>
-
-
 
 </mapper>

@@ -44,4 +44,9 @@
         ORDER BY STORAGE_NO
     </select>
 
+    <select id="getStorageList" parameterType="Storage" resultMap="storageResult" >
+        SELECT DISTINCT STORAGE_LOCATION,
+                        STORAGE_NO
+        FROM STORAGE
+    </select>
 </mapper>

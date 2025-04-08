@@ -39,12 +39,46 @@
                 P.PRODUCT_SIZE AS productSize,
                 P.STOCK_IN_PRICE AS stockInPrice,
                 P.STOCK_OUT_PRICE AS stockOutPrice,
-                P.STATUS AS status
+                P.STATUS AS status,
+                P.IMAGE_URL AS imageUrl
         FROM PRODUCT P
         JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
         WHERE P.STATUS = 'Y'
         ORDER BY P.PRODUCT_NO DESC
     </select>
+    <select id="selectProductList" resultType="Product">
+        SELECT P.PRODUCT_NO AS productNo,
+        P.PRODUCT_NAME AS productName,
+        P.CATEGORY_NO AS categoryNo,
+        C.CATEGORY_NAME AS categoryName,
+        P.COLOR AS color,
+        P.PRODUCT_SIZE AS productSize,
+        P.STOCK_IN_PRICE AS stockInPrice,
+        P.STOCK_OUT_PRICE AS stockOutPrice,
+        P.STATUS AS status,
+        P.IMAGE_URL AS imageUrl
+        FROM PRODUCT P
+        JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
+        WHERE P.STATUS = 'Y'
+        AND CLIENT_ID = #{clientId}
+        ORDER BY P.PRODUCT_NO
+    </select>
+
+    <select id="searchProductName" resultType="Product">
+        SELECT P.PRODUCT_NO AS productNo,
+        P.PRODUCT_NAME AS productName,
+        P.CATEGORY_NO AS categoryNo,
+        C.CATEGORY_NAME AS categoryName,
+        P.COLOR AS color,
+        P.PRODUCT_SIZE AS productSize,
+        P.STOCK_IN_PRICE AS stockInPrice,
+        P.STOCK_OUT_PRICE AS stockOutPrice
+        FROM PRODUCT P
+        JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
+        WHERE P.PRODUCT_NAME LIKE '%' || #{productName} || '%'
+        ORDER BY P.PRODUCT_NO ASC
+    </select>
+
     <select id="getCategoryList" resultMap="categoryResult">
         SELECT CATEGORY_NO,
             CATEGORY_NAME
@@ -116,16 +150,16 @@
                 STOCK_OUT_PRICE = #{stockOutPrice}
         WHERE PRODUCT_NO = #{productNo}
     </update>
-    <select id="searchProduct" resultType="Product">
-        SELECT P.PRODUCT_NO AS productNo,
-                P.PRODUCT_NAME AS productName,
-                P.CATEGORY_NO AS categoryNo,
-                C.CATEGORY_NAME AS categoryName,
-                P.COLOR AS color,
-                P.PRODUCT_SIZE AS productSize,
-                P.STOCK_IN_PRICE AS stockInPrice,
-                P.STOCK_OUT_PRICE AS stockOutPrice,
-                P.STATUS AS status
+    <select id="searchProduct" parameterType="map" resultMap="productResult">
+        SELECT P.PRODUCT_NO,
+                P.PRODUCT_NAME,
+                P.CATEGORY_NO,
+                C.CATEGORY_NAME,
+                P.COLOR,
+                P.PRODUCT_SIZE,
+                P.STOCK_IN_PRICE,
+                P.STOCK_OUT_PRICE,
+                P.STATUS
                 FROM PRODUCT P
         JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
         <where>
@@ -145,6 +179,29 @@
             </if>
         </where>
         ORDER BY P.PRODUCT_NO ASC
+        OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
+    </select>
+
+    <select id="countProduct" resultType="int">
+        SELECT COUNT(*)
+        FROM PRODUCT P
+        JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
+        <where>
+            <!-- status가 null이 아니면 필터링 -->
+            <if test="status != null and status != ''">
+                AND P.STATUS = #{status}
+            </if>
+
+            <!-- categoryNo가 null이 아니면 필터링 -->
+            <if test="categoryNo != null">
+                AND P.CATEGORY_NO = #{categoryNo}
+            </if>
+
+            <!-- searchedKeyword가 null이 아니면 필터링 -->
+            <if test="keyword != null and keyword != ''">
+                AND LOWER(P.PRODUCT_NAME) LIKE '%' || #{keyword} || '%'
+            </if>
+        </where>
     </select>
 
     <select id="selectClientList" resultMap="clientResult">

@@ -61,6 +61,7 @@
         .table-container > table > thead {
             height: 40px;
         }
+
         .pagination {
             display: flex;
             justify-content: center;
@@ -94,6 +95,8 @@
             color: #ccc;
             cursor: not-allowed;
         }
+
+
     </style>
 </head>
 <body>
@@ -135,6 +138,7 @@
                 </tr>
                 </thead>
                 <tbody>
+
                 <c:choose>
                     <c:when test="${not empty listpage}">
                         <c:forEach var="l" items="${listpage}">
@@ -195,8 +199,61 @@
                         </tr>
                     </c:otherwise>
                 </c:choose>
-                </tbody>
 
+                <c:forEach var="l" items="${list}">
+                    <tr>
+                        <td>${l.attendanceNo}</td>
+                        <td><fmt:formatDate value="${l.clockIn}" pattern="yyyy-MM-dd"/></td>
+                        <td>${l.empName}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${l.status == 'W'}">
+                                    <span class="badge bg-success">출근</span>
+                                </c:when>
+                                <c:when test="${l.status == 'L'}">
+                                    <span class="badge bg-secondary">퇴근</span>
+                                </c:when>
+                            </c:choose>
+                        </td>
+                        <td><fmt:formatDate value="${l.clockIn}" pattern="HH : mm : ss"/></td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${not empty l.clockOut}">
+                                    <fmt:formatDate value="${l.clockOut}" pattern="HH : mm : ss"/>
+                                </c:when>
+                                <c:otherwise>
+                                    -
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${not empty l.workTime}">
+                                    ${l.workTime}
+                                </c:when>
+                                <c:otherwise>
+                                    -
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+
+                        <td>
+                            <button
+                                    type="button"
+                                    class="btn btn-sm btn-primary edit-btn"
+                                    data-attendance-no="${l.attendanceNo}"
+                                    data-clock-in="${l.clockIn}"
+                                    data-clock-out="${l.clockOut}"
+                                    data-status="${l.status}"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editModal">
+                                수정
+                            </button>
+                        </td>
+                    </tr>
+                </c:forEach>
+
+                </tbody>
             </table>
 
             <!-- 수정 모달 -->
@@ -267,6 +324,12 @@
                         <a href="${pageUrl}?cpage=${pi.currentPage + 1}">다음</a>
                     </c:otherwise>
                 </c:choose>
+            </div>
+
+            </div>
+
+            <div class="pagebar-container mt-3">
+                <jsp:include page="../common/pagebar.jsp"/>
             </div>
         </div>
     </main>
