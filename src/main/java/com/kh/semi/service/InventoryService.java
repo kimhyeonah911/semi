@@ -9,10 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface InventoryService {
-    ArrayList<Inventory> getInventoryList();
     ArrayList<Inventory> searchInventoryList(Map<String, Object> paramMap);
     int countInventoryList(Map<String, Object> paramMap);
     List<StockProduct> searchStockProductList(Map<String, Object> paramMap);
     int countStockProductList(Map<String, Object> paramMap);
-
+    List<Inventory> selectLowInventoryTop4(int storeId);
 }

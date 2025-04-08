@@ -774,9 +774,6 @@
         $("#modal3 .list-space > h6").first().text(summaryText);
     }
 
-
-
-
 </script>
 
 </body>

@@ -4,7 +4,6 @@
     // 세션에서 로그인한 사용자 정보 가져오기
     String memName = (String) session.getAttribute("memName");
     String position = (String) session.getAttribute("position");
-
     System.out.println("현재 세션 memName: " + memName);
 %>
 
