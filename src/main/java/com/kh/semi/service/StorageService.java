@@ -15,5 +15,6 @@ public interface StorageService {
     ArrayList<Storage> selectStorageCount(PageInfo pi);
 
     ArrayList<Storage> getStorageList();
+    int updateStorageAmount(int storageNo, int amount);
 
 }
