@@ -26,7 +26,7 @@ document.getElementById("date1").addEventListener("change", function () {
 
 document.addEventListener("DOMContentLoaded", updateSummary);
 
-// 입고 예정 일자 계산
+// 출고 예정 일자 계산
 function setExpectedDate() {
     const dateInput = document.getElementById("expected-date");
 
@@ -42,9 +42,9 @@ function setExpectedDate() {
     dateInput.value = `${yyyy}-${mm}-${dd}`;
 }
 
-//검색 조건으로 입고 리스트 가져오기
+//검색 조건으로 출고 리스트 가져오기
 function searchStock() {
-    let stockStatus = $("#stockIn-search-bar").val();
+    let stockStatus = $("#stockOut-search-bar").val();
     let startDate = $("#date1").val();
     let endDate = $("#date2").val();
 
@@ -54,7 +54,7 @@ function searchStock() {
     }
 
     $.ajax({
-        url: "/api/searchStockIn",
+        url: "/api/searchStockOut",
         type: "GET",
         data: {
             stockStatus: stockStatus,
@@ -99,7 +99,7 @@ function updateSummary() {
 }
 
 
-//조회한 정보들로 입고 리스트 테이블 그리기
+//조회한 정보들로 출고 리스트 테이블 그리기
 function updateStockTable(data) {
     let tableBody = $("#stock-table tbody");
     tableBody.empty(); // 기존 tbody 비우기
@@ -117,21 +117,21 @@ function updateStockTable(data) {
         const removeBtn = `<button type="button" class="btn btn-outline-danger btn-sm">취소</button>`;
 
         switch (stock.stockStatus) {
-            case "STOCK_IN_REGISTERED":
-                statusBtn = `<button type="button" class="btn btn-secondary btn-sm" disabled>입고 등록</button>`;
+            case "STOCK_OUT_REGISTERED":
+                statusBtn = `<button type="button" class="btn btn-secondary btn-sm" disabled>출고 등록</button>`;
                 break;
-            case "STOCK_IN_PROGRESS":
-                statusBtn = `<button type="button" class="btn btn-warning btn-sm" disabled>입고중</button>`;
+            case "STOCK_OUT_PROGRESS":
+                statusBtn = `<button type="button" class="btn btn-warning btn-sm" disabled>출고중</button>`;
                 break;
-            case "STOCK_IN_COMPLETED":
-                statusBtn = `<button type="button" class="btn btn-success btn-sm" disabled>입고 완료</button>`;
+            case "STOCK_OUT_COMPLETED":
+                statusBtn = `<button type="button" class="btn btn-success btn-sm" disabled>출고 완료</button>`;
                 break;
         }
 
         const stockTr = document.createElement("tr");
         stockTr.setAttribute("data-storage-no", stock.stockNo);
 
-        // 입고번호
+        // 출고번호
         const tdNo = document.createElement("td");
         tdNo.innerText = stock.stockNo;
         stockTr.appendChild(tdNo);
@@ -146,12 +146,12 @@ function updateStockTable(data) {
         tdDate.innerText = stock.stockDate;
         stockTr.appendChild(tdDate);
 
-        // 입고예정일
+        // 출고예정일
         const tdExp = document.createElement("td");
         tdExp.innerText = stock.expDate;
         stockTr.appendChild(tdExp);
 
-        // 입고금액 계산
+        // 출고금액 계산
         const tdMoney = document.createElement("td");
         let totalAmount = 0;
         products.forEach(p => {
@@ -176,11 +176,9 @@ function updateStockTable(data) {
     });
 }
 
-
-
-// 품목 추가에서 추가 후 입고서에 금액 표시
+// 품목 추가에서 추가 후 출고서에 금액 표시
 function updateProductInfo() {
-    const tableBody = document.querySelector("#stockIn-table tbody");
+    const tableBody = document.querySelector("#stockOut-table tbody");
     const allProductInfo = document.getElementById("allProductInfo");
 
     let totalItems = 0;
@@ -230,7 +228,7 @@ document.addEventListener("click", function (event) {
     }
 });
 
-// 입고서 등록 모달
+// 출고서 등록 모달
 function showModal() {
     setExpectedDate();
     var modalElement = document.getElementById('modal1');
@@ -247,22 +245,17 @@ function showModal() {
 // 물품 추가 모달
 function showModal2() {
     var modalElement = document.getElementById('modal2');
-    var selectedClientId = document.getElementById('client-search-bar').value;
 
     if (!modalElement) {
         console.error("모달 요소를 찾을 수 없습니다!");
         return;
     }
 
-    if (!selectedClientId) {
-        alert("입고처를 먼저 선택해주세요.");
-        return;
-    }
 
     $.ajax({
         url: "/api/selectProductList",
         type: "GET",
-        data: { clientId: selectedClientId },  // ✅ 선택한 입고처 번호 전달
+        data: { clientId: 0 },
         dataType: "json",
         success: function (response) {
             var modal = new bootstrap.Modal(modalElement);
@@ -290,8 +283,8 @@ function searchProduct() {
         method: "GET",
         data: { productName: productName },
         success: function (data) {
-            input.value = "";
             createProductTable(data);
+            input.value = "";
         },
         error: function () {
             alert("조회에 실패했습니다.");
@@ -309,10 +302,10 @@ function createProductTable(data) {
         return;
     }
 
-    // 현재 입고서에 추가된 제품 번호 목록 수집
+    // 현재 출고서에 추가된 제품 번호 목록 수집
     const addedProductNos = new Set();
 
-    document.querySelectorAll("#stockIn-table tbody tr").forEach(row => {
+    document.querySelectorAll("#stockOut-table tbody tr").forEach(row => {
         addedProductNos.add(row.getAttribute("data-product-no"));
     });
 
@@ -357,7 +350,7 @@ function createProductTable(data) {
 
 }
 
-//제품추가 모달에서 제품 선택 후 입고서 모달로 전달
+//제품추가 모달에서 제품 선택 후 출고서 모달로 전달
 let selectedRows = []; // 선택된 행 데이터를 저장하는 배열
 
 document.addEventListener("click", function (event) {
@@ -413,7 +406,7 @@ document.getElementById("product-selection-btn").addEventListener("click", funct
         console.warn("선택된 제품이 없습니다.");
         return;
     }
-    createStockInTable(selectedRows);
+    createStockOutTable(selectedRows);
 
     // 이미 열려 있는 모달 인스턴스를 찾아서 닫기
     var modalElement = document.getElementById('modal2');
@@ -426,9 +419,9 @@ document.getElementById("product-selection-btn").addEventListener("click", funct
     }
 });
 
-//입고서 테이블 구성
-function createStockInTable(data) {
-    let tableBody = $("#stockIn-table tbody");
+//출고서 테이블 구성
+function createStockOutTable(data) {
+    let tableBody = $("#stockOut-table tbody");
     tableBody.empty(); // 기존 tbody 비우기
 
     if (data.length === 0) {
@@ -472,10 +465,10 @@ function createStockInTable(data) {
         tdInput.innerHTML = inputAmount;
         productTr.appendChild(tdInput);
 
-        const tdInPrice = document.createElement("td");
-        tdInPrice.classList.add("td-unit-price");
-        tdInPrice.innerText = product.stockInPrice;
-        productTr.appendChild(tdInPrice);
+        const tdOutPrice = document.createElement("td");
+        tdOutPrice.classList.add("td-unit-price");
+        tdOutPrice.innerText = product.stockOutPrice;
+        productTr.appendChild(tdOutPrice);
 
         const tdselect = document.createElement("td");
         tdselect.innerHTML = selectTax;
@@ -490,15 +483,14 @@ function createStockInTable(data) {
         updateProductInfo();
     });
 
-    //입고서에서 확인 버튼 클릭시 입출고 제품 테이블과 입출고 테이블에 등록
+    //출고서에서 확인 버튼 클릭시 입출고 제품 테이블과 입출고 테이블에 등록
     document.getElementById("stock-submit-btn").addEventListener("click", function () {
         const stockProducts = [];
         const stockEmp = document.getElementById("empNo").value;
         const expDate = document.getElementById("expected-date").value;
-        const storageNo = document.getElementById("client-search-bar").value;
 
         // 테이블 행들 가져오기
-        document.querySelectorAll("#stockIn-table tbody tr").forEach(row => {
+        document.querySelectorAll("#stockOut-table tbody tr").forEach(row => {
             const productNo = row.getAttribute("data-product-no");
             const amount = parseInt(row.querySelector(".input-quantity").value) || 0;
             const price = parseInt(row.querySelector("td:nth-child(4)").textContent.replace(/,/g, '')) || 0;
@@ -507,7 +499,6 @@ function createStockInTable(data) {
 
             stockProducts.push({
                 productNo,
-                storageNo,
                 amount,
                 price,
                 taxPrice,
@@ -522,7 +513,7 @@ function createStockInTable(data) {
         };
 
         $.ajax({
-            url: "/api/insertStockIn",
+            url: "/api/insertStockOut",
             method: "POST",
             contentType: "application/json",
             data: JSON.stringify({
@@ -530,7 +521,7 @@ function createStockInTable(data) {
                 stockProductList: stockProducts
             }),
             success: function (response) {
-                alert("입고서가 성공적으로 저장되었습니다.");
+                alert("출고서가 성공적으로 저장되었습니다.");
                 // 이미 열려 있는 모달 인스턴스를 찾아서 닫기
                 var modalElement = document.getElementById('modal1');
                 var modalInstance = bootstrap.Modal.getInstance(modalElement);
@@ -544,7 +535,7 @@ function createStockInTable(data) {
             },
             error: function (xhr, status, error) {
                 console.error("저장 실패:", error);
-                alert("입고서 저장 중 오류가 발생했습니다.");
+                alert("출고서 저장 중 오류가 발생했습니다.");
             }
         });
         updateSummary();
