@@ -38,4 +38,10 @@
                         STORAGE_NO
         FROM STORAGE
     </select>
+
+    <update id="updateStorageAmount">
+        UPDATE STORAGE
+        SET CURRENT_AMOUNT = CURRENT_AMOUNT + #{amount}
+        WHERE STORAGE_NO = #{storageNo}
+    </update>
 </mapper>

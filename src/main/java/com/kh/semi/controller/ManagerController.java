@@ -36,7 +36,7 @@ public class ManagerController {
     private final StockService stockService;
     private final AttendanceService attendanceService;
     private final ProductService productService;
-
+    private final InventoryService inventoryService;
 
     @GetMapping("manager.bo")
     public String managerBoardList() {
@@ -101,10 +101,12 @@ public class ManagerController {
 
     @GetMapping("stockIn.sto")
     public String stockInManagement(Model model) {
+
         ArrayList<Stock> list = stockService.selectStockList();
         ArrayList<Storage> list2 = storageService.selectStorage();
         ArrayList<Client> list3 = productService.selectClientList();
         ArrayList<StockProduct> list4 = stockService.selectStockProductList();
+        System.out.println("입고 제품들 !: " + list);
         model.addAttribute("stock", list);
         model.addAttribute("storage", list2);
         model.addAttribute("client", list3);

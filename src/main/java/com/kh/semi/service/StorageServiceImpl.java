@@ -32,4 +32,9 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public ArrayList<Storage> getStorageList() { return storageMapper.getStorageList(); }
+
+    @Override
+    public int updateStorageAmount(int storageNo, int amount) {
+        return storageMapper.updateStorageAmount(storageNo, amount);
+    }
 }

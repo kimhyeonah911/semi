@@ -21,5 +21,7 @@ public interface StockMapper {
     int deleteStockProduct(int stockNo);
     Stock selectStock(int stockNo);
     ArrayList<StockProduct> selectStockProduct(int stockNo);
-
+    int updateCompletedStockIn();
+    ArrayList<Stock> selectCompletedStockIn();
+    int updateStockProcessedStatus(int stockNo);
 }

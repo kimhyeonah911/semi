@@ -1,8 +1,10 @@
 package com.kh.semi.controller;
 
+import com.kh.semi.domain.vo.Inventory;
 import com.kh.semi.domain.vo.Member;
-import com.kh.semi.service.AttendanceService;
-import com.kh.semi.service.MemberService;
+import com.kh.semi.domain.vo.Stock;
+import com.kh.semi.domain.vo.StockProduct;
+import com.kh.semi.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,17 +15,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+
 
 @Controller
 public class MemberController {
 
     private final MemberService memberService;
     private final AttendanceService attendanceService;
+    private final StockService stockService;
+    private final StorageService storageService;
+    private final InventoryService inventoryService;
 
     @Autowired
-    public MemberController(MemberService memberService, AttendanceService attendanceService) {
+    public MemberController(MemberService memberService, AttendanceService attendanceService, StockService stockService, StorageService storageService, InventoryService inventoryService) {
         this.memberService = memberService;
         this.attendanceService = attendanceService;
+        this.stockService = stockService;
+        this.storageService = storageService;
+        this.inventoryService = inventoryService;
     }
 
     @GetMapping("enrollForm.me")
@@ -62,9 +72,43 @@ public class MemberController {
             boolean isWorking = attendanceService.isClockedIn(loginMember.getEmpNo());
             session.setAttribute("isWorking", isWorking); //
 
-
-
             String position = loginMember.getPosition();
+
+            if ("manager".equals(position) || "employee".equals(position)) {
+                int result = stockService.updateCompletedStockIn();
+                System.out.println("입고완료 상태 변경 수: " + result);
+
+                ArrayList<Stock> completedStockList = stockService.selectCompletedStockIn();
+
+                for (Stock stock : completedStockList) {
+                    int stockNo = stock.getStockNo();
+                    ArrayList<StockProduct> productList = stockService.selectStockProduct(stockNo);
+
+                    for (StockProduct sp : productList) {
+                        int storageNo = sp.getStorageNo();
+                        int productNo = sp.getProductNo();
+                        int amount = sp.getAmount();
+
+
+                        // 창고 수량 증가
+                        storageService.updateStorageAmount(storageNo, amount);
+
+                        // inventory 반영
+                        Inventory inventory = inventoryService.selectInventory(storageNo, productNo);
+                        if (inventory != null) {
+                            inventoryService.updateInventoryQuantity(storageNo, productNo, amount);
+                        } else {
+                            Inventory newInv = new Inventory();
+                            newInv.setStorageNo(storageNo);
+                            newInv.setProductNo(productNo);
+                            newInv.setQuantity(amount);
+                            inventoryService.insertInventory(newInv);
+                        }
+
+                    }
+                    stockService.updateStockProcessedStatus(stockNo);
+                }
+            }
             if ("admin".equals(position)) {
                 mv.setViewName("redirect:/dash.bo");
             } else if ("manager".equals(position))  {

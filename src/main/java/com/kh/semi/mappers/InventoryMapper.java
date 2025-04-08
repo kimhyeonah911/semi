@@ -18,4 +18,9 @@ public interface InventoryMapper {
     int countInventoryList(Map<String, Object> paramMap);
     List<StockProduct> searchStockProductList(Map<String, Object> paramMap);
     int countStockProductList(Map<String, Object> paramMap);
+    Inventory selectInventory(int storageNo, int productNo);
+    int updateInventoryQuantity(@Param("storageNo") int storageNo,
+                                @Param("productNo") int productNo,
+                                @Param("quantity") int quantity);
+    int insertInventory(Inventory inventory);
 }

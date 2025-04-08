@@ -12,4 +12,5 @@ public interface StorageMapper {
     int insertStorage(Storage storage);
     int deleteStorage(int storageNo);
     ArrayList<Storage> getStorageList();
+    int updateStorageAmount(int storageNo, int amount);
 }
