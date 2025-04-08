@@ -2,6 +2,7 @@ package com.kh.semi.controller;
 
 import com.kh.semi.domain.vo.*;
 import com.kh.semi.service.AttendanceService;
+import com.kh.semi.service.BoardService;
 import com.kh.semi.service.MemberService;
 import com.kh.semi.service.StoreService;
 import jakarta.servlet.http.HttpSession;
@@ -26,6 +27,7 @@ public class EmployeeController {
     private final AttendanceService attendanceService;
     private final StoreService storeService;
     private final MemberService memberService;
+    private final BoardService boardService;
 
     @GetMapping("employee.bo")
     public String employeeBoardList() {
@@ -87,8 +89,21 @@ public class EmployeeController {
         return "employee/employeeAttendanceView";
     }
 
-    @GetMapping("dash-employee.bo")
-    public String dashEmployee() {
+    @GetMapping("/dash-employee.bo")
+    public String dashEmployee(Model model, HttpSession session) {
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        String storeId = loginUser.getStoreId();
+
+        // ✅ 공지사항 top 3 조회
+        ArrayList<Board> noticeList = boardService.selectBoardListTop3();
+        model.addAttribute("noticeList", noticeList);
+
+        // 근무 현황
+        int workingCount = attendanceService.countWorkingEmployees(storeId);
+        int notWorkingCount = attendanceService.countNotWorkingEmployees(storeId);
+        model.addAttribute("workingCount", workingCount);
+        model.addAttribute("notWorkingCount", notWorkingCount);
+
         return "employee/dashBoard-employee";
     }
 
@@ -125,7 +140,6 @@ public class EmployeeController {
                 return "퇴근 실패";
             }
         }
-
         return "잘못된 요청";
     }
 

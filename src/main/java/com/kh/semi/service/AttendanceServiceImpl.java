@@ -91,6 +91,15 @@ public class AttendanceServiceImpl implements AttendanceService {
         return attendanceMapper.selectAttendanceListPage(paramMap, rowBounds);
     }
 
+    @Override
+    public int countWorkingEmployees(String storeId) {
+        return attendanceMapper.countByStatus(storeId, "W");
+    }
+
+    @Override
+    public int countNotWorkingEmployees(String storeId) {
+        return attendanceMapper.countByStatus(storeId, "L");
+    }
 
 
 }

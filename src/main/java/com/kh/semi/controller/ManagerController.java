@@ -38,6 +38,7 @@ public class ManagerController {
     private final StockService stockService;
     private final AttendanceService attendanceService;
     private final ProductService productService;
+    private final BoardService boardService;
 
 
     @GetMapping("manager.bo")
@@ -52,7 +53,19 @@ public class ManagerController {
     }
 
     @GetMapping("dash-manager.bo")
-    public String dashManager() {
+    public String dashManager(Model model,HttpSession session) {
+
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        String storeId = loginUser.getStoreId();
+        // ✅ 공지사항 top 3 조회
+        ArrayList<Board> noticeList = boardService.selectBoardListTop3();
+        model.addAttribute("noticeList", noticeList);
+
+        // 근무 현황
+        int workingCount = attendanceService.countWorkingEmployees(storeId);
+        int notWorkingCount = attendanceService.countNotWorkingEmployees(storeId);
+        model.addAttribute("workingCount", workingCount);
+        model.addAttribute("notWorkingCount", notWorkingCount);
 
         return "manager/dashBoard-manager";
     }
@@ -205,6 +218,7 @@ public class ManagerController {
 
         return "manager/managerAttendanceView";
     }
+
 
 }
 

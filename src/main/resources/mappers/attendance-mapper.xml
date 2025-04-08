@@ -201,4 +201,15 @@
         ORDER BY A.CLOCK_OUT DESC
     </select>
 
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(DISTINCT A.emp_no)
+        FROM ATTENDANCE A
+        JOIN MEMBER M ON A.emp_no = M.emp_no
+        WHERE M.store_id = #{storeId}
+        AND A.status = #{status}
+        AND TRUNC(A.clock_in) = TRUNC(SYSDATE)
+    </select>
+
+
+
 </mapper>

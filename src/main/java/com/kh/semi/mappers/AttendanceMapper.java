@@ -27,9 +27,12 @@ public interface AttendanceMapper {
     // 근태관리 페이징 바
     int getTotalAttendanceCount(int empNo);
     ArrayList<Attendance> selectAttendancListByPage(Map<String, Object> paramMap, RowBounds rowBounds);
-
     int getAttendanceCount(Map<String, Object> paramMap);
     ArrayList<Attendance> selectAttendanceListPage(Map<String, Object> paramMap, RowBounds rowBounds);
+
+    // 직원 대시보드 출근 현황판
+    int countByStatus(@Param("storeId") String storeId, @Param("status") String status);
+
 
 
 }
