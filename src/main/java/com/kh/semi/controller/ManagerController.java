@@ -5,7 +5,6 @@ import com.kh.semi.domain.vo.Member;
 import com.kh.semi.domain.vo.Stock;
 import com.kh.semi.domain.vo.Storage;
 import com.kh.semi.service.AttendanceService;
-import com.kh.semi.service.MemberService;
 import com.kh.semi.service.StockService;
 import com.kh.semi.service.StorageService;
 import com.kh.semi.domain.vo.*;
@@ -26,7 +25,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -105,15 +103,30 @@ public class ManagerController {
         ArrayList<Storage> list2 = storageService.selectStorage();
         ArrayList<Client> list3 = productService.selectClientList();
         ArrayList<StockProduct> list4 = stockService.selectStockProductList();
+        ArrayList<Product> list5 = productService.selectImageUrl();
+
         model.addAttribute("stock", list);
         model.addAttribute("storage", list2);
         model.addAttribute("client", list3);
         model.addAttribute("stockProduct", list4);
+        model.addAttribute("image", list5);
         return "manager/stockInView";
     }
 
     @GetMapping("stockOut.sto")
-    public String stockOutManagement() {
+    public String stockOutManagement(Model model) {
+        ArrayList<Stock> list = stockService.selectStockList();
+        ArrayList<Storage> list2 = storageService.selectStorage();
+        ArrayList<Client> list3 = productService.selectClientList();
+        ArrayList<StockProduct> list4 = stockService.selectStockProductList();
+        ArrayList<Product> list5 = productService.selectImageUrl();
+
+        model.addAttribute("stock", list);
+        model.addAttribute("storage", list2);
+        model.addAttribute("client", list3);
+        model.addAttribute("stockProduct", list4);
+        model.addAttribute("image", list5);
+
         return "manager/stockOutView";
     }
 

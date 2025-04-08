@@ -54,7 +54,7 @@ function searchStock() {
     }
 
     $.ajax({
-        url: "/api/searchStock",
+        url: "/api/searchStockIn",
         type: "GET",
         data: {
             stockStatus: stockStatus,
@@ -80,9 +80,9 @@ function updateSummary() {
     let totalTax = 0;
 
     rows.forEach(row => {
-        const amount = parseInt(row.querySelector("td:nth-child(3)").textContent) || 0;
-        const price = parseInt(row.querySelector("td:nth-child(4)").textContent) || 0;
-        const taxPrice = parseInt(row.querySelector("td:nth-child(6)").textContent) || 0;
+        const amount = parseInt(row.querySelector("td:nth-child(3)").textContent.replace(/,/g, '')) || 0;
+        const price = parseInt(row.querySelector("td:nth-child(4)").textContent.replace(/,/g, '')) || 0;
+        const taxPrice = parseInt(row.querySelector("td:nth-child(6)").textContent.replace(/,/g, '')) || 0;
 
         totalItemCount++;
         totalAmount += amount;
@@ -109,9 +109,13 @@ function updateStockTable(data) {
         return;
     }
 
-    data.forEach(stock => {
+    data.forEach(dto => {
+        const stock = dto.stock;
+        const products = dto.stockProductList;
+
         let statusBtn = "";
-        removeBtn = `<button type="button" class="btn btn-outline-danger btn-sm">취소</button>`
+        const removeBtn = `<button type="button" class="btn btn-outline-danger btn-sm">취소</button>`;
+
         switch (stock.stockStatus) {
             case "STOCK_IN_REGISTERED":
                 statusBtn = `<button type="button" class="btn btn-secondary btn-sm" disabled>입고 등록</button>`;
@@ -127,31 +131,43 @@ function updateStockTable(data) {
         const stockTr = document.createElement("tr");
         stockTr.setAttribute("data-storage-no", stock.stockNo);
 
-        // 각 칸 만들어서 추가
+        // 입고번호
         const tdNo = document.createElement("td");
         tdNo.innerText = stock.stockNo;
         stockTr.appendChild(tdNo);
 
+        // 상태
         const tdStatus = document.createElement("td");
-        tdStatus.innerHTML = statusBtn; // HTML로 버튼 삽입
+        tdStatus.innerHTML = statusBtn;
         stockTr.appendChild(tdStatus);
 
+        // 작성일
         const tdDate = document.createElement("td");
         tdDate.innerText = stock.stockDate;
         stockTr.appendChild(tdDate);
 
+        // 입고예정일
         const tdExp = document.createElement("td");
         tdExp.innerText = stock.expDate;
         stockTr.appendChild(tdExp);
 
+        // 입고금액 계산
         const tdMoney = document.createElement("td");
-        tdMoney.innerText = "아직 모룸";
+        let totalAmount = 0;
+        products.forEach(p => {
+            if (p.stockNo === stock.stockNo) {
+                totalAmount += (p.amount * p.price + p.taxPrice);
+            }
+        });
+        tdMoney.innerText = totalAmount.toLocaleString(); // 천 단위 콤마
         stockTr.appendChild(tdMoney);
 
+        // 요청자
         const tdEmp = document.createElement("td");
         tdEmp.innerText = stock.memName;
         stockTr.appendChild(tdEmp);
 
+        // 삭제 버튼
         const tdCancel = document.createElement("td");
         tdCancel.innerHTML = removeBtn;
         stockTr.appendChild(tdCancel);
@@ -159,6 +175,8 @@ function updateStockTable(data) {
         tableBody.append(stockTr);
     });
 }
+
+
 
 // 품목 추가에서 추가 후 입고서에 금액 표시
 function updateProductInfo() {
@@ -259,7 +277,8 @@ function showModal2() {
 
 //물품 이름으로 물품 검색
 function searchProduct() {
-    const productName = document.getElementById("product-search-input").value.trim();
+    const input = document.getElementById("product-search-input");
+    const productName = input.value.trim();
 
     if (productName === "") {
         alert("품목명을 입력해주세요.");
@@ -271,6 +290,7 @@ function searchProduct() {
         method: "GET",
         data: { productName: productName },
         success: function (data) {
+            input.value = "";
             createProductTable(data);
         },
         error: function () {
@@ -325,11 +345,11 @@ function createProductTable(data) {
         productTr.appendChild(tdProduct);
 
         const tdInPrice = document.createElement("td");
-        tdInPrice.innerText = product.stockInPrice;
+        tdInPrice.innerText = product.stockInPrice.toLocaleString();
         productTr.appendChild(tdInPrice);
 
         const tdOutPrice = document.createElement("td");
-        tdOutPrice.innerText = product.stockOutPrice;
+        tdOutPrice.innerText = product.stockOutPrice.toLocaleString();
         productTr.appendChild(tdOutPrice);
 
         tableBody.append(productTr);
@@ -481,7 +501,7 @@ function createStockInTable(data) {
         document.querySelectorAll("#stockIn-table tbody tr").forEach(row => {
             const productNo = row.getAttribute("data-product-no");
             const amount = parseInt(row.querySelector(".input-quantity").value) || 0;
-            const price = parseFloat(row.querySelector("td:nth-child(4)").innerText) || 0;
+            const price = parseInt(row.querySelector("td:nth-child(4)").textContent.replace(/,/g, '')) || 0;
             const tax = row.querySelector(".select-tax").value; //0이면 Y 1이면 N
             const taxPrice = tax === "0" ? Math.floor(price * amount * 0.1) : 0;
 
@@ -502,7 +522,7 @@ function createStockInTable(data) {
         };
 
         $.ajax({
-            url: "/api/insertStock",
+            url: "/api/insertStockIn",
             method: "POST",
             contentType: "application/json",
             data: JSON.stringify({

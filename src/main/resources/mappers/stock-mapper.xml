@@ -33,18 +33,18 @@
         TO_CHAR(EXP_DATE, 'YYYY-MM-DD') AS EXP_DATE,
         STOCK_STATUS
         FROM STOCK S JOIN MEMBER M ON (EMP_NO = STOCK_EMP)
-        WHERE S.STATUS = 'Y'
+        WHERE S.STATUS = 'Y' OR S.STATUS = 'C'
         ORDER BY STOCK_NO
     </select>
 
-    <select id="searchStockList" parameterType="map" resultMap="stockResult">
+    <select id="searchStockInList" parameterType="map" resultMap="stockResult">
         SELECT
         STOCK_NO,
         MEM_NAME,
         TO_CHAR(STOCK_DATE, 'YYYY-MM-DD') AS STOCK_DATE,
         TO_CHAR(EXP_DATE, 'YYYY-MM-DD') AS EXP_DATE,
         STOCK_STATUS
-        FROM STOCK JOIN MEMBER ON (EMP_NO = STOCK_EMP)
+        FROM STOCK S JOIN MEMBER M ON (EMP_NO = STOCK_EMP)
         <where>
             <choose>
                 <when test="stockStatus != null and stockStatus == 1">
@@ -68,10 +68,46 @@
                 AND #{endDate}
             </if>
         </where>
+        AND (S.STATUS = 'Y' OR S.STATUS = 'C')
         ORDER BY STOCK_NO
     </select>
 
-    <insert id="insertStock" parameterType="Stock">
+    <select id="searchStockOutList" parameterType="map" resultMap="stockResult">
+        SELECT
+        STOCK_NO,
+        MEM_NAME,
+        TO_CHAR(STOCK_DATE, 'YYYY-MM-DD') AS STOCK_DATE,
+        TO_CHAR(EXP_DATE, 'YYYY-MM-DD') AS EXP_DATE,
+        STOCK_STATUS
+        FROM STOCK S JOIN MEMBER M ON (EMP_NO = STOCK_EMP)
+        <where>
+            <choose>
+                <when test="stockStatus != null and stockStatus == 1">
+                    AND STOCK_STATUS = 'STOCK_OUT_REGISTERED'
+                </when>
+                <when test="stockStatus != null and stockStatus == 2">
+                    AND STOCK_STATUS = 'STOCK_OUT_PROGRESS'
+                </when>
+                <when test="stockStatus != null and stockStatus == 3">
+                    AND STOCK_STATUS = 'STOCK_OUT_COMPLETED'
+                </when>
+                <otherwise>
+                    AND STOCK_STATUS IN ('STOCK_OUT_REGISTERED', 'STOCK_OUT_PROGRESS', 'STOCK_OUT_COMPLETED')
+                </otherwise>
+            </choose>
+
+            <if test="startDate != null and startDate != ''">
+                AND STOCK_DATE BETWEEN #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND #{endDate}
+            </if>
+        </where>
+        AND (S.STATUS = 'Y' OR S.STATUS = 'C')
+        ORDER BY STOCK_NO
+    </select>
+
+    <insert id="insertStockIn" parameterType="Stock">
         <selectKey keyProperty="stockNo" resultType="int" order="BEFORE">
             SELECT STOCK_SEQ.NEXTVAL FROM DUAL
         </selectKey>
@@ -85,6 +121,23 @@
         #{stockEmp},
         #{expDate},
         'STOCK_IN_REGISTERED'
+        )
+    </insert>
+
+    <insert id="insertStockOut" parameterType="Stock">
+        <selectKey keyProperty="stockNo" resultType="int" order="BEFORE">
+            SELECT STOCK_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO STOCK (
+        STOCK_NO,
+        STOCK_EMP,
+        EXP_DATE,
+        STOCK_STATUS
+        ) VALUES (
+        #{stockNo},
+        #{stockEmp},
+        #{expDate},
+        'STOCK_OUT_REGISTERED'
         )
     </insert>
 
@@ -130,9 +183,16 @@
         ORDER BY STOCK_NO, PRODUCT_NO
     </select>
 
-    <update id="updateStockStatus">
+    <update id="updateStockInStatus">
         UPDATE STOCK
         SET STOCK_STATUS = 'STOCK_IN_PROGRESS',
+        MODIFY_DATE = SYSDATE
+        WHERE STOCK_NO = #{stockNo}
+    </update>
+
+    <update id="updateStockOutStatus">
+        UPDATE STOCK
+        SET STOCK_STATUS = 'STOCK_OUT_PROGRESS',
         MODIFY_DATE = SYSDATE
         WHERE STOCK_NO = #{stockNo}
     </update>
@@ -154,14 +214,13 @@
         TO_CHAR(EXP_DATE, 'YYYY-MM-DD') AS EXP_DATE,
         STOCK_STATUS
         FROM STOCK S JOIN MEMBER M ON (EMP_NO = STOCK_EMP)
-        WHERE S.STATUS = 'Y'
+        WHERE (S.STATUS = 'Y' OR S.STATUS = 'C')
         AND STOCK_NO = #{stockNo}
     </select>
 
     <select id="selectStockProduct" parameterType="StockProduct" resultMap="stockProductResult">
         SELECT STOCK_NO,
         PRODUCT_NO,
-        STORAGE_NO,
         AMOUNT,
         PRICE,
         TAXPRICE,
@@ -169,12 +228,10 @@
         PRODUCT_NAME,
         CATEGORY_NAME,
         PRODUCT_SIZE,
-        COLOR,
-        STORAGE_LOCATION
+        COLOR
         FROM STOCK_PRODUCT JOIN STOCK USING(STOCK_NO)
         JOIN PRODUCT USING(PRODUCT_NO)
         JOIN CATEGORY USING(CATEGORY_NO)
-        JOIN STORAGE USING(STORAGE_NO)
         WHERE STOCK_NO = #{stockNo}
         ORDER BY STOCK_NO, PRODUCT_NO
     </select>
