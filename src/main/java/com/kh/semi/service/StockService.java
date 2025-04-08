@@ -19,7 +19,13 @@ public interface StockService {
     int deleteStockProduct(int stockNo);
     Stock selectStock(int stockNo);
     ArrayList<StockProduct> selectStockProduct(int stockNo);
+   
+    //입고완료
     int updateCompletedStockIn();
     ArrayList<Stock> selectCompletedStockIn(); // COMPLETED + Y 인 애들
-    int updateStockProcessedStatus(int stockNo); // STATUS = 'C'로 변경
+    int updateStockProcessedStatus(int stockNo);
+    
+    //출고완료
+    int updateCompletedStockOut();
+    ArrayList<Stock> selectCompletedStockOut();
 }

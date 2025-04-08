@@ -322,11 +322,7 @@
                         <tr>
                             <th>입고번호</th>
                             <th>상태</th>
-<<<<<<< HEAD
                             <th>입고신청일자</th>
-=======
-                            <th>입고요청일자</th>
->>>>>>> a8afa2b4c9da8781ab798819110fb891c4a6aaf3
                             <th>입고예정일자</th>
                             <th>입고금액</th>
                             <th>요청자</th>
@@ -434,7 +430,6 @@
                                             <td colspan="2" class="list-table-item">
                                                 <input type="hidden" value="${sp.stockNo}" class="stockNo">
                                                 <c:forEach var="i" items="${image}">
-                                                    ${i.imageUrl}
                                                     <c:if test="${i.productNo eq sp.productNo}">
                                                         <c:choose>
                                                             <c:when test="${empty i.imageUrl}">
