@@ -135,10 +135,17 @@
     </head>
     <body>
     <c:if test="${ not empty sessionScope.alertMsg }">
+
+       <script>
+           alert("${ sessionScope.alertMsg }");
+            <% session.removeAttribute("alertMsg"); %>
+       </script>
+
         <script>
             alert("${ sessionScope.alertMsg }");
             <% session.removeAttribute("alertMsg"); %>
         </script>
+
     </c:if>
     <div class="container">
         <!-- 왼쪽 (배경 이미지) -->

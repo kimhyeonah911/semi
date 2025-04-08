@@ -1,8 +1,6 @@
 package com.kh.semi.controller;
 
-import com.kh.semi.domain.vo.Attendance;
-import com.kh.semi.domain.vo.Member;
-import com.kh.semi.domain.vo.Store;
+import com.kh.semi.domain.vo.*;
 import com.kh.semi.service.AttendanceService;
 import com.kh.semi.service.MemberService;
 import com.kh.semi.service.StoreService;
@@ -67,10 +65,25 @@ public class EmployeeController {
     }
 
     @GetMapping("/attendance.em")
-    public String attendancePage(@RequestParam("empNo") int empNo, Model model) {
-        ArrayList<Attendance> attendList = attendanceService.getAttendanceMy(empNo);
-        model.addAttribute("attendList", attendList);
-        System.out.println(attendList);
+    public String attendancePage(@RequestParam(defaultValue = "1") int cpage,
+                                 @RequestParam("empNo") int empNo,
+                                 Model model) {
+
+        // 페이징 처리 관련 변수
+        int listCount = attendanceService.getTotalAttendanceCount(empNo); // → empNo 기준으로 count
+        int pageLimit = 5;
+        int boardLimit = 10;
+        PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
+
+        // 리스트 조회
+        ArrayList<Attendance> listpage = attendanceService.selectAttendancListByPage(empNo, pi);
+
+        // model에 담기
+        model.addAttribute("pageUrl", "attendance.em?empNo=" + empNo); // empNo 유지
+        model.addAttribute("listpage", listpage);
+        model.addAttribute("pi", pi);
+        model.addAttribute("empNo", empNo); // empNo를 뷰에서도 쓸 수 있게 전달
+
         return "employee/employeeAttendanceView";
     }
 

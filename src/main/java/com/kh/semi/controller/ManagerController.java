@@ -1,9 +1,12 @@
 package com.kh.semi.controller;
 
+import com.kh.semi.domain.vo.*;
+
 import com.kh.semi.domain.vo.Attendance;
 import com.kh.semi.domain.vo.Member;
 import com.kh.semi.domain.vo.Stock;
 import com.kh.semi.domain.vo.Storage;
+
 import com.kh.semi.service.AttendanceService;
 import com.kh.semi.service.StockService;
 import com.kh.semi.service.StorageService;
@@ -11,6 +14,7 @@ import com.kh.semi.domain.vo.*;
 import com.kh.semi.service.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,14 +58,36 @@ public class ManagerController {
     }
 
     @GetMapping("attendance.ma")
-    public String attendanceManagement(Model model, String storeId) {
-        ArrayList<Attendance> list = attendanceService.getMyAttendanceList(storeId);
-        Set<String> empNameList = list.stream()
+    public String attendanceManagement(@RequestParam(defaultValue = "1") int cpage,
+                                       Model model,
+                                       HttpSession session) {
+
+        Member loginMember = (Member) session.getAttribute("loginMember");
+        String storeId = loginMember.getStoreId();
+
+        // 직원명 목록 select용
+        ArrayList<Attendance> allList = attendanceService.getMyAttendanceList(storeId);
+        Set<String> empNameList = allList.stream()
                 .map(Attendance::getEmpName)
                 .collect(Collectors.toSet());
         model.addAttribute("empNameList", empNameList);
-        System.out.println(list);
-        model.addAttribute("list", list);
+
+        // ✅ paramMap 생성
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("storeId", storeId);
+
+        // ✅ 페이징 처리
+        int listCount = attendanceService.getAttendanceCount(paramMap);
+        int pageLimit = 5;
+        int boardLimit = 10;
+        PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
+        paramMap.put("pi", pi); // ✅ 꼭 넣기
+
+        // ✅ 수정된 서비스 호출
+        ArrayList<Attendance> listpage = attendanceService.selectAttendanceListPage(paramMap);
+        model.addAttribute("listpage", listpage);
+        model.addAttribute("pi", pi);
+
         return "manager/managerAttendanceView";
     }
 
@@ -71,9 +97,18 @@ public class ManagerController {
     }
 
     @GetMapping("storage.lo")
-    public String storageManagement(Model model) {
-        ArrayList<Storage> list = storageService.selectStorage();
-        model.addAttribute("storageList", list);
+    public String storageManagement(@RequestParam(defaultValue = "1") int cpage, Model model) {
+        // 페이징바 처리 코드
+        int listCount = storageService.StorageCount();
+        int pageLimit = 5;     // 하단에 보여질 페이징 바 수
+        int boardLimit = 10;   // 한 페이지에 보여질 입고처 수
+        model.addAttribute("pageUrl", "storage.lo");
+        PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
+
+        ArrayList<Storage> listpage = storageService.selectStorageCount(pi);
+        model.addAttribute("storage", listpage); // jsp el 태그에서 db 값 불러올 때 clent 변수로 불러옴 << 확인 부탁
+        model.addAttribute("pi", pi);
+
         return "manager/storageManagementView";
     }
 
@@ -132,6 +167,7 @@ public class ManagerController {
 
     @PostMapping("updateAttendance.ma")
     public String updateAttendance(Attendance attendance, HttpSession session) {
+
         int result = attendanceService.updateAttendance(attendance);
         if(result > 0){
             session.setAttribute("alertMsg", "근태 관리 수정 성공");
@@ -142,7 +178,8 @@ public class ManagerController {
     }
 
     @GetMapping("selectAttendance.ma")
-    public String selectAttendance(@RequestParam(required = false) String empName,
+    public String selectAttendance(@RequestParam(defaultValue = "1") int cpage,
+                                   @RequestParam(required = false) String empName,
                                    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
                                    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
                                    HttpSession session, Model model) {
@@ -155,16 +192,31 @@ public class ManagerController {
         paramMap.put("startDate", startDate);
         paramMap.put("endDate", endDate);
 
-        ArrayList<Attendance> list = attendanceService.selectAttendance(paramMap);
-        Set<String> empNameList = list.stream()
+
+        // ✅ 페이징 처리
+        int listCount = attendanceService.getAttendanceCount(paramMap);
+        int pageLimit = 5;
+        int boardLimit = 10;
+        PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
+        paramMap.put("pi", pi); // ✅ PageInfo를 paramMap에 넣어야 ServiceImpl에서 꺼낼 수 있음
+
+
+        ArrayList<Attendance> listpage = attendanceService.selectAttendanceListPage(paramMap); // 페이징된 목록 조회
+        model.addAttribute("listpage", listpage);
+        model.addAttribute("pi", pi);
+
+        // 직원 선택용 드롭다운용 전체 목록
+        ArrayList<Attendance> allList = attendanceService.getMyAttendanceList(storeId);
+        Set<String> empNameList = allList.stream()
                 .map(Attendance::getEmpName)
                 .collect(Collectors.toSet());
+        model.addAttribute("empNameList", empNameList);
+
         model.addAttribute("selectedEmpName", empName);
         model.addAttribute("selectedStartDate", startDate);
         model.addAttribute("selectedEndDate", endDate);
-        model.addAttribute("empNameList", empNameList);
-        model.addAttribute("list", list);
 
         return "manager/managerAttendanceView";
     }
+
 }
