@@ -153,11 +153,20 @@
         ORDER BY CLOCK_OUT DESC
     </select>
 
-    <select id="getAttendanceCount" resultType="int">
+    <select id="getAttendanceCount" resultType="int" parameterType="map">
         SELECT COUNT(*)
         FROM ATTENDANCE A
         JOIN MEMBER M ON A.EMP_NO = M.EMP_NO
         WHERE M.STORE_ID = #{storeId}
+        <if test="empName != null and empName != ''">
+            AND M.MEM_NAME = #{empName}
+        </if>
+        <if test="startDate != null">
+            AND TRUNC(A.CLOCK_IN) &gt;= #{startDate}
+        </if>
+        <if test="endDate != null">
+            AND TRUNC(A.CLOCK_IN) &lt;= #{endDate}
+        </if>
     </select>
 
     <select id="selectAttendanceListPage" resultMap="attendanceResult">
@@ -177,7 +186,18 @@
         END AS WORKTIME
         FROM ATTENDANCE A
         JOIN MEMBER M ON A.EMP_NO = M.EMP_NO
-        WHERE M.STORE_ID = #{storeId}
+        <where>
+            M.STORE_ID = #{storeId}
+            <if test="empName != null and empName != ''">
+                AND M.MEM_NAME = #{empName}
+            </if>
+            <if test="startDate != null">
+                AND TRUNC(A.CLOCK_IN) &gt;= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND TRUNC(A.CLOCK_IN) &lt;= #{endDate}
+            </if>
+        </where>
         ORDER BY A.CLOCK_OUT DESC
     </select>
 

@@ -28,7 +28,8 @@ public interface AttendanceMapper {
     int getTotalAttendanceCount(int empNo);
     ArrayList<Attendance> selectAttendancListByPage(Map<String, Object> paramMap, RowBounds rowBounds);
 
-    int getAttendanceCount(String storeId);
-    ArrayList<Attendance> selectAttendanceListPage(String storeId, RowBounds rowBounds);
+    int getAttendanceCount(Map<String, Object> paramMap);
+    ArrayList<Attendance> selectAttendanceListPage(Map<String, Object> paramMap, RowBounds rowBounds);
+
 
 }

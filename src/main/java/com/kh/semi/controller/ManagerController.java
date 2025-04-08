@@ -15,6 +15,7 @@ import com.kh.semi.domain.vo.*;
 import com.kh.semi.service.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,32 +58,40 @@ public class ManagerController {
     }
 
     @GetMapping("attendance.ma")
-    public String attendanceManagement(@RequestParam(defaultValue = "1") int cpage, Model model, String storeId, HttpSession session) {
+    public String attendanceManagement(@RequestParam(defaultValue = "1") int cpage,
+                                       Model model,
+                                       HttpSession session) {
 
-        ArrayList<Attendance> list = attendanceService.getMyAttendanceList(storeId);
-        Set<String> empNameList = list.stream()
+        Member loginMember = (Member) session.getAttribute("loginMember");
+        String storeId = loginMember.getStoreId();
+
+        // 직원명 목록 select용
+        ArrayList<Attendance> allList = attendanceService.getMyAttendanceList(storeId);
+        Set<String> empNameList = allList.stream()
                 .map(Attendance::getEmpName)
                 .collect(Collectors.toSet());
         model.addAttribute("empNameList", empNameList);
-        System.out.println(list);
-        model.addAttribute("list", list);
 
-        Member loginMember = (Member) session.getAttribute("loginMember");
-        storeId = loginMember.getStoreId();
+        // ✅ paramMap 생성
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("storeId", storeId);
 
-        // 페이징 처리 관련 변수
-        int listCount = attendanceService.getAttendanceCount(storeId); // → empNo 기준으로 count
+        // ✅ 페이징 처리
+        int listCount = attendanceService.getAttendanceCount(paramMap);
         int pageLimit = 5;
         int boardLimit = 10;
-
         PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
-        System.out.println("페이징 정보 : " + pi);
+        paramMap.put("pi", pi); // ✅ 꼭 넣기
 
-        ArrayList<Attendance> listpage = attendanceService.selectAttendanceListPage(storeId, pi);
-        model.addAttribute("listpage", listpage); // jsp el 태그에서 db 값 불러올 때 clent 변수로 불러옴 << 확인 부탁
+        // ✅ 수정된 서비스 호출
+        ArrayList<Attendance> listpage = attendanceService.selectAttendanceListPage(paramMap);
+        model.addAttribute("listpage", listpage);
         model.addAttribute("pi", pi);
+
         return "manager/managerAttendanceView";
     }
+
+
 
     @GetMapping("salesManager.bo")
     public String saleManagerBoard() {
@@ -156,26 +165,12 @@ public class ManagerController {
     }
 
     @GetMapping("selectAttendance.ma")
-    public String selectAttendance(@RequestParam(required = false) String empName,
-                                   @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-                                   @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
-                                   HttpSession session, Model model) {
-        // 기존 코드
-        int result = attendanceService.updateAttendance(attendance);
-        if(result > 0){
-            session.setAttribute("alertMsg", "근태 관리 수정 성공");
-        } else {
-            session.setAttribute("alertMsg", "근태 관리 수정 실패");
-        }
-        return "redirect:/attendance.ma";
-    }
-
-    @GetMapping("selectAttendance.ma")
     public String selectAttendance(@RequestParam(defaultValue = "1") int cpage,
                                    @RequestParam(required = false) String empName,
                                    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
                                    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
                                    HttpSession session, Model model) {
+
         String storeId = ((Member) session.getAttribute("loginUser")).getStoreId();
 
         Map<String, Object> paramMap = new HashMap<>();
@@ -184,11 +179,20 @@ public class ManagerController {
         paramMap.put("startDate", startDate);
         paramMap.put("endDate", endDate);
 
-        // 필터링 리스트
-        ArrayList<Attendance> list = attendanceService.selectAttendance(paramMap);
-        model.addAttribute("listpage", list);
 
-        // 전체 직원 리스트
+        // ✅ 페이징 처리
+        int listCount = attendanceService.getAttendanceCount(paramMap);
+        int pageLimit = 5;
+        int boardLimit = 10;
+        PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
+        paramMap.put("pi", pi); // ✅ PageInfo를 paramMap에 넣어야 ServiceImpl에서 꺼낼 수 있음
+
+
+        ArrayList<Attendance> listpage = attendanceService.selectAttendanceListPage(paramMap); // 페이징된 목록 조회
+        model.addAttribute("listpage", listpage);
+        model.addAttribute("pi", pi);
+
+        // 직원 선택용 드롭다운용 전체 목록
         ArrayList<Attendance> allList = attendanceService.getMyAttendanceList(storeId);
         Set<String> empNameList = allList.stream()
                 .map(Attendance::getEmpName)
@@ -199,25 +203,8 @@ public class ManagerController {
         model.addAttribute("selectedStartDate", startDate);
         model.addAttribute("selectedEndDate", endDate);
 
-        System.out.println("empName = " + empName);
-        System.out.println("startDate = " + startDate);
-        System.out.println("endDate = " + endDate);
-
-        // 점심 먹고 조회버튼 클릭시 페이징 처리 넣기
-
-//        // 페이징 처리 관련 변수
-//        int listCount = attendanceService.getAttendanceCount(storeId); // → empNo 기준으로 count
-//        int pageLimit = 5;
-//        int boardLimit = 10;
-//
-//        PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
-//        System.out.println("페이징 정보 : " + pi);
-//
-//        ArrayList<Attendance> listpage = attendanceService.selectAttendanceListPage(storeId, pi);
-//        model.addAttribute("list", listpage);
-//        model.addAttribute("pi", pi);
-
         return "manager/managerAttendanceView";
     }
+
 }
 

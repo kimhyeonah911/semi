@@ -79,16 +79,18 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public int getAttendanceCount(String storeId) {
-        return attendanceMapper.getAttendanceCount(storeId);
+    public int getAttendanceCount(Map<String, Object> paramMap) {
+        return attendanceMapper.getAttendanceCount(paramMap);
     }
 
     @Override
-    public ArrayList<Attendance> selectAttendanceListPage(String storeId, PageInfo pi) {
+    public ArrayList<Attendance> selectAttendanceListPage(Map<String, Object> paramMap) {
+        PageInfo pi = (PageInfo) paramMap.get("pi");
         int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
         RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-        return attendanceMapper.selectAttendanceListPage(storeId, rowBounds);
+        return attendanceMapper.selectAttendanceListPage(paramMap, rowBounds);
     }
+
 
 
 }

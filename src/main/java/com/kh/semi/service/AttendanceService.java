@@ -27,7 +27,7 @@ public interface AttendanceService {
 
     ArrayList<Attendance> selectAttendancListByPage(int empNo, PageInfo pi);
 
-    int getAttendanceCount(String storeId);
+    int getAttendanceCount(Map<String, Object> paramMap);
+    ArrayList<Attendance> selectAttendanceListPage(Map<String, Object> paramMap);
 
-    ArrayList<Attendance> selectAttendanceListPage(String storeId, PageInfo pi);
 }
