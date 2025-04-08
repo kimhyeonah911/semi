@@ -489,8 +489,6 @@
     pageHTML += "</div>";
 
     pagebar.html(pageHTML);
-
-    console.log("페이지바 HTML:", pageHTML);
   }
 </script>
 </body>
