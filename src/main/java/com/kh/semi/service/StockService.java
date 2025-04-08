@@ -7,11 +7,14 @@ import java.util.ArrayList;
 
 public interface StockService {
     ArrayList<Stock> selectStockList();
-    ArrayList<Stock> searchStockList(String stockStatus, String startDate, String endDate);
-    int insertStock(Stock stock);
+    ArrayList<Stock> searchStockInList(String stockStatus, String startDate, String endDate);
+    ArrayList<Stock> searchStockOutList(String stockStatus, String startDate, String endDate);
+    int insertStockIn(Stock stock);
+    int insertStockOut(Stock stock);
     int insertStockProduct(StockProduct stockProduct);
     ArrayList<StockProduct> selectStockProductList();
-    int updateStockStatus(int stockNo);
+    int updateStockInStatus(int stockNo);
+    int updateStockOutStatus(int stockNo);
     int deleteStock(int stockNo);
     int deleteStockProduct(int stockNo);
     Stock selectStock(int stockNo);

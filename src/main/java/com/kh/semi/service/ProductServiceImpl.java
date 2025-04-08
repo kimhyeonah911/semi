@@ -32,6 +32,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ArrayList<Product> selectImageUrl() {
+        return productMapper.selectImageUrl();
+    }
+
+    @Override
     public ArrayList<Category> getCategoryList() {
         return productMapper.getCategoryList();
     }

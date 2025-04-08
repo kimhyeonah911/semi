@@ -16,6 +16,7 @@ public interface ProductMapper {
     List<Product> selectProductList(int clientId);
     List<Product> searchProductName(String productName);
 
+    ArrayList<Product> selectImageUrl();
     ArrayList<Category> getCategoryList();
     ArrayList<Client> getClientList();
     int updateProductPause(List<Integer> productNoList);

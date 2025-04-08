@@ -322,7 +322,11 @@
                         <tr>
                             <th>입고번호</th>
                             <th>상태</th>
+<<<<<<< HEAD
                             <th>입고신청일자</th>
+=======
+                            <th>입고요청일자</th>
+>>>>>>> a8afa2b4c9da8781ab798819110fb891c4a6aaf3
                             <th>입고예정일자</th>
                             <th>입고금액</th>
                             <th>요청자</th>
@@ -360,7 +364,7 @@
                                                         <c:set var="totalAmount" value="${totalAmount + itemTotal}" />
                                                     </c:if>
                                                 </c:forEach>
-                                                ${totalAmount}
+                                            <fmt:formatNumber value="${totalAmount}" type="number" groupingUsed="true" />
                                             </td>
 
                                             <td>${s.memName}</td>
@@ -410,7 +414,6 @@
                         </div>
                         <% } %>
                     </div>
-
                     <div>
                         <table class="table table2 table-striped table-hover">
                             <thead>
@@ -430,7 +433,19 @@
                                         <tr>
                                             <td colspan="2" class="list-table-item">
                                                 <input type="hidden" value="${sp.stockNo}" class="stockNo">
-                                                <img src="/resources/logo.png" style="width: 50px; height: 50px;" alt="제품사진">
+                                                <c:forEach var="i" items="${image}">
+                                                    ${i.imageUrl}
+                                                    <c:if test="${i.productNo eq sp.productNo}">
+                                                        <c:choose>
+                                                            <c:when test="${empty i.imageUrl}">
+                                                                <img src="<c:url value='/resources/default.png' />" style="width: 50px; height: 50px;" alt="제품사진">
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <img src="<c:url value='${i.imageUrl}' />" style="width: 50px; height: 50px;" alt="제품사진">
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:if>
+                                                </c:forEach>
                                                 <div class="product-info">
                                                     <p style="font-size: 14px;">${sp.productNo}</p>
                                                     <p style="font-weight:600; font-size: 14px;">${sp.productName}</p>
@@ -439,22 +454,16 @@
                                             </td>
                                             <td></td>
                                             <td>${sp.amount}</td>
-                                            <td>${sp.price}</td>
-                                            <td>${sp.amount * sp.price}</td>
-                                            <td>${sp.taxPrice}</td>
-                                            <td>${sp.amount * sp.price + sp.taxPrice}</td>
+                                            <td><fmt:formatNumber value="${sp.price}" type="number" groupingUsed="true" /></td>
+                                            <td><fmt:formatNumber value="${sp.amount * sp.price}" type="number" groupingUsed="true" /></td>
+                                            <td><fmt:formatNumber value="${sp.taxPrice}" type="number" groupingUsed="true" /></td>
+                                            <td><fmt:formatNumber value="${sp.amount * sp.price + sp.taxPrice}" type="number" groupingUsed="true" /></td>
                                         </tr>
                                     </c:if>
                                 </c:forEach>
                             </c:forEach>
-
-
                             </tbody>
                         </table>
-                        <div class="pagebar-container mt-3">
-                            <jsp:include page="../common/pagebar.jsp"/>
-                        </div>
-
                     </div>
             </div>
         </div>
@@ -634,7 +643,7 @@
         const uniqueStockNos = [...new Set(stockNos)];
 
         $.ajax({
-            url: "/api/updateStock",
+            url: "/api/updateStockIn",
             method: "POST",
             contentType: "application/json",
             data: JSON.stringify({ stockNos: uniqueStockNos }),
@@ -644,7 +653,7 @@
             },
             error: function (xhr, status, error) {
                 console.error("상태 변경 실패:", error);
-                alert("입고 상태 변경에 실패했습니다.");
+                alert("입고 승인에 실패했습니다.");
             }
         });
     }
