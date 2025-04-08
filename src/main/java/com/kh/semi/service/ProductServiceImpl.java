@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -56,10 +57,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> searchProduct(String status, Integer categoryNo, String keyword) {
-        return productMapper.searchProduct(status, categoryNo, keyword);
+    public List<Product> searchProduct(Map<String, Object> paramMap) {
+        return productMapper.searchProduct(paramMap);
     }
 
+    @Override
+    public int countProduct(Map<String, Object> paramMap) {
+        return productMapper.countProduct(paramMap);
+    }
 
     @Override
     public ArrayList<Client> selectClientList() {

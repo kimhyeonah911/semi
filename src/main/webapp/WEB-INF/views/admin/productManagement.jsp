@@ -134,6 +134,41 @@
             width: 300px;
         }
 
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        .pagination a {
+            text-decoration: none;
+            color: #000000;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .pagination a:hover {
+            background-color: #717171;
+        }
+
+        .pagination .active {
+            background-color: #000000;
+            color: white;
+            border: 1px solid #000000;
+        }
+
+        .pagination .disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+
     </style>
 </head>
 <body>
@@ -158,7 +193,7 @@
                 <select class="form-select categorySelectBar" id="categorySelectBar" aria-label="카테고리" name="selectedCategory">
                 </select>
                 <input type="text" id="searchKeyword" placeholder="검색할 상품명을 입력하세요." name="searchedKeyword">
-                <button type="submit" class="btn btn-primary">조회</button>
+                <button type="submit" class="btn btn-primary" onsubmit="searchProduct()">조회</button>
             </div>
             </form>
             <div id="right-group">
@@ -182,19 +217,7 @@
                 </tr>
                 </thead>
                 <tbody id="product-list">
-<%--                <c:forEach var="p" items="${product}">--%>
-<%--                    <tr class="product-tr" data-category="${p.categoryNo}" data-status="${p.status}" data-product-id="${p.productNo}">--%>
-<%--                        <td><input type="checkbox" name="product-checkbox"></td>--%>
-<%--                        <td class="td-productNo">${p.productNo}</td>--%>
-<%--                        <td class="td-productName">${p.productName}</td>--%>
-<%--                        <td class="td-categoryName" >${p.categoryName}</td>--%>
-<%--                        <td class="td-color">${p.color}</td>--%>
-<%--                        <td class="td-productSize">${p.productSize}</td>--%>
-<%--                        <td class="td-stockInPrice">${p.stockInPrice}</td>--%>
-<%--                        <td class="td-stockOutPrice">${p.stockOutPrice}</td>--%>
-<%--                        <td style="width: 100px;"><button class="approve-btn btn btn-success" onclick="showEditForm(this)"><i class="fas fa-edit"></i></button></td>--%>
-<%--                    </tr>--%>
-<%--                </c:forEach>--%>
+                    <%--상품 리스트 자리--%>
                 </tbody>
             </table>
         </div>
@@ -205,7 +228,7 @@
         </div>
 
         <div class="pagebar-container mt-3">
-            <jsp:include page="../common/pagebar.jsp"/>
+            <div id="pagebar" class="mt-3 text-center">adf</div>
         </div>
 
 
@@ -222,10 +245,10 @@
                     <!-- 모달 본문 -->
                     <div class="modal-body">
                         <form id="enrollForm" action="/enrollProduct" method="post" enctype="multipart/form-data">
-<%--                            <div class="mb-3">--%>
-<%--                                <label for="enrollProductNo" class="form-label">상품번호</label>--%>
-<%--                                <input type="text" class="form-control" id="enrollProductNo" name="productNo" placeholder="자동 생성" readonly>--%>
-<%--                            </div>--%>
+                            <div class="mb-3">
+                                <label for="enrollProductNo" class="form-label">상품번호</label>
+                                <input disabled type="text" class="form-control" id="enrollProductNo" name="productNo" placeholder="자동 생성" readonly>
+                            </div>
                             <div class="mb-3">
                                 <label for="enrollProductName" class="form-label">상품명</label>
                                 <input type="text" class="form-control" id="enrollProductName" name="productName">
@@ -346,38 +369,6 @@
 </c:if>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $.ajax({
-            url: '/api/getProductList',  // 서버로 요청
-            method: 'GET',
-            success: function(data) {
-                let tbodyContent = '';
-                data.forEach(function(p) {
-                    tbodyContent += "<tr class='product-tr' data-category='" + p.categoryNo + "' data-status='" + p.status + "' data-product-id='" + p.productNo + "'>" +
-                        "<td><input type='checkbox' name='product-checkbox'></td>" +
-                        "<td class='td-productNo'>" + p.productNo + "</td>" +
-                        "<td class='td-productName'>" + p.productName + "</td>" +
-                        "<td class='td-categoryName'>" + p.categoryName + "</td>" +
-                        "<td class='td-color'>" + p.color + "</td>" +
-                        "<td class='td-productSize'>" + p.productSize + "</td>" +
-                        "<td class='td-stockInPrice'>" + p.stockInPrice + "</td>" +
-                        "<td class='td-stockOutPrice'>" + p.stockOutPrice + "</td>" +
-                        "<td style='width: 100px;'>" +
-                        "<button class='approve-btn btn btn-success' onclick='showEditForm(this)'>" +
-                        "<i class='fas fa-edit'></i>" +
-                        "</button>" +
-                        "</td>" +
-                        "</tr>";
-                });
-                $('#product-list').html(tbodyContent);   // 테이블에 동적으로 삽입
-            },
-            error: function(error) {
-                console.error('데이터를 불러오는 데 실패했습니다:', error);
-            }
-        });
-    });
-</script>
 <script> //카테고리 셀렉트바 출력
     $(document).ready(function() {
         getCategoryList(drawCategorySelect);
@@ -421,7 +412,7 @@ function drawCategorySelect(res) {
 }
 
 //입고처 셀렉트바 불러오기
-// 모달이 열릴 때 클라이언트 리스트 다시 불러오기
+//모달이 열릴 때 입고처 리스트 다시 불러오기
     $('#enrollModal').on('show.bs.modal', function () {
         getClientList(drawClientSelect);
     });
@@ -445,7 +436,7 @@ function drawClientSelect(res) {
         // 기존 옵션 제거
         clientSelectBar.innerHTML = "";
 
-        // 🔹 placeholder 역할을 하는 기본 옵션 추가
+        //placeholder 역할을 하는 기본 옵션 추가
         const placeholderOption = document.createElement("option");
         placeholderOption.value = "";
         placeholderOption.innerText = "옵션을 선택하세요";
@@ -462,9 +453,9 @@ function drawClientSelect(res) {
         });
     });
 }
-</script>
 
-<script> //판매 중지 버튼
+
+//판매 중지 버튼
 function updateProductPause() {
     let selectedProductsNo = [];
     $('input[name="product-checkbox"]:checked').each(function() {
@@ -573,11 +564,7 @@ function updateProductRestart() {
     });
 }
 
-</script>
 
-
-
-<script>
     //상품등록
     function showEnrollForm(){
         new bootstrap.Modal(document.querySelector("#enrollModal")).show();
@@ -703,78 +690,84 @@ function updateProductRestart() {
         form.submit();
     }
 
-</script>
+    let currentPage = 1;
+    const pageSize = 10;
 
-<script>
-    $(document).ready(function() {
-        // 폼 제출 시 AJAX 요청 처리
-        $('#search-form').on('submit', function(e) {
-            e.preventDefault();  // 기본 폼 제출을 방지
-            // 폼에 제출된 데이터 가져오기
-            const keyword = document.getElementById('searchKeyword').value.trim();
-            const status = document.getElementById('productStatusSelect').value;
-            const categoryNo = document.getElementById('categorySelectBar').value;
+$(document).ready(function () {
+    $('#search-form').on('submit', function (e) {
+        e.preventDefault();
+        searchProduct();
+    });
 
-            console.log(categoryNo);
+    // ✅ 폼 초기 실행은 여기 안에
+    $('#search-form').trigger('submit');
+});
 
-            // AJAX 요청 보내기
-            $.ajax({
-                url: '/api/searchProduct',  // 서버로 요청
-                method: 'GET',
-                data: {
-                    searchedKeyword: keyword,
-                    selectedStatus: status,
-                    selectedCategory: categoryNo
-                },
-                success: function(data) {
-                    const tableBody = $('#product-list tbody');
-                    tableBody.empty();  // 기존 결과 비우기
+    //상품검색
+    function searchProduct(page=1){
+        currentPage = page;
+        const keyword = document.getElementById('searchKeyword').value.trim();
+        const status = document.getElementById('productStatusSelect').value;
+        const categoryNo = document.getElementById('categorySelectBar').value;
 
-                    let tbodyContent = "";
+        $.ajax({
+            url: '/api/searchProduct',  // 서버로 요청
+            method: 'GET',
+            data: {
+                searchedKeyword: keyword,
+                selectedStatus: status,
+                selectedCategory: categoryNo,
+                page: page,
+                pageSize: pageSize
+            },
+            success: function(res){
+                const data = res.list;
+                const totalCount = res.totalCount;
+                const pageInfo = res.pageInfo;
 
-                    if(data.length === 0){
-                        tbodyContent = '<tr><td colspan="9" class="text-center">조회 결과가 없습니다.</td></tr>';
-                    } else {
-                        data.forEach(function (p) {
-                            tbodyContent += "<tr class='product-tr' data-category='" + p.categoryNo + "' data-status='" + p.status + "' data-product-id='" + p.productNo + "'>" +
-                                "<td><input type='checkbox' name='product-checkbox'></td>" +
-                                "<td class='td-productNo'>" + p.productNo + "</td>" +
-                                "<td class='td-productName'>" + p.productName + "</td>" +
-                                "<td class='td-categoryName'>" + p.categoryName + "</td>" +
-                                "<td class='td-color'>" + p.color + "</td>" +
-                                "<td class='td-productSize'>" + p.productSize + "</td>" +
-                                "<td class='td-stockInPrice'>" + p.stockInPrice + "</td>" +
-                                "<td class='td-stockOutPrice'>" + p.stockOutPrice + "</td>" +
-                                "<td style='width: 100px;'>" +
-                                "<button class='approve-btn btn btn-success' onclick='showEditForm(this)'>" +
-                                "<i class='fas fa-edit'></i>" +
-                                "</button>" +
-                                "</td>" +
-                                "</tr>";
-                        });
-                    }
-                    $('#product-list').html(tbodyContent);   // 테이블에 동적으로 삽입
+                let tbodyContent = "";
 
-                    changePauseBtn(status);
-
-                    // 폼의 값들을 다시 설정 (검색 후에도 값들이 남도록)
-                    $('#searchKeyword').val(keyword);
-                    $('#productStatusSelect').val(status);
-                    $('#categorySelectBar').val(categoryNo);
-
-                },
-                error: function() {
-                    console.error('상품을 검색하는데 실패했습니다:', error);
-                    alert('상품을 검색하는데 실패했습니다');
+                if(data.length === 0){
+                    tbodyContent = '<tr><td colspan="9" class="text-center">조회 결과가 없습니다.</td></tr>';
+                } else {
+                    data.forEach(function (p) {
+                        tbodyContent += "<tr class='product-tr' data-category='" + p.categoryNo + "' data-status='" + p.status + "' data-product-id='" + p.productNo + "'>" +
+                            "<td><input type='checkbox' name='product-checkbox'></td>" +
+                            "<td class='td-productNo'>" + p.productNo + "</td>" +
+                            "<td class='td-productName'>" + p.productName + "</td>" +
+                            "<td class='td-categoryName'>" + p.categoryName + "</td>" +
+                            "<td class='td-color'>" + p.color + "</td>" +
+                            "<td class='td-productSize'>" + p.productSize + "</td>" +
+                            "<td class='td-stockInPrice'>" + p.stockInPrice + "</td>" +
+                            "<td class='td-stockOutPrice'>" + p.stockOutPrice + "</td>" +
+                            "<td style='width: 100px;'>" +
+                            "<button class='approve-btn btn btn-success' onclick='showEditForm(this)'>" +
+                            "<i class='fas fa-edit'></i>" +
+                            "</button>" +
+                            "</td>" +
+                            "</tr>";
+                    });
                 }
-            });
-        });
+                $('#product-list').html(tbodyContent);
+                drawPagebar(pageInfo, '#pagebar', 'searchProduct');
+                changePauseBtn(status);
 
-        function changePauseBtn(status){
+                $('#searchKeyword').val(keyword);
+                $('#productStatusSelect').val(status);
+                $('#categorySelectBar').val(categoryNo);
+            },
+            error: function(error) {
+                console.error('상품을 검색하는데 실패했습니다:', error);
+                alert('상품을 검색하는데 실패했습니다');
+            }
+         });
+    }
+
+        function changePauseBtn(status) {
             const pauseBtn = document.getElementById("pauseButton");
             const deleteBtn = document.getElementById("deleteButton")
 
-            if(status === "P"){
+            if (status === "P") {
                 pauseBtn.textContent = "재시작";
                 pauseBtn.classList.remove("btn-warning");
                 pauseBtn.classList.add("btn-primary");
@@ -810,7 +803,44 @@ function updateProductRestart() {
                 deleteBtn.onclick = updateProductDelete;
             }
         }
-    });
+
+function drawPagebar(pageInfo, containerId, searchFunctionName){
+    const totalPages = pageInfo.maxPage; // PageInfo에서 총 페이지 수 가져오기
+    const currentPage = pageInfo.currentPage;
+    const pagebar = $(containerId);
+    pagebar.empty();
+
+    if (totalPages <= 1) return;
+
+    let pageHTML = "<div class='pagination'>";
+
+    // 이전 버튼
+    if (currentPage > 1) {
+        pageHTML += "<a href='javascript:void(0);' onclick='" + searchFunctionName + "(" + (currentPage - 1) + ")'>이전</a>";
+    } else {
+        pageHTML += "<a class='disabled'>이전</a>";
+    }
+
+    // 숫자 버튼
+    for (let i = 1; i <= totalPages; i++) {
+        if (i === currentPage) {
+            pageHTML += "<a class='active'>" + i + "</a>";
+        } else {
+            pageHTML += "<a href='javascript:void(0);' onclick='" + searchFunctionName + "(" + i + ")'>" + i + "</a>";
+        }
+    }
+
+    // 다음 버튼
+    if (currentPage < totalPages) {
+        pageHTML += "<a href='javascript:void(0);' onclick='" + searchFunctionName + "(" + (currentPage + 1) + ")'>다음</a>";
+    } else {
+        pageHTML += "<a class='disabled'>다음</a>";
+    }
+
+    pageHTML += "</div>";
+
+    pagebar.html(pageHTML);
+}
 
 
 
