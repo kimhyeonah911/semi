@@ -54,6 +54,7 @@ public class MemberController {
             session.setAttribute("loginUser", loginMember);
             session.setAttribute("memName", loginMember.getMemName());
             session.setAttribute("position", loginMember.getPosition());
+            session.setAttribute("empNo", loginMember.getEmpNo());
 
             session.setAttribute("loginMember", loginMember);
             // 콘솔에서 확인 (디버깅)
