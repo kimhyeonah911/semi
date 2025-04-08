@@ -18,4 +18,5 @@ public interface StorageMapper {
     ArrayList<Storage> selectStorageCount(RowBounds rowBounds);
     ArrayList<Storage> getStorageList();
 
+    int updateStorageAmount(int storageNo, int amount);
 }
