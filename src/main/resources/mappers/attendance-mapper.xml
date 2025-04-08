@@ -12,8 +12,8 @@
         <result column="WORKDAY" property="workDay"/>
         <result column="WORKTIME" property="workTime"/>
         <result column="EMP_NAME" property="empName"/>
+        <result column="MEM_NAME" property="memName"/>
     </resultMap>
-
 
     <select id="getAttendanceMy" parameterType="Attendance" resultMap="attendanceResult">
         SELECT ATTENDANCE_NO,
@@ -69,6 +69,7 @@
         SELECT
         a.ATTENDANCE_NO,
         a.EMP_NO,
+        m.MEM_NAME,
         m.MEM_NAME AS EMP_NAME,
         a.CLOCK_IN,
         a.CLOCK_OUT,
@@ -127,6 +128,77 @@
         WHERE EMP_NO = #{empNo}
         AND CLOCK_OUT IS NULL
         AND TRUNC(CLOCK_IN) = TRUNC(SYSDATE)
+    </select>
+
+    <select id="getTotalAttendanceCount" resultType="int">
+        SELECT COUNT(*)
+        FROM ATTENDANCE
+        WHERE EMP_NO = #{empNo}
+    </select>
+
+    <select id="selectAttendancListByPage" resultMap="attendanceResult">
+        SELECT
+        ATTENDANCE_NO,
+        CLOCK_IN,
+        CLOCK_OUT,
+        STATUS,
+        CASE
+        WHEN CLOCK_OUT IS NOT NULL THEN
+        FLOOR((CLOCK_OUT - CLOCK_IN) * 24) || '시간 ' ||
+        FLOOR(MOD((CLOCK_OUT - CLOCK_IN) * 24 * 60, 60)) || '분'
+        ELSE NULL
+        END AS WORKTIME
+        FROM ATTENDANCE
+        WHERE EMP_NO = #{empNo}
+        ORDER BY CLOCK_OUT DESC
+    </select>
+
+    <select id="getAttendanceCount" resultType="int" parameterType="map">
+        SELECT COUNT(*)
+        FROM ATTENDANCE A
+        JOIN MEMBER M ON A.EMP_NO = M.EMP_NO
+        WHERE M.STORE_ID = #{storeId}
+        <if test="empName != null and empName != ''">
+            AND M.MEM_NAME = #{empName}
+        </if>
+        <if test="startDate != null">
+            AND TRUNC(A.CLOCK_IN) &gt;= #{startDate}
+        </if>
+        <if test="endDate != null">
+            AND TRUNC(A.CLOCK_IN) &lt;= #{endDate}
+        </if>
+    </select>
+
+    <select id="selectAttendanceListPage" resultMap="attendanceResult">
+        SELECT
+        A.ATTENDANCE_NO,
+        A.EMP_NO,
+        M.MEM_NAME,
+        A.CLOCK_IN,
+        A.CLOCK_OUT,
+        TRUNC(A.CLOCK_IN) AS WORKDAY,
+        A.STATUS,
+        CASE
+        WHEN A.CLOCK_OUT IS NOT NULL THEN
+        FLOOR((A.CLOCK_OUT - A.CLOCK_IN) * 24) || '시간 ' ||
+        FLOOR(MOD((A.CLOCK_OUT - A.CLOCK_IN) * 24 * 60, 60)) || '분'
+        ELSE NULL
+        END AS WORKTIME
+        FROM ATTENDANCE A
+        JOIN MEMBER M ON A.EMP_NO = M.EMP_NO
+        <where>
+            M.STORE_ID = #{storeId}
+            <if test="empName != null and empName != ''">
+                AND M.MEM_NAME = #{empName}
+            </if>
+            <if test="startDate != null">
+                AND TRUNC(A.CLOCK_IN) &gt;= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND TRUNC(A.CLOCK_IN) &lt;= #{endDate}
+            </if>
+        </where>
+        ORDER BY A.CLOCK_OUT DESC
     </select>
 
 </mapper>

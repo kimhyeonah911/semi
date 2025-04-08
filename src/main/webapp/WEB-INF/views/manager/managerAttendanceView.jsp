@@ -61,6 +61,42 @@
         .table-container > table > thead {
             height: 40px;
         }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        .pagination a {
+            text-decoration: none;
+            color: #000000;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .pagination a:hover {
+            background-color: #717171;
+        }
+
+        .pagination .active {
+            background-color: #000000;
+            color: white;
+            border: 1px solid #000000;
+        }
+
+        .pagination .disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+
     </style>
 </head>
 <body>
@@ -102,6 +138,117 @@
                 </tr>
                 </thead>
                 <tbody>
+                <c:choose>
+
+                    <c:when test="${not empty list}">
+                        <c:forEach var="l" items="${list}">
+                            <tr>
+                                <td>${l.attendanceNo}</td>
+                                <td><fmt:formatDate value="${l.clockIn}" pattern="yyyy-MM-dd"/></td>
+                                <td>${l.memName}</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${l.status == 'W'}">
+                                            <span class="badge bg-success">출근</span>
+                                        </c:when>
+                                        <c:when test="${l.status == 'L'}">
+                                            <span class="badge bg-secondary">퇴근</span>
+                                        </c:when>
+                                    </c:choose>
+                                </td>
+                                <td><fmt:formatDate value="${l.clockIn}" pattern="HH : mm : ss"/></td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${not empty l.clockOut}">
+                                            <fmt:formatDate value="${l.clockOut}" pattern="HH : mm : ss"/>
+                                        </c:when>
+                                        <c:otherwise>-</c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${not empty l.workTime}">
+                                            ${l.workTime}
+                                        </c:when>
+                                        <c:otherwise>-</c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td>
+                                    <button
+                                            type="button"
+                                            class="btn btn-sm btn-primary edit-btn"
+                                            data-attendance-no="${l.attendanceNo}"
+                                            data-clock-in="${l.clockIn}"
+                                            data-clock-out="${l.clockOut}"
+                                            data-status="${l.status}"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#editModal">
+                                        수정
+                                    </button>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:when>
+
+
+                    <c:when test="${not empty listpage}">
+                        <c:forEach var="l" items="${listpage}">
+                            <tr>
+                                <td>${l.attendanceNo}</td>
+                                <td><fmt:formatDate value="${l.clockIn}" pattern="yyyy-MM-dd"/></td>
+                                <td>${l.memName}</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${l.status == 'W'}">
+                                            <span class="badge bg-success">출근</span>
+                                        </c:when>
+                                        <c:when test="${l.status == 'L'}">
+                                            <span class="badge bg-secondary">퇴근</span>
+                                        </c:when>
+                                    </c:choose>
+                                </td>
+                                <td><fmt:formatDate value="${l.clockIn}" pattern="HH : mm : ss"/></td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${not empty l.clockOut}">
+                                            <fmt:formatDate value="${l.clockOut}" pattern="HH : mm : ss"/>
+                                        </c:when>
+                                        <c:otherwise>-</c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${not empty l.workTime}">
+                                            ${l.workTime}
+                                        </c:when>
+                                        <c:otherwise>-</c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td>
+                                    <button
+                                            type="button"
+                                            class="btn btn-sm btn-primary edit-btn"
+                                            data-attendance-no="${l.attendanceNo}"
+                                            data-clock-in="${l.clockIn}"
+                                            data-clock-out="${l.clockOut}"
+                                            data-status="${l.status}"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#editModal">
+                                        수정
+                                    </button>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:when>
+
+                    <c:otherwise>
+                        <tr>
+                            <td colspan="8" class="text-center">출퇴근 데이터가 없습니다.</td>
+                        </tr>
+                    </c:otherwise>
+                </c:choose>
+
+
                 <c:forEach var="l" items="${list}">
                     <tr>
                         <td>${l.attendanceNo}</td>
@@ -154,6 +301,7 @@
                         </td>
                     </tr>
                 </c:forEach>
+
                 </tbody>
             </table>
 
@@ -193,10 +341,54 @@
                 </div>
             </div>
 
-            <div class="pagebar-container mt-3">
-                <jsp:include page="../common/pagebar.jsp"/>
+            <div class="pagination">
+                <!-- 이전 버튼 -->
+                <c:choose>
+                    <c:when test="${pi.currentPage == 1}">
+                        <a href="#" class="disabled">이전</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${pageUrl}?cpage=${pi.currentPage - 1}">이전</a>
+                    </c:otherwise>
+                </c:choose>
+
+                <!-- 조건부 파라미터 조합 -->
+                <c:set var="queryString" value="" />
+                <c:if test="${not empty selectedEmpName}">
+                    <c:set var="queryString" value="${queryString}&empName=${selectedEmpName}" />
+                </c:if>
+                <c:if test="${not empty selectedStartDate}">
+                    <c:set var="queryString" value="${queryString}&startDate=${selectedStartDate}" />
+                </c:if>
+                <c:if test="${not empty selectedEndDate}">
+                    <c:set var="queryString" value="${queryString}&endDate=${selectedEndDate}" />
+                </c:if>
+
+                <!-- 페이징 숫자 버튼 -->
+                <c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
+                    <c:choose>
+                        <c:when test="${i == pi.currentPage}">
+                            <a href="#" class="active">${i}</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="selectAttendance.ma?cpage=${i}${queryString}">${i}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+
+
+                <!-- 다음 버튼 -->
+                <c:choose>
+                    <c:when test="${pi.currentPage == pi.maxPage}">
+                        <a href="#" class="disabled">다음</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${pageUrl}?cpage=${pi.currentPage + 1}">다음</a>
+                    </c:otherwise>
+                </c:choose>
             </div>
-        </div>
+            </div>
+
     </main>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

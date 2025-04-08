@@ -22,4 +22,5 @@ public class Attendance {
     private String status;
     private String workTime;
     private String empName;
+    private String memName;
 }
