@@ -20,7 +20,10 @@ public class StockProduct {
 
     private String stockStatus;
     private String productName;
-    private String color;
     private int productSize;
+    private String color;
+    private String categoryName;
+    private String storageLocation;
+    private int totalPrice;
     private Date stockDate;
 }

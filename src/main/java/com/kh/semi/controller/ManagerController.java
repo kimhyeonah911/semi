@@ -8,6 +8,8 @@ import com.kh.semi.service.AttendanceService;
 import com.kh.semi.service.MemberService;
 import com.kh.semi.service.StockService;
 import com.kh.semi.service.StorageService;
+import com.kh.semi.domain.vo.*;
+import com.kh.semi.service.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -32,6 +35,7 @@ public class ManagerController {
     private final StorageService storageService;
     private final StockService stockService;
     private final AttendanceService attendanceService;
+    private final ProductService productService;
 
 
     @GetMapping("manager.bo")
@@ -98,7 +102,13 @@ public class ManagerController {
     @GetMapping("stockIn.sto")
     public String stockInManagement(Model model) {
         ArrayList<Stock> list = stockService.selectStockList();
+        ArrayList<Storage> list2 = storageService.selectStorage();
+        ArrayList<Client> list3 = productService.selectClientList();
+        ArrayList<StockProduct> list4 = stockService.selectStockProductList();
         model.addAttribute("stock", list);
+        model.addAttribute("storage", list2);
+        model.addAttribute("client", list3);
+        model.addAttribute("stockProduct", list4);
         return "manager/stockInView";
     }
 
@@ -145,4 +155,3 @@ public class ManagerController {
         return "manager/managerAttendanceView";
     }
 }
-

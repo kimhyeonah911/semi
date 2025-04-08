@@ -28,6 +28,18 @@ public class APIProductController {
         return list;
     }
 
+    @GetMapping("/selectProductList")
+    public List<Product> selectProductList(int clientId) {
+        List<Product> list = productService.selectProductList(clientId);
+        return list;
+    }
+
+    @GetMapping("/searchProductName")
+    public List<Product> searchProductName(String productName) {
+        List<Product> list = productService.searchProductName(productName);
+        return list;
+    }
+
     @GetMapping("/categoryList")
     public ArrayList<Category> getCategoryList() {
         ArrayList<Category> list = productService.getCategoryList();
