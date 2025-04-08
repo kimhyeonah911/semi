@@ -10,13 +10,18 @@ import java.util.ArrayList;
 @Mapper
 public interface StockMapper {
     ArrayList<Stock> selectStockList();
-    ArrayList<Stock> searchStockList(@Param("stockStatus") String stockStatus,
+    ArrayList<Stock> searchStockInList(@Param("stockStatus") String stockStatus,
                                      @Param("startDate") String startDate,
                                      @Param("endDate") String endDate);
-    int insertStock(Stock stock);
+    ArrayList<Stock> searchStockOutList(@Param("stockStatus") String stockStatus,
+                                       @Param("startDate") String startDate,
+                                       @Param("endDate") String endDate);
+    int insertStockIn(Stock stock);
+    int insertStockOut(Stock stock);
     int insertStockProduct(StockProduct stockProduct);
     ArrayList<StockProduct> selectStockProductList();
-    int updateStockStatus(int stockNo);
+    int updateStockInStatus(int stockNo);
+    int updateStockOutStatus(int stockNo);
     int deleteStock(int stockNo);
     int deleteStockProduct(int stockNo);
     Stock selectStock(int stockNo);
