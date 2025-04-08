@@ -4,6 +4,7 @@ import com.kh.semi.domain.vo.Category;
 import com.kh.semi.domain.vo.Client;
 import com.kh.semi.domain.vo.Product;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,4 +26,8 @@ public interface ProductMapper {
     int insertClient(Client client);
     int updateClient(Client client);
     int deleteClient(int clientId);
+
+    // 입고처 관리 페이징 바
+    int deliveryCount();
+    ArrayList<Client> selectdeliveryListByPage(RowBounds rowBounds);
 }

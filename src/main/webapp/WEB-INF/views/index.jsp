@@ -1,4 +1,6 @@
-    <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <!DOCTYPE html>
     <html lang="UTF-8">
     <head>
@@ -133,10 +135,10 @@
     </head>
     <body>
     <c:if test="${ not empty sessionScope.alertMsg }">
-        <script>
-            alert("${ sessionScope.alertMsg }");
+       <script>
+           alert("${ sessionScope.alertMsg }");
             <% session.removeAttribute("alertMsg"); %>
-        </script>
+       </script>
     </c:if>
     <div class="container">
         <!-- 왼쪽 (배경 이미지) -->
@@ -144,7 +146,6 @@
 
         <!-- 오른쪽 (로그인 폼) -->
         <div class="right">
-            <button onclick="location.href='/list.bo'">내부 테스트</button>
             <img class="logo" src="/resources/logo.png" alt="Logo" onclick="">
             <form action="login.me" method="post">
                 <div class="input-box">

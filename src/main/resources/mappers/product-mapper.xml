@@ -212,4 +212,22 @@
         SET STATUS = 'N'
         WHERE CLIENT_ID = #{clientId}
     </update>
+
+    <select id="selectdeliveryListByPage" resultMap="clientResult">
+        SELECT CLIENT_ID,
+        CLIENT_NAME,
+        CLIENT_CEO,
+        CLIENT_PHONE,
+        CLIENT_ADDRESS,
+        STATUS
+        FROM CLIENT
+        WHERE STATUS = 'Y'
+        ORDER BY CLIENT_ID ASC
+    </select>
+
+    <select id="deliveryCount" resultType="int">
+        SELECT COUNT(*) FROM
+        CLIENT
+        WHERE STATUS = 'Y'
+    </select>
 </mapper>

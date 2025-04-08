@@ -44,4 +44,7 @@ public interface MemberService {
     int updatePwd(String newPwd, String memPwd, String memId);
 
 
+    int countMembersByStore(String storeName);
+
+    ArrayList<Member> selectMemberListByStore(PageInfo pi, String storeName);
 }

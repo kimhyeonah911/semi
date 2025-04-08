@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.security.core.parameters.P;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +30,14 @@ public interface MemberMapper {
     int approveManagerPosition(@Param("memId") String memId);
     int rejectManager(@Param("storeId") String storeId);
 
+    // 직원정보 페이징 바
     int countAllMembers();
-
     ArrayList<Member> selectMemberListByPage(RowBounds rowBounds);
 
     int updatePhone(@Param("phone") String phone, @Param("memId") String memId);
     int updatePwd(@Param("newPwd") String newPwd, @Param("memPwd") String memPwd, @Param("memId") String memId);
 
+    int countMembersByStore(String storeName);
+
+    ArrayList<Member> selectMemberListByStore(String storeName, RowBounds rowBounds);
 }

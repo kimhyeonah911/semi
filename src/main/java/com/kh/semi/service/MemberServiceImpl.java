@@ -115,5 +115,16 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.updatePwd(newPwd, memPwd, memId);
     }
 
+    @Override
+    public int countMembersByStore(String storeName) {
+        return memberMapper.countMembersByStore(storeName);
+    }
+
+    @Override
+    public ArrayList<Member> selectMemberListByStore(PageInfo pi, String storeName) {
+        int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+        RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+        return memberMapper.selectMemberListByStore(storeName, rowBounds);
+    }
 
 }
