@@ -46,4 +46,19 @@ public class InventoryServiceImpl implements InventoryService {
         return inventoryMapper.selectLowInventoryTop4(storeId);
     }
 
+    @Override
+    public Inventory selectInventory(int storageNo, int productNo) {
+        return inventoryMapper.selectInventory(storageNo, productNo);
+    }
+
+    @Override
+    public int updateInventoryQuantity(int productNo, int storageNo, int quantity) {
+        return inventoryMapper.updateInventoryQuantity(productNo,storageNo,quantity);
+    }
+
+    @Override
+    public int insertInventory(Inventory inventory) {
+        return inventoryMapper.insertInventory(inventory);
+    }
+
 }

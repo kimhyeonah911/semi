@@ -14,7 +14,6 @@ public class Stock {
     private String stockDate;
     private String expDate;
     private String stockStatus;
-
     private String memName;
 
     //상품재고(stock-product)
@@ -25,4 +24,7 @@ public class Stock {
     private String color;
     private int productSize;
     private int amount;
+    private int price;
+    private int storageNo;
+    private int storeId;
 }

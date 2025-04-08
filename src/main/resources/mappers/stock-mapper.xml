@@ -10,6 +10,11 @@
         <result column="EXP_DATE" property="expDate"/>
         <result column="STOCK_STATUS" property="stockStatus"/>
         <result column="MEM_NAME" property="memName"/>
+        <result column="AMOUNT" property="amount"/>
+        <result column="PRICE" property="price"/>
+        <result column="STORAGE_NO" property="storageNo"/>
+        <result column="PRODUCT_NO" property="productNo"/>
+        <result column="STORE_ID" property="storeId"/>
     </resultMap>
     <resultMap id="stockProductResult" type="StockProduct">
         <result column="STOCK_NO" property="stockNo"/>
@@ -183,7 +188,7 @@
         ORDER BY STOCK_NO, PRODUCT_NO
     </select>
 
-    <update id="updateStockInStatus">
+    <update id="updateStockStatus">
         UPDATE STOCK
         SET STOCK_STATUS = 'STOCK_IN_PROGRESS',
         MODIFY_DATE = SYSDATE
@@ -221,6 +226,7 @@
     <select id="selectStockProduct" parameterType="StockProduct" resultMap="stockProductResult">
         SELECT STOCK_NO,
         PRODUCT_NO,
+        STORAGE_NO,
         AMOUNT,
         PRICE,
         TAXPRICE,
@@ -228,12 +234,36 @@
         PRODUCT_NAME,
         CATEGORY_NAME,
         PRODUCT_SIZE,
-        COLOR
+        COLOR,
+        STORAGE_LOCATION
         FROM STOCK_PRODUCT JOIN STOCK USING(STOCK_NO)
         JOIN PRODUCT USING(PRODUCT_NO)
         JOIN CATEGORY USING(CATEGORY_NO)
+        JOIN STORAGE USING(STORAGE_NO)
         WHERE STOCK_NO = #{stockNo}
         ORDER BY STOCK_NO, PRODUCT_NO
     </select>
+
+    <update id="updateCompletedStockIn">
+        UPDATE STOCK
+        SET STOCK_STATUS = 'STOCK_IN_COMPLETED',
+            MODIFY_DATE = SYSDATE
+        WHERE STOCK_STATUS = 'STOCK_IN_PROGRESS'
+        AND TRUNC(EXP_DATE) = TRUNC(SYSDATE)
+    </update>
+
+    <select id="selectCompletedStockIn" parameterType="Stock" resultMap="stockResult">
+        SELECT STOCK_NO, PRODUCT_NO, STORAGE_NO, AMOUNT, PRICE, M.STORE_ID
+        FROM STOCK S
+        JOIN STOCK_PRODUCT USING(STOCK_NO)
+        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO
+        WHERE S.STOCK_STATUS = 'STOCK_IN_COMPLETED'
+        AND S.STATUS = 'Y'
+    </select>
+    <update id="updateStockProcessedStatus">
+        UPDATE STOCK
+        SET STATUS = 'C'
+        WHERE STOCK_NO = #{stockNo}
+    </update>
 
 </mapper>

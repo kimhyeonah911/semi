@@ -139,10 +139,14 @@ public class ManagerController {
 
     @GetMapping("stockIn.sto")
     public String stockInManagement(Model model) {
+
         ArrayList<Stock> list = stockService.selectStockList();
         ArrayList<Storage> list2 = storageService.selectStorage();
         ArrayList<Client> list3 = productService.selectClientList();
         ArrayList<StockProduct> list4 = stockService.selectStockProductList();
+
+        System.out.println("입고 제품들 !: " + list);
+
         ArrayList<Product> list5 = productService.selectImageUrl();
 
         model.addAttribute("stock", list);
