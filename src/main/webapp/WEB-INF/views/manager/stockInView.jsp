@@ -389,7 +389,7 @@
 
                     </table>
                     <div class="pagebar-container mt-3">
-                        <jsp:include page="../common/pagebar.jsp"/>
+                        <div id="pagebar" class="pagination"></div>
                     </div>
 
                 </div>
@@ -451,10 +451,6 @@
 
                             </tbody>
                         </table>
-                        <div class="pagebar-container mt-3">
-                            <jsp:include page="../common/pagebar.jsp"/>
-                        </div>
-
                     </div>
             </div>
         </div>
