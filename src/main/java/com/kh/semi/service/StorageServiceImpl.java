@@ -1,10 +1,12 @@
 package com.kh.semi.service;
 
+import com.kh.semi.domain.vo.PageInfo;
 import com.kh.semi.domain.vo.Storage;
 import com.kh.semi.domain.vo.Product;
 import com.kh.semi.mappers.ProductMapper;
 import com.kh.semi.mappers.StorageMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,5 +30,17 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public int deleteStorage(int storageNo) {
         return storageMapper.deleteStorage(storageNo);
+    }
+
+    @Override
+    public int StorageCount() {
+        return storageMapper.storageCount();
+    }
+
+    @Override
+    public ArrayList<Storage> selectStorageCount(PageInfo pi) {
+        int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+        RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+        return storageMapper.selectStorageCount(rowBounds);
     }
 }

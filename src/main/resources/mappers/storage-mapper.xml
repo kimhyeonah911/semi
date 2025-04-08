@@ -32,4 +32,16 @@
         DELETE FROM STORAGE
         WHERE STORAGE_NO = #{storageNo}
     </delete>
+
+    <select id="storageCount" resultType="int">
+        SELECT COUNT(*)
+        FROM STORAGE
+    </select>
+
+    <select id="selectStorageCount" resultMap="storageResult">
+        SELECT *
+        FROM STORAGE
+        ORDER BY STORAGE_NO
+    </select>
+
 </mapper>
