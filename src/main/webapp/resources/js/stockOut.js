@@ -118,13 +118,13 @@ function updateStockTable(data) {
 
         switch (stock.stockStatus) {
             case "STOCK_OUT_REGISTERED":
-                statusBtn = `<button type="button" class="btn btn-secondary btn-sm" disabled>출고 등록</button>`;
+                statusBtn = `<span class="badge bg-secondary">출고 등록</span>`;
                 break;
             case "STOCK_OUT_PROGRESS":
-                statusBtn = `<button type="button" class="btn btn-warning btn-sm" disabled>출고중</button>`;
+                statusBtn = `<span class="badge bg-warning">출고중</span>`;
                 break;
             case "STOCK_OUT_COMPLETED":
-                statusBtn = `<button type="button" class="btn btn-success btn-sm" disabled>출고 완료</button>`;
+                statusBtn = `<span class="badge bg-success">출고 완료</span>`;
                 break;
         }
 

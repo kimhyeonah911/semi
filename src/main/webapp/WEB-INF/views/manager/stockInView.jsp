@@ -340,13 +340,13 @@
                                             <td>
                                                 <c:choose>
                                                     <c:when test="${s.stockStatus eq 'STOCK_IN_REGISTERED'}">
-                                                        <button type="button" class="btn btn-secondary btn-sm" disabled>입고 등록</button>
+                                                        <span class="badge bg-secondary">입고 등록</span>
                                                     </c:when>
                                                     <c:when test="${s.stockStatus eq 'STOCK_IN_PROGRESS'}">
-                                                        <button type="button" class="btn btn-warning btn-sm" disabled>입고중</button>
+                                                        <span class="badge bg-warning">입고중</span>
                                                     </c:when>
                                                     <c:when test="${s.stockStatus eq 'STOCK_IN_COMPLETED'}">
-                                                        <button type="button" class="btn btn-success btn-sm" disabled>입고 완료</button>
+                                                        <span class="badge bg-success">입고 완료</span>
                                                     </c:when>
                                                 </c:choose>
                                             </td>

@@ -118,13 +118,13 @@ function updateStockTable(data) {
 
         switch (stock.stockStatus) {
             case "STOCK_IN_REGISTERED":
-                statusBtn = `<button type="button" class="btn btn-secondary btn-sm" disabled>입고 등록</button>`;
+                statusBtn = `<span class="badge bg-secondary">입고 등록</span>`;
                 break;
             case "STOCK_IN_PROGRESS":
-                statusBtn = `<button type="button" class="btn btn-warning btn-sm" disabled>입고중</button>`;
+                statusBtn = `<span class="badge bg-warning">입고중</span>`;
                 break;
             case "STOCK_IN_COMPLETED":
-                statusBtn = `<button type="button" class="btn btn-success btn-sm" disabled>입고 완료</button>`;
+                statusBtn = `<span class="badge bg-success">입고 완료</span>`;
                 break;
         }
 
