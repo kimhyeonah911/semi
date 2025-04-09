@@ -292,40 +292,40 @@
         WHERE STOCK_NO = #{stockNo}
     </update>
 
-    <select id="selectStockListforPaging" resultType="int">
-        SELECT COUNT(*)
-        FROM STOCK S
-        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO
-        WHERE S.STATUS IN ('Y', 'C', 'REGISTERED') <!-- 'REGISTERED' 상태 추가 -->
-        <if test="status != null and status != '' and status != '전체'">
-            AND S.STOCK_STATUS = #{status}
-        </if>
-        AND M.STORE_ID = (
-        SELECT STORE_ID
-        FROM MEMBER
-        WHERE EMP_NO = #{empNo}
-        )
-    </select>
+<!--    // 입고 페이지 페이징 처리(였던것)-->
+<!--    <select id="selectStockListforPaging" resultType="int">-->
+<!--        SELECT COUNT(*)-->
+<!--        FROM STOCK S-->
+<!--        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO-->
+<!--        WHERE S.STATUS IN ('Y', 'C', 'REGISTERED') &lt;!&ndash; 'REGISTERED' 상태 추가 &ndash;&gt;-->
+<!--        <if test="status != null and status != '' and status != '전체'">-->
+<!--            AND S.STOCK_STATUS = #{status}-->
+<!--        </if>-->
+<!--        AND M.STORE_ID = (-->
+<!--        SELECT STORE_ID-->
+<!--        FROM MEMBER-->
+<!--        WHERE EMP_NO = #{empNo}-->
+<!--        )-->
+<!--    </select>-->
 
-    <select id="selectStockListByPage" resultMap="stockResult">
-        SELECT S.STOCK_NO, M.MEM_NAME,
-        TO_CHAR(S.STOCK_DATE, 'YYYY-MM-DD') AS STOCK_DATE,
-        TO_CHAR(S.EXP_DATE, 'YYYY-MM-DD') AS EXP_DATE,
-        S.STOCK_STATUS
-        FROM STOCK S
-        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO
-        JOIN MEMBER LOGIN_USER ON LOGIN_USER.EMP_NO = #{empNo}
-        WHERE S.STATUS IN ('Y', 'C')
-        <if test="status != null and status != '' and status != '전체'">
-            AND S.STOCK_STATUS = #{status}
-        </if>
-        <if test="status == '전체'">
-            -- status가 '전체'일 경우 S.STOCK_STATUS 조건을 제외
-        </if>
-        AND M.STORE_ID = LOGIN_USER.STORE_ID
-        ORDER BY S.STOCK_NO
-    </select>
-
+<!--    <select id="selectStockListByPage" resultMap="stockResult">-->
+<!--        SELECT S.STOCK_NO, M.MEM_NAME,-->
+<!--        TO_CHAR(S.STOCK_DATE, 'YYYY-MM-DD') AS STOCK_DATE,-->
+<!--        TO_CHAR(S.EXP_DATE, 'YYYY-MM-DD') AS EXP_DATE,-->
+<!--        S.STOCK_STATUS-->
+<!--        FROM STOCK S-->
+<!--        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO-->
+<!--        JOIN MEMBER LOGIN_USER ON LOGIN_USER.EMP_NO = #{empNo}-->
+<!--        WHERE S.STATUS IN ('Y', 'C')-->
+<!--        <if test="status != null and status != '' and status != '전체'">-->
+<!--            AND S.STOCK_STATUS = #{status}-->
+<!--        </if>-->
+<!--        <if test="status == '전체'">-->
+<!--            &#45;&#45; status가 '전체'일 경우 S.STOCK_STATUS 조건을 제외-->
+<!--        </if>-->
+<!--        AND M.STORE_ID = LOGIN_USER.STORE_ID-->
+<!--        ORDER BY S.STOCK_NO-->
+<!--    </select>-->
 
     <update id="updateCompletedStockOut">
         UPDATE STOCK

@@ -152,10 +152,7 @@ public class ManagerController {
     }
 
     @GetMapping("stockIn.sto")
-    public String stockInManagement(@RequestParam(defaultValue = "1") int cpage,
-                                    @RequestParam(required = false, defaultValue = "전체") String status,
-                                    Model model,
-                                    HttpSession session) {
+    public String stockInManagement(Model model, HttpSession session) {
         int empNo = (int) session.getAttribute("empNo");
         int storeId = (int)session.getAttribute("storeId");
 
@@ -168,27 +165,12 @@ public class ManagerController {
 
         ArrayList<Product> list5 = productService.selectImageUrl();
 
+
         model.addAttribute("stock", list);
         model.addAttribute("storage", list2);
         model.addAttribute("client", list3);
         model.addAttribute("stockProduct", list4);
         model.addAttribute("image", list5);
-
-        // 페이징 처리를 위한 조건 포함한 총 개수 조회
-        int listCount = stockService.selectStockListforPaging(empNo, status);
-        int pageLimit = 5;
-        int boardLimit = 5;
-
-        PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
-        ArrayList<Stock> listpage = stockService.selectStockListByPage(pi, empNo, status);
-
-        model.addAttribute("listpage", listpage);
-        model.addAttribute("pi", pi);
-        model.addAttribute("pageUrl", "stockIn.sto");
-        model.addAttribute("selectedStatus", status); // 선택된 상태 필터 유지
-
-        System.out.println("listPage: " + listpage);
-
         return "manager/stockInView";
     }
 

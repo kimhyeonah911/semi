@@ -333,8 +333,8 @@
                         </thead>
                         <tbody>
                         <c:choose>
-                            <c:when test="${not empty listpage}">
-                                <c:forEach var="s" items="${listpage}">
+                            <c:when test="${not empty stock}">
+                                <c:forEach var="s" items="${stock}">
                                     <c:if test="${s.stockStatus eq 'STOCK_IN_REGISTERED' or s.stockStatus eq 'STOCK_IN_PROGRESS' or s.stockStatus eq 'STOCK_IN_COMPLETED'}">
 
                                         <tr data-storage-no="${s.stockNo}">
