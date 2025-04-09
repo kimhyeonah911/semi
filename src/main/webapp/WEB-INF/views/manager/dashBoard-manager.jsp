@@ -238,12 +238,14 @@
                     <a>목표 매출액 : 300만원</a>
                 </div>
                 <div class="card-body">
-                    <a>현재 매출액 : 237만원</a>
+                    <a>현재 매출액 : ${todaySales}만원</a>
                 </div>
                 <div class="card-body">
 
                 </div>
+                <a href="/salesManager.bo" style="text-decoration: none; color: black;">
                 <div class="card-footer">매출 분석 필요</div>
+                </a>
             </div>
 
             <!-- 인기 제품 카드 -->

@@ -36,6 +36,7 @@ public class ManagerController {
     private final AttendanceService attendanceService;
     private final ProductService productService;
     private final InventoryService inventoryService;
+    private final StoresalesService storesalesService;
 
 
     @GetMapping("manager.bo")
@@ -74,6 +75,10 @@ public class ManagerController {
         int countStockOut = stockService.countStockOut(empNo);
         model.addAttribute("countStockIn", countStockIn);
         model.addAttribute("countStockOut", countStockOut);
+
+        //  오늘 매출 조회 추가
+        int todaySales = storesalesService.getTodayTotalSales(storeId) / 10000;
+        model.addAttribute("todaySales", todaySales);
 
         return "manager/dashBoard-manager";
     }

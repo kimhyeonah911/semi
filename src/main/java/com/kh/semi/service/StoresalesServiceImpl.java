@@ -55,8 +55,21 @@ public class StoresalesServiceImpl implements StoresalesService {
 
             newSales.setMonthSales(daySales); // 처음 생성이니 초기값은 당일 매출
 
+            System.out.println(">>> 최종 newSales 객체: " + newSales); // 전체 내용 찍기
+
             return storesalesMapper.insertTodaySales(newSales);
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> getMonthSales(int storeId) {
+        return storesalesMapper.getMonthSales(storeId);
+    }
+
+    @Override
+    public int getTodayTotalSales(int storeId) {
+        java.sql.Date today = java.sql.Date.valueOf(LocalDate.now());
+        return storesalesMapper.getTodayTotalSales(storeId, today);
     }
 
     @Override

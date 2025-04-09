@@ -67,6 +67,7 @@
             AND CLIENT_ID = #{clientId}
             AND I.QUANTITY > 0
         </if>
+        AND I.QUANTITY > 0
         ORDER BY P.PRODUCT_NO
     </select>
 

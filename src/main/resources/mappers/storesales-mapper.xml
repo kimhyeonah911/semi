@@ -43,6 +43,22 @@
         #{salesMonth}
         )
     </insert>
+    <select id="getMonthSales" resultType="map">
+        SELECT
+        TO_CHAR(SALES_DATE, 'YYYY-MM') AS salesMonth,
+        SUM(DAY_SALES) AS monthSales
+        FROM STORE_SALES
+        WHERE STORE_ID = #{storeId}
+        AND SALES_DATE BETWEEN ADD_MONTHS(TRUNC(SYSDATE, 'MM'), -23) AND SYSDATE
+        GROUP BY TO_CHAR(SALES_DATE, 'YYYY-MM')
+        ORDER BY salesMonth
+    </select>
+    <select id="getTodayTotalSales" resultType="int">
+        SELECT NVL(SUM(DAY_SALES), 0)
+        FROM STORE_SALES
+        WHERE STORE_ID = #{storeId}
+        AND TRUNC(SALES_DATE) = TRUNC(#{today})
+    </select>
 
     <select id="getMonthSalesTotal" resultType="map">
         SELECT
