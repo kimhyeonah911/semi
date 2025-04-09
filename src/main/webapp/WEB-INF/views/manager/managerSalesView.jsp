@@ -86,6 +86,28 @@
 <script>
 
     //도덧차트
+    $(document).ready(function() {
+        getProductSales();
+    });
+
+    function getProductSales(){
+        $.ajax({
+            url: "/api/getProductSales",
+            type: "get",
+            data: {
+                storeId: storeId
+            },
+            success: function(res){
+
+                const productName = res.productName;
+                const salesAmounts = res.salesAmounts;
+
+            }, error: function (){
+                console.log("제품별 매출 데이터 ajax 요청 실패");
+            }
+        })
+    }
+
 
     const mockSalesData = {
         labels: ["아디다스", "나이키", "뉴발란스", "퓨마"],

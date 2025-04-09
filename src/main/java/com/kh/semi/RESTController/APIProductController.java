@@ -174,6 +174,11 @@ public class APIProductController {
         }
     }
 
+//    @GetMapping("getProductSales")
+//    public Map<String, Object> getProductSales() {
+//        List<Product> productSalesList = productService.getProductSales(storeId);
+//    }
+
 
 
 }
