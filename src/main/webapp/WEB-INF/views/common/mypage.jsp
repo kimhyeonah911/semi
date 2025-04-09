@@ -146,6 +146,11 @@
     console.log("새 비밀번호:", newPassword);
     console.log("새 비밀번호 확인:", confirmPassword);
 
+    if (newPassword.length < 8) {
+      alert("새 비밀번호는 8자리 이상이어야 합니다.");
+      return;
+    }
+
     if (newPassword !== confirmPassword) {
       mismatchMessage.style.display = 'block';
       return;
@@ -171,6 +176,13 @@
       }
     });
 
+  });
+
+  $('#passwordModal').on('hidden.bs.modal', function () {
+    currentPasswordInput.value = '';
+    newPasswordInput.value = '';
+    confirmPasswordInput.value = '';
+    mismatchMessage.style.display = 'none';
   });
 
   // 다시 입력시 같은지 검사하는거

@@ -341,15 +341,12 @@
                                                 <c:choose>
                                                     <c:when test="${s.stockStatus eq 'STOCK_IN_REGISTERED'}">
                                                         <span class="badge bg-secondary">입고 등록</span>
-                                                        <%-- <button type="button" class="btn btn-secondary btn-sm" disabled>입고 등록</button>--%>
                                                     </c:when>
                                                     <c:when test="${s.stockStatus eq 'STOCK_IN_PROGRESS'}">
                                                         <span class="badge bg-warning">입고중</span>
-                                                        <%--<button type="button" class="btn btn-warning btn-sm" disabled>입고중</button>--%>
                                                     </c:when>
                                                     <c:when test="${s.stockStatus eq 'STOCK_IN_COMPLETED'}">
                                                         <span class="badge bg-success">입고 완료</span>
-                                                        <%--<button type="button" class="btn btn-success btn-sm" disabled>입고 완료</button>--%>
                                                     </c:when>
                                                 </c:choose>
                                             </td>
@@ -392,7 +389,7 @@
 
                     </table>
                     <div class="pagebar-container mt-3">
-                        <div id="pagebar" class="pagination"></div>
+                        <jsp:include page="../common/pagebar.jsp"/>
                     </div>
 
                 </div>

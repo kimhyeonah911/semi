@@ -151,12 +151,13 @@ public class ManagerController {
     }
 
     @GetMapping("stockIn.sto")
-    public String stockInManagement(Model model) {
+    public String stockInManagement(Model model, HttpSession session) {
+        int empNo = (int) session.getAttribute("empNo");
 
-        ArrayList<Stock> list = stockService.selectStockList();
+        ArrayList<Stock> list = stockService.selectStockList(empNo);
         ArrayList<Storage> list2 = storageService.selectStorage();
         ArrayList<Client> list3 = productService.selectClientList();
-        ArrayList<StockProduct> list4 = stockService.selectStockProductList();
+        ArrayList<StockProduct> list4 = stockService.selectStockProductList(empNo);
 
         System.out.println("입고 제품들 !: " + list);
 
@@ -171,11 +172,13 @@ public class ManagerController {
     }
 
     @GetMapping("stockOut.sto")
-    public String stockOutManagement(Model model) {
-        ArrayList<Stock> list = stockService.selectStockList();
+    public String stockOutManagement(Model model , HttpSession session) {
+        int empNo = (int) session.getAttribute("empNo");
+
+        ArrayList<Stock> list = stockService.selectStockList(empNo);
         ArrayList<Storage> list2 = storageService.selectStorage();
         ArrayList<Client> list3 = productService.selectClientList();
-        ArrayList<StockProduct> list4 = stockService.selectStockProductList();
+        ArrayList<StockProduct> list4 = stockService.selectStockProductList(empNo);
         ArrayList<Product> list5 = productService.selectImageUrl();
 
         model.addAttribute("stock", list);
