@@ -34,6 +34,9 @@ public interface StockMapper {
     int updateStockProcessedStatus(int stockNo);
 
     // 페이징바
-    int selectStockListforPaging();
-    ArrayList<Stock> selectStockListByPage(RowBounds rowBounds);
+    int selectStockListforPaging(@Param("empNo") int empNo, @Param("status") String status);
+
+    // 페이징 처리된 입고 리스트
+    ArrayList<Stock> selectStockListByPage(@Param("empNo") int empNo, @Param("status") String status, RowBounds rowBounds);
+
 }

@@ -65,6 +65,8 @@ public class ManagerController {
         model.addAttribute("workingCount", workingCount);
         model.addAttribute("notWorkingCount", notWorkingCount);
 
+        return "manager/dashBoard-manager";
+    }
 
     @GetMapping("attendance.ma")
     public String attendanceManagement(@RequestParam(defaultValue = "1") int cpage,
@@ -141,7 +143,11 @@ public class ManagerController {
     }
 
     @GetMapping("stockIn.sto")
-    public String stockInManagement(@RequestParam(defaultValue = "1") int cpage, Model model) {
+    public String stockInManagement(@RequestParam(defaultValue = "1") int cpage,
+                                    @RequestParam(required = false, defaultValue = "전체") String status,
+                                    Model model,
+                                    HttpSession session) {
+
         int empNo = (int) session.getAttribute("empNo");
         ArrayList<Stock> list = stockService.selectStockList(empNo);
         ArrayList<Storage> list2 = storageService.selectStorage();
@@ -158,17 +164,19 @@ public class ManagerController {
         model.addAttribute("stockProduct", list4);
         model.addAttribute("image", list5);
 
-        // 페이징바 처리 코드
-        int listCount = stockService.selectStockListforPaging();// 전체 입고 갯수 (입고중, 입고완료, 입고대기 포함)
-        int pageLimit = 5;     // 하단에 보여질 페이징 바 수
-        int boardLimit = 5;   // 한 페이지에 보여질 게시글 수
+
+        // 페이징 처리를 위한 조건 포함한 총 개수 조회
+        int listCount = stockService.selectStockListforPaging(empNo, status);
+        int pageLimit = 5;
+        int boardLimit = 5;
 
         PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
-        ArrayList<Stock> listpage = stockService.selectStockListByPage(pi);
+        ArrayList<Stock> listpage = stockService.selectStockListByPage(pi, empNo, status);
 
-        model.addAttribute("listpage", listpage);  //
+        model.addAttribute("listpage", listpage);
         model.addAttribute("pi", pi);
         model.addAttribute("pageUrl", "stockIn.sto");
+        model.addAttribute("selectedStatus", status); // 선택된 상태 필터 유지
 
         return "manager/stockInView";
     }

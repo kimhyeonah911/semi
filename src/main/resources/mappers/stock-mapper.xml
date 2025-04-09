@@ -294,20 +294,34 @@
 
     <select id="selectStockListforPaging" resultType="int">
         SELECT COUNT(*)
-        FROM STOCK
-        WHERE STATUS IN ('Y', 'C')
-        AND STOCK_STATUS IN ('STOCK_IN_REGISTERED', 'STOCK_IN_PROGRESS', 'STOCK_IN_COMPLETED')
+        FROM STOCK S
+        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO
+        WHERE S.STATUS IN ('Y', 'C')
+        <if test="status != null and status != '' and status != '전체'">
+            AND S.STOCK_STATUS = #{status}
+        </if>
+        AND M.STORE_ID = (
+        SELECT STORE_ID FROM MEMBER WHERE EMP_NO = #{empNo}
+        )
     </select>
 
+
     <select id="selectStockListByPage" resultMap="stockResult">
-        SELECT STOCK_NO, MEM_NAME,
-        TO_CHAR(STOCK_DATE, 'YYYY-MM-DD') AS STOCK_DATE,
-        TO_CHAR(EXP_DATE, 'YYYY-MM-DD') AS EXP_DATE,
-        STOCK_STATUS
+        SELECT S.STOCK_NO, M.MEM_NAME,
+        TO_CHAR(S.STOCK_DATE, 'YYYY-MM-DD') AS STOCK_DATE,
+        TO_CHAR(S.EXP_DATE, 'YYYY-MM-DD') AS EXP_DATE,
+        S.STOCK_STATUS
         FROM STOCK S
-        JOIN MEMBER M ON (EMP_NO = STOCK_EMP)
+        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO
+        JOIN MEMBER LOGIN_USER ON LOGIN_USER.EMP_NO = #{empNo}
         WHERE S.STATUS IN ('Y', 'C')
-        AND STOCK_STATUS IN ('STOCK_IN_REGISTERED', 'STOCK_IN_PROGRESS', 'STOCK_IN_COMPLETED')
-        ORDER BY STOCK_NO
+        <if test="status != null and status != '' and status != '전체'">
+            AND S.STOCK_STATUS = #{status}
+        </if>
+        AND M.STORE_ID = LOGIN_USER.STORE_ID
+        ORDER BY S.STOCK_NO
     </select>
+
+
+
 </mapper>

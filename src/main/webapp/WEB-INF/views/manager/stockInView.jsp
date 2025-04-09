@@ -301,19 +301,22 @@
             <div class="table1">
                 <div id="search-bar">
                     <div id="search-bar-1">
-                        <select id="stockIn-search-bar">
-                            <option value="0">전체</option>
-                            <option value="1">입고 등록</option>
-                            <option value="2">입고중</option>
-                            <option value="3">입고 완료</option>
-                        </select>
-                        <input type="date"
-                               id="date1">
-                        ~
-                        <input type="date"
-                               id="date2">
-                        <button type="button" class="search-btn" id="submit-btn" onclick="searchStock()">조회</button>
+                        <form id="statusForm" method="get" action="stockIn.sto">
+                            <select id="stockIn-search-bar" name="status">
+                                <option value="전체" ${selectedStatus == '전체' ? 'selected' : ''}>전체</option>
+                                <option value="STOCK_IN_REGISTERED" ${selectedStatus == 'STOCK_IN_REGISTERED' ? 'selected' : ''}>입고 등록</option>
+                                <option value="STOCK_IN_PROGRESS" ${selectedStatus == 'STOCK_IN_PROGRESS' ? 'selected' : ''}>입고중</option>
+                                <option value="STOCK_IN_COMPLETED" ${selectedStatus == 'STOCK_IN_COMPLETED' ? 'selected' : ''}>입고 완료</option>
+                            </select>
+
+                            <input type="date" id="date1" name="startDate">
+                            ~
+                            <input type="date" id="date2" name="endDate">
+
+                            <button type="submit" class="search-btn" id="submit-btn">조회</button>
+                        </form>
                     </div>
+
                     <button class="storage-btn" id="storage-submit-btn" onclick="showModal()">입고서 등록</button>
                 </div>
                 <div>
@@ -332,7 +335,7 @@
                         <tbody>
 
                         <c:choose>
-                            <c:when test="${not empty stock}">
+                            <c:when test="${not empty listpage}">
                                 <c:forEach var="s" items="${listpage}">
                                     <c:if test="${s.stockStatus eq 'STOCK_IN_REGISTERED' or s.stockStatus eq 'STOCK_IN_PROGRESS' or s.stockStatus eq 'STOCK_IN_COMPLETED'}">
                                         <tr data-storage-no="${s.stockNo}">
@@ -395,7 +398,7 @@
                                 <a href="#" class="disabled">이전</a>
                             </c:when>
                             <c:otherwise>
-                                <a href="${pageUrl}?cpage=${pi.currentPage - 1}">이전</a>
+                                <a href="${pageUrl}?cpage=${pi.currentPage - 1}&status=${selectedStatus}">이전</a>
                             </c:otherwise>
                         </c:choose>
 
@@ -406,7 +409,7 @@
                                     <a href="#" class="active">${i}</a>
                                 </c:when>
                                 <c:otherwise>
-                                    <a href="${pageUrl}?cpage=${i}">${i}</a>
+                                    <a href="${pageUrl}?cpage=${i}&status=${selectedStatus}">${i}</a>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
@@ -417,10 +420,11 @@
                                 <a href="#" class="disabled">다음</a>
                             </c:when>
                             <c:otherwise>
-                                <a href="${pageUrl}?cpage=${pi.currentPage + 1}">다음</a>
+                                <a href="${pageUrl}?cpage=${pi.currentPage + 1}&status=${selectedStatus}">다음</a>
                             </c:otherwise>
                         </c:choose>
                     </div>
+
 
                 </div>
             </div>
