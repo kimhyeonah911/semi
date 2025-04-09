@@ -35,9 +35,6 @@
             margin-bottom: 0px;
         }
 
-        #right-group{
-
-        }
 
 
         .table th, .table td {

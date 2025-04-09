@@ -128,6 +128,10 @@ public class AdminController {
         // 공지사항 리스트를 모델에 추가
         model.addAttribute("noticeList", noticeList);
 
+        //전매장 인기제품 top4
+        List<Product> top4product = productService.top4productAdmin();
+        model.addAttribute("top4product", top4product);
+
         return "admin/dashBoard-admin";
     }
 

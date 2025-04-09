@@ -227,7 +227,7 @@
                                 <td>
                                     <button
                                             type="button"
-                                            class="btn btn-sm btn-primary edit-btn"
+                                            class="btn btn-sm btn-outline-primary edit-btn"
                                             data-attendance-no="${l.attendanceNo}"
                                             data-clock-in="${l.clockIn}"
                                             data-clock-out="${l.clockOut}"

@@ -173,6 +173,18 @@
             padding: 20px;
             font-size: 15px;
         }
+        .popular-card-body{
+            display: flex;
+            justify-content: space-around;
+        }
+
+        #popular-product{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 130px;
+        }
+
 
     </style>
 </head>
@@ -237,13 +249,17 @@
             <!-- 인기 제품 카드 -->
             <div class="dashboard-card card-popular">
                 <div class="card-title">👟 이번주 인기 제품</div>
-                <div class="card-body">
-                    <img src="/resources/samba.png">
-                    <img src="/resources/newbalance.png">
-                    <img src="/resources/airpose.png">
-                    <img src="/resources/asics.png">
+                <div class="card-body popular-card-body">
+                    <c:forEach var="top4p" items="${top4product}">
+                        <div id="popular-product" >
+                        <img style="pointer-events: none;" src="${empty top4p.imageUrl ? '/resources/default.png' : top4p.imageUrl}" alt="인기제품사진">
+                        <span>${top4p.productName}</span>
+                        </div>
+                    </c:forEach>
                 </div>
+                <a href="/stockManage.bo" style="text-decoration: none; color: black;">
                 <div class="card-footer">재고 확인 필요</div>
+                </a>
             </div>
 
 

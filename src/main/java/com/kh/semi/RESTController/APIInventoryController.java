@@ -6,6 +6,7 @@ import com.kh.semi.domain.vo.Stock;
 import com.kh.semi.domain.vo.StockProduct;
 import com.kh.semi.service.InventoryService;
 import com.kh.semi.service.StockService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,19 +25,18 @@ public class APIInventoryController {
 
 
     @GetMapping("/searchInventoryList")
-    public Map<String, Object> searchInventoryList( @RequestParam (required = false) String storeId,
-                                                     @RequestParam(required = false) String selectedStorageNo,
+    public Map<String, Object> searchInventoryList(@RequestParam(required = false) String selectedStorageNo,
                                                      @RequestParam(required = false) String searchedKeyword,
                                                      @RequestParam(defaultValue = "1") int page,
-                                                     @RequestParam(defaultValue = "10") int pageSize){
-        Integer memStoreId = Integer.parseInt(storeId);
+                                                     @RequestParam(defaultValue = "10") int pageSize, HttpSession session) {
+        int storeId = (int)session.getAttribute("storeId");
         Integer storageNo = (selectedStorageNo != null && !selectedStorageNo.isEmpty()) ? Integer.parseInt(selectedStorageNo) : null;
         String keyword = searchedKeyword != null ? searchedKeyword.toLowerCase().trim() : "";
 
         int offset = (page - 1) * pageSize;
 
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("storeId", memStoreId);
+        paramMap.put("storeId", storeId);
         paramMap.put("storageNo", storageNo);
         paramMap.put("keyword", keyword);
         paramMap.put("offset", offset);
@@ -64,19 +64,19 @@ public class APIInventoryController {
 
     @GetMapping("/searchStockProductList")
     @ResponseBody
-    public Map<String, Object> searchStockProductList( @RequestParam (required = false) String storeId,
-                                                       @RequestParam(required = false) String selectedStartDate,
+    public Map<String, Object> searchStockProductList(@RequestParam(required = false) String selectedStartDate,
                                                        @RequestParam(required = false) String selectedEndDate,
                                                        @RequestParam(required = false) String searchedKeyword,
                                                        @RequestParam(defaultValue = "1") int page,
-                                                       @RequestParam(defaultValue = "5") int pageSize) {
-        Integer memStoreId = Integer.parseInt(storeId);
+                                                       @RequestParam(defaultValue = "5") int pageSize,
+                                                      HttpSession session) {
+        int storeId = (int)session.getAttribute("storeId");
         String keyword = searchedKeyword != null ? searchedKeyword.toLowerCase().trim() : "";
 
         int offset = (page - 1) * pageSize;
 
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("storeId", memStoreId);
+        paramMap.put("storeId", storeId);
         paramMap.put("startDate", selectedStartDate);
         paramMap.put("endDate", selectedEndDate);
         paramMap.put("keyword", keyword);
