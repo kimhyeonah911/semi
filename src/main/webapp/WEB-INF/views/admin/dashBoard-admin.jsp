@@ -200,52 +200,127 @@
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
             <script>
-                // 매출 데이터 (지점별 매출)
-                const labels = ['한남점', '서울역점', '강남점', '노원점', '길음점', '잠실점', '선릉점', '번내점', '천호점', '역삼점']; // x축 레이블
-                const data = {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: '지점별 매출',
-                            data: [45, 90, 180, 135, 90, 105, 75, 60, 45, 30], // 지점별 매출 데이터
-                            borderColor: 'rgb(255,120,120)', // 선 색상
-                            pointBackgroundColor: 'white',
-                            backgroundColor: 'rgba(0,0,0,0.2)', // 선 아래 채우기 색상
-                            tension: 0.4 // 곡선 정도
-                        }
-                    ]
-                };
-
-                // 차트 옵션
-                const config = {
-                    type: 'line',
-                    data: data,
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { display: false },
-                            title: { display: true, text: '지점별 매출' }
+                window.onload = function() {
+                    $.ajax({
+                        url: "/api/monthSalesTotal", // 백엔드에 맞게 경로 수정
+                        method: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            data.forEach(function (item) {
+                                console.log(item.storeName + " : " + item.totalMonthSales);
+                            });
+                            drawChart(data);
                         },
-                        scales: {
-                            x: {
-                                title: { display: true },
-                                grid: { display: false } // x축 눈금선 제거
+                        error: function (xhr, status, error) {
+                            console.error("월 매출 조회 실패:", error);
+                        }
+                    });
+                }
+
+                function drawChart(data){
+                    const labels = [];
+                    const salesData = [];
+
+                    data.forEach(function(storeSale) {
+                        const label = storeSale.storeName;
+                        const value = storeSale.totalMonthSales;
+
+                        labels.push(label);
+                        salesData.push(value);
+                    });
+
+                    // 차트 데이터 구성
+                    const chartData = {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: '지점별 매출',
+                                data: salesData,
+                                borderColor: 'rgb(255,120,120)',
+                                pointBackgroundColor: 'white',
+                                backgroundColor: 'rgba(0,0,0,0.2)',
+                                tension: 0.4
+                            }
+                        ]
+                    };
+
+                    const config = {
+                        type: 'line',
+                        data: data,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                title: { display: true, text: '지점별 매출' }
                             },
-                            y: {
-                                title: { display: true, text: '매출 (단위: 만원)' },
-                                min: 0,
-                                max: 200,
-                                ticks: { stepSize: 40 }, // y축 눈금 간격을 40으로 설정
-                                grid: { display: false } // y축 눈금선 제거
+                            scales: {
+                                x: {
+                                    title: { display: true },
+                                    grid: { display: false } // x축 눈금선 제거
+                                },
+                                y: {
+                                    title: { display: true, text: '매출 (단위: 만원)' },
+                                    min: 0,
+                                    max: 200,
+                                    ticks: { stepSize: 40 }, // y축 눈금 간격을 40으로 설정
+                                    grid: { display: false } // y축 눈금선 제거
+                                }
                             }
                         }
-                    }
-                };
+                    };
 
-                // Chart.js 렌더링
-                const ctx = document.getElementById('salesChart').getContext('2d');
-                new Chart(ctx, config);
+                    // Chart.js 렌더링
+                    const ctx = document.getElementById('salesChart').getContext('2d');
+                    new Chart(ctx, config);
+                }
+
+                // // 매출 데이터 (지점별 매출)
+                // const labels = ['한남점', '서울역점', '강남점', '노원점', '길음점', '잠실점', '선릉점', '번내점', '천호점', '역삼점']; // x축 레이블
+                // const data = {
+                //     labels: labels,
+                //     datasets: [
+                //         {
+                //             label: '지점별 매출',
+                //             data: [45, 90, 180, 135, 90, 105, 75, 60, 45, 30], // 지점별 매출 데이터
+                //             borderColor: 'rgb(255,120,120)', // 선 색상
+                //             pointBackgroundColor: 'white',
+                //             backgroundColor: 'rgba(0,0,0,0.2)', // 선 아래 채우기 색상
+                //             tension: 0.4 // 곡선 정도
+                //         }
+                //     ]
+                // };
+                //
+                // // 차트 옵션
+                // const config = {
+                //     type: 'line',
+                //     data: data,
+                //     options: {
+                //         responsive: true,
+                //         maintainAspectRatio: false,
+                //         plugins: {
+                //             legend: { display: false },
+                //             title: { display: true, text: '지점별 매출' }
+                //         },
+                //         scales: {
+                //             x: {
+                //                 title: { display: true },
+                //                 grid: { display: false } // x축 눈금선 제거
+                //             },
+                //             y: {
+                //                 title: { display: true, text: '매출 (단위: 만원)' },
+                //                 min: 0,
+                //                 max: 200,
+                //                 ticks: { stepSize: 40 }, // y축 눈금 간격을 40으로 설정
+                //                 grid: { display: false } // y축 눈금선 제거
+                //             }
+                //         }
+                //     }
+                // };
+                //
+                // // Chart.js 렌더링
+                // const ctx = document.getElementById('salesChart').getContext('2d');
+                // new Chart(ctx, config);
             </script>
 
             <!-- 인기 제품 카드 -->

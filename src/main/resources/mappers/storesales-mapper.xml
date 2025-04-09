@@ -10,6 +10,8 @@
         <result column="SALES_DATE" property="salesDate"/>
         <result column="MONTH_SALES" property="monthSales"/>
         <result column="SALES_MONTH" property="salesMonth"/>
+        <result column="STORE_NAME" property="storeName"/>
+        <result column="TOTAL_MONTH_SALES" property="totalMonthSales"/>
     </resultMap>
 
     <!-- 오늘 해당 지점 매출이 있는지 확인 -->
@@ -41,4 +43,19 @@
         #{salesMonth}
         )
     </insert>
+
+    <select id="getMonthSalesTotal" resultType="map">
+        SELECT
+        S.STORE_NAME,
+        SUM(MONTH_SALES) AS TOTAL_MONTH_SALES
+        FROM
+        STORE_SALES SS
+        JOIN STORE S ON SS.STORE_ID = S.STORE_ID
+        WHERE
+        TO_CHAR(SALES_MONTH, 'YYYYMM') = TO_CHAR(SYSDATE, 'YYYYMM')
+        GROUP BY
+        S.STORE_NAME
+        ORDER BY
+        S.STORE_NAME
+    </select>
 </mapper>
