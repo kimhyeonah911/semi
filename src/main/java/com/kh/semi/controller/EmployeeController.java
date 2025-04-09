@@ -92,7 +92,7 @@ public class EmployeeController {
     @GetMapping("/dash-employee.bo")
     public String dashEmployee(Model model, HttpSession session) {
         Member loginUser = (Member) session.getAttribute("loginUser");
-        String storeId = loginUser.getStoreId();
+        int storeId = loginUser.getStoreId();
 
         // ✅ 공지사항 top 3 조회
         ArrayList<Board> noticeList = boardService.selectBoardListTop3();

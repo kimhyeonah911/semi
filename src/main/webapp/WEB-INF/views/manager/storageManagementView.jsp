@@ -288,7 +288,7 @@
 
 
 <%
-    String storeId = (String)session.getAttribute("storeId");
+    int storeId = (int)session.getAttribute("storeId");
 %>
 <script>
     const storeId = "<%= storeId %>";
@@ -346,10 +346,7 @@
             deleteModal.hide();
         };
     }
-
 </script>
-
-
 
 
 </body>

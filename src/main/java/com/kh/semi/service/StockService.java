@@ -35,4 +35,7 @@ public interface StockService {
     int updateCompletedStockOut();
     ArrayList<Stock> selectCompletedStockOut();
 
+    int selectStockOutListforPaging(int empNo, String status);
+
+    ArrayList<Stock> selectStockOutListByPage(PageInfo pi, int empNo, String status);
 }

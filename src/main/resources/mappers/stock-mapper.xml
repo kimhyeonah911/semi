@@ -255,7 +255,7 @@
         STORAGE_NO,
         AMOUNT,
         PRICE,
-        TAXPRICE,
+        TAXPRICE as taxPrice,
         TAX,
         PRODUCT_NAME,
         CATEGORY_NAME,
@@ -296,15 +296,16 @@
         SELECT COUNT(*)
         FROM STOCK S
         JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO
-        WHERE S.STATUS IN ('Y', 'C')
+        WHERE S.STATUS IN ('Y', 'C', 'REGISTERED') <!-- 'REGISTERED' 상태 추가 -->
         <if test="status != null and status != '' and status != '전체'">
             AND S.STOCK_STATUS = #{status}
         </if>
         AND M.STORE_ID = (
-        SELECT STORE_ID FROM MEMBER WHERE EMP_NO = #{empNo}
+        SELECT STORE_ID
+        FROM MEMBER
+        WHERE EMP_NO = #{empNo}
         )
     </select>
-
 
     <select id="selectStockListByPage" resultMap="stockResult">
         SELECT S.STOCK_NO, M.MEM_NAME,
@@ -318,9 +319,13 @@
         <if test="status != null and status != '' and status != '전체'">
             AND S.STOCK_STATUS = #{status}
         </if>
+        <if test="status == '전체'">
+            -- status가 '전체'일 경우 S.STOCK_STATUS 조건을 제외
+        </if>
         AND M.STORE_ID = LOGIN_USER.STORE_ID
         ORDER BY S.STOCK_NO
     </select>
+
 
     <update id="updateCompletedStockOut">
         UPDATE STOCK
@@ -338,5 +343,40 @@
         WHERE S.STOCK_STATUS = 'STOCK_OUT_COMPLETED'
         AND S.STATUS = 'Y'
     </select>
+
+<!--    //출고 페이징-->
+<!--    int selectStockOutListforPaging(int empNo, String status);-->
+<!--    ArrayList<Stock> selectStockOutListByPage(int empNo, String status, RowBounds rowBounds);-->
+    <select id="selectStockOutListforPaging" resultType="int">
+        SELECT COUNT(DISTINCT S.STOCK_NO)
+        FROM STOCK S
+        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO
+        JOIN MEMBER LOGIN_USER ON LOGIN_USER.EMP_NO = #{empNo}
+        WHERE S.STATUS IN ('Y', 'C')
+        AND S.STOCK_STATUS LIKE 'STOCK_OUT%'
+        AND M.STORE_ID = LOGIN_USER.STORE_ID
+        <if test="status != null and status != '' and status != '전체'">
+            AND S.STOCK_STATUS = #{status}
+        </if>
+    </select>
+
+    <select id="selectStockOutListByPage" resultMap="stockResult">
+        SELECT DISTINCT S.STOCK_NO,
+        M.MEM_NAME,
+        TO_CHAR(S.STOCK_DATE, 'YYYY-MM-DD') AS STOCK_DATE,
+        TO_CHAR(S.EXP_DATE, 'YYYY-MM-DD') AS EXP_DATE,
+        S.STOCK_STATUS
+        FROM STOCK S
+        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO
+        JOIN MEMBER LOGIN_USER ON LOGIN_USER.EMP_NO = #{empNo}
+        WHERE S.STATUS IN ('Y', 'C')
+        AND S.STOCK_STATUS LIKE 'STOCK_OUT%'
+        AND M.STORE_ID = LOGIN_USER.STORE_ID
+        <if test="status != null and status != '' and status != '전체'">
+            AND S.STOCK_STATUS = #{status}
+        </if>
+        ORDER BY S.STOCK_NO
+    </select>
+
 
 </mapper>

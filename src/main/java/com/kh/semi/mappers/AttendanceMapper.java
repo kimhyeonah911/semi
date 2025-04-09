@@ -31,7 +31,7 @@ public interface AttendanceMapper {
     ArrayList<Attendance> selectAttendanceListPage(Map<String, Object> paramMap, RowBounds rowBounds);
 
     // 직원 대시보드 출근 현황판
-    int countByStatus(@Param("storeId") String storeId, @Param("status") String status);
+    int countByStatus(@Param("storeId") int storeId, @Param("status") String status);
 
 
     int countWork(int storeId);

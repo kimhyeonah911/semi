@@ -230,10 +230,8 @@
 </div>
 
 
-
-
 <%
- String storeId = (String)session.getAttribute("storeId");
+ int storeId = (int)session.getAttribute("storeId");
 %>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>

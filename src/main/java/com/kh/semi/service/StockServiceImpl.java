@@ -115,4 +115,16 @@ public class StockServiceImpl implements StockService {
     public ArrayList<Stock> selectCompletedStockOut() {
         return stockMapper.selectCompletedStockOut();
     }
+
+    @Override
+    public int selectStockOutListforPaging(int empNo, String status) {
+        return stockMapper.selectStockOutListforPaging(empNo, status);
+    }
+
+    @Override
+    public ArrayList<Stock> selectStockOutListByPage(PageInfo pi, int empNo, String status) {
+        int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+        RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+        return stockMapper.selectStockOutListByPage(empNo, status , rowBounds);
+    }
 }

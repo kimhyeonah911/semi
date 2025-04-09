@@ -55,6 +55,10 @@ public class ManagerController {
         //부족한 재고 카드
         int storeId = (int)session.getAttribute("storeId");
 
+        ArrayList<Board> noticeList = boardService.selectBoardListTop3();
+        // 공지사항 리스트를 모델에 추가
+        model.addAttribute("noticeList", noticeList);
+
         List<Inventory> lowInventoryTop4 = inventoryService.selectLowInventoryTop4(storeId);
         model.addAttribute("lowInventoryTop4", lowInventoryTop4);
 
@@ -161,6 +165,7 @@ public class ManagerController {
         ArrayList<StockProduct> list4 = stockService.selectStockProductList(empNo);
 
         System.out.println("입고 제품들 !: " + list);
+
         ArrayList<Product> list5 = productService.selectImageUrl();
 
         model.addAttribute("stock", list);
@@ -182,27 +187,44 @@ public class ManagerController {
         model.addAttribute("pageUrl", "stockIn.sto");
         model.addAttribute("selectedStatus", status); // 선택된 상태 필터 유지
 
+        System.out.println("listPage: " + listpage);
+
         return "manager/stockInView";
     }
 
     @GetMapping("stockOut.sto")
-    public String stockOutManagement(Model model , HttpSession session) {
+    public String stockOutManagement(@RequestParam(defaultValue = "1") int cpage,
+                                     @RequestParam(required = false, defaultValue = "전체") String status,
+                                     Model model,
+                                     HttpSession session) {
         int empNo = (int) session.getAttribute("empNo");
-        int storeId = (int)session.getAttribute("storeId");
-        ArrayList<Stock> list = stockService.selectStockList(empNo);
+        int storeId = (int) session.getAttribute("storeId");
+
+        // 페이징 처리
+        int listCount = stockService.selectStockOutListforPaging(empNo, status);
+        int pageLimit = 5;
+        int boardLimit = 5;
+        PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
+        ArrayList<Stock> listpage = stockService.selectStockOutListByPage(pi, empNo, status);
+
         ArrayList<Storage> list2 = storageService.selectStorage(storeId);
         ArrayList<Client> list3 = productService.selectClientList();
         ArrayList<StockProduct> list4 = stockService.selectStockProductList(empNo);
         ArrayList<Product> list5 = productService.selectImageUrl();
 
-        model.addAttribute("stock", list);
+        model.addAttribute("stock", listpage);
         model.addAttribute("storage", list2);
         model.addAttribute("client", list3);
         model.addAttribute("stockProduct", list4);
         model.addAttribute("image", list5);
 
+        model.addAttribute("pi", pi);
+        model.addAttribute("pageUrl", "stockOut.sto");
+        model.addAttribute("selectedStatus", status);
+
         return "manager/stockOutView";
     }
+
 
     @PostMapping("updateAttendance.ma")
     public String updateAttendance(Attendance attendance, HttpSession session) {

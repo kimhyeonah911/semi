@@ -45,4 +45,8 @@ public interface StockMapper {
     //출고완료
     int updateCompletedStockOut();
     ArrayList<Stock> selectCompletedStockOut();
+
+    //출고 페이징
+    int selectStockOutListforPaging(int empNo, String status);
+    ArrayList<Stock> selectStockOutListByPage(int empNo, String status, RowBounds rowBounds);
 }

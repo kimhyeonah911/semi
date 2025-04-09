@@ -269,33 +269,17 @@
             <!-- 직원 근무 현황 카드 -->
             <div class="dashboard-card card-employee">
                 <div class="card-title">👥 직원 근무 현황</div>
-<<<<<<< HEAD
                 <div class="card-body">
                     <div class="card-body-work">
-                        <div class="work">
-                            <img src="/resources/work.png" id="work">
-                            <h4>${workingCount}</h4>
-                        </div>
-                        <div class="nowork">
-                            <img src="/resources/nowork.png" id="nowork">
-                            <h4>${notWorkingCount}</h4>
-                        </div>
+                        <div class="work"><img src="/resources/work.png" id="work"> <h4>${countWork}</h4></div>
+                        <div class="nowork"><img src="/resources/nowork.png" id="nowork"> <h4>${countNoWork}</h4></div>
                     </div>
                 </div>
-                <div class="card-footer">근무 현황 확인</div>
-=======
-                        <div class="card-body">
-                            <div class="card-body-work">
-                                <div class="work"><img src="/resources/work.png" id="work"> <h4>${countWork}</h4></div>
-                                <div class="nowork"><img src="/resources/nowork.png" id="nowork"> <h4>${countNoWork}</h4></div>
-                            </div>
-                        </div>
                 <a href="attendance.ma" style="text-decoration: none; color: black;">
                     <div class="card-footer">
                         근태관리 페이지로 이동하기
                     </div>
                 </a>
->>>>>>> 51535fb825b66e7089fa6d33cc6ccaf690dcebee
             </div>
 
 

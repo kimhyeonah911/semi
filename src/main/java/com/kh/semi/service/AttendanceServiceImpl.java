@@ -92,12 +92,12 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public int countWorkingEmployees(String storeId) {
+    public int countWorkingEmployees(int storeId) {
         return attendanceMapper.countByStatus(storeId, "W");
     }
 
     @Override
-    public int countNotWorkingEmployees(String storeId) {
+    public int countNotWorkingEmployees(int storeId) {
         return attendanceMapper.countByStatus(storeId, "L");
     }
 
