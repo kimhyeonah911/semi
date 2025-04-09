@@ -134,6 +134,7 @@ public class ManagerController {
 
     @PostMapping("insert.sto")
     public String insertStorage(Storage storage, HttpSession session, ModelAndView mv) {
+        int storeId = (int) session.getAttribute("storeId");
         Storage s = new Storage();
         s.setStorageLocation(storage.getStorageLocation());
         s.setAbleAmount(storage.getAbleAmount());
