@@ -36,4 +36,5 @@ public interface ProductMapper {
     ArrayList<Client> selectdeliveryListByPage(RowBounds rowBounds);
 
     List<Product> top4product(int storeId);
+    List<Product> top4productAdmin();
 }

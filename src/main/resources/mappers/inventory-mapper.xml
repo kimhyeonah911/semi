@@ -116,7 +116,7 @@
         JOIN PRODUCT P ON P.PRODUCT_NO = I.PRODUCT_NO
         WHERE I.STORE_ID = #{storeId}
         ORDER BY I.QUANTITY ASC
-        FETCH FIRST 4 ROWS ONLY
+        FETCH FIRST 3 ROWS ONLY
     </select>
     <select id="selectInventory" resultMap="inventoryResult" parameterType="Inventory">
         SELECT *

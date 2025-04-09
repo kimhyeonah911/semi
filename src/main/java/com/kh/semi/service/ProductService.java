@@ -30,5 +30,6 @@ public interface ProductService {
     int deliveryCount();
     ArrayList<Client> selectdeliveryListByPage(PageInfo pi);
     List<Product> top4product(int storeId);
+    List<Product> top4productAdmin();
 }
 
