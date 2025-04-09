@@ -54,6 +54,7 @@
                         STORAGE_NO,
                         STORE_ID
         FROM STORAGE
+        ORDER BY STORAGE_NO
     </select>
 
     <update id="updateStorageAmount">

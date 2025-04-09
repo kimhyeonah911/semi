@@ -144,7 +144,6 @@ public class ManagerController {
         s.setAbleAmount(storage.getAbleAmount());
         int result = storageService.insertStorage(s);
         if (result > 0) {
-            session.setAttribute("alertMsg", "성공적으로 창고를 등록하였습니다.");
             return "redirect:/storage.lo";
         } else {
             mv.addObject("errorMsg", "창고 등록에 실패하였습니다.");

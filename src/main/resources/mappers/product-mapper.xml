@@ -48,7 +48,7 @@
         ORDER BY P.PRODUCT_NO DESC
     </select>
     <select id="selectProductList" resultType="Product">
-        SELECT
+        SELECT DISTINCT
         P.PRODUCT_NO AS productNo,
         P.PRODUCT_NAME AS productName,
         P.CATEGORY_NO AS categoryNo,
