@@ -273,14 +273,19 @@
         CLIENT
         WHERE STATUS = 'Y'
     </select>
-
     <select id="top4product" parameterType="int" resultType="Product">
-        SELECT PRODUCT_NAME,
-                IMAGE_URL
+        SELECT P.PRODUCT_NAME,
+               MIN(P.IMAGE_URL) AS IMAGE_URL,
+               SUM(SP.AMOUNT) AS TOTAL_AMOUNT
         FROM PRODUCT P
         JOIN STOCK_PRODUCT SP ON (SP.PRODUCT_NO = P.PRODUCT_NO)
         JOIN STOCK S ON (S.STOCK_NO = SP.STOCK_NO)
-        
-        WHERE
+        JOIN MEMBER M ON (S.STOCK_EMP = M.EMP_NO)
+        WHERE S.STOCK_DATE BETWEEN TRUNC(SYSDATE) - 7 AND TRUNC(SYSDATE)
+              AND S.STOCK_STATUS = 'STOCK_OUT_COMPLETED'
+              AND M.STORE_ID = #{storeId}
+        GROUP BY P.PRODUCT_NAME
+        ORDER BY TOTAL_AMOUNT DESC
+        FETCH FIRST 4 ROWS ONLY
     </select>
 </mapper>
