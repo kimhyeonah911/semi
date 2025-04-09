@@ -340,13 +340,16 @@
                                             <td>
                                                 <c:choose>
                                                     <c:when test="${s.stockStatus eq 'STOCK_IN_REGISTERED'}">
-                                                        <button type="button" class="btn btn-secondary btn-sm" disabled>입고 등록</button>
+                                                        <span class="badge bg-secondary">입고 등록</span>
+                                                        <%-- <button type="button" class="btn btn-secondary btn-sm" disabled>입고 등록</button>--%>
                                                     </c:when>
                                                     <c:when test="${s.stockStatus eq 'STOCK_IN_PROGRESS'}">
-                                                        <button type="button" class="btn btn-warning btn-sm" disabled>입고중</button>
+                                                        <span class="badge bg-warning">입고중</span>
+                                                        <%--<button type="button" class="btn btn-warning btn-sm" disabled>입고중</button>--%>
                                                     </c:when>
                                                     <c:when test="${s.stockStatus eq 'STOCK_IN_COMPLETED'}">
-                                                        <button type="button" class="btn btn-success btn-sm" disabled>입고 완료</button>
+                                                        <span class="badge bg-success">입고 완료</span>
+                                                        <%--<button type="button" class="btn btn-success btn-sm" disabled>입고 완료</button>--%>
                                                     </c:when>
                                                 </c:choose>
                                             </td>
@@ -389,7 +392,7 @@
 
                     </table>
                     <div class="pagebar-container mt-3">
-                        <jsp:include page="../common/pagebar.jsp"/>
+                        <div id="pagebar" class="pagination"></div>
                     </div>
 
                 </div>
@@ -430,7 +433,6 @@
                                             <td colspan="2" class="list-table-item">
                                                 <input type="hidden" value="${sp.stockNo}" class="stockNo">
                                                 <c:forEach var="i" items="${image}">
-                                                    ${i.imageUrl}
                                                     <c:if test="${i.productNo eq sp.productNo}">
                                                         <c:choose>
                                                             <c:when test="${empty i.imageUrl}">
@@ -782,9 +784,6 @@
 
         $("#modal3 .list-space > h6").first().text(summaryText);
     }
-
-
-
 
 </script>
 

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface InventoryService {
-    ArrayList<Inventory> getInventoryList();
     ArrayList<Inventory> searchInventoryList(Map<String, Object> paramMap);
     int countInventoryList(Map<String, Object> paramMap);
     List<StockProduct> searchStockProductList(Map<String, Object> paramMap);
@@ -17,4 +16,5 @@ public interface InventoryService {
     Inventory selectInventory(int storageNo, int productNo);
     int updateInventoryQuantity(int productNo, int storageNo, int quantity);
     int insertInventory(Inventory inventory);
+    List<Inventory> selectLowInventoryTop4(int storeId);
 }

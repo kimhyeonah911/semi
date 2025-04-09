@@ -22,28 +22,21 @@ public class APIInventoryController {
     @Autowired
     private InventoryService inventoryService;
 
-    @GetMapping("/getInventoryList")
-    public ArrayList<Inventory> getInventoryList(){
-        ArrayList<Inventory> list = inventoryService.getInventoryList();
-        if(list == null){
-            System.out.println("inventory list is null");
-        } else {
-            System.out.println("inventory list : " + list);
-        }
-        return inventoryService.getInventoryList();
-    }
 
     @GetMapping("/searchInventoryList")
-    public Map<String, Object> searchInventoryList( @RequestParam(required = false) String selectedStorageNo,
+    public Map<String, Object> searchInventoryList( @RequestParam (required = false) String storeId,
+                                                     @RequestParam(required = false) String selectedStorageNo,
                                                      @RequestParam(required = false) String searchedKeyword,
                                                      @RequestParam(defaultValue = "1") int page,
                                                      @RequestParam(defaultValue = "10") int pageSize){
+        Integer memStoreId = Integer.parseInt(storeId);
         Integer storageNo = (selectedStorageNo != null && !selectedStorageNo.isEmpty()) ? Integer.parseInt(selectedStorageNo) : null;
         String keyword = searchedKeyword != null ? searchedKeyword.toLowerCase().trim() : "";
 
         int offset = (page - 1) * pageSize;
 
         Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("storeId", memStoreId);
         paramMap.put("storageNo", storageNo);
         paramMap.put("keyword", keyword);
         paramMap.put("offset", offset);
