@@ -118,6 +118,7 @@
         .card-notice {
             background-color: #E3F2FD; /* 밝은 하늘색 */
             color: #000000; /* 진한 파랑 */
+            padding-top: 30px;
         }
 
         .card-popular {
@@ -227,6 +228,9 @@
                 </div>
                 <div class="card-body">
                     <span>조별상의 후 컨텐츠 결정할예정입니다.</span>
+                </div>
+                <div class="card-body">
+
                 </div>
                 <div class="card-footer">피드백 확인</div>
             </div>
