@@ -51,4 +51,10 @@
         GROUP BY TO_CHAR(SALES_DATE, 'YYYY-MM')
         ORDER BY salesMonth
     </select>
+    <select id="getTodayTotalSales" resultType="int">
+        SELECT NVL(SUM(DAY_SALES), 0)
+        FROM STORE_SALES
+        WHERE STORE_ID = #{storeId}
+        AND TRUNC(SALES_DATE) = TRUNC(#{today})
+    </select>
 </mapper>
