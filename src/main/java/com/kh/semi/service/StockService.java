@@ -1,5 +1,6 @@
 package com.kh.semi.service;
 
+import com.kh.semi.domain.vo.PageInfo;
 import com.kh.semi.domain.vo.Stock;
 import com.kh.semi.domain.vo.StockProduct;
 
@@ -22,4 +23,8 @@ public interface StockService {
     int updateCompletedStockIn();
     ArrayList<Stock> selectCompletedStockIn(); // COMPLETED + Y 인 애들
     int updateStockProcessedStatus(int stockNo); // STATUS = 'C'로 변경
+
+    // 입고 페이지 페이징 처리
+    int selectStockListforPaging();
+    ArrayList<Stock> selectStockListByPage(PageInfo pi);
 }

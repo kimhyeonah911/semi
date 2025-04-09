@@ -109,7 +109,7 @@
             </div>
             <div class="d-flex justify-content-end">
                 <button type="submit" class="btn-custom">등록하기</button>
-                <button type="reset" class="btn-custom" style="background-color: #dc3545;">취소</button>
+                <button type="button" class="btn-custom" style="background-color: #dc3545;" onclick="location.href='list.bo'">취소</button>
             </div>
         </form>
 

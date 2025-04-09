@@ -266,4 +266,22 @@
         WHERE STOCK_NO = #{stockNo}
     </update>
 
+    <select id="selectStockListforPaging" resultType="int">
+        SELECT COUNT(*)
+        FROM STOCK
+        WHERE STATUS IN ('Y', 'C')
+        AND STOCK_STATUS IN ('STOCK_IN_REGISTERED', 'STOCK_IN_PROGRESS', 'STOCK_IN_COMPLETED')
+    </select>
+
+    <select id="selectStockListByPage" resultMap="stockResult">
+        SELECT STOCK_NO, MEM_NAME,
+        TO_CHAR(STOCK_DATE, 'YYYY-MM-DD') AS STOCK_DATE,
+        TO_CHAR(EXP_DATE, 'YYYY-MM-DD') AS EXP_DATE,
+        STOCK_STATUS
+        FROM STOCK S
+        JOIN MEMBER M ON (EMP_NO = STOCK_EMP)
+        WHERE S.STATUS IN ('Y', 'C')
+        AND STOCK_STATUS IN ('STOCK_IN_REGISTERED', 'STOCK_IN_PROGRESS', 'STOCK_IN_COMPLETED')
+        ORDER BY STOCK_NO
+    </select>
 </mapper>

@@ -285,20 +285,6 @@
                                 </c:otherwise>
                             </c:choose>
                         </td>
-
-                        <td>
-                            <button
-                                    type="button"
-                                    class="btn btn-sm btn-primary edit-btn"
-                                    data-attendance-no="${l.attendanceNo}"
-                                    data-clock-in="${l.clockIn}"
-                                    data-clock-out="${l.clockOut}"
-                                    data-status="${l.status}"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editModal">
-                                수정
-                            </button>
-                        </td>
                     </tr>
                 </c:forEach>
 

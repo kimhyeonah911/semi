@@ -4,6 +4,7 @@ import com.kh.semi.domain.vo.Stock;
 import com.kh.semi.domain.vo.StockProduct;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.ArrayList;
 
@@ -29,4 +30,8 @@ public interface StockMapper {
     int updateCompletedStockIn();
     ArrayList<Stock> selectCompletedStockIn();
     int updateStockProcessedStatus(int stockNo);
+
+    // 페이징바
+    int selectStockListforPaging();
+    ArrayList<Stock> selectStockListByPage(RowBounds rowBounds);
 }

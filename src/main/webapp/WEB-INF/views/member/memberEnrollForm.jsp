@@ -162,7 +162,6 @@
 
   <!-- 오른쪽 (회원가입 폼) -->
   <div class="right">
-    <button onclick="location.href='/list.bo'">공지사항 리스트</button>
     <img class="logo" src="/resources/logo.png" alt="Logo">
     <form action="insert.me" method="post">
       <div class="input-box">

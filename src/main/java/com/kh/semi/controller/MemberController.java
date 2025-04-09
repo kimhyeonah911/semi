@@ -7,6 +7,7 @@ import com.kh.semi.domain.vo.StockProduct;
 import com.kh.semi.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,14 +27,16 @@ public class MemberController {
     private final StockService stockService;
     private final StorageService storageService;
     private final InventoryService inventoryService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public MemberController(MemberService memberService, AttendanceService attendanceService, StockService stockService, StorageService storageService, InventoryService inventoryService) {
+    public MemberController(MemberService memberService, AttendanceService attendanceService, StockService stockService, StorageService storageService, InventoryService inventoryService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.memberService = memberService;
         this.attendanceService = attendanceService;
         this.stockService = stockService;
         this.storageService = storageService;
         this.inventoryService = inventoryService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @GetMapping("enrollForm.me")
@@ -59,7 +62,7 @@ public class MemberController {
         Member loginMember = memberService.loginMember(memId, memPwd);
         System.out.println("로그인한 회원 정보: " + loginMember);
 
-        if (loginMember == null) {
+        if (loginMember == null || !bCryptPasswordEncoder.matches(memPwd, loginMember.getMemPwd())) {
             session.setAttribute("alertMsg", "아이디나 비밀번호가 일치하지 않습니다.");
             mv.setViewName("redirect:/");
         } else {
@@ -69,14 +72,8 @@ public class MemberController {
             session.setAttribute("loginMember", loginMember);
             boolean isWorking = attendanceService.isClockedIn(loginMember.getEmpNo());
             session.setAttribute("isWorking", isWorking); //
-<<<<<<< HEAD
-
             session.setAttribute("empNo", loginMember.getEmpNo());
 
-=======
-            session.setAttribute("empNo", loginMember.getEmpNo());
-
->>>>>>> 16aef471423d16bb9c6f1f28c33407c8fc06a628
             String position = loginMember.getPosition();
 
             if ("manager".equals(position) || "employee".equals(position)) {
@@ -132,14 +129,21 @@ public class MemberController {
     public String insertMember(@ModelAttribute Member member, ModelAndView mv, HttpSession session) {
         // Member 객체에서 memId, memPwd, memName, phone 추출
         String phone = member.getPhone().replaceFirst("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3");
-        Member m = new Member();
-        m.setMemId(member.getMemId());
-        m.setMemPwd(member.getMemPwd());
-        m.setMemName(member.getMemName());
-        m.setPhone(phone);
+        member.setPhone(phone);
+
+        // 비밀번호 암호화 처리
+        String pwd = bCryptPasswordEncoder.encode(member.getMemPwd());
+        member.setMemPwd(pwd);
+
+        String name = member.getMemName();
+        member.setMemName(name);
+
+        String id = member.getMemId();
+        member.setMemId(id);
+
 
         // MemberService의 insertMember 호출
-        int result = memberService.insertMember(m);
+        int result = memberService.insertMember(member);
         // 회원가입 성공 여부 확인
         if (result > 0) {
             session.setAttribute("alertMsg", "성공적으로 회원가입을 완료하였습니다.");

@@ -147,19 +147,14 @@ public class ManagerController {
     }
 
     @GetMapping("stockIn.sto")
-    public String stockInManagement(Model model) {
+    public String stockInManagement(@RequestParam(defaultValue = "1") int cpage, Model model) {
 
         ArrayList<Stock> list = stockService.selectStockList();
         ArrayList<Storage> list2 = storageService.selectStorage();
         ArrayList<Client> list3 = productService.selectClientList();
         ArrayList<StockProduct> list4 = stockService.selectStockProductList();
-<<<<<<< HEAD
-
         System.out.println("입고 제품들 !: " + list);
 
-=======
-        System.out.println("입고 제품들 !: " + list);
->>>>>>> 16aef471423d16bb9c6f1f28c33407c8fc06a628
         ArrayList<Product> list5 = productService.selectImageUrl();
 
         model.addAttribute("stock", list);
@@ -167,6 +162,19 @@ public class ManagerController {
         model.addAttribute("client", list3);
         model.addAttribute("stockProduct", list4);
         model.addAttribute("image", list5);
+
+        // 페이징바 처리 코드
+        int listCount = stockService.selectStockListforPaging();// 전체 입고 갯수 (입고중, 입고완료, 입고대기 포함)
+        int pageLimit = 5;     // 하단에 보여질 페이징 바 수
+        int boardLimit = 5;   // 한 페이지에 보여질 게시글 수
+
+        PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
+        ArrayList<Stock> listpage = stockService.selectStockListByPage(pi);
+
+        model.addAttribute("listpage", listpage);  //
+        model.addAttribute("pi", pi);
+        model.addAttribute("pageUrl", "stockIn.sto");
+
         return "manager/stockInView";
     }
 

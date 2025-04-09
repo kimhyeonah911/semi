@@ -323,10 +323,6 @@
                             <th>입고번호</th>
                             <th>상태</th>
                             <th>입고신청일자</th>
-<<<<<<< HEAD
-                            <th>입고요청일자</th>
-=======
->>>>>>> 16aef471423d16bb9c6f1f28c33407c8fc06a628
                             <th>입고예정일자</th>
                             <th>입고금액</th>
                             <th>요청자</th>
@@ -334,11 +330,11 @@
                         </tr>
                         </thead>
                         <tbody>
+
                         <c:choose>
                             <c:when test="${not empty stock}">
-                                <c:forEach var="s" items="${stock}">
+                                <c:forEach var="s" items="${listpage}">
                                     <c:if test="${s.stockStatus eq 'STOCK_IN_REGISTERED' or s.stockStatus eq 'STOCK_IN_PROGRESS' or s.stockStatus eq 'STOCK_IN_COMPLETED'}">
-
                                         <tr data-storage-no="${s.stockNo}">
                                             <td>${s.stockNo}</td>
                                             <td>
@@ -392,8 +388,38 @@
                         </tbody>
 
                     </table>
-                    <div class="pagebar-container mt-3">
-                        <jsp:include page="../common/pagebar.jsp"/>
+                    <div class="pagination">
+                        <!-- 이전 버튼 -->
+                        <c:choose>
+                            <c:when test="${pi.currentPage == 1}">
+                                <a href="#" class="disabled">이전</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="${pageUrl}?cpage=${pi.currentPage - 1}">이전</a>
+                            </c:otherwise>
+                        </c:choose>
+
+                        <!-- 숫자 버튼 -->
+                        <c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
+                            <c:choose>
+                                <c:when test="${i == pi.currentPage}">
+                                    <a href="#" class="active">${i}</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="${pageUrl}?cpage=${i}">${i}</a>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+
+                        <!-- 다음 버튼 -->
+                        <c:choose>
+                            <c:when test="${pi.currentPage == pi.maxPage}">
+                                <a href="#" class="disabled">다음</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="${pageUrl}?cpage=${pi.currentPage + 1}">다음</a>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
 
                 </div>
