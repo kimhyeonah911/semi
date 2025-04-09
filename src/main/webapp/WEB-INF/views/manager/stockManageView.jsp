@@ -30,6 +30,7 @@
       height: 35px;
       font-size: 22px;
       margin-right: 20px; /* 각 요소 간 간격 */
+      margin-bottom: 5px;
     }
 
     #storage-select-bar {
