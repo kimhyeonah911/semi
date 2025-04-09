@@ -305,7 +305,7 @@
 </body>
 </html>
 <%
-    String storeId = (String)session.getAttribute("storeId");
+    int storeId = (int)session.getAttribute("storeId");
     String position = (String)session.getAttribute("position");
 %>
 

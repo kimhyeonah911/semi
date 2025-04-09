@@ -197,6 +197,7 @@
             <if test="endDate != null">
                 AND TRUNC(A.CLOCK_IN) &lt;= #{endDate}
             </if>
+            AND M.POSITION = 'employee'
         </where>
         ORDER BY A.CLOCK_OUT DESC
     </select>

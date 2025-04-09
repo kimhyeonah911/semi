@@ -96,8 +96,8 @@ public class MemberController {
 
 
                         // 창고 수량 증가
-                        storageService.updateStorageAmount(storageNo, amount);
-
+                        int result2 = storageService.updateStorageAmount(storageNo, amount);
+                        System.out.println("늘어난 창고수량 : "+result2);
                         // inventory 반영
                         Inventory inventory = inventoryService.selectInventory(storageNo, productNo);
                         if (inventory != null) {
@@ -113,6 +113,40 @@ public class MemberController {
                     }
                     stockService.updateStockProcessedStatus(stockNo);
                 }
+
+                //출고 완료 신청
+                int result1 = stockService.updateCompletedStockOut();
+                System.out.println("출고완료 상태 변경 수: " + result1);
+                
+                ArrayList<Stock> completedStockOutList = stockService.selectCompletedStockOut();
+                System.out.println(completedStockOutList);
+
+                for (Stock stock : completedStockOutList) {
+                    int stockNo = stock.getStockNo();
+                    ArrayList<StockProduct> productList = stockService.selectStockProduct(stockNo);
+                    for (StockProduct sp : productList) {
+                        int storageNo = sp.getStorageNo();
+                        int productNo = sp.getProductNo();
+                        int amount = sp.getAmount();
+                        int price = sp.getPrice();
+
+                        // 창고 수량 감소
+                        int storageMinus = storageService.minusStorageAmount(storageNo, amount);
+                        System.out.println("줄어든 창고 수량"+storageMinus);
+
+                        // inventory 반영
+                        int inventoryMinus = inventoryService.minusInventoryQuantity(storageNo, productNo, amount);
+                        System.out.println("인벤토리 줄어든 수 : "+inventoryMinus);
+
+                        // 매출 반영
+                        //storeSalesService.updateStoreSales(stock.getStoreId(), price * amount);
+                    }
+
+                    // 출고 상태 완료로 변경
+//                    stockService.updateStockProcessedStatus(stockNo); // 출고도 같은 메서드 써도 되면 OK
+                }
+
+
             }
             if ("admin".equals(position)) {
                 mv.setViewName("redirect:/dash.bo");

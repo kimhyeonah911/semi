@@ -52,9 +52,7 @@ public class ManagerController {
     @GetMapping("dash-manager.bo")
     public String dashManager(Model model, HttpSession session) {
         //부족한 재고 카드
-        String storeIdStr = (String) session.getAttribute("storeId");
-        Integer storeId = Integer.valueOf(storeIdStr); // 문자열을 정수로 변환
-
+        int storeId = (int)session.getAttribute("storeId");
 
         List<Inventory> lowInventoryTop4 = inventoryService.selectLowInventoryTop4(storeId);
         model.addAttribute("lowInventoryTop4", lowInventoryTop4);
@@ -78,7 +76,7 @@ public class ManagerController {
                                        HttpSession session) {
 
         Member loginMember = (Member) session.getAttribute("loginMember");
-        String storeId = loginMember.getStoreId();
+        int storeId = loginMember.getStoreId();
 
         // 직원명 목록 select용
         ArrayList<Attendance> allList = attendanceService.getMyAttendanceList(storeId);
@@ -113,8 +111,7 @@ public class ManagerController {
 
     @GetMapping("storage.lo")
     public String storageManagement(@RequestParam(defaultValue = "1") int cpage, Model model, HttpSession session) {
-        String storeIdStr = (String) session.getAttribute("storeId");
-        Integer storeId = Integer.valueOf(storeIdStr); // 문자열을 정수로 변환
+       int storeId = (int) session.getAttribute("storeId");
 
         // 페이징바 처리 코드
         int listCount = storageService.StorageCount();
@@ -153,15 +150,17 @@ public class ManagerController {
     @GetMapping("stockIn.sto")
     public String stockInManagement(Model model, HttpSession session) {
         int empNo = (int) session.getAttribute("empNo");
+        int storeId = (int)session.getAttribute("storeId");
 
         ArrayList<Stock> list = stockService.selectStockList(empNo);
-        ArrayList<Storage> list2 = storageService.selectStorage();
+        ArrayList<Storage> list2 = storageService.selectStorage(storeId);
         ArrayList<Client> list3 = productService.selectClientList();
         ArrayList<StockProduct> list4 = stockService.selectStockProductList(empNo);
 
         System.out.println("입고 제품들 !: " + list);
 
         ArrayList<Product> list5 = productService.selectImageUrl();
+
 
         model.addAttribute("stock", list);
         model.addAttribute("storage", list2);
@@ -174,9 +173,9 @@ public class ManagerController {
     @GetMapping("stockOut.sto")
     public String stockOutManagement(Model model , HttpSession session) {
         int empNo = (int) session.getAttribute("empNo");
-
+        int storeId = (int)session.getAttribute("storeId");
         ArrayList<Stock> list = stockService.selectStockList(empNo);
-        ArrayList<Storage> list2 = storageService.selectStorage();
+        ArrayList<Storage> list2 = storageService.selectStorage(storeId);
         ArrayList<Client> list3 = productService.selectClientList();
         ArrayList<StockProduct> list4 = stockService.selectStockProductList(empNo);
         ArrayList<Product> list5 = productService.selectImageUrl();
@@ -209,7 +208,7 @@ public class ManagerController {
                                    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
                                    HttpSession session, Model model) {
 
-        String storeId = ((Member) session.getAttribute("loginUser")).getStoreId();
+        int storeId = ((Member) session.getAttribute("loginUser")).getStoreId();
 
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("storeId", storeId);

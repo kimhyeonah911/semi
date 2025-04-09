@@ -15,4 +15,5 @@ public class Storage {
     private String storageLocation;
     private int ableAmount;
     private int currentAmount;
+    private int storeId;
 }
