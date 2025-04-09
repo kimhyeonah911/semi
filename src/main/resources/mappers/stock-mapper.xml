@@ -291,7 +291,7 @@
         SET STATUS = 'C'
         WHERE STOCK_NO = #{stockNo}
     </update>
-    
+
     <select id="selectStockListforPaging" resultType="int">
         SELECT COUNT(*)
         FROM STOCK S

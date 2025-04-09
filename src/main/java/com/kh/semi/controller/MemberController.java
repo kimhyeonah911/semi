@@ -28,15 +28,17 @@ public class MemberController {
     private final StorageService storageService;
     private final InventoryService inventoryService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final StoresalesService storesalesService;
 
     @Autowired
-    public MemberController(MemberService memberService, AttendanceService attendanceService, StockService stockService, StorageService storageService, InventoryService inventoryService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public MemberController(MemberService memberService, AttendanceService attendanceService, StockService stockService, StorageService storageService, InventoryService inventoryService, StoresalesService storesalesservice, BCryptPasswordEncoder bCryptPasswordEncoder, StoresalesService storesalesService) {
         this.memberService = memberService;
         this.attendanceService = attendanceService;
         this.stockService = stockService;
         this.storageService = storageService;
         this.inventoryService = inventoryService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.storesalesService = storesalesService;
     }
 
     @GetMapping("enrollForm.me")
@@ -75,10 +77,7 @@ public class MemberController {
             session.setAttribute("loginMember", loginMember);
             boolean isWorking = attendanceService.isClockedIn(loginMember.getEmpNo());
             session.setAttribute("isWorking", isWorking); //
-
             session.setAttribute("empNo", loginMember.getEmpNo());
-
-
 
             String position = loginMember.getPosition();
 
@@ -142,13 +141,14 @@ public class MemberController {
                         System.out.println("인벤토리 줄어든 수 : "+inventoryMinus);
 
                         // 매출 반영
-                        //storeSalesService.updateStoreSales(stock.getStoreId(), price * amount);
+                        int daySales = price * amount;
+
+                        storesalesService.updateStoreSales(stock.getStoreId(), daySales);
                     }
 
                     // 출고 상태 완료로 변경
-//                    stockService.updateStockProcessedStatus(stockNo); // 출고도 같은 메서드 써도 되면 OK
+                   stockService.updateStockProcessedStatus(stockNo);
                 }
-
 
             }
             if ("admin".equals(position)) {

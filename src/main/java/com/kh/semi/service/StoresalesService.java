@@ -7,5 +7,5 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public interface StoresalesService {
-
+    int updateStoreSales(int storeId, int daySales);
 }
