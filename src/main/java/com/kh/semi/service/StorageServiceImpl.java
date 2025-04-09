@@ -18,8 +18,8 @@ public class StorageServiceImpl implements StorageService {
     private final StorageMapper storageMapper;
 
     @Override
-    public ArrayList<Storage> selectStorage() {
-        return storageMapper.selectStorage();
+    public ArrayList<Storage> selectStorage(int storeId) {
+        return storageMapper.selectStorage(storeId);
     }
 
     @Override
@@ -49,5 +49,10 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public int updateStorageAmount(int storageNo, int amount) {
         return storageMapper.updateStorageAmount(storageNo, amount);
+    }
+
+    @Override
+    public int minusStorageAmount(int storageNo, int amount) {
+        return storageMapper.minusStorageAmount(storageNo,amount);
     }
 }

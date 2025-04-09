@@ -28,7 +28,13 @@ public interface StockMapper {
     int deleteStockProduct(int stockNo);
     Stock selectStock(int stockNo);
     ArrayList<StockProduct> selectStockProduct(int stockNo);
+    
+    //입고완료
     int updateCompletedStockIn();
     ArrayList<Stock> selectCompletedStockIn();
     int updateStockProcessedStatus(int stockNo);
+
+    //출고완료
+    int updateCompletedStockOut();
+    ArrayList<Stock> selectCompletedStockOut();
 }
