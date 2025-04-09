@@ -47,6 +47,11 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
+    public int minusInventoryQuantity(int productNo, int storageNo, int quantity) {
+        return inventoryMapper.minusInventoryQuantity(productNo, storageNo, quantity);
+    }
+
+    @Override
     public Inventory selectInventory(int storageNo, int productNo) {
         return inventoryMapper.selectInventory(storageNo, productNo);
     }

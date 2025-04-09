@@ -11,7 +11,7 @@ import java.sql.Date;
 @ToString
 public class Member {
     private int empNo;
-    private String storeId;
+    private int storeId;
     private String memId;
     private String memPwd;
     private String memName;

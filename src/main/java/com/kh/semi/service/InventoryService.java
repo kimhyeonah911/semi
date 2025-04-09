@@ -17,4 +17,5 @@ public interface InventoryService {
     int updateInventoryQuantity(int productNo, int storageNo, int quantity);
     int insertInventory(Inventory inventory);
     List<Inventory> selectLowInventoryTop4(int storeId);
+    int minusInventoryQuantity(int productNo, int storageNo, int quantity);
 }

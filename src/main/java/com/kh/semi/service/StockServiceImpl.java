@@ -93,6 +93,16 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
+    public int updateCompletedStockOut() {
+        return stockMapper.updateCompletedStockOut();
+    }
+
+    @Override
+    public ArrayList<Stock> selectCompletedStockOut() {
+        return stockMapper.selectCompletedStockOut();
+    }
+
+    @Override
     public int countStockIn(int empNo) {
         return stockMapper.countStockIn(empNo);
     }

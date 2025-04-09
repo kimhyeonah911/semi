@@ -33,7 +33,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public ArrayList<Attendance> getMyAttendanceList(String storeId) {
+    public ArrayList<Attendance> getMyAttendanceList(int storeId) {
         return attendanceMapper.getMyAttendanceList(storeId);
     }
 
