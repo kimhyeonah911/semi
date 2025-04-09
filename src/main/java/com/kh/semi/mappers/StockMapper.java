@@ -31,4 +31,6 @@ public interface StockMapper {
     int updateCompletedStockIn();
     ArrayList<Stock> selectCompletedStockIn();
     int updateStockProcessedStatus(int stockNo);
+    int countStockIn(int empNo);
+    int countStockOut(int empNo);
 }

@@ -291,13 +291,28 @@
       placeholderOption.innerText = "전체창고";
       storageSelectBar.appendChild(placeholderOption);
 
-      //data(res) option에 추가
+      const sessionStoreId = '${sessionScope.storeId}';
+
+      // //data(res) option에 추가
+      // res.forEach(storage => {
+      //   const option = document.createElement("option");
+      //   option.value = storage.storageNo;
+      //   option.innerText = storage.storageLocation;
+      //   storageSelectBar.appendChild(option);
+      // });
+
+      // res 중에서 storeId가 sessionStoreId와 같은 애들만 옵션으로 추가
       res.forEach(storage => {
-        const option = document.createElement("option");
-        option.value = storage.storageNo;
-        option.innerText = storage.storageLocation;
-        storageSelectBar.appendChild(option);
+        if (String(storage.storeId) === sessionStoreId) {
+          console.log("세션 아이디 : " + sessionStoreId);
+          console.log("스토리지 세션 아이디" + storage.storeId);
+          const option = document.createElement("option");
+          option.value = storage.storageNo;
+          option.innerText = storage.storageLocation;
+          storageSelectBar.appendChild(option);
+        }
       });
+
     }
 
 

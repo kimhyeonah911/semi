@@ -92,4 +92,14 @@ public class StockServiceImpl implements StockService {
         return stockMapper.updateStockProcessedStatus(stockNo);
     }
 
+    @Override
+    public int countStockIn(int empNo) {
+        return stockMapper.countStockIn(empNo);
+    }
+
+    @Override
+    public int countStockOut(int empNo) {
+        return stockMapper.countStockOut(empNo);
+    }
+
 }

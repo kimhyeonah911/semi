@@ -292,4 +292,32 @@
         WHERE STOCK_NO = #{stockNo}
     </update>
 
+    <select id="countStockIn" resultType="_int">
+        SELECT
+        COUNT(*)
+        FROM STOCK S
+        JOIN MEMBER M ON M.EMP_NO = S.STOCK_EMP
+        WHERE M.STORE_ID = (
+        SELECT STORE_ID
+        FROM MEMBER
+        WHERE EMP_NO = #{empNo}
+        )
+        AND (S.STATUS = 'Y' OR S.STATUS = 'C')
+        AND S.STOCK_STATUS = 'STOCK_IN_PROGRESS'
+    </select>
+
+    <select id="countStockOut" resultType="_int">
+        SELECT
+        COUNT(*)
+        FROM STOCK S
+        JOIN MEMBER M ON M.EMP_NO = S.STOCK_EMP
+        WHERE M.STORE_ID = (
+        SELECT STORE_ID
+        FROM MEMBER
+        WHERE EMP_NO = #{empNo}
+        )
+        AND (S.STATUS = 'Y' OR S.STATUS = 'C')
+        AND S.STOCK_STATUS = 'STOCK_OUT_PROGRESS'
+    </select>
+
 </mapper>

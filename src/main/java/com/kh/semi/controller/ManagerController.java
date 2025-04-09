@@ -54,6 +54,7 @@ public class ManagerController {
         //부족한 재고 카드
         String storeIdStr = (String) session.getAttribute("storeId");
         Integer storeId = Integer.valueOf(storeIdStr); // 문자열을 정수로 변환
+        int empNo = (int) session.getAttribute("empNo");
 
 
         List<Inventory> lowInventoryTop4 = inventoryService.selectLowInventoryTop4(storeId);
@@ -68,6 +69,12 @@ public class ManagerController {
         //인기 제품 카드
         List<Product> top4product = productService.top4product(storeId);
         model.addAttribute("top4product", top4product);
+
+        //입출고 현황
+        int countStockIn = stockService.countStockIn(empNo);
+        int countStockOut = stockService.countStockOut(empNo);
+        model.addAttribute("countStockIn", countStockIn);
+        model.addAttribute("countStockOut", countStockOut);
 
         return "manager/dashBoard-manager";
     }

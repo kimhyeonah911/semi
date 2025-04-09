@@ -493,7 +493,9 @@
                         <h6>창고 번호</h6>
                         <select id="storage-search-bar">
                             <c:forEach var="s" items="${storage}">
-                                <option value="${s.storageNo}">${s.storageLocation}</option>
+                                <c:if test="${s.storeId eq sessionScope.storeId}">
+                                    <option value="${s.storageNo}">${s.storageLocation}</option>
+                                </c:if>
                             </c:forEach>
                         </select>
                     </div>

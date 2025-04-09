@@ -5,6 +5,7 @@
 <mapper namespace="com.kh.semi.mappers.StorageMapper">
     <resultMap id="storageResult" type="Storage">
         <result column="STORAGE_NO" property="storageNo"/>
+        <result column="STORE_ID" property="storeId"/>
         <result column="STORAGE_LOCATION" property="storageLocation"/>
         <result column="ABLE_AMOUNT" property="ableAmount"/>
         <result column="CURRENT_AMOUNT" property="currentAmount"/>
@@ -47,7 +48,8 @@
 
     <select id="getStorageList" parameterType="Storage" resultMap="storageResult" >
         SELECT DISTINCT STORAGE_LOCATION,
-                        STORAGE_NO
+                        STORAGE_NO,
+                        STORE_ID
         FROM STORAGE
     </select>
 
