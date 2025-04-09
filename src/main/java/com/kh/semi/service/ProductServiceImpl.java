@@ -118,4 +118,7 @@ public class ProductServiceImpl implements ProductService {
         RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
         return productMapper.selectdeliveryListByPage(rowBounds);
     }
+
+    @Override
+    public List<Product> top4product(int storeId) {return productMapper.top4product(storeId);}
 }

@@ -107,4 +107,12 @@ public class StockServiceImpl implements StockService {
     }
 
 
+    public int updateCompletedStockOut() {
+        return stockMapper.updateCompletedStockOut();
+    }
+
+    @Override
+    public ArrayList<Stock> selectCompletedStockOut() {
+        return stockMapper.selectCompletedStockOut();
+    }
 }

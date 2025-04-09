@@ -42,15 +42,13 @@
         JOIN STORAGE S ON I.STORAGE_NO = S.STORAGE_NO
         JOIN PRODUCT P ON I.PRODUCT_NO = P.PRODUCT_NO
         JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
-        WHERE STORE_ID = #{storeId}
-        <where>
+        WHERE I.STORE_ID = #{storeId}
             <if test="storageNo != null">
                 AND I.STORAGE_NO = #{storageNo}
             </if>
             <if test="keyword != null and keyword !=''">
                 AND LOWER(P.PRODUCT_NAME) LIKE '%' || #{keyword} || '%'
             </if>
-        </where>
         ORDER BY P.PRODUCT_NO ASC
         OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
     </select>
@@ -60,7 +58,7 @@
         JOIN STORAGE S ON I.STORAGE_NO = S.STORAGE_NO
         JOIN PRODUCT P ON I.PRODUCT_NO = P.PRODUCT_NO
         JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
-        WHERE STORE_ID = #{storeId}
+        WHERE I.STORE_ID = #{storeId}
             <if test="storageNo != null">
                 AND I.STORAGE_NO = #{storageNo}
             </if>
@@ -81,7 +79,9 @@
         FROM STOCK_PRODUCT SP
         JOIN PRODUCT P ON P.PRODUCT_NO = SP.PRODUCT_NO
         JOIN STOCK S ON S.STOCK_NO = SP.STOCK_NO
+        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO
         WHERE S.STOCK_STATUS IN ('STOCK_IN_COMPLETED', 'STOCK_OUT_COMPLETED')
+            AND M.STORE_ID = #{storeId}
         <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
             AND S.STOCK_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
         </if>
@@ -130,6 +130,13 @@
         WHERE STORAGE_NO = #{storageNo}
         AND   PRODUCT_NO = #{productNo}
     </update>
+    <update id="minusInventoryQuantity">
+        UPDATE INVENTORY
+        SET QUANTITY = QUANTITY - #{quantity}
+        WHERE STORAGE_NO = #{storageNo}
+        AND   PRODUCT_NO = #{productNo}
+    </update>
+
     <insert id="insertInventory" parameterType="Inventory">
         INSERT INTO INVENTORY (
         STORAGE_NO,

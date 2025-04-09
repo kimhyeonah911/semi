@@ -13,6 +13,7 @@
     <select id="selectStorage" parameterType="Storage" resultMap="storageResult">
         SELECT *
         FROM STORAGE
+        WHERE STORE_ID = #{storeId}
         ORDER BY STORAGE_NO
     </select>
 
@@ -38,9 +39,10 @@
         FROM STORAGE
     </select>
 
-    <select id="selectStorageCount" resultMap="storageResult">
+    <select id="selectStorageList" resultMap="storageResult">
         SELECT *
         FROM STORAGE
+        WHERE STORE_ID = #{storeId}
         ORDER BY STORAGE_NO
     </select>
 
@@ -53,6 +55,12 @@
     <update id="updateStorageAmount">
         UPDATE STORAGE
         SET CURRENT_AMOUNT = CURRENT_AMOUNT + #{amount}
+        WHERE STORAGE_NO = #{storageNo}
+    </update>
+
+    <update id="minusStorageAmount">
+        UPDATE STORAGE
+        SET CURRENT_AMOUNT = CURRENT_AMOUNT - #{amount}
         WHERE STORAGE_NO = #{storageNo}
     </update>
 </mapper>

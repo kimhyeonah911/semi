@@ -403,6 +403,7 @@
       url: '/api/searchStockProductList',
       method: 'GET',
       data: {
+        storeId: storeId,
         selectedStartDate: startDate,
         selectedEndDate: endDate,
         searchedKeyword: keyword,

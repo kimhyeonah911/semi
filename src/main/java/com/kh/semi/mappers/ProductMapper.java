@@ -34,4 +34,6 @@ public interface ProductMapper {
     // 입고처 관리 페이징 바
     int deliveryCount();
     ArrayList<Client> selectdeliveryListByPage(RowBounds rowBounds);
+
+    List<Product> top4product(int storeId);
 }

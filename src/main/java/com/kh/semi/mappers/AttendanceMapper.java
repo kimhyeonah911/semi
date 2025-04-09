@@ -16,7 +16,7 @@ public interface AttendanceMapper {
 
     ArrayList<Attendance> getAttendanceList();
     ArrayList<Attendance> getAttendanceMy(@Param("empNo")int empNo);
-    ArrayList<Attendance> getMyAttendanceList(@Param("storeId") String storeId);
+    ArrayList<Attendance> getMyAttendanceList(@Param("storeId") int storeId);
     int updateAttendance(Attendance attendance);
     ArrayList<Attendance> selectAttendance(Map<String, Object> paramMap);
     int insertClockIn(Attendance attendance);
@@ -34,5 +34,6 @@ public interface AttendanceMapper {
     int countByStatus(@Param("storeId") String storeId, @Param("status") String status);
 
 
-
+    int countWork(int storeId);
+    int countEmp(int storeId);
 }

@@ -30,6 +30,9 @@ public interface StockMapper {
     Stock selectStock(int stockNo);
     ArrayList<StockProduct> selectStockProduct(int stockNo);
 
+
+
+    //입고완료
     int updateCompletedStockIn();
     ArrayList<Stock> selectCompletedStockIn();
     int updateStockProcessedStatus(int stockNo);
@@ -39,4 +42,7 @@ public interface StockMapper {
     // 페이징 처리된 입고 리스트
     ArrayList<Stock> selectStockListByPage(@Param("empNo") int empNo, @Param("status") String status, RowBounds rowBounds);
 
+    //출고완료
+    int updateCompletedStockOut();
+    ArrayList<Stock> selectCompletedStockOut();
 }

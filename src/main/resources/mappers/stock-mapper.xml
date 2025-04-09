@@ -291,7 +291,7 @@
         SET STATUS = 'C'
         WHERE STOCK_NO = #{stockNo}
     </update>
-
+    
     <select id="selectStockListforPaging" resultType="int">
         SELECT COUNT(*)
         FROM STOCK S
@@ -322,6 +322,21 @@
         ORDER BY S.STOCK_NO
     </select>
 
+    <update id="updateCompletedStockOut">
+        UPDATE STOCK
+        SET STOCK_STATUS = 'STOCK_OUT_COMPLETED',
+        MODIFY_DATE = SYSDATE
+        WHERE STOCK_STATUS = 'STOCK_OUT_PROGRESS'
+        AND TRUNC(EXP_DATE) = TRUNC(SYSDATE)
+    </update>
 
+    <select id="selectCompletedStockOut" parameterType="Stock" resultMap="stockResult">
+        SELECT STOCK_NO, PRODUCT_NO, STORAGE_NO, AMOUNT, PRICE, M.STORE_ID
+        FROM STOCK S
+        JOIN STOCK_PRODUCT USING(STOCK_NO)
+        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO
+        WHERE S.STOCK_STATUS = 'STOCK_OUT_COMPLETED'
+        AND S.STATUS = 'Y'
+    </select>
 
 </mapper>

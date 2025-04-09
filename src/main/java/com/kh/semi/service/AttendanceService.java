@@ -13,7 +13,7 @@ public interface AttendanceService {
 
     ArrayList<Attendance> getAttendanceMy(int empNo);
 
-    ArrayList<Attendance> getMyAttendanceList(String storeId);
+    ArrayList<Attendance> getMyAttendanceList(int storeId);
 
     int updateAttendance(Attendance attendance);
 
@@ -31,6 +31,10 @@ public interface AttendanceService {
     ArrayList<Attendance> selectAttendanceListPage(Map<String, Object> paramMap);
 
     int countWorkingEmployees(String storeId);
-
     int countNotWorkingEmployees(String storeId);
+
+    int countWork(int storeId);
+    int countEmp(int storeId);
+
+
 }
