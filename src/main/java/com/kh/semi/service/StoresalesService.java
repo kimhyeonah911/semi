@@ -8,4 +8,5 @@ import java.util.Map;
 
 public interface StoresalesService {
     int updateStoreSales(int storeId, int daySales);
+    int getTodayTotalSales(int storeId);
 }
