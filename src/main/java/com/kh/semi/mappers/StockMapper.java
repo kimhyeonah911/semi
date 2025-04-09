@@ -29,13 +29,13 @@ public interface StockMapper {
     int deleteStockProduct(int stockNo);
     Stock selectStock(int stockNo);
     ArrayList<StockProduct> selectStockProduct(int stockNo);
+
     int updateCompletedStockIn();
     ArrayList<Stock> selectCompletedStockIn();
     int updateStockProcessedStatus(int stockNo);
 
     // 페이징바
     int selectStockListforPaging(@Param("empNo") int empNo, @Param("status") String status);
-
     // 페이징 처리된 입고 리스트
     ArrayList<Stock> selectStockListByPage(@Param("empNo") int empNo, @Param("status") String status, RowBounds rowBounds);
 

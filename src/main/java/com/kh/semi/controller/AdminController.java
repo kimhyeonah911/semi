@@ -262,7 +262,6 @@ public class AdminController {
             model.addAttribute("errorMsg", "지점장 승인 실패");
             return "common/errorPage";
         }
-
     }
 
     @PostMapping("/rejectManager")
