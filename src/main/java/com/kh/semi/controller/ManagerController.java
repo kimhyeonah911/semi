@@ -24,10 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -39,6 +36,7 @@ public class ManagerController {
     private final AttendanceService attendanceService;
     private final ProductService productService;
     private final InventoryService inventoryService;
+
 
     @GetMapping("manager.bo")
     public String managerBoardList() {
@@ -52,7 +50,14 @@ public class ManagerController {
     }
 
     @GetMapping("dash-manager.bo")
-    public String dashManager() {
+    public String dashManager(Model model, HttpSession session) {
+        String storeIdStr = (String) session.getAttribute("storeId");
+        Integer storeId = Integer.valueOf(storeIdStr); // 문자열을 정수로 변환
+
+        System.out.println("storeId:" + storeId);
+
+            List<Inventory> lowInventoryTop4 = inventoryService.selectLowInventoryTop4(storeId);
+            model.addAttribute("lowInventoryTop4", lowInventoryTop4);
 
         return "manager/dashBoard-manager";
     }
@@ -139,7 +144,9 @@ public class ManagerController {
         ArrayList<Storage> list2 = storageService.selectStorage();
         ArrayList<Client> list3 = productService.selectClientList();
         ArrayList<StockProduct> list4 = stockService.selectStockProductList();
+
         System.out.println("입고 제품들 !: " + list);
+
         ArrayList<Product> list5 = productService.selectImageUrl();
 
         model.addAttribute("stock", list);

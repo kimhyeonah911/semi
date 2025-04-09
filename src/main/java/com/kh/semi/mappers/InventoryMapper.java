@@ -13,11 +13,11 @@ import java.util.Map;
 
 @Mapper
 public interface InventoryMapper {
-    ArrayList<Inventory> getInventoryList();
     ArrayList<Inventory> searchInventoryList(Map<String, Object> paramMap);
     int countInventoryList(Map<String, Object> paramMap);
     List<StockProduct> searchStockProductList(Map<String, Object> paramMap);
     int countStockProductList(Map<String, Object> paramMap);
+    List<Inventory> selectLowInventoryTop4(int storeId);
     Inventory selectInventory(int storageNo, int productNo);
     int updateInventoryQuantity(@Param("storageNo") int storageNo,
                                 @Param("productNo") int productNo,

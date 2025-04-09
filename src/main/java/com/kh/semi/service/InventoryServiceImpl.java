@@ -23,11 +23,6 @@ public class InventoryServiceImpl implements InventoryService {
 
 
     @Override
-    public ArrayList<Inventory> getInventoryList() {
-        return inventoryMapper.getInventoryList();
-    }
-
-    @Override
     public ArrayList<Inventory> searchInventoryList(Map<String, Object> paramMap) {
         return inventoryMapper.searchInventoryList(paramMap);
     }
@@ -44,6 +39,11 @@ public class InventoryServiceImpl implements InventoryService {
 
     public int countStockProductList(Map<String, Object> paramMap) {
         return inventoryMapper.countStockProductList(paramMap);
+    }
+
+    @Override
+    public List<Inventory> selectLowInventoryTop4(int storeId) {
+        return inventoryMapper.selectLowInventoryTop4(storeId);
     }
 
     @Override

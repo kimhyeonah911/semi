@@ -430,7 +430,6 @@
                                             <td colspan="2" class="list-table-item">
                                                 <input type="hidden" value="${sp.stockNo}" class="stockNo">
                                                 <c:forEach var="i" items="${image}">
-                                                    ${i.imageUrl}
                                                     <c:if test="${i.productNo eq sp.productNo}">
                                                         <c:choose>
                                                             <c:when test="${empty i.imageUrl}">
@@ -782,9 +781,6 @@
 
         $("#modal3 .list-space > h6").first().text(summaryText);
     }
-
-
-
 
 </script>
 
