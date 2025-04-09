@@ -1,5 +1,6 @@
-<%--지점장 재고관리 재고/입출고  페이지--%>
+<%@ page import="com.kh.semi.domain.vo.Member" %><%--지점장 재고관리 재고/입출고  페이지--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
   <title>Title</title>
@@ -29,6 +30,7 @@
       height: 35px;
       font-size: 22px;
       margin-right: 20px; /* 각 요소 간 간격 */
+      margin-bottom: 5px;
     }
 
     #storage-select-bar {
@@ -230,8 +232,14 @@
 
 
 
+<%
+ String storeId = (String)session.getAttribute("storeId");
+%>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+  const storeId = "<%= storeId %>";
+  console.log("Store ID:", storeId);
+
   // 1. 재고/입출고 선택 시 섹션 전환 및 필드 표시 전환
   document.getElementById("search-option-bar").addEventListener("change", function () {
     const selectedValue = this.value;
@@ -252,8 +260,10 @@
     }
   });
 
+
   //2. 창고명 셀렉트바 불러오기
     $(document).ready(function(){
+      console.log("함수실행이오", storeId)
       getStorageList(drawStorageList);
     });
 
@@ -333,6 +343,7 @@
       url: '/api/searchInventoryList',
       method: 'GET',
       data: {
+        storeId: storeId,
         selectedStorageNo: storageNo,
         searchedKeyword: keyword,
         page: page,
@@ -392,6 +403,7 @@
       url: '/api/searchStockProductList',
       method: 'GET',
       data: {
+        storeId: storeId,
         selectedStartDate: startDate,
         selectedEndDate: endDate,
         searchedKeyword: keyword,

@@ -114,17 +114,17 @@ function updateStockTable(data) {
         const products = dto.stockProductList;
 
         let statusBtn = "";
-        const removeBtn = `<button type="button" class="btn btn-outline-danger btn-sm">취소</button>`;
+        const removeBtn = `<button type="button" class="btn btn-outline-danger btn-sm">삭제</button>`;
 
         switch (stock.stockStatus) {
             case "STOCK_IN_REGISTERED":
-                statusBtn = `<button type="button" class="btn btn-secondary btn-sm" disabled>입고 등록</button>`;
+                statusBtn = `<span class="badge bg-secondary">입고 등록</span>`;
                 break;
             case "STOCK_IN_PROGRESS":
-                statusBtn = `<button type="button" class="btn btn-warning btn-sm" disabled>입고중</button>`;
+                statusBtn = `<span class="badge bg-warning">입고중</span>`;
                 break;
             case "STOCK_IN_COMPLETED":
-                statusBtn = `<button type="button" class="btn btn-success btn-sm" disabled>입고 완료</button>`;
+                statusBtn = `<span class="badge bg-success">입고 완료</span>`;
                 break;
         }
 
@@ -190,7 +190,7 @@ function updateProductInfo() {
 
     tableBody.querySelectorAll("tr").forEach(row => {
         const quantityInput = row.querySelector(".input-quantity");
-        const unitPrice = parseFloat(row.querySelector("td:nth-child(4)").innerText) || 0;
+        const unitPrice = parseFloat(row.querySelector("td:nth-child(4)").innerText.replace(/,/g, "")) || 0;
         const taxation = row.querySelector(".select-tax").value;
 
         let quantity = parseInt(quantityInput.value) || 0;

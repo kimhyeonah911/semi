@@ -38,10 +38,10 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public ArrayList<Storage> selectStorageCount(PageInfo pi) {
+    public ArrayList<Storage> selectStorageList(PageInfo pi, int storeId) {
         int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
         RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-        return storageMapper.selectStorageCount(rowBounds);
+        return storageMapper.selectStorageList(rowBounds, storeId);
     }
 
     public ArrayList<Storage> getStorageList() { return storageMapper.getStorageList(); }

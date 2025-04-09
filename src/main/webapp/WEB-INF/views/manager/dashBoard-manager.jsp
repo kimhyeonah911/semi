@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -172,6 +173,7 @@
             padding: 20px;
             font-size: 15px;
         }
+
     </style>
 </head>
 <body>
@@ -193,15 +195,16 @@
             <!-- 부족한 재고 카드 -->
             <div class="dashboard-card card-warning">
                 <div class="card-title">⚠️ 부족한 재고</div>
-                <div class="card-body">
-                    <span>뉴발란스 992 재고부족수량 : 5</span>
+                <c:forEach var="i" items="${lowInventoryTop4}">
+                    <div class="card-body">
+                        <span>${i.productName} (${i.productSize})  현재 재고 : ${i.quantity}</span>
+                    </div>
+                </c:forEach>
+                <a href="/stockIn.sto" style="text-decoration: none; color: black;">
+                <div class="card-footer">
+                    입고 페이지로 이동하기
                 </div>
-                <div class="card-body">
-                    <span>에어포스1 07 WB 재고부족수량 : 2</span>
-                </div>
-                <div class="card-body">
-                </div>
-                <div class="card-footer">조치를 취해주세요</div>
+                </a>
             </div>
 
             <!-- 고객 피드백 카드 -->
@@ -260,14 +263,17 @@
             <!-- 직원 근무 현황 카드 -->
             <div class="dashboard-card card-employee">
                 <div class="card-title">👥 직원 근무 현황</div>
-                <div class="card-body">
-                    <div class="card-body-work">
-                        <div class="work"><img src="/resources/work.png" id="work"> <h4>3</h4></div>
-                        <div class="nowork"><img src="/resources/nowork.png" id="nowork"> <h4>3</h4></div>
+                        <div class="card-body">
+                            <div class="card-body-work">
+                                <div class="work"><img src="/resources/work.png" id="work"> <h4>${countWork}</h4></div>
+                                <div class="nowork"><img src="/resources/nowork.png" id="nowork"> <h4>${countNoWork}</h4></div>
+                            </div>
+                        </div>
+                <a href="attendance.ma" style="text-decoration: none; color: black;">
+                    <div class="card-footer">
+                        근태관리 페이지로 이동하기
                     </div>
-                </div>
-
-                <div class="card-footer">근무 현황 확인</div>
+                </a>
             </div>
 
 
@@ -282,3 +288,12 @@
 
 </body>
 </html>
+<%
+    String storeId = (String)session.getAttribute("storeId");
+    String position = (String)session.getAttribute("position");
+%>
+
+<script>
+    const storeId = "<%= storeId %>";
+    const position = "<%= position %>";
+</script>

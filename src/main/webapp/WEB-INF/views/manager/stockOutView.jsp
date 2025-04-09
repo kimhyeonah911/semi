@@ -51,6 +51,10 @@
       justify-content: space-between;
     }
 
+    .search-bar{
+      position: fixed;
+    }
+
     #search-bar-1{
       width: 440px;
       display:flex;
@@ -340,13 +344,13 @@
                       <td>
                         <c:choose>
                           <c:when test="${s.stockStatus eq 'STOCK_OUT_REGISTERED'}">
-                            <button type="button" class="btn btn-secondary btn-sm" disabled>출고 등록</button>
+                            <span class="badge bg-secondary">출고 등록</span>
                           </c:when>
                           <c:when test="${s.stockStatus eq 'STOCK_OUT_PROGRESS'}">
-                            <button type="button" class="btn btn-warning btn-sm" disabled>출고중</button>
+                            <span class="badge bg-warning">출고중</span>
                           </c:when>
                           <c:when test="${s.stockStatus eq 'STOCK_OUT_COMPLETED'}">
-                            <button type="button" class="btn btn-success btn-sm" disabled>출고 완료</button>
+                            <span class="badge bg-success">출고 완료</span>
                           </c:when>
                         </c:choose>
                       </td>

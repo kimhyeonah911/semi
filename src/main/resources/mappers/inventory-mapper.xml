@@ -29,21 +29,6 @@
         <result column="PRODUCT_SIZE" property="productSize"/>
         <result column="STOCK_DATE" property="stockDate"/>
     </resultMap>
-    <select id="getInventoryList" parameterType="Inventory" resultMap="inventoryResult">
-        SELECT
-        S.STORAGE_LOCATION,
-        P.PRODUCT_NO,
-        P.PRODUCT_NAME,
-        C.CATEGORY_NAME,
-        P.COLOR,
-        P.PRODUCT_SIZE,
-        I.QUANTITY
-        FROM INVENTORY I
-        JOIN STORAGE S ON I.STORAGE_NO = S.STORAGE_NO
-        JOIN PRODUCT P ON I.PRODUCT_NO = P.PRODUCT_NO
-        JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
-        ORDER BY P.PRODUCT_NO ASC
-    </select>
     <select id="searchInventoryList" parameterType="map" resultMap="inventoryResult">
         SELECT
             S.STORAGE_LOCATION,
@@ -57,14 +42,13 @@
         JOIN STORAGE S ON I.STORAGE_NO = S.STORAGE_NO
         JOIN PRODUCT P ON I.PRODUCT_NO = P.PRODUCT_NO
         JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
-        <where>
+        WHERE I.STORE_ID = #{storeId}
             <if test="storageNo != null">
                 AND I.STORAGE_NO = #{storageNo}
             </if>
             <if test="keyword != null and keyword !=''">
                 AND LOWER(P.PRODUCT_NAME) LIKE '%' || #{keyword} || '%'
             </if>
-        </where>
         ORDER BY P.PRODUCT_NO ASC
         OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
     </select>
@@ -74,14 +58,13 @@
         JOIN STORAGE S ON I.STORAGE_NO = S.STORAGE_NO
         JOIN PRODUCT P ON I.PRODUCT_NO = P.PRODUCT_NO
         JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
-        <where>
+        WHERE I.STORE_ID = #{storeId}
             <if test="storageNo != null">
                 AND I.STORAGE_NO = #{storageNo}
             </if>
             <if test="keyword != null and keyword !=''">
                 AND LOWER(P.PRODUCT_NAME) LIKE '%' || #{keyword} || '%'
             </if>
-        </where>
     </select>
     <select id="searchStockProductList" parameterType="map" resultMap="stockProductResult">
         SELECT
@@ -96,7 +79,9 @@
         FROM STOCK_PRODUCT SP
         JOIN PRODUCT P ON P.PRODUCT_NO = SP.PRODUCT_NO
         JOIN STOCK S ON S.STOCK_NO = SP.STOCK_NO
+        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO
         WHERE S.STOCK_STATUS IN ('STOCK_IN_COMPLETED', 'STOCK_OUT_COMPLETED')
+            AND M.STORE_ID = #{storeId}
         <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
             AND S.STOCK_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
         </if>
@@ -121,6 +106,17 @@
             <if test="keyword != null and keyword != ''">
                 AND P.PRODUCT_NAME LIKE '%' || #{keyword} || '%'
             </if>
+    </select>
+    <select id="selectLowInventoryTop4" parameterType="int" resultMap="inventoryResult">
+        SELECT
+             P.PRODUCT_NAME,
+             P.PRODUCT_SIZE,
+             I.QUANTITY
+        FROM INVENTORY I
+        JOIN PRODUCT P ON P.PRODUCT_NO = I.PRODUCT_NO
+        WHERE I.STORE_ID = #{storeId}
+        ORDER BY I.QUANTITY ASC
+        FETCH FIRST 4 ROWS ONLY
     </select>
     <select id="selectInventory" resultMap="inventoryResult" parameterType="Inventory">
         SELECT *

@@ -287,7 +287,13 @@
 </div>
 
 
+<%
+    String storeId = (String)session.getAttribute("storeId");
+%>
 <script>
+    const storeId = "<%= storeId %>";
+
+
     function showModal() {
 
         var modalElement = document.getElementById('noticeModal');
