@@ -14,4 +14,5 @@ public interface StoresalesMapper {
     StoreSales selectTodaySales(@Param("storeId") int storeId, @Param("today") Date today);
     int updateTodaySales(@Param("storeId") int storeId, @Param("daySales") int daySales, @Param("today") Date today);
     int insertTodaySales(StoreSales sales);
+    int getTodayTotalSales(@Param("storeId") int storeId, Date today);
 }
