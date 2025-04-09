@@ -13,7 +13,7 @@ public interface StorageMapper {
     int insertStorage(Storage storage);
     int deleteStorage(int storageNo);
     int storageCount();
-    ArrayList<Storage> selectStorageCount(RowBounds rowBounds);
+    ArrayList<Storage> selectStorageList(RowBounds rowBounds, int storeId);
     ArrayList<Storage> getStorageList();
     int updateStorageAmount(int storageNo, int amount);
 }

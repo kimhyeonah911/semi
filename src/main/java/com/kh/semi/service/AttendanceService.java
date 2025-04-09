@@ -30,4 +30,7 @@ public interface AttendanceService {
     int getAttendanceCount(Map<String, Object> paramMap);
     ArrayList<Attendance> selectAttendanceListPage(Map<String, Object> paramMap);
 
+    int countWork(int storeId);
+    int countEmp(int storeId);
+
 }

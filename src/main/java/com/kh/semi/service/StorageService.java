@@ -9,11 +9,8 @@ public interface StorageService {
     ArrayList<Storage> selectStorage();
     int insertStorage(Storage storage);
     int deleteStorage(int storageNo);
-
     int StorageCount();
-
-    ArrayList<Storage> selectStorageCount(PageInfo pi);
-
+    ArrayList<Storage> selectStorageList(PageInfo pi, int storeId);
     ArrayList<Storage> getStorageList();
     int updateStorageAmount(int storageNo, int amount);
 

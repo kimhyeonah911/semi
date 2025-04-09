@@ -201,4 +201,18 @@
         ORDER BY A.CLOCK_OUT DESC
     </select>
 
+    <select id="countWork" resultType="int">
+        SELECT COUNT(*) AS COUNT
+        FROM ATTENDANCE A
+        JOIN MEMBER M ON (M.EMP_NO = A.EMP_NO)
+        WHERE TRUNC(CLOCK_IN) = TRUNC(SYSDATE)
+        AND A.STATUS = 'W'
+        AND M.STORE_ID = #{storeId}
+    </select>
+    <select id="countEmp" resultType="int">
+        SELECT COUNT(*) AS COUNT
+        FROM MEMBER
+        WHERE STORE_ID = #{storeId}
+            AND STATUS = 'Y'
+    </select>
 </mapper>
