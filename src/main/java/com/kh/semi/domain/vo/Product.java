@@ -23,4 +23,5 @@ public class Product {
     private String status;
 
     private String categoryName;
+    private int totalAmount;
 }
