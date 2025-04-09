@@ -488,6 +488,7 @@ function createStockOutTable(data) {
         const stockProducts = [];
         const stockEmp = document.getElementById("empNo").value;
         const expDate = document.getElementById("expected-date").value;
+        const storageNo = document.getElementById("storage-search-bar").value;
 
         // 테이블 행들 가져오기
         document.querySelectorAll("#stockOut-table tbody tr").forEach(row => {
@@ -499,6 +500,7 @@ function createStockOutTable(data) {
 
             stockProducts.push({
                 productNo,
+                storageNo,
                 amount,
                 price,
                 taxPrice,

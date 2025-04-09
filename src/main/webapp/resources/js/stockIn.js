@@ -495,7 +495,7 @@ function createStockInTable(data) {
         const stockProducts = [];
         const stockEmp = document.getElementById("empNo").value;
         const expDate = document.getElementById("expected-date").value;
-        const storageNo = document.getElementById("client-search-bar").value;
+        const storageNo = document.getElementById("storage-search-bar").value;
 
         // 테이블 행들 가져오기
         document.querySelectorAll("#stockIn-table tbody tr").forEach(row => {

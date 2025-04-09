@@ -55,4 +55,10 @@
         SET CURRENT_AMOUNT = CURRENT_AMOUNT + #{amount}
         WHERE STORAGE_NO = #{storageNo}
     </update>
+
+    <update id="minusStorageAmount">
+        UPDATE STORAGE
+        SET CURRENT_AMOUNT = CURRENT_AMOUNT - #{amount}
+        WHERE STORAGE_NO = #{storageNo}
+    </update>
 </mapper>

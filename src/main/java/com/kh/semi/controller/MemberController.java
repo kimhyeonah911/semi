@@ -116,10 +116,11 @@ public class MemberController {
                 System.out.println("출고완료 상태 변경 수: " + result1);
                 
                 ArrayList<Stock> completedStockOutList = stockService.selectCompletedStockOut();
+                System.out.println(completedStockOutList);
+
                 for (Stock stock : completedStockOutList) {
                     int stockNo = stock.getStockNo();
                     ArrayList<StockProduct> productList = stockService.selectStockProduct(stockNo);
-
                     for (StockProduct sp : productList) {
                         int storageNo = sp.getStorageNo();
                         int productNo = sp.getProductNo();
@@ -127,17 +128,18 @@ public class MemberController {
                         int price = sp.getPrice();
 
                         // 창고 수량 감소
-                        storageService.updateStorageAmount(storageNo, -amount);
+//                        int storageMinus = storageService.minusStorageAmount(storageNo, amount);
+//                        System.out.println(storageMinus);
 
                         // inventory 반영
-                        inventoryService.updateInventoryQuantity(storageNo, productNo, -amount);
+//                        inventoryService.updateInventoryQuantity(storageNo, productNo, -amount);
 
                         // 매출 반영
-                        storeSalesService.updateStoreSales(stock.getStoreId(), price * amount);
+//                        storeSalesService.updateStoreSales(stock.getStoreId(), price * amount);
                     }
 
                     // 출고 상태 완료로 변경
-                    stockService.updateStockProcessedStatus(stockNo); // 출고도 같은 메서드 써도 되면 OK
+//                    stockService.updateStockProcessedStatus(stockNo); // 출고도 같은 메서드 써도 되면 OK
                 }
 
 

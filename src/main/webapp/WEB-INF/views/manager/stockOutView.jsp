@@ -484,6 +484,12 @@
             <input type="hidden" id="empNo" value="${sessionScope.empNo}" >
             <h6>출고 예정 일자</h6>
             <input type="date" id="expected-date" readonly>
+            <h6>창고 번호</h6>
+            <select id="storage-search-bar">
+              <c:forEach var="s" items="${storage}">
+                <option value="${s.storageNo}">${s.storageLocation}</option>
+              </c:forEach>
+            </select>
           </div>
           <div class="list-space">
             <div style="padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
