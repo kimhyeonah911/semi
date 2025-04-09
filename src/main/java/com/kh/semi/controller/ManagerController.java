@@ -24,10 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -68,14 +65,11 @@ public class ManagerController {
         model.addAttribute("workingCount", workingCount);
         model.addAttribute("notWorkingCount", notWorkingCount);
 
-        return "manager/dashBoard-manager";
-    }
 
     @GetMapping("attendance.ma")
     public String attendanceManagement(@RequestParam(defaultValue = "1") int cpage,
                                        Model model,
                                        HttpSession session) {
-
         Member loginMember = (Member) session.getAttribute("loginMember");
         String storeId = loginMember.getStoreId();
 
@@ -148,11 +142,12 @@ public class ManagerController {
 
     @GetMapping("stockIn.sto")
     public String stockInManagement(@RequestParam(defaultValue = "1") int cpage, Model model) {
-
-        ArrayList<Stock> list = stockService.selectStockList();
+        int empNo = (int) session.getAttribute("empNo");
+        ArrayList<Stock> list = stockService.selectStockList(empNo);
         ArrayList<Storage> list2 = storageService.selectStorage();
         ArrayList<Client> list3 = productService.selectClientList();
-        ArrayList<StockProduct> list4 = stockService.selectStockProductList();
+        ArrayList<StockProduct> list4 = stockService.selectStockProductList(empNo);
+
         System.out.println("입고 제품들 !: " + list);
 
         ArrayList<Product> list5 = productService.selectImageUrl();
@@ -179,11 +174,13 @@ public class ManagerController {
     }
 
     @GetMapping("stockOut.sto")
-    public String stockOutManagement(Model model) {
-        ArrayList<Stock> list = stockService.selectStockList();
+    public String stockOutManagement(Model model , HttpSession session) {
+        int empNo = (int) session.getAttribute("empNo");
+
+        ArrayList<Stock> list = stockService.selectStockList(empNo);
         ArrayList<Storage> list2 = storageService.selectStorage();
         ArrayList<Client> list3 = productService.selectClientList();
-        ArrayList<StockProduct> list4 = stockService.selectStockProductList();
+        ArrayList<StockProduct> list4 = stockService.selectStockProductList(empNo);
         ArrayList<Product> list5 = productService.selectImageUrl();
 
         model.addAttribute("stock", list);

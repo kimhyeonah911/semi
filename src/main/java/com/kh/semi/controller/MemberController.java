@@ -69,10 +69,16 @@ public class MemberController {
             session.setAttribute("loginUser", loginMember);
             session.setAttribute("memName", loginMember.getMemName());
             session.setAttribute("position", loginMember.getPosition());
+            session.setAttribute("empNo", loginMember.getEmpNo());
+            session.setAttribute("storeId", loginMember.getStoreId());
+
             session.setAttribute("loginMember", loginMember);
             boolean isWorking = attendanceService.isClockedIn(loginMember.getEmpNo());
             session.setAttribute("isWorking", isWorking); //
+
             session.setAttribute("empNo", loginMember.getEmpNo());
+
+
 
             String position = loginMember.getPosition();
 

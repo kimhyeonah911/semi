@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.semi.domain.vo.Stock;
 import com.kh.semi.domain.vo.StockProduct;
 import com.kh.semi.service.StockService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,11 +22,14 @@ public class APIStockController {
 
     @GetMapping("searchStockIn")
     public List<Map<String, Object>> searchStockInList(@RequestParam String stockStatus,
-                                                     @RequestParam String startDate,
-                                                     @RequestParam String endDate) {
-        List<Stock> stockList = stockService.searchStockInList(stockStatus, startDate, endDate);
+                                                       @RequestParam String startDate,
+                                                       @RequestParam String endDate,
+                                                       HttpSession session) {
+        int empNo = (int) session.getAttribute("empNo");
 
-        List<StockProduct> allProducts = stockService.selectStockProductList();
+        List<Stock> stockList = stockService.searchStockInList(stockStatus, startDate, endDate, empNo);
+
+        List<StockProduct> allProducts = stockService.selectStockProductList(empNo);
 
         List<Map<String, Object>> result = new ArrayList<>();
 
@@ -51,10 +55,13 @@ public class APIStockController {
     @GetMapping("searchStockOut")
     public List<Map<String, Object>> searchStockOutList(@RequestParam String stockStatus,
                                                      @RequestParam String startDate,
-                                                     @RequestParam String endDate) {
-        List<Stock> stockList = stockService.searchStockOutList(stockStatus, startDate, endDate);
+                                                     @RequestParam String endDate,
+                                                        HttpSession session) {
+        int empNo = (int) session.getAttribute("empNo");
 
-        List<StockProduct> allProducts = stockService.selectStockProductList();
+        List<Stock> stockList = stockService.searchStockOutList(stockStatus, startDate, endDate, empNo);
+
+        List<StockProduct> allProducts = stockService.selectStockProductList(empNo);
 
         List<Map<String, Object>> result = new ArrayList<>();
 

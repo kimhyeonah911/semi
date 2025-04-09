@@ -16,18 +16,18 @@ public class StockServiceImpl implements StockService {
     private final StockMapper stockMapper;
 
     @Override
-    public ArrayList<Stock> selectStockList() {
-        return stockMapper.selectStockList();
+    public ArrayList<Stock> selectStockList(int empNo) {
+        return stockMapper.selectStockList(empNo);
     }
 
     @Override
-    public ArrayList<Stock> searchStockInList(String stockStatus, String startDate, String endDate) {
-        return stockMapper.searchStockInList(stockStatus, startDate, endDate);
+    public ArrayList<Stock> searchStockInList(String stockStatus, String startDate, String endDate, int empNo) {
+        return stockMapper.searchStockInList(stockStatus, startDate, endDate, empNo);
     }
 
     @Override
-    public ArrayList<Stock> searchStockOutList(String stockStatus, String startDate, String endDate) {
-        return stockMapper.searchStockOutList(stockStatus, startDate, endDate);
+    public ArrayList<Stock> searchStockOutList(String stockStatus, String startDate, String endDate, int empNo) {
+        return stockMapper.searchStockOutList(stockStatus, startDate, endDate, empNo);
     }
 
     @Override
@@ -46,8 +46,8 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public ArrayList<StockProduct> selectStockProductList() {
-        return stockMapper.selectStockProductList();
+    public ArrayList<StockProduct> selectStockProductList(int empNo) {
+        return stockMapper.selectStockProductList(empNo);
     }
 
     @Override
