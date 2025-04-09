@@ -263,14 +263,17 @@
             <!-- 직원 근무 현황 카드 -->
             <div class="dashboard-card card-employee">
                 <div class="card-title">👥 직원 근무 현황</div>
-                <div class="card-body">
-                    <div class="card-body-work">
-                        <div class="work"><img src="/resources/work.png" id="work"> <h4>3</h4></div>
-                        <div class="nowork"><img src="/resources/nowork.png" id="nowork"> <h4>3</h4></div>
+                        <div class="card-body">
+                            <div class="card-body-work">
+                                <div class="work"><img src="/resources/work.png" id="work"> <h4>${countWork}</h4></div>
+                                <div class="nowork"><img src="/resources/nowork.png" id="nowork"> <h4>${countNoWork}</h4></div>
+                            </div>
+                        </div>
+                <a href="attendance.ma" style="text-decoration: none; color: black;">
+                    <div class="card-footer">
+                        근태관리 페이지로 이동하기
                     </div>
-                </div>
-
-                <div class="card-footer">근무 현황 확인</div>
+                </a>
             </div>
 
 
@@ -287,9 +290,10 @@
 </html>
 <%
     String storeId = (String)session.getAttribute("storeId");
+    String position = (String)session.getAttribute("position");
 %>
 
 <script>
     const storeId = "<%= storeId %>";
-    console.log("Store ID:", storeId);
+    const position = "<%= position %>";
 </script>

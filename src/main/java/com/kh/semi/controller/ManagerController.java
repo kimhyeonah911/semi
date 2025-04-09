@@ -51,13 +51,23 @@ public class ManagerController {
 
     @GetMapping("dash-manager.bo")
     public String dashManager(Model model, HttpSession session) {
+        //부족한 재고 카드
         String storeIdStr = (String) session.getAttribute("storeId");
         Integer storeId = Integer.valueOf(storeIdStr); // 문자열을 정수로 변환
 
-        System.out.println("storeId:" + storeId);
 
-            List<Inventory> lowInventoryTop4 = inventoryService.selectLowInventoryTop4(storeId);
-            model.addAttribute("lowInventoryTop4", lowInventoryTop4);
+        List<Inventory> lowInventoryTop4 = inventoryService.selectLowInventoryTop4(storeId);
+        model.addAttribute("lowInventoryTop4", lowInventoryTop4);
+
+        //직원 현황 카드
+        int countWork = attendanceService.countWork(storeId);
+        int countNoWork = attendanceService.countEmp(storeId) - countWork; //(출근안한직원수 = 전체 직원수 - 출근한 직원수)
+        model.addAttribute("countWork", countWork);
+        model.addAttribute("countNoWork", countNoWork);
+
+        //인기 제품 카드
+        List<Product> top4product = productService.top4product(storeId);
+        model.addAttribute("top4product", top4product);
 
         return "manager/dashBoard-manager";
     }
@@ -102,7 +112,10 @@ public class ManagerController {
     }
 
     @GetMapping("storage.lo")
-    public String storageManagement(@RequestParam(defaultValue = "1") int cpage, Model model) {
+    public String storageManagement(@RequestParam(defaultValue = "1") int cpage, Model model, HttpSession session) {
+        String storeIdStr = (String) session.getAttribute("storeId");
+        Integer storeId = Integer.valueOf(storeIdStr); // 문자열을 정수로 변환
+
         // 페이징바 처리 코드
         int listCount = storageService.StorageCount();
         int pageLimit = 5;     // 하단에 보여질 페이징 바 수
@@ -110,8 +123,8 @@ public class ManagerController {
         model.addAttribute("pageUrl", "storage.lo");
         PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
 
-        ArrayList<Storage> listpage = storageService.selectStorageCount(pi);
-        model.addAttribute("storage", listpage); // jsp el 태그에서 db 값 불러올 때 clent 변수로 불러옴 << 확인 부탁
+        ArrayList<Storage> listpage = storageService.selectStorageList(pi, storeId);
+        model.addAttribute("storage", listpage); // jsp el 태그에서 db 값 불러올 때 client 변수로 불러옴 << 확인 부탁
         model.addAttribute("pi", pi);
 
         return "manager/storageManagementView";

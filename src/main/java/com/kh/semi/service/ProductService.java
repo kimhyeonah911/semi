@@ -27,13 +27,8 @@ public interface ProductService {
     int insertClient(Client client);
     int updateClient(Client client);
     int deleteClient(int clientId);
-
-//    int countAllProducts();
-//
-//    ArrayList<Product> selectProductListByPage(PageInfo pi);
-
     int deliveryCount();
-
     ArrayList<Client> selectdeliveryListByPage(PageInfo pi);
+    List<Product> top4product(int storeId);
 }
 

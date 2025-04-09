@@ -64,16 +64,19 @@ public class APIInventoryController {
 
     @GetMapping("/searchStockProductList")
     @ResponseBody
-    public Map<String, Object> searchStockProductList( @RequestParam(required = false) String selectedStartDate,
+    public Map<String, Object> searchStockProductList( @RequestParam (required = false) String storeId,
+                                                       @RequestParam(required = false) String selectedStartDate,
                                                        @RequestParam(required = false) String selectedEndDate,
                                                        @RequestParam(required = false) String searchedKeyword,
                                                        @RequestParam(defaultValue = "1") int page,
                                                        @RequestParam(defaultValue = "5") int pageSize) {
+        Integer memStoreId = Integer.parseInt(storeId);
         String keyword = searchedKeyword != null ? searchedKeyword.toLowerCase().trim() : "";
 
         int offset = (page - 1) * pageSize;
 
         Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("storeId", memStoreId);
         paramMap.put("startDate", selectedStartDate);
         paramMap.put("endDate", selectedEndDate);
         paramMap.put("keyword", keyword);

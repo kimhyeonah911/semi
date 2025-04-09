@@ -273,4 +273,14 @@
         CLIENT
         WHERE STATUS = 'Y'
     </select>
+
+    <select id="top4product" parameterType="int" resultType="Product">
+        SELECT PRODUCT_NAME,
+                IMAGE_URL
+        FROM PRODUCT P
+        JOIN STOCK_PRODUCT SP ON (SP.PRODUCT_NO = P.PRODUCT_NO)
+        JOIN STOCK S ON (S.STOCK_NO = SP.STOCK_NO)
+        
+        WHERE
+    </select>
 </mapper>
