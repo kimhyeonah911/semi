@@ -61,10 +61,12 @@
         P.IMAGE_URL AS imageUrl
         FROM PRODUCT P
         JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
+        JOIN INVENTORY I ON P.PRODUCT_NO = I.PRODUCT_NO
         WHERE P.STATUS = 'Y'
         <if test="clientId != 0">
             AND CLIENT_ID = #{clientId}
         </if>
+        AND I.QUANTITY > 0
         ORDER BY P.PRODUCT_NO
     </select>
 
