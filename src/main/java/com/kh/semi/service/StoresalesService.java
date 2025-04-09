@@ -4,8 +4,10 @@ import com.kh.semi.domain.vo.Attendance;
 import com.kh.semi.domain.vo.PageInfo;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public interface StoresalesService {
     int updateStoreSales(int storeId, int daySales);
+    List<Map<String, Object>> getMonthSales(int storeId);
 }

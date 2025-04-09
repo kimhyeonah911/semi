@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 @Transactional
@@ -55,5 +57,10 @@ public class StoresalesServiceImpl implements StoresalesService {
 
             return storesalesMapper.insertTodaySales(newSales);
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> getMonthSales(int storeId) {
+        return storesalesMapper.getMonthSales(storeId);
     }
 }
