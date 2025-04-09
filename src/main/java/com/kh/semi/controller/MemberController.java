@@ -137,9 +137,11 @@ public class MemberController {
                         System.out.println("줄어든 창고 수량"+storageMinus);
 
                         // inventory 반영
-                        int inventoryMinus = inventoryService.minusInventoryQuantity(storageNo, productNo, amount);
+                        int inventoryMinus = inventoryService.minusInventoryQuantity(productNo, storageNo, amount);
                         System.out.println("인벤토리 줄어든 수 : "+inventoryMinus);
-
+                        System.out.println(storageNo);
+                        System.out.println(productNo);
+                        System.out.println(amount);
                         // 매출 반영
                         int daySales = price * amount;
 

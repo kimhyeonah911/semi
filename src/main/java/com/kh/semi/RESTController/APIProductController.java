@@ -4,6 +4,8 @@ import com.kh.semi.domain.vo.Category;
 import com.kh.semi.domain.vo.Client;
 import com.kh.semi.domain.vo.Product;
 import com.kh.semi.service.ProductService;
+import com.kh.semi.service.StoresalesService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 @RestController
@@ -21,6 +27,8 @@ public class APIProductController {
 
     @Autowired
     private ProductService productService;
+    @Autowired
+    private StoresalesService storesalesService;
 
     @GetMapping("/getProductList")
     public List<Product> getProductLIst() {
@@ -173,6 +181,82 @@ public class APIProductController {
             return "fail";
         }
     }
+
+    @GetMapping("getProductSales")
+    public Map<String, Object> getProductSales(HttpSession session) {
+        int storeId = (int) session.getAttribute("storeId");
+        List<Product> productSalesList = productService.getProductSales(storeId);
+
+        List<String> productName = productSalesList.stream()
+                                    .map(Product::getProductName)
+                                    .toList();
+        List<Integer> totalAmount = productSalesList.stream()
+                                    .map(Product::getTotalAmount)
+                                    .toList();
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("productName", productName);
+        result.put("totalAmount", totalAmount);
+
+        return result;
+    }
+
+    @GetMapping("getMonthSales")
+    public Map<String, Object> getMonthSales(HttpSession session) {
+        int storeId = (int) session.getAttribute("storeId");
+        List<Map<String, Object>> monthlySales = storesalesService.getMonthSales(storeId);
+
+        // 월별 매출을 저장할 Map
+        Map<String, Integer> salesMap = new HashMap<>();
+        for (Map<String, Object> row : monthlySales) {
+            // 월별 매출과 매출 월
+            String month = (String) row.get("SALESMONTH");  // yyyy-MM 형태의 월
+            Object monthSalesObj = row.get("MONTHSALES"); // 월별 매출
+            // null 체크 후, 매출 값이 null이면 0으로 처리
+            Integer sales = (monthSalesObj != null) ? ((Number) monthSalesObj).intValue() : 0;
+            // Map에 저장
+            salesMap.put(month, sales);
+        }
+
+        // 12개월 기준의 매출 데이터를 준비
+        List<String> months = new ArrayList<>();
+        List<Integer> salesLastYear = new ArrayList<>();
+        List<Integer> salesThisYear = new ArrayList<>();
+
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+
+        for (int i = 23; i >= 0; i--) {
+            LocalDate targetMonth = now.minusMonths(i);
+            String monthStr = targetMonth.format(formatter);
+            months.add(monthStr);
+
+            // Map에서 월별 매출 가져오기, 없으면 0으로 처리
+            Integer sales = salesMap.get(monthStr);
+            if (sales == null) {
+                sales = 0; // 없으면 0으로 처리
+            }
+
+            if (i >= 12) {
+                salesLastYear.add(sales); // 1년 전 데이터
+            } else {
+                salesThisYear.add(sales); // 최근 12개월 데이터
+            }
+        }
+
+        // 반환할 데이터 구성
+        Map<String, Object> response = new HashMap<>();
+        response.put("month", months.subList(12, 24)); // 최근 12개월만
+        response.put("salesLastYear", salesLastYear); // 1년 전 매출
+        response.put("salesThisYear", salesThisYear); // 현재 매출
+
+        return response;
+    }
+
+
+
+
+
 
 
 

@@ -233,10 +233,9 @@
 <%
  int storeId = (int)session.getAttribute("storeId");
 %>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  const storeId = "<%= storeId %>";
-  console.log("Store ID:", storeId);
 
   // 1. 재고/입출고 선택 시 섹션 전환 및 필드 표시 전환
   document.getElementById("search-option-bar").addEventListener("change", function () {
@@ -341,7 +340,6 @@
       url: '/api/searchInventoryList',
       method: 'GET',
       data: {
-        storeId: storeId,
         selectedStorageNo: storageNo,
         searchedKeyword: keyword,
         page: page,
@@ -401,7 +399,6 @@
       url: '/api/searchStockProductList',
       method: 'GET',
       data: {
-        storeId: storeId,
         selectedStartDate: startDate,
         selectedEndDate: endDate,
         searchedKeyword: keyword,

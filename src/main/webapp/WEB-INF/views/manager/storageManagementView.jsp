@@ -286,13 +286,11 @@
 </main>
 </div>
 
-
 <%
     int storeId = (int)session.getAttribute("storeId");
 %>
-<script>
-    const storeId = "<%= storeId %>";
 
+<script>
 
     function showModal() {
 

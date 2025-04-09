@@ -119,7 +119,7 @@
                 <input type="date" id="start-date" name="startDate" value="${selectedStartDate}">
                 <span id="wave"> ~ </span>
                 <input type="date" id="end-date" name="endDate" value="${selectedEndDate}">
-                <button type="submit" id="submit-btn">조회</button>
+                <button type="submit" id="submit-btn" style="background: black">조회</button>
             </div>
         </form>
 
@@ -225,12 +225,15 @@
                                     </c:choose>
                                 </td>
                                 <td>
+                                    <fmt:formatDate value="${l.clockIn}" pattern="yyyy-MM-dd'T'HH:mm" var="formattedClockIn"/>
+                                    <fmt:formatDate value="${l.clockOut}" pattern="yyyy-MM-dd'T'HH:mm" var="formattedClockOut"/>
+
                                     <button
                                             type="button"
-                                            class="btn btn-sm btn-primary edit-btn"
+                                            class="btn btn-sm btn-outline-primary edit-btn"
                                             data-attendance-no="${l.attendanceNo}"
-                                            data-clock-in="${l.clockIn}"
-                                            data-clock-out="${l.clockOut}"
+                                            data-clock-in="${formattedClockIn}"
+                                            data-clock-out="${formattedClockOut}"
                                             data-status="${l.status}"
                                             data-bs-toggle="modal"
                                             data-bs-target="#editModal">
@@ -285,6 +288,23 @@
                                 </c:otherwise>
                             </c:choose>
                         </td>
+
+                        <td>
+                            <fmt:formatDate value="${l.clockIn}" pattern="yyyy-MM-dd'T'HH:mm" var="formattedClockIn"/>
+                            <fmt:formatDate value="${l.clockOut}" pattern="yyyy-MM-dd'T'HH:mm" var="formattedClockOut"/>
+                            <button
+                                    type="button"
+                                    class="btn btn-sm btn-primary edit-btn"
+                                    data-attendance-no="${l.attendanceNo}"
+                                    data-clock-in="${formattedClockIn}"
+                                    data-clock-out="${formattedClockOut}"
+                                    data-status="${l.status}"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editModal">
+                                수정
+                            </button>
+                        </td>
+
                     </tr>
                 </c:forEach>
 
@@ -292,6 +312,8 @@
             </table>
 
             <!-- 수정 모달 -->
+
+
             <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
                     <form id="editForm" method="post" action="/updateAttendance.ma">
@@ -304,11 +326,11 @@
                                 <input type="hidden" name="attendanceNo" id="modalAttendanceNo" />
                                 <div class="mb-3">
                                     <label for="modalClockIn" class="form-label">출근 시간</label>
-                                    <input type="datetime-local" class="form-control" name="clockIn" id="modalClockIn" />
+                                    <input type="datetime-local" class="form-control" name="clockIn" id="modalClockIn"/>
                                 </div>
                                 <div class="mb-3">
                                     <label for="modalClockOut" class="form-label">퇴근 시간</label>
-                                    <input type="datetime-local" class="form-control" name="clockOut" id="modalClockOut" />
+                                    <input type="datetime-local" class="form-control" name="clockOut" id="modalClockOut"/>
                                 </div>
                                 <div class="mb-3">
                                     <label for="modalStatus" class="form-label">상태</label>
@@ -380,28 +402,25 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const editButtons = document.querySelectorAll('.edit-btn');
-        editButtons.forEach(btn => {
+        document.querySelectorAll('.edit-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                const attendanceNo = btn.getAttribute('data-attendance-no');
-                const clockIn = btn.getAttribute('data-clock-in');
-                const clockOut = btn.getAttribute('data-clock-out');
-                const status = btn.getAttribute('data-status');
-                const formatDateTime = (dateStr) => {
-                    if (!dateStr) return '';
-                    const d = new Date(dateStr);
-                    const year = d.getFullYear();
-                    const month = (d.getMonth() + 1 < 10 ? '0' : '') + (d.getMonth() + 1);
-                    const day = (d.getDate() < 10 ? '0' : '') + d.getDate();
-                    const hours = (d.getHours() < 10 ? '0' : '') + d.getHours();
-                    const minutes = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
-                    return `${year}-${month}-${day}T${hours}:${minutes}`;
-                };
+                const attendanceNo = btn.dataset.attendanceNo;
+                const clockIn = btn.dataset.clockIn;
+                const clockOut = btn.dataset.clockOut;
+                const status = btn.dataset.status;
+
                 document.getElementById('modalAttendanceNo').value = attendanceNo;
-                document.getElementById('modalClockIn').value = formatDateTime(clockIn);
-                document.getElementById('modalClockOut').value = formatDateTime(clockOut);
+                document.getElementById('modalClockIn').value = clockIn || '';
+                document.getElementById('modalClockOut').value = clockOut || '';
                 document.getElementById('modalStatus').value = status;
             });
+        });
+
+        document.getElementById('modalClockOut').addEventListener('change', function() {
+
+            if (this.value) {
+                document.getElementById('modalStatus').value = 'L';
+            }
         });
 
 
@@ -428,6 +447,42 @@
                     .catch(() => alert("오류 발생"));
             });
         }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const startDateInput = document.getElementById("start-date");
+        const endDateInput = document.getElementById("end-date");
+
+        function validateDates() {
+            const startDate = new Date(startDateInput.value);
+            const endDate = new Date(endDateInput.value);
+
+            if (endDate < startDate) {
+                alert("종료 날짜는 시작 날짜보다 이전일 수 없습니다.");
+                endDateInput.value = ""; // 입력 초기화
+            }
+        }
+
+        startDateInput.addEventListener("change", validateDates);
+        endDateInput.addEventListener("change", validateDates);
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const modalClockIn= document.getElementById("modalClockIn");
+        const modalClockOut = document.getElementById("modalClockOut");
+
+        function validateDates() {
+            const modalIn = new Date(modalClockIn.value);
+            const modalOut = new Date(modalClockOut.value);
+
+            if (modalOut < modalIn) {
+                alert("퇴근 시간은 출근 시간보다 이전일 수 없습니다.");
+                modalClockOut.value = ""; // 입력 초기화
+            }
+        }
+
+        modalClockIn.addEventListener("change", validateDates);
+        modalClockOut.addEventListener("change", validateDates);
     });
 </script>
 

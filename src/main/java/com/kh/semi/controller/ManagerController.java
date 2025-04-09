@@ -37,6 +37,7 @@ public class ManagerController {
     private final ProductService productService;
     private final BoardService boardService;
     private final InventoryService inventoryService;
+    private final StoresalesService storesalesService;
 
 
     @GetMapping("manager.bo")
@@ -71,6 +72,10 @@ public class ManagerController {
         //인기 제품 카드
         List<Product> top4product = productService.top4product(storeId);
         model.addAttribute("top4product", top4product);
+
+        //  오늘 매출 조회 추가
+        int todaySales = storesalesService.getTodayTotalSales(storeId) / 10000;
+        model.addAttribute("todaySales", todaySales);
 
         return "manager/dashBoard-manager";
     }
@@ -115,7 +120,7 @@ public class ManagerController {
 
     @GetMapping("storage.lo")
     public String storageManagement(@RequestParam(defaultValue = "1") int cpage, Model model, HttpSession session) {
-       int storeId = (int) session.getAttribute("storeId");
+        int storeId = (int) session.getAttribute("storeId");
 
         // 페이징바 처리 코드
         int listCount = storageService.StorageCount();
@@ -133,6 +138,7 @@ public class ManagerController {
 
     @PostMapping("insert.sto")
     public String insertStorage(Storage storage, HttpSession session, ModelAndView mv) {
+        int storeId = (int) session.getAttribute("storeId");
         Storage s = new Storage();
         s.setStorageLocation(storage.getStorageLocation());
         s.setAbleAmount(storage.getAbleAmount());

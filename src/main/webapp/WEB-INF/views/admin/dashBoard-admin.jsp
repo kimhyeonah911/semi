@@ -135,6 +135,18 @@
                 grid-column: span 1; /* 모바일에서는 공지사항 카드도 하나의 칸만 차지 */
             }
         }
+
+        .popular-card-body{
+            display: flex;
+            justify-content: space-around;
+        }
+
+        #popular-product{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 130px;
+        }
     </style>
 </head>
 <body>
@@ -240,10 +252,12 @@
             <div class="dashboard-card card-popular" style="grid-area: popular;" onclick="location.href='enroll.bo'">
                 <div class="card-title">👟 인기 제품</div>
                 <div class="card-body">
-                    <img src="/resources/samba.png">
-                    <img src="/resources/newbalance.png">
-                    <img src="/resources/airpose.png">
-                    <img src="/resources/asics.png">
+                    <c:forEach var="top4p" items="${top4product}">
+                        <div id="popular-product" >
+                            <img style="pointer-events: none;" src="${empty top4p.imageUrl ? '/resources/default.png' : top4p.imageUrl}" alt="인기제품사진">
+                            <span>${top4p.productName}</span>
+                        </div>
+                    </c:forEach>
                 </div>
                 <div class="card-footer">재고 확인 필요</div>
             </div>

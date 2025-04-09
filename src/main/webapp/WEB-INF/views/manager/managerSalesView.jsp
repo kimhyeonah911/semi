@@ -66,14 +66,14 @@
         <div id="product-sales-chart">
             <div id="product-sales-title">
                 <img src="/resources/shoe.png">
-                <h2>제품별 매출 비중 (역삼점)</h2>
+                <h2>제품별 매출 비중</h2>
             </div>
             <canvas id="donutChart"></canvas>
         </div>
         <div id="branch-sales-chart">
             <div id="branch-sales-title">
                 <img src="/resources/money.png">
-                <h2>우리의 매출 현황 (역삼점)</h2>
+                <h2>우리의 매출 현황</h2>
             </div>
             <canvas id="multiLineChart"></canvas>
         </div>
@@ -86,127 +86,176 @@
 <script>
 
     //도덧차트
+    let donutChart;
 
-    const mockSalesData = {
-        labels: ["아디다스", "나이키", "뉴발란스", "퓨마"],
-        values: [300, 500, 200, 300]
-    };
+    $(document).ready(function() {
+        getProductSales();
+        getMonthSales();
+    });
+
+    function getProductSales(){
+        $.ajax({
+            url: "/api/getProductSales",
+            type: "get",
+            success: function(res){
+                const salesData = {
+                    labels: res.productName,
+                    values: res.totalAmount
+                };
+
+                drawDonutChart(salesData);
+
+            }, error: function (){
+                console.log("제품별 매출 데이터 ajax 요청 실패");
+            }
+        });
+    }
+
 
     // 2. Chart.js로 도넛 차트 생성
-    const ctx = document.getElementById('donutChart').getContext('2d');
+    function drawDonutChart(salesData) {
+        const ctx = document.getElementById('donutChart').getContext('2d');
 
-    const donutChart = new Chart(ctx, {
-        type: 'doughnut',  // 도넛 차트 타입
-        data: {
-            labels: mockSalesData.labels,  // 예시: ["지점 A", "지점 B", "지점 C"]
-            datasets: [{
-                data: mockSalesData.values,  // 예시: [300, 500, 200]
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', "#44cd27"], // 색상 설정
-                hoverOffset: 4
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        padding: 30,
-                        font: {
-                            size: 18
-                        }
-                    }
-                }
-            }
-        }
-    });
-
-</script>
-
-<script>
-    // 12개월 매출 Mock 데이터
-    const monthlySalesData = {
-        labels: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-        sales2024: [500, 700, 800, 650, 900, 1100, 950, 1200, 1300, 1250, 1400, 1500], // 2024년 매출
-        sales2025: [600, 500, 850, 700, 950, 800, 1000, 1250, 1350, 1300, 1000, 1700] // 2025년 매출
-    };
-
-    // 캔버스 가져오기
-    const ctxLine = document.getElementById('multiLineChart').getContext('2d');
-
-    // 라인 차트 생성
-    const lineChart = new Chart(ctxLine, {
-        type: 'line',  // 라인 차트
-        data: {
-            labels: monthlySalesData.labels,
-            datasets: [
-                {
-                    label: "2024년 매출",
-                    data: monthlySalesData.sales2024,
-                    borderColor: "#32f324",  // 파란색 선
-                    backgroundColor: "rgba(50,243,36,0.2)",  // 연한 파란색 배경
-                    borderWidth: 2,
-                    pointRadius: 5,
-                    pointBackgroundColor: "#32f324",
-                    fill: false // 영역 채우기 없음
+        if (donutChart) {
+            // 기존 차트가 있다면 업데이트
+            donutChart.data.labels = salesData.labels;
+            donutChart.data.datasets[0].data = salesData.values;
+            donutChart.update();
+        } else {
+            // 새로 생성
+            donutChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: salesData.labels,
+                    datasets: [{
+                        data: salesData.values,
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', "#44cd27", "#9b59b6"], // 필요시 색상 추가
+                        hoverOffset: 4
+                    }]
                 },
-                {
-                    label: "2025년 매출",
-                    data: monthlySalesData.sales2025,
-                    borderColor: "#c257ff",  // 빨간색 선
-                    backgroundColor: "rgba(194,87,255,0.2)",  // 연한 빨간색 배경
-                    borderWidth: 2,
-                    pointRadius: 5,
-                    pointBackgroundColor: "#c257ff",
-                    fill: false // 영역 채우기 없음
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top', // 범례 위치 (위쪽)
-                    labels: {
-                        font:{
-                            size:20
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 30,
+                                font: {
+                                    size: 18
+                                }
+                            }
                         }
                     }
                 }
+            });
+        }
+    }
+
+    function getMonthSales() {
+        console.log("라인차트 실행");
+        $.ajax({
+            url: "/api/getMonthSales",  // API 호출 경로
+            type: "get",
+            success: function(res) {
+                const labels = res.month.map(month => {
+                    const monthNumber = parseInt(month.split('-')[1]);  // "2024-05"에서 "05" 부분만 추출
+                    return monthNumber + "월";  // "5월", "6월" 형식으로 반환
+                });
+                const monthlySalesData = {
+                    labels: labels,  // "1월", "2월", "3월" 형식으로 변환된 월별 데이터
+                    salesLastYear: res.salesLastYear,  // 작년 매출 데이터
+                    salesThisYear: res.salesThisYear  // 올해 매출 데이터
+                };
+
+                console.log(monthlySalesData);  // 확인용
+
+                // drawLineChart 함수에 monthlySalesData 전달
+                drawLineChart(monthlySalesData);
             },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: "매출 (만원)", // Y축 제목
-                        font: {
-                            size: 18
-                        }
+            error: function () {
+                console.log("달별 매출 데이터 ajax 요청 실패");
+            }
+        });
+    }
+
+    // drawLineChart 함수는 아래와 같이 수정된 상태로 유지됩니다.
+    function drawLineChart(salesData) {
+        const ctxLine = document.getElementById('multiLineChart').getContext('2d');
+
+        const lineChart = new Chart(ctxLine, {
+            type: 'line',  // 라인 차트
+            data: {
+                labels: salesData.labels,  // 월별 데이터
+                datasets: [
+                    {
+                        label: "작년 매출",  // 작년 매출 레이블
+                        data: salesData.salesLastYear,  // 작년 매출 데이터
+                        borderColor: "#32f324",  // 초록색 선
+                        backgroundColor: "rgba(50,243,36,0.2)",  // 연한 초록색 배경
+                        borderWidth: 2,
+                        pointRadius: 5,
+                        pointBackgroundColor: "#32f324",
+                        fill: false // 영역 채우기 없음
                     },
-                    ticks: {
-                        font:{
-                            size:16
+                    {
+                        label: "올해 매출",  // 올해 매출 레이블
+                        data: salesData.salesThisYear,  // 올해 매출 데이터
+                        borderColor: "#c257ff",  // 보라색 선
+                        backgroundColor: "rgba(194,87,255,0.2)",  // 연한 보라색 배경
+                        borderWidth: 2,
+                        pointRadius: 5,
+                        pointBackgroundColor: "#c257ff",
+                        fill: false // 영역 채우기 없음
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',  // 범례 위치 (위쪽)
+                        labels: {
+                            font: {
+                                size: 20
+                            }
                         }
                     }
                 },
-                x: {
-                    title: {
-                        display: true,
-                        text: "월", // X축 제목
-                        font: {
-                            size: 18
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: "매출 (만원)",  // Y축 제목
+                            font: {
+                                size: 18
+                            }
+                        },
+                        ticks: {
+                            font: {
+                                size: 16
+                            }
                         }
                     },
-                    ticks:{
-                        font:{
-                            size:16
+                    x: {
+                        title: {
+                            display: true,
+                            text: "월",  // X축 제목
+                            font: {
+                                size: 18
+                            }
+                        },
+                        ticks: {
+                            font: {
+                                size: 16
+                            }
                         }
                     }
                 }
             }
-        }
-    });
+        });
+    }
+
 </script>
 
 </body>
