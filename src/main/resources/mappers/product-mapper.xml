@@ -303,4 +303,18 @@
         ORDER BY totalAmount DESC
         FETCH FIRST 4 ROWS ONLY
     </select>
+    <select id="getProductSales" parameterType="int" resultMap="productResult">
+        SELECT P.PRODUCT_NAME,
+                SUM(SP.AMOUNT) AS TOTAL_AMOUNT
+        FROM STOCK_PRODUCT SP
+        JOIN STOCK S ON SP.STOCK_NO = S.STOCK_NO
+        JOIN MEMBER M ON M.EMP_NO = S.STOCK_EMP
+        JOIN PRODUCT P ON SP.PRODUCT_NO = P.PRODUCT_NO
+        WHERE M.STORE_ID = #{storeId}
+            AND (S.STATUS = 'Y' OR S.STATUS = 'C')
+            AND S.STOCK_STATUS = 'STOCK_OUT_COMPLETED'
+        GROUP BY P.PRODUCT_NAME
+        ORDER BY TOTAL_AMOUNT DESC
+        FETCH FIRST 5 ROWS ONLY
+    </select>
 </mapper>

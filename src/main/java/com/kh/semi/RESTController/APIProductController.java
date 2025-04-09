@@ -4,6 +4,7 @@ import com.kh.semi.domain.vo.Category;
 import com.kh.semi.domain.vo.Client;
 import com.kh.semi.domain.vo.Product;
 import com.kh.semi.service.ProductService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -174,10 +176,24 @@ public class APIProductController {
         }
     }
 
-//    @GetMapping("getProductSales")
-//    public Map<String, Object> getProductSales() {
-//        List<Product> productSalesList = productService.getProductSales(storeId);
-//    }
+    @GetMapping("getProductSales")
+    public Map<String, Object> getProductSales(HttpSession session) {
+        int storeId = (int) session.getAttribute("storeId");
+        List<Product> productSalesList = productService.getProductSales(storeId);
+
+        List<String> productName = productSalesList.stream()
+                                    .map(Product::getProductName)
+                                    .toList();
+        List<Integer> totalAmount = productSalesList.stream()
+                                    .map(Product::getTotalAmount)
+                                    .toList();
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("productName", productName);
+        result.put("totalAmount", totalAmount);
+
+        return result;
+    }
 
 
 

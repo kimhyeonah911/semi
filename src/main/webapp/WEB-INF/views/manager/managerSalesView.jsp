@@ -66,7 +66,7 @@
         <div id="product-sales-chart">
             <div id="product-sales-title">
                 <img src="/resources/shoe.png">
-                <h2>제품별 매출 비중 (역삼점)</h2>
+                <h2>제품별 매출 비중</h2>
             </div>
             <canvas id="donutChart"></canvas>
         </div>
@@ -86,6 +86,8 @@
 <script>
 
     //도덧차트
+    let donutChart;
+
     $(document).ready(function() {
         getProductSales();
     });
@@ -94,54 +96,59 @@
         $.ajax({
             url: "/api/getProductSales",
             type: "get",
-            data: {
-                storeId: storeId
-            },
             success: function(res){
+                const salesData = {
+                    labels: res.productName,
+                    values: res.totalAmount
+                };
 
-                const productName = res.productName;
-                const salesAmounts = res.salesAmounts;
+                drawDonutChart(salesData);
 
             }, error: function (){
                 console.log("제품별 매출 데이터 ajax 요청 실패");
             }
-        })
+        });
     }
 
 
-    const mockSalesData = {
-        labels: ["아디다스", "나이키", "뉴발란스", "퓨마"],
-        values: [300, 500, 200, 300]
-    };
-
     // 2. Chart.js로 도넛 차트 생성
-    const ctx = document.getElementById('donutChart').getContext('2d');
+    function drawDonutChart(salesData) {
+        const ctx = document.getElementById('donutChart').getContext('2d');
 
-    const donutChart = new Chart(ctx, {
-        type: 'doughnut',  // 도넛 차트 타입
-        data: {
-            labels: mockSalesData.labels,  // 예시: ["지점 A", "지점 B", "지점 C"]
-            datasets: [{
-                data: mockSalesData.values,  // 예시: [300, 500, 200]
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', "#44cd27"], // 색상 설정
-                hoverOffset: 4
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        padding: 30,
-                        font: {
-                            size: 18
+        if (donutChart) {
+            // 기존 차트가 있다면 업데이트
+            donutChart.data.labels = salesData.labels;
+            donutChart.data.datasets[0].data = salesData.values;
+            donutChart.update();
+        } else {
+            // 새로 생성
+            donutChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: salesData.labels,
+                    datasets: [{
+                        data: salesData.values,
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', "#44cd27", "#9b59b6"], // 필요시 색상 추가
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 30,
+                                font: {
+                                    size: 18
+                                }
+                            }
                         }
                     }
                 }
-            }
+            });
         }
-    });
+    }
 
 </script>
 

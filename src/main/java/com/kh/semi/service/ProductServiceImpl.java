@@ -124,4 +124,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> top4productAdmin() {return productMapper.top4productAdmin();}
+
+    @Override
+    public List<Product> getProductSales(int storeId) {return productMapper.getProductSales(storeId);}
 }
