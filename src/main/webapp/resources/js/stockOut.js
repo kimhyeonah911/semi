@@ -114,7 +114,7 @@ function updateStockTable(data) {
         const products = dto.stockProductList;
 
         let statusBtn = "";
-        const removeBtn = `<button type="button" class="btn btn-outline-danger btn-sm">취소</button>`;
+        const removeBtn = `<button type="button" class="btn btn-outline-danger btn-sm">삭제</button>`;
 
         switch (stock.stockStatus) {
             case "STOCK_OUT_REGISTERED":
@@ -188,7 +188,7 @@ function updateProductInfo() {
 
     tableBody.querySelectorAll("tr").forEach(row => {
         const quantityInput = row.querySelector(".input-quantity");
-        const unitPrice = parseFloat(row.querySelector("td:nth-child(4)").innerText) || 0;
+        const unitPrice = parseFloat(row.querySelector("td:nth-child(4)").innerText.replace(/,/g, "")) || 0;
         const taxation = row.querySelector(".select-tax").value;
 
         let quantity = parseInt(quantityInput.value) || 0;
