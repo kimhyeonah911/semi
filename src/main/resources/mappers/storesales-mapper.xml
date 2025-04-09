@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.semi.mappers.StoresalesMapper">
+    <resultMap id="storesalesResult" type="StoreSales">
+        <result column="STORE_SALES_NO" property="storesalesNo"/>
+        <result column="STORE_ID" property="storeId"/>
+        <result column="DAY_SALES" property="daySales"/>
+        <result column="SALES_DATE" property="salesDate"/>
+        <result column="MONTH_SALES" property="monthSales"/>
+        <result column="SALES_MONTH" property="salesMonth"/>
+    </resultMap>
+
+    <!-- 오늘 해당 지점 매출이 있는지 확인 -->
+    <select id="selectTodaySales" resultMap="storesalesResult">
+        SELECT * FROM STORE_SALES
+        WHERE STORE_ID = #{storeId}
+        AND TRUNC(SALES_DATE) = TRUNC(#{today})
+    </select>
+
+    <!-- 있으면 당일 매출 추가 -->
+    <update id="updateTodaySales">
+        UPDATE STORE_SALES
+        SET DAY_SALES = DAY_SALES + #{daySales},
+        MONTH_SALES = MONTH_SALES + #{daySales}
+        WHERE STORE_ID = #{storeId}
+        AND TRUNC(SALES_DATE) = TRUNC(#{today})
+    </update>
+
+    <!-- 없으면 새로 insert -->
+    <insert id="insertTodaySales" parameterType="StoreSales">
+        INSERT INTO STORE_SALES (
+        STORE_SALES_NO, STORE_ID, DAY_SALES, SALES_DATE, MONTH_SALES, SALES_MONTH
+        ) VALUES (
+        STORE_SALES_SEQ.NEXTVAL,
+        #{storeId},
+        #{daySales},
+        #{salesDate},
+        #{monthSales},
+        #{salesMonth}
+        )
+    </insert>
+</mapper>
