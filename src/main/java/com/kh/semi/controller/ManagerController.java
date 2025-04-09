@@ -111,7 +111,7 @@ public class ManagerController {
 
     @GetMapping("storage.lo")
     public String storageManagement(@RequestParam(defaultValue = "1") int cpage, Model model, HttpSession session) {
-       int storeId = (int) session.getAttribute("storeId");
+        int storeId = (int) session.getAttribute("storeId");
 
         // 페이징바 처리 코드
         int listCount = storageService.StorageCount();
