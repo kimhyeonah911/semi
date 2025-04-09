@@ -96,8 +96,8 @@ public class MemberController {
 
 
                         // 창고 수량 증가
-                        storageService.updateStorageAmount(storageNo, amount);
-
+                        int result2 = storageService.updateStorageAmount(storageNo, amount);
+                        System.out.println("늘어난 창고수량 : "+result2);
                         // inventory 반영
                         Inventory inventory = inventoryService.selectInventory(storageNo, productNo);
                         if (inventory != null) {
@@ -131,14 +131,15 @@ public class MemberController {
                         int price = sp.getPrice();
 
                         // 창고 수량 감소
-//                        int storageMinus = storageService.minusStorageAmount(storageNo, amount);
-//                        System.out.println(storageMinus);
+                        int storageMinus = storageService.minusStorageAmount(storageNo, amount);
+                        System.out.println("줄어든 창고 수량"+storageMinus);
 
                         // inventory 반영
-//                        inventoryService.updateInventoryQuantity(storageNo, productNo, -amount);
+                        int inventoryMinus = inventoryService.minusInventoryQuantity(storageNo, productNo, amount);
+                        System.out.println("인벤토리 줄어든 수 : "+inventoryMinus);
 
                         // 매출 반영
-//                        storeSalesService.updateStoreSales(stock.getStoreId(), price * amount);
+                        //storeSalesService.updateStoreSales(stock.getStoreId(), price * amount);
                     }
 
                     // 출고 상태 완료로 변경

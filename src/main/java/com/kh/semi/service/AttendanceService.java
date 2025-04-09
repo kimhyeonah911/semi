@@ -13,7 +13,7 @@ public interface AttendanceService {
 
     ArrayList<Attendance> getAttendanceMy(int empNo);
 
-    ArrayList<Attendance> getMyAttendanceList(String storeId);
+    ArrayList<Attendance> getMyAttendanceList(int storeId);
 
     int updateAttendance(Attendance attendance);
 

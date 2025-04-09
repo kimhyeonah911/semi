@@ -547,6 +547,8 @@
           <input type="text" id="stockEmp">
           <h6>출고 예정 일자</h6>
           <input type="text" id="expDate">
+          <h6>창고 번호</h6>
+          <input type="text" id="storageLocation">
         </div>
         <div class="list-space">
           <div style="padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
@@ -706,7 +708,8 @@
     $("#stockNo").val(stock.stockNo).prop("readonly", true);
     $("#stockEmp").val(stock.memName).prop("readonly", true);
     $("#expDate").val(stock.expDate).prop("readonly", true);
-
+    const storageLocation = products.length > 0 ? products[0].storageLocation : null;
+    $("#storageLocation").val(storageLocation).prop("readonly", true);
 
     // --- 출고 품목 테이블 채우기 ---
     const tbody = $("#modal3 .modal-table1 tbody");

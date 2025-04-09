@@ -9,7 +9,7 @@ import java.util.ArrayList;
 @Mapper
 public interface StorageMapper {
 
-    ArrayList<Storage> selectStorage();
+    ArrayList<Storage> selectStorage(int storeId);
     int insertStorage(Storage storage);
     int deleteStorage(int storageNo);
     int storageCount();
@@ -19,9 +19,6 @@ public interface StorageMapper {
 
     int updateStorageAmount(int storageNo, int amount);
 
-
-
-
-    int updateStorageAmount(int storageNo, int amount);
+    int minusStorageAmount(int storageNo, int amount);
 
 }
