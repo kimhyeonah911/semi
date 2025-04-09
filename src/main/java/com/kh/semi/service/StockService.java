@@ -6,13 +6,13 @@ import com.kh.semi.domain.vo.StockProduct;
 import java.util.ArrayList;
 
 public interface StockService {
-    ArrayList<Stock> selectStockList();
-    ArrayList<Stock> searchStockInList(String stockStatus, String startDate, String endDate);
-    ArrayList<Stock> searchStockOutList(String stockStatus, String startDate, String endDate);
+    ArrayList<Stock> selectStockList(int empNo);
+    ArrayList<Stock> searchStockInList(String stockStatus, String startDate, String endDate, int empNo);
+    ArrayList<Stock> searchStockOutList(String stockStatus, String startDate, String endDate, int empNo);
     int insertStockIn(Stock stock);
     int insertStockOut(Stock stock);
     int insertStockProduct(StockProduct stockProduct);
-    ArrayList<StockProduct> selectStockProductList();
+    ArrayList<StockProduct> selectStockProductList(int empNo);
     int updateStockInStatus(int stockNo);
     int updateStockOutStatus(int stockNo);
     int deleteStock(int stockNo);
