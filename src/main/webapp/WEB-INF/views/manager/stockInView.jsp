@@ -494,7 +494,7 @@
                         <select id="storage-search-bar">
                             <c:forEach var="s" items="${storage}">
                                 <c:if test="${s.storeId eq sessionScope.storeId}">
-                                    <option value="${s.storageNo}">${s.storageLocation}</option>
+                                    <option value="${s.storageNo}">${s.storageLocation}(${s.currentAmount}/${s.ableAmount})</option>
                                 </c:if>
                             </c:forEach>
                         </select>

@@ -493,6 +493,7 @@ function createStockInTable(data) {
     //입고서에서 확인 버튼 클릭시 입출고 제품 테이블과 입출고 테이블에 등록
     document.getElementById("stock-submit-btn").addEventListener("click", function () {
         const stockProducts = [];
+        let totalAmount = 0;
         const stockEmp = document.getElementById("empNo").value;
         const expDate = document.getElementById("expected-date").value;
         const storageNo = document.getElementById("storage-search-bar").value;
@@ -504,6 +505,8 @@ function createStockInTable(data) {
             const price = parseInt(row.querySelector("td:nth-child(4)").textContent.replace(/,/g, '')) || 0;
             const tax = row.querySelector(".select-tax").value; //0이면 Y 1이면 N
             const taxPrice = tax === "0" ? Math.floor(price * amount * 0.1) : 0;
+
+            totalAmount += amount; // 수량 누적
 
             stockProducts.push({
                 productNo,
@@ -520,6 +523,18 @@ function createStockInTable(data) {
             stockEmp,
             expDate,
         };
+
+        StorageInfo(storageNo, function(storage) {
+            const able = storage.ableAmount;
+            const current = storage.currentAmount;
+            console.log(able);
+            console.log(current);
+
+            if (current + totalAmount > able) {
+                alert("창고 수용 가능 수량을 초과하여 입고할 수 없습니다.");
+                return;
+            }
+        });
 
         $.ajax({
             url: "/api/insertStockIn",
@@ -549,6 +564,25 @@ function createStockInTable(data) {
         });
         updateSummary();
     });
-
 }
+
+function StorageInfo(storageNo, callback) {
+    $.ajax({
+        url: "/api/searchStorage",
+        method: "GET",
+        data: { storageNo: storageNo },
+        dataType: "json",
+        success: function (storage) {
+            callback({
+                ableAmount: storage.ableAmount,
+                currentAmount: storage.currentAmount
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error("창고 정보 조회 실패:", error);
+            callback(null);
+        }
+    });
+}
+
 

@@ -21,10 +21,12 @@
     <insert id="insertStorage" parameterType="Storage">
         INSERT INTO STORAGE (
          STORAGE_NO,
+         STORE_ID,
          STORAGE_LOCATION,
          ABLE_AMOUNT
         ) VALUES(
         STORAGE_SEQ.NEXTVAL,
+        #{storeId},
         #{storageLocation},
         #{ableAmount}
         )
@@ -65,4 +67,12 @@
         SET CURRENT_AMOUNT = CURRENT_AMOUNT - #{amount}
         WHERE STORAGE_NO = #{storageNo}
     </update>
+
+    <select id="searchStorage" resultMap="storageResult">
+        SELECT STORAGE_NO,
+        ABLE_AMOUNT,
+        CURRENT_AMOUNT
+        FROM STORAGE
+        WHERE STORAGE_NO = #{storageNo}
+    </select>
 </mapper>
