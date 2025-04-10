@@ -228,16 +228,12 @@
                         <p style="text-align: center;">등록된 공지사항이 없습니다.</p>
                     </c:if>
                 </div>
-                <div class="card-footer">
-                    <button class="btn btn-light" onclick="location.href='/list.bo'">자세히 보기</button>
-                </div>
                 <div class="card-body">
 
                 </div>
                 <div class="card-footer">피드백 확인</div>
             </div>
-
-
+            
             <!-- 매출 그래프 카드 -->
             <div class="dashboard-card card-sales">
                 <div class="card-title">💰 우리지점 매출</div>
