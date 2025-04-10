@@ -345,8 +345,6 @@
     </select>
 
 <!--    //출고 페이징-->
-<!--    int selectStockOutListforPaging(int empNo, String status);-->
-<!--    ArrayList<Stock> selectStockOutListByPage(int empNo, String status, RowBounds rowBounds);-->
     <select id="selectStockOutListforPaging" resultType="int">
         SELECT COUNT(DISTINCT S.STOCK_NO)
         FROM STOCK S

@@ -57,4 +57,17 @@
         WHERE STORE_ID = #{storeId}
         AND TRUNC(SALES_DATE) = TRUNC(#{today})
     </select>
+    <select id="getAllStoresMonthSales" resultType="StoreSales">
+        SELECT
+        STORE_ID,
+        TO_CHAR(SALES_MONTH, 'YYYY-MM') AS SALES_MONTH,
+        COALESCE(SUM(MONTH_SALES), 0) AS total_month_sales
+        FROM
+        STORE_SALES
+        GROUP BY
+        STORE_ID, TO_CHAR(SALES_MONTH, 'YYYY-MM')
+        ORDER BY
+        SALES_MONTH DESC, STORE_ID
+    </select>
+
 </mapper>

@@ -188,6 +188,15 @@ public class ManagerController {
         int empNo = (int) session.getAttribute("empNo");
         int storeId = (int) session.getAttribute("storeId");
 
+        ArrayList<Storage> list2 = storageService.selectStorage(storeId);
+        ArrayList<Client> list3 = productService.selectClientList();
+        ArrayList<StockProduct> list4 = stockService.selectStockProductList(empNo);
+        ArrayList<Product> list5 = productService.selectImageUrl();
+        model.addAttribute("storage", list2);
+        model.addAttribute("client", list3);
+        model.addAttribute("stockProduct", list4);
+        model.addAttribute("image", list5);
+
         // 페이징 처리
         int listCount = stockService.selectStockOutListforPaging(empNo, status);
         int pageLimit = 5;
@@ -195,17 +204,7 @@ public class ManagerController {
         PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
         ArrayList<Stock> listpage = stockService.selectStockOutListByPage(pi, empNo, status);
 
-        ArrayList<Storage> list2 = storageService.selectStorage(storeId);
-        ArrayList<Client> list3 = productService.selectClientList();
-        ArrayList<StockProduct> list4 = stockService.selectStockProductList(empNo);
-        ArrayList<Product> list5 = productService.selectImageUrl();
-
         model.addAttribute("stock", listpage);
-        model.addAttribute("storage", list2);
-        model.addAttribute("client", list3);
-        model.addAttribute("stockProduct", list4);
-        model.addAttribute("image", list5);
-
         model.addAttribute("pi", pi);
         model.addAttribute("pageUrl", "stockOut.sto");
         model.addAttribute("selectedStatus", status);
