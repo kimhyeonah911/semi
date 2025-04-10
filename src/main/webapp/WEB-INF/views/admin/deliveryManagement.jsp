@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>거래처 관리, 수정, 삭제</title>
+    <title>입고처 관리, 수정, 삭제</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -28,37 +28,37 @@
             vertical-align: middle;
         }
 
-        .table th:nth-child(1),
-        .table td:nth-child(1) {
-            width: 10%;
-        }
+        /*.table th:nth-child(1),*/
+        /*.table td:nth-child(1) {*/
+        /*    width: 10%;*/
+        /*}*/
 
-        .table th:nth-child(2),
-        .table td:nth-child(2) {
-            width: 15%;
-            padding-left: 20px;
-        }
+        /*.table th:nth-child(2),*/
+        /*.table td:nth-child(2) {*/
+        /*    width: 15%;*/
+        /*    padding-left: 20px;*/
+        /*}*/
 
-        .table th:nth-child(3),
-        .table td:nth-child(3) {
-            width: 10%;
-            padding-left: 20px;
-        }
+        /*.table th:nth-child(3),*/
+        /*.table td:nth-child(3) {*/
+        /*    width: 10%;*/
+        /*    padding-left: 20px;*/
+        /*}*/
 
-        .table th:nth-child(4),
-        .table td:nth-child(4) {
-            width: 15%;
-        }
+        /*.table th:nth-child(4),*/
+        /*.table td:nth-child(4) {*/
+        /*    width: 15%;*/
+        /*}*/
 
-        .table th:nth-child(5),
-        .table td:nth-child(5) {
-            width: 20%;
-        }
+        /*.table th:nth-child(5),*/
+        /*.table td:nth-child(5) {*/
+        /*    width: 20%;*/
+        /*}*/
 
-        .table th:nth-child(6),
-        .table td:nth-child(6) {
-            width: 10%;
-        }
+        /*.table th:nth-child(6),*/
+        /*.table td:nth-child(6) {*/
+        /*    width: 10%;*/
+        /*}*/
 
         .table {
             margin-top: 10px;
@@ -93,6 +93,7 @@
             border: none;
         }
 
+
         .modal-body form .form-control {
             font-size: 16px;
         }
@@ -100,38 +101,16 @@
         .modal-footer button {
             font-size: 16px;
         }
-        #modalCategory, #enrollmodalCategory, #입고처 {
-            width: 100px;  /* 원하는 너비로 조정 */
-        }
-        #enrollImage{
-            width: 100px;
-        }
 
-        .main-content {
-            padding-left: 2rem;
-            padding-right: 2rem;
-        }
 
         .mb-3 {
             display: flex;
             gap: 20px; /* 요소들 간 간격을 20px로 설정 */
+            justify-content: space-around;
             align-items: center; /* 세로 중앙 정렬 */
             margin-bottom: 10px;
         }
 
-        .form-select, input[type="text"], button {
-            padding: 10px 15px;
-            font-size: 16px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            width: 220px; /* 너비를 동일하게 설정 */
-            box-sizing: border-box;
-        }
-
-        .form-select:focus, input[type="text"]:focus {
-            border-color: #00A69F;
-            outline: none;
-        }
 
 
         button {
@@ -141,6 +120,14 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
             width: 220px; /* 버튼도 동일한 너비로 설정 */
+        }
+
+        .btn1{
+            width: 100px;
+        }
+
+        .form-label{
+            width: 150px;
         }
 
         button:hover {
@@ -206,13 +193,13 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>거래처ID</th>
-                    <th>거래처명</th>
-                    <th>사업자/대표</th>
-                    <th>전화번호</th>
-                    <th>주소</th>
-                    <th>수정</th>
-                    <th>삭제</th>
+                    <th style="width: 100px;">입고처ID</th>
+                    <th style="width: 150px;">입고처명</th>
+                    <th style="width: 150px;" >사업자/대표</th>
+                    <th style="width: 200px;">전화번호</th>
+                    <th style="width: 300px;">주소</th>
+                    <th style="width: 150px;">수정</th>
+                    <th style="width: 150px;">삭제</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -224,11 +211,11 @@
                         <td>${c.clientPhone}</td>
                         <td>${c.clientAddress}</td>
                         <td class="action-buttons">
-                            <button class="approve-btn btn btn-success" onclick="showModal(this)">
+                            <button class="approve-btn btn btn-success btn1" onclick="showModal(this)">
                                 <i class="fas fa-edit"></i></button>
                         </td>
                         <td class="delete-buttons">
-                            <button class="approve-btn btn btn-danger" onclick="deletebtn(this)">
+                            <button class="approve-btn btn btn-danger btn1" onclick="deletebtn(this)">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </td>
@@ -238,7 +225,7 @@
             </table>
         </div>
         <div class="bottom">
-            <button onclick="enroll()">거래처 등록</button>
+            <button class="btn btn-lg btn-primary" onclick="enroll()">입고처 등록</button>
         </div>
 
         <c:if test="${pi.maxPage > 1}">
@@ -283,7 +270,7 @@
                 <div class="modal-content">
                     <!-- 모달 헤더 -->
                     <div class="modal-header">
-                        <h5 class="modal-title" id="enrollmodalTitle">거래처 등록</h5>
+                        <h5 class="modal-title" id="enrollmodalTitle">입고처 등록</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -291,11 +278,11 @@
                     <form id="enrolleditForm" action="insert.cl" method="POST">
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="enrollClientId" class="form-label">거래처ID</label>
+                                <label for="enrollClientId" class="form-label">입고처ID</label>
                                 <input type="text" class="form-control" id="enrollClientId" placeholder="자동생성" readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="enrollClientName" class="form-label">거래처명</label>
+                                <label for="enrollClientName" class="form-label">입고처명</label>
                                 <input type="text" class="form-control" id="enrollClientName" name="clientName">
                             </div>
                             <div class="mb-3">
@@ -327,18 +314,18 @@
                 <div class="modal-content">
                     <!-- 모달 헤더 -->
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalTitle">거래처 수정</h5>
+                        <h5 class="modal-title" id="modalTitle">입고처 수정</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
                     <!-- 모달 본문 -->
                     <div class="modal-body">
                             <div class="mb-3">
-                                <label for="editClientId" class="form-label">거래처ID</label>
+                                <label for="editClientId" class="form-label">입고처ID</label>
                                 <input type="text" class="form-control" id="editClientId" name="clientId" readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="editClientName" class="form-label">거래처명</label>
+                                <label for="editClientName" class="form-label">입고처명</label>
                                 <input type="text" class="form-control" id="editClientName" name="clientName">
                             </div>
                             <div class="mb-3">
@@ -368,11 +355,11 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">거래처 삭제 확인</h5>
+                        <h5 class="modal-title" id="deleteModalLabel">입고처 삭제 확인</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        정말 거래처를 삭제하시겠습니까?
+                        정말 입고처를 삭제하시겠습니까?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" id="confirmDeleteBtn">확인</button>
@@ -493,7 +480,7 @@
                     if (response === "success") {
                         // 서버 삭제 성공 시 UI에서 행 삭제
                         row.remove();
-                        alert("거래처가 삭제되었습니다.");
+                        alert("입고처가 삭제되었습니다.");
                     } else {
                         alert("삭제에 실패했습니다.");
                     }
