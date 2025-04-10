@@ -69,6 +69,7 @@
                 <h2>제품별 매출 비중</h2>
             </div>
             <canvas id="donutChart"></canvas>
+            <div id="donutChartMessage" style="text-align:center; font-size:18px; margin-top:20px; display:none;">--매출 기록이 아직 없습니다.--</div>
         </div>
         <div id="branch-sales-chart">
             <div id="branch-sales-title">
@@ -76,6 +77,7 @@
                 <h2>우리의 매출 현황</h2>
             </div>
             <canvas id="multiLineChart"></canvas>
+            <div id="lineChartMessage" style="text-align:center; font-size:18px; margin-top:20px; display:none;">매출 기록이 아직 없습니다.</div>
         </div>
     </div>
 </main>
@@ -98,14 +100,21 @@
             url: "/api/getProductSales",
             type: "get",
             success: function(res){
-                const salesData = {
-                    labels: res.productName,
-                    values: res.totalAmount
-                };
+                if (res.productName.length === 0 || res.totalAmount.length === 0) {
+                    $('#donutChart').hide();
+                    $('#donutChartMessage').show();
+                } else {
+                    $('#donutChart').show();
+                    $('#donutChartMessage').hide();
 
-                drawDonutChart(salesData);
-
-            }, error: function (){
+                    const salesData = {
+                        labels: res.productName,
+                        values: res.totalAmount
+                    };
+                    drawDonutChart(salesData);
+                }
+            },
+            error: function () {
                 console.log("제품별 매출 데이터 ajax 요청 실패");
             }
         });
@@ -157,20 +166,26 @@
             url: "/api/getMonthSales",  // API 호출 경로
             type: "get",
             success: function(res) {
-                const labels = res.month.map(month => {
-                    const monthNumber = parseInt(month.split('-')[1]);  // "2024-05"에서 "05" 부분만 추출
-                    return monthNumber + "월";  // "5월", "6월" 형식으로 반환
-                });
-                const monthlySalesData = {
-                    labels: labels,  // "1월", "2월", "3월" 형식으로 변환된 월별 데이터
-                    salesLastYear: res.salesLastYear,  // 작년 매출 데이터
-                    salesThisYear: res.salesThisYear  // 올해 매출 데이터
-                };
+                if ((res.salesLastYear.length === 0 || res.salesThisYear.length === 0) && res.month.length === 0) {
+                    $('#multiLineChart').hide();
+                    $('#lineChartMessage').show();
+                } else {
+                    $('#multiLineChart').show();
+                    $('#lineChartMessage').hide();
 
-                console.log(monthlySalesData);  // 확인용
+                    const labels = res.month.map(month => {
+                        const monthNumber = parseInt(month.split('-')[1]);
+                        return monthNumber + "월";
+                    });
 
-                // drawLineChart 함수에 monthlySalesData 전달
-                drawLineChart(monthlySalesData);
+                    const monthlySalesData = {
+                        labels: labels,
+                        salesLastYear: res.salesLastYear,
+                        salesThisYear: res.salesThisYear
+                    };
+
+                    drawLineChart(monthlySalesData);
+                }
             },
             error: function () {
                 console.log("달별 매출 데이터 ajax 요청 실패");

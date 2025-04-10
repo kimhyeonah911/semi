@@ -17,11 +17,6 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 
     @Override
-    public List<Product> getProductLIst() {
-        return productMapper.getProductLIst();
-    }
-
-    @Override
     public List<Product> selectProductList(int clientId, int storeId) {
         return productMapper.selectProductList(clientId, storeId);
     }

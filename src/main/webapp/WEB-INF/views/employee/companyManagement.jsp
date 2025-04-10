@@ -137,7 +137,7 @@
 
                 <div class="mb-3">
                     <label for="registrationDate" class="form-label">등록일</label>
-                    <input type="text" class="form-control" id="registrationDate" value="2025 / 03 / 28" disabled>
+                    <input type="text" class="form-control" id="registrationDate" disabled>
                 </div>
                 <button id="createbtn" type="submit">생성</button>
             </form>
@@ -148,3 +148,11 @@
 
 </body>
 </html>
+
+<script>
+    var currentDate = new Date();
+    var formattedDate = currentDate.getFullYear() + ' / ' + (currentDate.getMonth() + 1).toString().padStart(2, '0') + ' / ' + currentDate.getDate().toString().padStart(2, '0');
+
+    // input에 값 설정
+    document.getElementById('registrationDate').value = formattedDate;
+</script>
