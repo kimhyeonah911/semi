@@ -38,8 +38,12 @@
 
         .table1, .table2{
             width: 49%;
-            max-height: 700px;
+            max-height: 750px;
             overflow-y: auto;
+        }
+
+        .table2{
+            max-height: 664px;
         }
 
         select{

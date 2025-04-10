@@ -184,7 +184,7 @@ public class ManagerController {
         // 페이징 처리
         int listCount = stockService.selectStockInListforPaging(empNo, status, startDate, endDate);
         int pageLimit = 5;
-        int boardLimit = 5;
+        int boardLimit = 8;
         PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
         ArrayList<Stock> listpage = stockService.selectStockInListByPage(pi, empNo, status, startDate, endDate);
 
@@ -220,7 +220,7 @@ public class ManagerController {
         // 페이징 처리
         int listCount = stockService.selectStockOutListforPaging(empNo, status, startDate, endDate);
         int pageLimit = 5;
-        int boardLimit = 5;
+        int boardLimit = 8;
         PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
         ArrayList<Stock> listpage = stockService.selectStockOutListByPage(pi, empNo, status, startDate, endDate);
 
