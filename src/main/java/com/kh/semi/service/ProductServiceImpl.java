@@ -17,8 +17,8 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 
     @Override
-    public List<Product> selectProductList(int clientId) {
-        return productMapper.selectProductList(clientId);
+    public List<Product> selectProductList(int clientId, int storeId) {
+        return productMapper.selectProductList(clientId, storeId);
     }
 
     @Override
