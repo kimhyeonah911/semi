@@ -135,6 +135,10 @@
             width: 400px;
         }
 
+        .form-select{
+            width: 300px !important;
+        }
+
         .pagination {
             display: flex;
             justify-content: center;
