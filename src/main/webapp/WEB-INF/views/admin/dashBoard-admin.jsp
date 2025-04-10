@@ -200,7 +200,7 @@
             <div class="dashboard-card card-sales" style="grid-area: sales;">
                 <div class="card-title">💰 매점별 매출</div>
                 <div class="card-body">
-                    <canvas id="salesChart" style="max-width: 100%; height: 300px;"></canvas> <!-- Chart.js 그래프 삽입 -->
+                    <canvas id="salesChart" style="width: 930px; height: 300px;"></canvas> <!-- Chart.js 그래프 삽입 -->
                 </div>
                 <a href="sales.bo" style="text-decoration: none; color: black;">
                 <div class="card-footer">매출 분석 필요</div>
@@ -243,17 +243,15 @@
                                     }]
                                 },
                                 options: {
-                                    responsive: true,
+                                    responsive: false,
+                                    maintainAspectRatio: false,
                                     layout: {
                                         padding: {
-                                            bottom: 60 // 아래 여백만 확보
                                         }
                                     },
                                     scales: {
                                         x: {
                                             ticks: {
-                                                maxRotation: 45,  // 라벨 회전
-                                                minRotation: 45,
                                                 autoSkip: true    // 너무 많으면 생략
                                             }
                                         },
