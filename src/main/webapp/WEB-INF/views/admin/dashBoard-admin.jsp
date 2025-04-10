@@ -246,7 +246,11 @@
                                     responsive: true,
                                     scales: {
                                         y: {
-                                            beginAtZero: true
+                                            beginAtZero: true,
+                                            max: 4000000,
+                                            ticks: {
+                                                stepSize: 1000000
+                                            }
                                         }
                                     }
                                 }
