@@ -65,9 +65,11 @@
         WHERE P.STATUS = 'Y'
         <if test="clientId != 0">
             AND CLIENT_ID = #{clientId}
-            AND I.QUANTITY > 0
         </if>
-        AND I.QUANTITY > 0
+        <if test="clientId == 0">
+            AND I.QUANTITY > 0
+            AND I.STORE_ID = #{storeId}
+        </if>
         ORDER BY P.PRODUCT_NO
     </select>
 

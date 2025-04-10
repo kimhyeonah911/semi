@@ -2,6 +2,7 @@ package com.kh.semi.RESTController;
 
 import com.kh.semi.domain.vo.Category;
 import com.kh.semi.domain.vo.Client;
+import com.kh.semi.domain.vo.Member;
 import com.kh.semi.domain.vo.Product;
 import com.kh.semi.service.ProductService;
 import com.kh.semi.service.StoresalesService;
@@ -37,8 +38,12 @@ public class APIProductController {
     }
 
     @GetMapping("/selectProductList")
-    public List<Product> selectProductList(int clientId) {
-        List<Product> list = productService.selectProductList(clientId);
+    public List<Product> selectProductList(int clientId, HttpSession session) {
+        int storeId = 0;
+        if(clientId == 0){
+            storeId = ((Member) session.getAttribute("loginUser")).getStoreId();
+        }
+        List<Product> list = productService.selectProductList(clientId, storeId);
         return list;
     }
 
