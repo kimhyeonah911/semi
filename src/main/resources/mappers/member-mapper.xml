@@ -170,6 +170,7 @@
 
     <select id="selectMemberListByPage" resultMap="memberResult">
         SELECT DISTINCT M.EMP_NO,
+        M.CREATE_DATE,
         M.HIRE_DATE,
         M.MEM_NAME,
         S.STORE_NAME,
@@ -185,6 +186,7 @@
     <select id="countAllMembers" resultType="int">
         SELECT COUNT(*) FROM MEMBER
         WHERE STATUS = 'Y'
+        AND STORE_ID IS NOT NULL
     </select>
 
     <update id="updatePhone">

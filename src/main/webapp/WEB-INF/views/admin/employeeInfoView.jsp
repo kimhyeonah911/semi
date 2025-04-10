@@ -123,7 +123,7 @@
         <c:forEach var="m" items="${member}">
           <tr>
             <td>${m.empNo}</td>
-            <td><fmt:formatDate value="${m.hireDate}" pattern="yyyy-MM-dd" /></td>
+            <td><fmt:formatDate value="${m.createDate}" pattern="yyyy-MM-dd" /></td>
             <td>${m.memName}</td>
             <td>${m.storeName}</td>
             <td>${m.position}</td>
