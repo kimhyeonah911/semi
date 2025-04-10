@@ -225,6 +225,7 @@
         FROM MEMBER
         WHERE STORE_ID = #{storeId}
             AND STATUS = 'Y'
+            AND POSITION = 'employee'
     </select>
 
 </mapper>
