@@ -10,4 +10,5 @@ public interface StoreMapper {
 
    int insertCompany(com.kh.semi.domain.vo.Store storename);
    ArrayList<Store> getStores();
+   int countManager();
 }

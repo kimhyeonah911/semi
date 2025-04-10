@@ -43,6 +43,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public int countEmployee() {
+        return memberMapper.countEmployee();
+    }
+
+    @Override
     public ArrayList<Member> acceptMemberList() {
         return memberMapper.acceptMemberList();
     }
