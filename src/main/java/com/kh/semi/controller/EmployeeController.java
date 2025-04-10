@@ -52,10 +52,9 @@ public class EmployeeController {
         model.addAttribute("store", company);
         int result = storeService.insertCompany(company);
 
-
         if (result > 0) {
             // 지점 생성 성공 시 지점 목록 페이지로 리다이렉트
-            model.addAttribute("alertMessage", "지점이 성공적으로 신청되었습니다."); // 예시: store/list 페이지로 이동
+            model.addAttribute("alertMessage", "지점이 성공적으로 신청되었습니다. 본사의 승인을 기다려주십시오."); // 예시: store/list 페이지로 이동
             return "employee/companyManagement";
         } else {
             // 실패 시 에러 페이지로 이동

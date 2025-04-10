@@ -236,10 +236,10 @@ public class AdminController {
         System.out.println(storeSelect);
         int result = memberService.approveMember(memId,storeSelect);
         if(result > 0){
-            session.setAttribute("alertMsg","직원 승인 완료");
+//            session.setAttribute("alertMsg","직원 승인 완료");
             return "admin/memberManagement";
         } else{
-            model.addAttribute("errorMsg", "직원 승인 실패");
+//            model.addAttribute("errorMsg", "직원 승인 실패");
             return "common/errorPage";
         }
     }
@@ -257,11 +257,11 @@ public class AdminController {
         }
     }
 
-    @PostMapping("/approveManager")
+    @PostMapping("/approveManager") //지점장 승인 로직
     public String approveManager(@RequestParam String storeId, @RequestParam String memId ,HttpSession session, Model model) {
         int result = memberService.approveManager(storeId, memId);
         if(result > 1){
-            session.setAttribute("alertMsg","지점장 승인 완료");
+//            session.setAttribute("alertMsg","지점장 승인 완료");
             return "admin/managerManagement";
         } else{
             model.addAttribute("errorMsg", "지점장 승인 실패");
@@ -270,12 +270,12 @@ public class AdminController {
 
     }
 
-    @PostMapping("/rejectManager")
+    @PostMapping("/rejectManager") //지점장 거부 로직
     public String rejectManager(@RequestParam String storeId,HttpSession session, Model model) {
         System.out.println(storeId);
         int result = memberService.rejectManager(storeId);
         if(result > 0){
-            session.setAttribute("alertMsg","지점장 승인거부 완료");
+//            session.setAttribute("alertMsg","지점장 승인거부 완료");
             return "admin/memberManagement";
         } else{
             model.addAttribute("errorMsg", "지점장 승인거부 실패");
