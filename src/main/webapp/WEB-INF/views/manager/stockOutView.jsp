@@ -38,8 +38,12 @@
 
     .table1, .table2{
       width: 49%;
-      max-height: 700px;
+      max-height: 750px;
       overflow-y: auto;
+    }
+
+    .table2{
+      max-height: 664px;
     }
 
     select{
@@ -304,20 +308,23 @@
     <div class="stockOut-management">
       <div class="table1">
         <div id="search-bar">
-          <div id="search-bar-1">
-            <select id="stockOut-search-bar">
-              <option value="0">전체</option>
-              <option value="1">출고 등록</option>
-              <option value="2">출고중</option>
-              <option value="3">출고 완료</option>
-            </select>
-            <input type="date"
-                   id="date1">
-            ~
-            <input type="date"
-                   id="date2">
-            <button type="button" class="search-btn" id="submit-btn" onclick="searchStock()">조회</button>
-          </div>
+          <form id="statusForm" method="get" action="stockOut.sto">
+            <div id="search-bar-1">
+              <select id="stockOut-search-bar" name="status">
+                <option value="전체" ${selectedStatus == '전체' ? 'selected' : ''}>전체</option>
+                <option value="STOCK_OUT_REGISTERED" ${selectedStatus == 'STOCK_OUT_REGISTERED' ? 'selected' : ''}>출고 등록</option>
+                <option value="STOCK_OUT_PROGRESS" ${selectedStatus == 'STOCK_OUT_PROGRESS' ? 'selected' : ''}>출고중</option>
+                <option value="STOCK_OUT_COMPLETED" ${selectedStatus == 'STOCK_OUT_COMPLETED' ? 'selected' : ''}>출고 완료</option>
+              </select>
+
+              <input type="date" id="date1" name="startDate" value="${startDate}">
+              ~
+              <input type="date" id="date2" name="endDate" value="${endDate}">
+
+              <button type="submit" class="search-btn" id="submit-btn">조회</button>
+            </div>
+          </form>
+
           <button class="storage-btn" id="storage-submit-btn" onclick="showModal()">출고서 등록</button>
         </div>
         <div>
@@ -364,7 +371,7 @@
                             <c:set var="totalAmount" value="${totalAmount + itemTotal}" />
                           </c:if>
                         </c:forEach>
-                      <fmt:formatNumber value="${totalAmount}" type="number" groupingUsed="true" />
+                        <fmt:formatNumber value="${totalAmount}" type="number" groupingUsed="true" />
                       </td>
 
                       <td>${s.memName}</td>
@@ -392,10 +399,39 @@
             </tbody>
 
           </table>
-          <div class="pagebar-container mt-3">
-            <jsp:include page="../common/pagebar.jsp"/>
-          </div>
+          <div class="pagination">
+            <!-- 이전 버튼 -->
+            <c:choose>
+              <c:when test="${pi.currentPage == 1}">
+                <a href="#" class="disabled">이전</a>
+              </c:when>
+              <c:otherwise>
+                <a href="${pageUrl}?cpage=${pi.currentPage - 1}&status=${selectedStatus}&startDate=${startDate}&endDate=${endDate}">이전</a>
+              </c:otherwise>
+            </c:choose>
 
+            <!-- 숫자 버튼 -->
+            <c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
+              <c:choose>
+                <c:when test="${i == pi.currentPage}">
+                  <a href="#" class="active">${i}</a>
+                </c:when>
+                <c:otherwise>
+                  <a href="${pageUrl}?cpage=${i}&status=${selectedStatus}&startDate=${startDate}&endDate=${endDate}">${i}</a>
+                </c:otherwise>
+              </c:choose>
+            </c:forEach>
+
+            <!-- 다음 버튼 -->
+            <c:choose>
+              <c:when test="${pi.currentPage == pi.maxPage}">
+                <a href="#" class="disabled">다음</a>
+              </c:when>
+              <c:otherwise>
+                <a href="${pageUrl}?cpage=${pi.currentPage + 1}&status=${selectedStatus}&startDate=${startDate}&endDate=${endDate}">다음</a>
+              </c:otherwise>
+            </c:choose>
+          </div>
         </div>
       </div>
 

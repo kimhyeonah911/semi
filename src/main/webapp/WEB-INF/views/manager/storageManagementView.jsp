@@ -147,143 +147,143 @@
 
 <jsp:include page="../common/header.jsp" />
 <div class="container-fluid">
-<jsp:include page="../common/sidebar.jsp"/>
+    <jsp:include page="../common/sidebar.jsp"/>
 
 
-<main>
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">위치관리</h1>
-    </div>
-
-
-    <form action="">
-        <div id="search-bar">
-            <% if (position.equals("manager")) { %>
-            <button id="storage-submit-btn" type="button" class="btn btn-success" onclick="showModal()">+등록</button>
-            <% } %>
+    <main>
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">위치관리</h1>
         </div>
-    </form>
 
 
-    <div class="table-container">
-        <table class="table table-striped table-hover align-middle">
-            <thead>
-            <tr>
-                <th>창고번호</th>
-                <th>창고명</th>
-                <th>현재 보관 수량</th>
-                <th>보관 가능 수량</th>
+        <form action="">
+            <div id="search-bar">
                 <% if (position.equals("manager")) { %>
-                <th>삭제</th>
+                <button id="storage-submit-btn" type="button" class="btn btn-success" onclick="showModal()">+등록</button>
                 <% } %>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="s" items="${storage}">
-            <tr data-storage-no="${s.storageNo}">
-                <td>${s.storageNo}</td>
-                <td>${s.storageLocation}</td>
-                <td>${s.currentAmount}</td>
-                <td>${s.ableAmount}</td>
-                <% if (position.equals("manager")) { %>
-                <td>
-                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDelete(this)">삭제</button>
-                </td>
-                <% } %>
-            </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-        <div class="pagination">
-            <!-- 이전 버튼 -->
-            <c:choose>
-                <c:when test="${pi.currentPage == 1}">
-                    <a href="#" class="disabled">이전</a>
-                </c:when>
-                <c:otherwise>
-                    <a href="${pageUrl}?cpage=${pi.currentPage - 1}">이전</a>
-                </c:otherwise>
-            </c:choose>
+            </div>
+        </form>
 
-            <!-- 숫자 버튼 -->
-            <c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
+
+        <div class="table-container">
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                <tr>
+                    <th>창고번호</th>
+                    <th>창고명</th>
+                    <th>현재 보관 수량</th>
+                    <th>보관 가능 수량</th>
+                    <% if (position.equals("manager")) { %>
+                    <th>삭제</th>
+                    <% } %>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="s" items="${storage}">
+                    <tr data-storage-no="${s.storageNo}">
+                        <td>${s.storageNo}</td>
+                        <td>${s.storageLocation}</td>
+                        <td>${s.currentAmount}</td>
+                        <td>${s.ableAmount}</td>
+                        <% if (position.equals("manager")) { %>
+                        <td>
+                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDelete(this)">삭제</button>
+                        </td>
+                        <% } %>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <div class="pagination">
+                <!-- 이전 버튼 -->
                 <c:choose>
-                    <c:when test="${i == pi.currentPage}">
-                        <a href="#" class="active">${i}</a>
+                    <c:when test="${pi.currentPage == 1}">
+                        <a href="#" class="disabled">이전</a>
                     </c:when>
                     <c:otherwise>
-                        <a href="${pageUrl}?cpage=${i}">${i}</a>
+                        <a href="${pageUrl}?cpage=${pi.currentPage - 1}">이전</a>
                     </c:otherwise>
                 </c:choose>
-            </c:forEach>
 
-            <!-- 다음 버튼 -->
-            <c:choose>
-                <c:when test="${pi.currentPage == pi.maxPage}">
-                    <a href="#" class="disabled">다음</a>
-                </c:when>
-                <c:otherwise>
-                    <a href="${pageUrl}?cpage=${pi.currentPage + 1}">다음</a>
-                </c:otherwise>
-            </c:choose>
+                <!-- 숫자 버튼 -->
+                <c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
+                    <c:choose>
+                        <c:when test="${i == pi.currentPage}">
+                            <a href="#" class="active">${i}</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${pageUrl}?cpage=${i}">${i}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+
+                <!-- 다음 버튼 -->
+                <c:choose>
+                    <c:when test="${pi.currentPage == pi.maxPage}">
+                        <a href="#" class="disabled">다음</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${pageUrl}?cpage=${pi.currentPage + 1}">다음</a>
+                    </c:otherwise>
+                </c:choose>
+            </div>
         </div>
-    </div>
 
-    <!-- 🔹 모달창 HTML -->
-    <!-- 모달 창 -->
-    <div class="modal fade" id="noticeModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <!-- 모달 헤더 -->
-                <div class="modal-header">
-                    <h5 class="modal-title" id="insertStorage">창고등록</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+        <!-- 🔹 모달창 HTML -->
+        <!-- 모달 창 -->
+        <div class="modal fade" id="noticeModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <!-- 모달 헤더 -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="insertStorage">창고등록</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
 
-                <form action="insert.sto" method="POST">
-                    <!-- 모달 본문 -->
-                    <div class="modal-body">
-                        <div class="input-space">
-                            <h5>창고번호</h5>
-                            <input type="text" placeholder="자동생성" readonly>
-                            <h5>창고명</h5>
-                            <input type="text" name="storageLocation">
-                            <h5>보관 가능 수량</h5>
-                            <input type="number" name="ableAmount" min="10" value="10" step="10" placeholder="숫자만 입력해주세요">
+                    <form action="insert.sto" method="POST">
+                        <!-- 모달 본문 -->
+                        <div class="modal-body">
+                            <div class="input-space">
+                                <h5>창고번호</h5>
+                                <input type="text" placeholder="자동생성" readonly>
+                                <h5>창고명</h5>
+                                <input type="text" name="storageLocation">
+                                <h5>보관 가능 수량</h5>
+                                <input type="number" name="ableAmount" min="10" value="10" step="10" placeholder="숫자만 입력해주세요">
+                            </div>
+
                         </div>
 
-                    </div>
+                        <!-- 모달 푸터 -->
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">확인</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                        </div>
 
-                    <!-- 모달 푸터 -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <%--창고 삭제 모달--%>
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">창고 삭제 확인</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        정말 창고를 삭제하시겠습니까?
+                    </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">확인</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">확인</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
                     </div>
-
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <%--창고 삭제 모달--%>
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">창고 삭제 확인</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    정말 창고를 삭제하시겠습니까?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">확인</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
                 </div>
             </div>
         </div>
-    </div>
-</main>
+    </main>
 </div>
 
 
@@ -343,9 +343,5 @@
     }
 
 </script>
-
-
-
-
 </body>
 </html>

@@ -14,4 +14,6 @@ public interface StorageService {
     ArrayList<Storage> getStorageList();
     int updateStorageAmount(int storageNo, int amount);
     int minusStorageAmount(int storageNo, int amount);
+    Storage searchStorage(int storageNo);
+
 }

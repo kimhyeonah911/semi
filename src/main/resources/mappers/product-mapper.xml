@@ -32,7 +32,7 @@
         <result column="STATUS" property="status"/>
     </resultMap>
     <select id="selectProductList" resultType="Product">
-        SELECT
+        SELECT DISTINCT
         P.PRODUCT_NO AS productNo,
         P.PRODUCT_NAME AS productName,
         P.CATEGORY_NO AS categoryNo,
@@ -49,6 +49,7 @@
         WHERE P.STATUS = 'Y'
         <if test="clientId != 0">
             AND CLIENT_ID = #{clientId}
+            AND I.QUANTITY > 0
         </if>
         AND I.QUANTITY > 0
         ORDER BY P.PRODUCT_NO
@@ -65,6 +66,7 @@
         FROM PRODUCT P
         JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
         WHERE P.PRODUCT_NAME LIKE '%' || #{productName} || '%'
+        AND CLIENT_ID = #{clientId}
         ORDER BY P.PRODUCT_NO ASC
     </select>
     <select id="selectImageUrl" resultType="Product" resultMap="productResult">

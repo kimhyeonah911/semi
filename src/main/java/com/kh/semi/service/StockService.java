@@ -1,14 +1,12 @@
 package com.kh.semi.service;
 
+import com.kh.semi.domain.vo.PageInfo;
 import com.kh.semi.domain.vo.Stock;
 import com.kh.semi.domain.vo.StockProduct;
 
 import java.util.ArrayList;
 
 public interface StockService {
-    ArrayList<Stock> selectStockList(int empNo);
-    ArrayList<Stock> searchStockInList(String stockStatus, String startDate, String endDate, int empNo);
-    ArrayList<Stock> searchStockOutList(String stockStatus, String startDate, String endDate, int empNo);
     int insertStockIn(Stock stock);
     int insertStockOut(Stock stock);
     int insertStockProduct(StockProduct stockProduct);
@@ -19,13 +17,22 @@ public interface StockService {
     int deleteStockProduct(int stockNo);
     Stock selectStock(int stockNo);
     ArrayList<StockProduct> selectStockProduct(int stockNo);
-   
+
     //입고완료
     int updateCompletedStockIn();
     ArrayList<Stock> selectCompletedStockIn(); // COMPLETED + Y 인 애들
-    int updateStockProcessedStatus(int stockNo);
-    
+    int updateStockProcessedStatus(int stockNo); // STATUS = 'C'로 변경
+
     //출고완료
     int updateCompletedStockOut();
     ArrayList<Stock> selectCompletedStockOut();
+
+    int countStockIn(int empNo);
+    int countStockOut(int empNo);
+
+    //페이징
+    int selectStockInListforPaging(int empNo, String status, String startDate, String endDate);
+    ArrayList<Stock> selectStockInListByPage(PageInfo pi, int empNo, String status, String startDate, String endDate);
+    int selectStockOutListforPaging(int empNo, String status, String startDate, String endDate);
+    ArrayList<Stock> selectStockOutListByPage(PageInfo pi, int empNo, String status, String startDate, String endDate);
 }

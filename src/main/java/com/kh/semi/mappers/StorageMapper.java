@@ -21,4 +21,6 @@ public interface StorageMapper {
 
     int minusStorageAmount(int storageNo, int amount);
 
+    Storage searchStorage(int storageNo);
+
 }

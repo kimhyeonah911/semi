@@ -1,9 +1,11 @@
 package com.kh.semi.service;
 
+import com.kh.semi.domain.vo.PageInfo;
 import com.kh.semi.domain.vo.Stock;
 import com.kh.semi.domain.vo.StockProduct;
 import com.kh.semi.mappers.StockMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,21 +14,6 @@ import java.util.ArrayList;
 @Service
 public class StockServiceImpl implements StockService {
     private final StockMapper stockMapper;
-
-    @Override
-    public ArrayList<Stock> selectStockList(int empNo) {
-        return stockMapper.selectStockList(empNo);
-    }
-
-    @Override
-    public ArrayList<Stock> searchStockInList(String stockStatus, String startDate, String endDate, int empNo) {
-        return stockMapper.searchStockInList(stockStatus, startDate, endDate, empNo);
-    }
-
-    @Override
-    public ArrayList<Stock> searchStockOutList(String stockStatus, String startDate, String endDate, int empNo) {
-        return stockMapper.searchStockOutList(stockStatus, startDate, endDate, empNo);
-    }
 
     @Override
     public int insertStockIn(Stock stock) {
@@ -102,4 +89,37 @@ public class StockServiceImpl implements StockService {
         return stockMapper.selectCompletedStockOut();
     }
 
+    @Override
+    public int countStockIn(int empNo) {
+        return stockMapper.countStockIn(empNo);
+    }
+
+    @Override
+    public int countStockOut(int empNo) {
+        return stockMapper.countStockOut(empNo);
+    }
+
+    @Override
+    public int selectStockInListforPaging(int empNo, String status, String startDate, String endDate) {
+        return stockMapper.selectStockInListforPaging(empNo, status, startDate, endDate);
+    }
+
+    @Override
+    public ArrayList<Stock> selectStockInListByPage(PageInfo pi, int empNo, String status, String startDate, String endDate) {
+        int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+        RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+        return stockMapper.selectStockInListByPage(empNo, status, startDate, endDate , rowBounds);
+    }
+
+    @Override
+    public int selectStockOutListforPaging(int empNo, String status, String startDate, String endDate) {
+        return stockMapper.selectStockOutListforPaging(empNo, status, startDate, endDate);
+    }
+
+    @Override
+    public ArrayList<Stock> selectStockOutListByPage(PageInfo pi, int empNo, String status, String startDate, String endDate) {
+        int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+        RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+        return stockMapper.selectStockOutListByPage(empNo, status, startDate, endDate , rowBounds);
+    }
 }

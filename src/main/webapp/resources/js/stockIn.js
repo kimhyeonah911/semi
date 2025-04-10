@@ -1,6 +1,3 @@
-const date1 = document.getElementById("date1");
-const date2 = document.getElementById("date2");
-
 // date1이 변경되면 date2는 date1 + 1일 이상부터 선택 가능
 document.getElementById("date1").addEventListener("change", function () {
     const date1 = this;
@@ -24,6 +21,22 @@ document.getElementById("date1").addEventListener("change", function () {
     }
 });
 
+window.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("statusForm");
+    const date1 = document.getElementById("date1");
+    const date2 = document.getElementById("date2");
+
+    form.addEventListener("submit", function (e) {
+        const start = date1.value;
+        const end = date2.value;
+
+        if ((start && !end) || (!start && end)) {
+            alert("날짜를 모두 선택해주세요.");
+            e.preventDefault(); // 제출 막기
+        }
+    });
+});
+
 document.addEventListener("DOMContentLoaded", updateSummary);
 
 // 입고 예정 일자 계산
@@ -40,35 +53,6 @@ function setExpectedDate() {
     const dd = String(today.getDate()).padStart(2, '0');
 
     dateInput.value = `${yyyy}-${mm}-${dd}`;
-}
-
-//검색 조건으로 입고 리스트 가져오기
-function searchStock() {
-    let stockStatus = $("#stockIn-search-bar").val();
-    let startDate = $("#date1").val();
-    let endDate = $("#date2").val();
-
-    if ((startDate && !endDate) || (!startDate && endDate)) {
-        alert("날짜를 모두 선택해주세요.");
-        return;
-    }
-
-    $.ajax({
-        url: "/api/searchStockIn",
-        type: "GET",
-        data: {
-            stockStatus: stockStatus,
-            startDate: startDate,
-            endDate: endDate
-        },
-        dataType: "json",
-        success: function (response) {
-            updateStockTable(response);
-        },
-        error: function () {
-            console.error("ajax 통신 오류");
-        }
-    });
 }
 
 //stockProduct 가격 테이블 변경 시마다 바뀌기
@@ -280,6 +264,8 @@ function searchProduct() {
     const input = document.getElementById("product-search-input");
     const productName = input.value.trim();
 
+    const clientId = document.getElementById("client-search-bar").value;
+
     if (productName === "") {
         alert("품목명을 입력해주세요.");
         return;
@@ -288,7 +274,10 @@ function searchProduct() {
     $.ajax({
         url: "/api/searchProductName",
         method: "GET",
-        data: { productName: productName },
+        data: {
+            productName: productName,
+            clientId: clientId
+        },
         success: function (data) {
             input.value = "";
             createProductTable(data);
@@ -493,6 +482,7 @@ function createStockInTable(data) {
     //입고서에서 확인 버튼 클릭시 입출고 제품 테이블과 입출고 테이블에 등록
     document.getElementById("stock-submit-btn").addEventListener("click", function () {
         const stockProducts = [];
+        let totalAmount = 0;
         const stockEmp = document.getElementById("empNo").value;
         const expDate = document.getElementById("expected-date").value;
         const storageNo = document.getElementById("storage-search-bar").value;
@@ -504,6 +494,8 @@ function createStockInTable(data) {
             const price = parseInt(row.querySelector("td:nth-child(4)").textContent.replace(/,/g, '')) || 0;
             const tax = row.querySelector(".select-tax").value; //0이면 Y 1이면 N
             const taxPrice = tax === "0" ? Math.floor(price * amount * 0.1) : 0;
+
+            totalAmount += amount; // 수량 누적
 
             stockProducts.push({
                 productNo,
@@ -520,6 +512,18 @@ function createStockInTable(data) {
             stockEmp,
             expDate,
         };
+
+        StorageInfo(storageNo, function(storage) {
+            const able = storage.ableAmount;
+            const current = storage.currentAmount;
+            console.log(able);
+            console.log(current);
+
+            if (current + totalAmount > able) {
+                alert("창고 수용 가능 수량을 초과하여 입고할 수 없습니다.");
+                return;
+            }
+        });
 
         $.ajax({
             url: "/api/insertStockIn",
@@ -549,6 +553,25 @@ function createStockInTable(data) {
         });
         updateSummary();
     });
-
 }
+
+function StorageInfo(storageNo, callback) {
+    $.ajax({
+        url: "/api/searchStorage",
+        method: "GET",
+        data: { storageNo: storageNo },
+        dataType: "json",
+        success: function (storage) {
+            callback({
+                ableAmount: storage.ableAmount,
+                currentAmount: storage.currentAmount
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error("창고 정보 조회 실패:", error);
+            callback(null);
+        }
+    });
+}
+
 
