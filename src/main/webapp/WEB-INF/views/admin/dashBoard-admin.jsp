@@ -246,8 +246,7 @@
                                     responsive: false,
                                     maintainAspectRatio: false,
                                     layout: {
-                                        padding: {
-                                        }
+
                                     },
                                     scales: {
                                         x: {

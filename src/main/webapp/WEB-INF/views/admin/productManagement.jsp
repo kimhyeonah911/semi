@@ -131,6 +131,14 @@
             width: 300px;
         }
 
+        .form-label{
+            width: 400px;
+        }
+
+        .form-select{
+            width: 300px !important;
+        }
+
         .pagination {
             display: flex;
             justify-content: center;
@@ -166,6 +174,18 @@
         }
 
 
+        #productTable {
+            table-layout: fixed;
+            width: 100%;
+        }
+
+        #product-list-table th,
+        #product-list-table td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -202,15 +222,15 @@
             <table class="table table-striped table-hover" id="productTable">
                 <thead>
                 <tr>
-                    <th></th>
-                    <th>상품번호</th>
-                    <th>상품명</th>
-                    <th>카테고리</th>
-                    <th>색상</th>
-                    <th>사이즈</th>
-                    <th>입고(구매)가격</th>
-                    <th>출고(판매)가격</th>
-                    <th>수정</th>
+                    <th style="width: 50px;"></th>
+                    <th style="width: 150px;">상품번호</th>
+                    <th style="width: 300px;">상품명</th>
+                    <th style="width: 200px;">카테고리</th>
+                    <th style="width: 150px;">색상</th>
+                    <th style="width: 150px;">사이즈</th>
+                    <th style="width: 200px;">입고(구매)가격</th>
+                    <th style="width: 200px;">출고(판매)가격</th>
+                    <th style="width: 250px;">수정</th>
                 </tr>
                 </thead>
                 <tbody id="product-list">
@@ -698,7 +718,7 @@ function updateProductRestart() {
     }
 
     let currentPage = 1;
-    const pageSize = 10;
+    const pageSize = 9;
 
 $(document).ready(function () {
     $('#search-form').on('submit', function (e) {
@@ -816,8 +836,6 @@ function drawPagebar(pageInfo, containerId, searchFunctionName){
     const currentPage = pageInfo.currentPage;
     const pagebar = $(containerId);
     pagebar.empty();
-
-    if (totalPages <= 1) return;
 
     let pageHTML = "<div class='pagination'>";
 
