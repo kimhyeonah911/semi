@@ -23,4 +23,9 @@ public class StoreServiceImpl implements StoreService {
     public ArrayList<Store> getStores() {
         return storeMapper.getStores();
     }
+
+    @Override
+    public int countManager() {
+        return storeMapper.countManager();
+    }
 }

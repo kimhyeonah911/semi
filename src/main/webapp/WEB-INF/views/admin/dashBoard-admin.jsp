@@ -62,7 +62,6 @@
             padding: 5px;
         }
         .card-body img:hover {
-            background: #007bff;
             scale: 1.05;
         }
 
@@ -147,6 +146,16 @@
             align-items: center;
             width: 130px;
         }
+        .card-body-work {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+        }
+        #waitMember, #waitManager{
+            margin-bottom: 10px;
+            margin-top: 50px;
+        }
     </style>
 </head>
 <body>
@@ -163,27 +172,27 @@
         </div>
 
         <div class="card-container">
-            <!-- 부족한 재고 카드 -->
+            <!-- 승인 대기 인원 -->
             <div class="dashboard-card card-warning" style="grid-area: warning;">
-                <div class="card-title">⚠️ 부족한 재고</div>
+                <div class="card-title">👤 승인 대기 인원</div>
                 <div class="card-body">
-                    <span>뉴발란스 992 현재 재고 부족 제품이 5개입니다.</span>
+                    <div class="card-body-work">
+                        <!-- 직원 승인 대기 -->
+                        <div class="work text-center">
+                            <img src="/resources/employee.png" alt="승인 대기 직원 아이콘" id="waitMember">
+                            <h4>${countEmployee}</h4>
+                            <p>직원 승인 대기</p>
+                        </div>
+
+                        <!-- 지점장 승인 대기 -->
+                        <div class="nowork text-center">
+                            <img src="/resources/manager.png" alt="승인 대기 지점장 아이콘" id="waitManager">
+                            <h4>${countManager}</h4>
+                            <p>지점장 승인 대기</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <span>에어포스1 07 WB 현재 재고 부족 제품이 2개입니다.</span>
-                </div>
-                <div class="card-body">
-                    <span>아디다스 삼바 현재 재고 부족 제품이 7개입니다.</span>
-                </div>
-                <div class="card-body">
-                    <span>아식스 리브레 현재 재고 부족 제품이 2개입니다.</span>
-                </div>
-                <div class="card-body">
-                    <span>반스 컴피쿠시 현재 재고 부족 제품이 1개입니다.</span>
-                </div>
-                <div class="card-body">
-                    <span></span>
-                </div>
+
                 <div class="card-footer">조치를 취해주세요</div>
             </div>
 
@@ -193,59 +202,108 @@
                 <div class="card-body">
                     <canvas id="salesChart" style="max-width: 100%; height: 300px;"></canvas> <!-- Chart.js 그래프 삽입 -->
                 </div>
+                <a href="sales.bo" style="text-decoration: none; color: black;">
                 <div class="card-footer">매출 분석 필요</div>
+                </a>
             </div>
 
             <!-- Chart.js 라이브러리 추가 -->
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
             <script>
-                // 매출 데이터 (지점별 매출)
-                const labels = ['한남점', '서울역점', '강남점', '노원점', '길음점', '잠실점', '선릉점', '번내점', '천호점', '역삼점']; // x축 레이블
-                const data = {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: '지점별 매출',
-                            data: [45, 90, 180, 135, 90, 105, 75, 60, 45, 30], // 지점별 매출 데이터
-                            borderColor: 'rgb(255,120,120)', // 선 색상
-                            pointBackgroundColor: 'white',
-                            backgroundColor: 'rgba(0,0,0,0.2)', // 선 아래 채우기 색상
-                            tension: 0.4 // 곡선 정도
-                        }
-                    ]
-                };
+                $(document).ready(function () {
+                    getDaySales(); //페이지 들어갈때마다 그래프 다시 가져옴
 
-                // 차트 옵션
-                const config = {
-                    type: 'line',
-                    data: data,
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { display: false },
-                            title: { display: true, text: '지점별 매출' }
+
+                    setInterval(getDaySales, 30000); //페이지에 계속 남아있을시 30초마다 자동 새로고침
+                });
+
+                function getDaySales(){
+                    console.log("일매출차트 실행");
+
+                    $.ajax({
+                        url: "/api/getDaySales",
+                        type: "get",
+                        success: function (res){
+                            const labels = res.labels; // 지점명 리스트
+                            const data = res.data;     // 매출 리스트
+
+                            const ctx = document.getElementById('salesChart').getContext('2d');
+
+                            new Chart(ctx, {
+                                type: 'line',
+                                data: {
+                                    labels: labels,
+                                    datasets: [{
+                                        label: '오늘 일매출 (원)',
+                                        data: data,
+                                        fill: false,
+                                        borderColor: 'rgb(75, 192, 192)',
+                                        tension: 0.1
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true
+                                        }
+                                    }
+                                }
+                            });
                         },
-                        scales: {
-                            x: {
-                                title: { display: true },
-                                grid: { display: false } // x축 눈금선 제거
-                            },
-                            y: {
-                                title: { display: true, text: '매출 (단위: 만원)' },
-                                min: 0,
-                                max: 200,
-                                ticks: { stepSize: 40 }, // y축 눈금 간격을 40으로 설정
-                                grid: { display: false } // y축 눈금선 제거
-                            }
+                        error: function(){
+                            console.error("일매출 차트 가져오기 실패");
                         }
-                    }
-                };
+                    });
+                }
 
-                // Chart.js 렌더링
-                const ctx = document.getElementById('salesChart').getContext('2d');
-                new Chart(ctx, config);
+                // 매출 데이터 (지점별 매출)
+                // const labels = ['한남점', '서울역점', '강남점', '노원점', '길음점', '잠실점', '선릉점', '번내점', '천호점', '역삼점']; // x축 레이블
+                // const data = {
+                //     labels: labels,
+                //     datasets: [
+                //         {
+                //             label: '지점별 매출',
+                //             data: [45, 90, 180, 135, 90, 105, 75, 60, 45, 30], // 지점별 매출 데이터
+                //             borderColor: 'rgb(255,120,120)', // 선 색상
+                //             pointBackgroundColor: 'white',
+                //             backgroundColor: 'rgba(0,0,0,0.2)', // 선 아래 채우기 색상
+                //             tension: 0.4 // 곡선 정도
+                //         }
+                //     ]
+                // };
+                //
+                // // 차트 옵션
+                // const config = {
+                //     type: 'line',
+                //     data: data,
+                //     options: {
+                //         responsive: true,
+                //         maintainAspectRatio: false,
+                //         plugins: {
+                //             legend: { display: false },
+                //             title: { display: true, text: '지점별 매출' }
+                //         },
+                //         scales: {
+                //             x: {
+                //                 title: { display: true },
+                //                 grid: { display: false } // x축 눈금선 제거
+                //             },
+                //             y: {
+                //                 title: { display: true, text: '매출 (단위: 만원)' },
+                //                 min: 0,
+                //                 max: 200,
+                //                 ticks: { stepSize: 40 }, // y축 눈금 간격을 40으로 설정
+                //                 grid: { display: false } // y축 눈금선 제거
+                //             }
+                //         }
+                //     }
+                // };
+                //
+                // // Chart.js 렌더링
+                // const ctx = document.getElementById('salesChart').getContext('2d');
+                // new Chart(ctx, config);
             </script>
 
             <!-- 인기 제품 카드 -->
@@ -259,7 +317,9 @@
                         </div>
                     </c:forEach>
                 </div>
-                <div class="card-footer">재고 확인 필요</div>
+                <a href="product.bo" style="text-decoration: none; color: black;">
+                <div class="card-footer">재품 관리</div>
+                </a>
             </div>
 
             <div class="dashboard-card card-notice" style="grid-area: notice;">
@@ -269,9 +329,9 @@
                         <p>${b.boardContent}</p>
                     </c:forEach>
                 </div>
-                <div class="card-footer">
-                    <button class="btn btn-light" onclick="location.href='/list.bo'">자세히 보기</button>
-                </div>
+                <a href="list.bo" style="text-decoration: none; color: black;">
+                    <div class="card-footer">자세히 보기</div>
+                </a>
             </div>
 
         </div>

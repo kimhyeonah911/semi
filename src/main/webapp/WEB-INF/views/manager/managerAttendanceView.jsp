@@ -459,7 +459,7 @@
 
             if (endDate < startDate) {
                 alert("종료 날짜는 시작 날짜보다 이전일 수 없습니다.");
-                endDateInput.value = ""; // 입력 초기화
+                endDateInput.value = "";
             }
         }
 
@@ -477,7 +477,7 @@
 
             if (modalOut < modalIn) {
                 alert("퇴근 시간은 출근 시간보다 이전일 수 없습니다.");
-                modalClockOut.value = ""; // 입력 초기화
+                modalClockOut.value = "";
             }
         }
 

@@ -12,4 +12,5 @@ public interface StoresalesService {
     int updateStoreSales(int storeId, int daySales);
     List<Map<String, Object>> getMonthSales(int storeId);
     int getTodayTotalSales(int storeId);
+    List<Map<String, Object>> selectTodaySalesDash();
 }

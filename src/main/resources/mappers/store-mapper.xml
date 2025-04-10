@@ -30,4 +30,9 @@
         FROM store
         WHERE status = 'N' OR status = 'Y'
     </select>
+    <select id="countManager" resultType="int">
+        SELECT COUNT(*)
+        FROM STORE
+        WHERE STATUS = 'N'
+    </select>
 </mapper>
