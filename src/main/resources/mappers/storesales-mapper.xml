@@ -59,6 +59,30 @@
         WHERE STORE_ID = #{storeId}
         AND TRUNC(SALES_DATE) = TRUNC(#{today})
     </select>
+
+    <select id="getAllStoresMonthSales" resultType="map">
+        SELECT
+        s.STORE_ID,
+        st.STORE_NAME,
+        TO_CHAR(s.SALES_DATE, 'YYYY-MM') AS salesMonth,
+        SUM(s.DAY_SALES) AS totalMonthSales,
+        (
+        SELECT COUNT(*)
+        FROM MEMBER m
+        WHERE m.STORE_ID = s.STORE_ID
+        AND m.STATUS = 'Y'
+        ) AS employeeCount
+        FROM
+        STORE_SALES s
+        JOIN STORE st ON s.STORE_ID = st.STORE_ID
+        WHERE
+        s.SALES_DATE BETWEEN ADD_MONTHS(TRUNC(SYSDATE, 'MM'), -23) AND SYSDATE
+        GROUP BY
+        s.STORE_ID, st.STORE_NAME, TO_CHAR(s.SALES_DATE, 'YYYY-MM')
+        ORDER BY
+        salesMonth DESC, s.STORE_ID
+    </select>
+
     <select id="selectTodaySalesDash" resultType="map">
         SELECT
         s.STORE_NAME,

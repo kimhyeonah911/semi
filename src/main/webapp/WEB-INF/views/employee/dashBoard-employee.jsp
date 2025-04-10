@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>지점장 대시보드</title>
+    <title>직원 대시보드</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
 
@@ -204,17 +205,22 @@
                 <div class="card-footer">조치를 취해주세요</div>
             </div>
 
-            <!-- 고객 피드백 카드 -->
+            <!-- 공지사항 카드 -->
             <div class="dashboard-card card-notice">
                 <div class="card-title">📢 공지사항</div>
-                <div class="card-body">
-                    <span>조별상의 후 컨텐츠 결정할예정입니다.</span>
+                <div class="card-body" style="display: flex; flex-direction: column; gap: 5px;">
+                    <c:forEach var="b" items="${noticeList}">
+                        <p>${b.boardContent}</p>
+                    </c:forEach>
+                    <c:if test="${empty noticeList}">
+                        <p style="text-align: center;">등록된 공지사항이 없습니다.</p>
+                    </c:if>
                 </div>
-                <div class="card-body">
-                    <span>조별상의 후 컨텐츠 결정할예정입니다.</span>
+                <div class="card-footer">
+                    <button class="btn btn-light" onclick="location.href='/list.bo'">자세히 보기</button>
                 </div>
-                <div class="card-footer">피드백 확인</div>
             </div>
+
 
             <!-- 매출 그래프 카드 -->
             <div class="dashboard-card card-sales">
@@ -262,11 +268,16 @@
                 <div class="card-title">👥 직원 근무 현황</div>
                 <div class="card-body">
                     <div class="card-body-work">
-                        <div class="work"><img src="/resources/work.png" id="work"> <h4>3</h4></div>
-                        <div class="nowork"><img src="/resources/nowork.png" id="nowork"> <h4>3</h4></div>
+                        <div class="work">
+                            <img src="/resources/work.png" id="work">
+                            <h4>${workingCount}</h4>
+                        </div>
+                        <div class="nowork">
+                            <img src="/resources/nowork.png" id="nowork">
+                            <h4>${notWorkingCount}</h4>
+                        </div>
                     </div>
                 </div>
-
                 <div class="card-footer">근무 현황 확인</div>
             </div>
 
