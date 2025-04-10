@@ -164,6 +164,8 @@ public class ManagerController {
     @GetMapping("stockIn.sto")
     public String stockInManagement(@RequestParam(defaultValue = "1") int cpage,
                                     @RequestParam(required = false, defaultValue = "전체") String status,
+                                    @RequestParam(required = false) String startDate,
+                                    @RequestParam(required = false) String endDate,
                                     Model model,
                                     HttpSession session) {
         int empNo = (int) session.getAttribute("empNo");
@@ -180,16 +182,18 @@ public class ManagerController {
         model.addAttribute("image", list5);
 
         // 페이징 처리
-        int listCount = stockService.selectStockInListforPaging(empNo, status);
+        int listCount = stockService.selectStockInListforPaging(empNo, status, startDate, endDate);
         int pageLimit = 5;
         int boardLimit = 5;
         PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
-        ArrayList<Stock> listpage = stockService.selectStockInListByPage(pi, empNo, status);
+        ArrayList<Stock> listpage = stockService.selectStockInListByPage(pi, empNo, status, startDate, endDate);
 
         model.addAttribute("stock", listpage);
         model.addAttribute("pi", pi);
         model.addAttribute("pageUrl", "stockIn.sto");
         model.addAttribute("selectedStatus", status);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
 
         return "manager/stockInView";
     }
@@ -197,6 +201,8 @@ public class ManagerController {
     @GetMapping("stockOut.sto")
     public String stockOutManagement(@RequestParam(defaultValue = "1") int cpage,
                                      @RequestParam(required = false, defaultValue = "전체") String status,
+                                     @RequestParam(required = false) String startDate,
+                                     @RequestParam(required = false) String endDate,
                                      Model model,
                                      HttpSession session) {
         int empNo = (int) session.getAttribute("empNo");
@@ -212,16 +218,18 @@ public class ManagerController {
         model.addAttribute("image", list5);
 
         // 페이징 처리
-        int listCount = stockService.selectStockOutListforPaging(empNo, status);
+        int listCount = stockService.selectStockOutListforPaging(empNo, status, startDate, endDate);
         int pageLimit = 5;
         int boardLimit = 5;
         PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
-        ArrayList<Stock> listpage = stockService.selectStockOutListByPage(pi, empNo, status);
+        ArrayList<Stock> listpage = stockService.selectStockOutListByPage(pi, empNo, status, startDate, endDate);
 
         model.addAttribute("stock", listpage);
         model.addAttribute("pi", pi);
         model.addAttribute("pageUrl", "stockOut.sto");
         model.addAttribute("selectedStatus", status);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
 
         return "manager/stockOutView";
     }

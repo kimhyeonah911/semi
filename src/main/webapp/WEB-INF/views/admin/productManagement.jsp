@@ -366,7 +366,17 @@
 </c:if>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script> //카테고리 셀렉트바 출력
+<script>
+    //테이블 tr 어디든 클릭시 체크박시 선택
+    $(document).on("click", ".product-tr", function (e) {
+        // 체크박스나 버튼 클릭 시는 무시
+        if ($(e.target).is("input[type='checkbox']") || $(e.target).closest(".approve-btn").length > 0) return;
+
+        const checkbox = $(this).find("input[type='checkbox']");
+        checkbox.prop("checked", !checkbox.prop("checked"));
+    });
+
+    //카테고리 셀렉트바 출력
     $(document).ready(function() {
         getCategoryList(drawCategorySelect);
     });

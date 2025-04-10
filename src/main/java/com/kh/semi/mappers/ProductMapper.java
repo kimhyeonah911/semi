@@ -14,7 +14,7 @@ import java.util.Map;
 public interface ProductMapper {
     List<Product> getProductLIst();
     List<Product> selectProductList(int clientId);
-    List<Product> searchProductName(String productName);
+    List<Product> searchProductName(String productName, int clientId);
 
     ArrayList<Product> selectImageUrl();
     ArrayList<Category> getCategoryList();

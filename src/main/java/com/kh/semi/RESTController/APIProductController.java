@@ -43,8 +43,8 @@ public class APIProductController {
     }
 
     @GetMapping("/searchProductName")
-    public List<Product> searchProductName(String productName) {
-        List<Product> list = productService.searchProductName(productName);
+    public List<Product> searchProductName(String productName, int clientId) {
+        List<Product> list = productService.searchProductName(productName, clientId);
         return list;
     }
 

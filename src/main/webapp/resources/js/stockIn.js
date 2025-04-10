@@ -1,6 +1,3 @@
-const date1 = document.getElementById("date1");
-const date2 = document.getElementById("date2");
-
 // date1이 변경되면 date2는 date1 + 1일 이상부터 선택 가능
 document.getElementById("date1").addEventListener("change", function () {
     const date1 = this;
@@ -24,6 +21,22 @@ document.getElementById("date1").addEventListener("change", function () {
     }
 });
 
+window.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("statusForm");
+    const date1 = document.getElementById("date1");
+    const date2 = document.getElementById("date2");
+
+    form.addEventListener("submit", function (e) {
+        const start = date1.value;
+        const end = date2.value;
+
+        if ((start && !end) || (!start && end)) {
+            alert("날짜를 모두 선택해주세요.");
+            e.preventDefault(); // 제출 막기
+        }
+    });
+});
+
 document.addEventListener("DOMContentLoaded", updateSummary);
 
 // 입고 예정 일자 계산
@@ -40,35 +53,6 @@ function setExpectedDate() {
     const dd = String(today.getDate()).padStart(2, '0');
 
     dateInput.value = `${yyyy}-${mm}-${dd}`;
-}
-
-//검색 조건으로 입고 리스트 가져오기
-function searchStock() {
-    let stockStatus = $("#stockIn-search-bar").val();
-    let startDate = $("#date1").val();
-    let endDate = $("#date2").val();
-
-    if ((startDate && !endDate) || (!startDate && endDate)) {
-        alert("날짜를 모두 선택해주세요.");
-        return;
-    }
-
-    $.ajax({
-        url: "/api/searchStockIn",
-        type: "GET",
-        data: {
-            stockStatus: stockStatus,
-            startDate: startDate,
-            endDate: endDate
-        },
-        dataType: "json",
-        success: function (response) {
-            updateStockTable(response);
-        },
-        error: function () {
-            console.error("ajax 통신 오류");
-        }
-    });
 }
 
 //stockProduct 가격 테이블 변경 시마다 바뀌기
@@ -280,6 +264,8 @@ function searchProduct() {
     const input = document.getElementById("product-search-input");
     const productName = input.value.trim();
 
+    const clientId = document.getElementById("client-search-bar").value;
+
     if (productName === "") {
         alert("품목명을 입력해주세요.");
         return;
@@ -288,7 +274,10 @@ function searchProduct() {
     $.ajax({
         url: "/api/searchProductName",
         method: "GET",
-        data: { productName: productName },
+        data: {
+            productName: productName,
+            clientId: clientId
+        },
         success: function (data) {
             input.value = "";
             createProductTable(data);

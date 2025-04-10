@@ -402,7 +402,7 @@
                 <a href="#" class="disabled">이전</a>
               </c:when>
               <c:otherwise>
-                <a href="${pageUrl}?cpage=${pi.currentPage - 1}&status=${selectedStatus}">이전</a>
+                <a href="${pageUrl}?cpage=${pi.currentPage - 1}&status=${selectedStatus}&startDate=${startDate}&endDate=${endDate}">이전</a>
               </c:otherwise>
             </c:choose>
 
@@ -413,7 +413,7 @@
                   <a href="#" class="active">${i}</a>
                 </c:when>
                 <c:otherwise>
-                  <a href="${pageUrl}?cpage=${i}&status=${selectedStatus}">${i}</a>
+                  <a href="${pageUrl}?cpage=${i}&status=${selectedStatus}&startDate=${startDate}&endDate=${endDate}">${i}</a>
                 </c:otherwise>
               </c:choose>
             </c:forEach>
@@ -424,7 +424,7 @@
                 <a href="#" class="disabled">다음</a>
               </c:when>
               <c:otherwise>
-                <a href="${pageUrl}?cpage=${pi.currentPage + 1}&status=${selectedStatus}">다음</a>
+                <a href="${pageUrl}?cpage=${pi.currentPage + 1}&status=${selectedStatus}&startDate=${startDate}&endDate=${endDate}">다음</a>
               </c:otherwise>
             </c:choose>
           </div>

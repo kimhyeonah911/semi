@@ -11,15 +11,6 @@ import java.util.ArrayList;
 
 @Mapper
 public interface StockMapper {
-    ArrayList<Stock> selectStockList(int empNo);
-    ArrayList<Stock> searchStockInList(@Param("stockStatus") String stockStatus,
-                                     @Param("startDate") String startDate,
-                                     @Param("endDate") String endDate,
-                                       int empNo);
-    ArrayList<Stock> searchStockOutList(@Param("stockStatus") String stockStatus,
-                                       @Param("startDate") String startDate,
-                                       @Param("endDate") String endDate,
-                                        int empNo);
     int insertStockIn(Stock stock);
     int insertStockOut(Stock stock);
     int insertStockProduct(StockProduct stockProduct);
@@ -43,9 +34,9 @@ public interface StockMapper {
     int countStockIn(int empNo);
     int countStockOut(int empNo);
 
-    int selectStockInListforPaging(int empNo, String status);
-    ArrayList<Stock> selectStockInListByPage(int empNo, String status, RowBounds rowBounds);
+    int selectStockInListforPaging(int empNo, String status, String startDate, String endDate);
+    ArrayList<Stock> selectStockInListByPage(int empNo, String status, String startDate, String endDate, RowBounds rowBounds);
 
-    int selectStockOutListforPaging(int empNo, String status);
-    ArrayList<Stock> selectStockOutListByPage(int empNo, String status, RowBounds rowBounds);
+    int selectStockOutListforPaging(int empNo, String status, String startDate, String endDate);
+    ArrayList<Stock> selectStockOutListByPage(int empNo, String status, String startDate, String endDate, RowBounds rowBounds);
 }
