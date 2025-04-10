@@ -57,4 +57,19 @@
         WHERE STORE_ID = #{storeId}
         AND TRUNC(SALES_DATE) = TRUNC(#{today})
     </select>
+    <select id="selectTodaySalesDash" resultType="map">
+        SELECT
+        s.STORE_NAME,
+        SUM(ss.DAY_SALES) AS DAY_SALES
+        FROM
+        STORE_SALES ss
+        JOIN STORE s ON ss.STORE_ID = s.STORE_ID
+        WHERE
+        TRUNC(ss.SALES_DATE) = TRUNC(SYSDATE)  <!-- 날짜 정확히 맞춤 -->
+        GROUP BY
+        s.STORE_NAME
+        ORDER BY
+        s.STORE_NAME
+    </select>
+
 </mapper>

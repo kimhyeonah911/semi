@@ -17,6 +17,7 @@ public interface MemberService {
 
     ArrayList<Member> selectMemberList();
 
+    int countEmployee();
 
     ArrayList<Member> acceptMemberList();
 

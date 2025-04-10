@@ -92,6 +92,12 @@
         ORDER BY M.EMP_NO ASC
     </select>
 
+    <select id="countEmployee" resultType="int">
+        SELECT COUNT(*)
+        FROM MEMBER
+        WHERE STATUS = 'N'
+    </select>
+
     <select id="acceptMemberList" resultMap="memberResult">
         SELECT
         EMP_NO,

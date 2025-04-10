@@ -124,7 +124,10 @@ public class AdminController {
     public String dashBoard(Model model) {
 
         ArrayList<Board> noticeList = boardService.selectBoardListTop3();
-
+        int countEmployee = memberService.countEmployee();
+        model.addAttribute("countEmployee", countEmployee);
+        int countManager = storeService.countManager();
+        model.addAttribute("countManager", countManager);
         // 공지사항 리스트를 모델에 추가
         model.addAttribute("noticeList", noticeList);
 
