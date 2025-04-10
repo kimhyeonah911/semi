@@ -48,6 +48,7 @@
             margin: 0;
             padding: 0;
             cursor: pointer;
+            background: black;
         }
         .table-container {
             width: 100%;

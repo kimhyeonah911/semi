@@ -37,5 +37,8 @@ public class APIStorageController {
         return list;
     }
 
-
+    @GetMapping("/searchStorage")
+    public Storage searchStorage(int storageNo) {
+        return storageService.searchStorage(storageNo);
+    }
 }

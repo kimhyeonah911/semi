@@ -31,104 +31,6 @@
         <result column="STORAGE_LOCATION" property="storageLocation"/>
     </resultMap>
 
-    <select id="selectStockList" parameterType="Stock" resultMap="stockResult">
-        SELECT
-        S.STOCK_NO,
-        M.MEM_NAME,
-        TO_CHAR(S.STOCK_DATE, 'YYYY-MM-DD') AS STOCK_DATE,
-        TO_CHAR(S.EXP_DATE, 'YYYY-MM-DD') AS EXP_DATE,
-        S.STOCK_STATUS
-        FROM STOCK S
-        JOIN MEMBER M ON M.EMP_NO = S.STOCK_EMP
-        WHERE M.STORE_ID = (
-        SELECT STORE_ID
-        FROM MEMBER
-        WHERE EMP_NO = #{empNo}
-        )
-        AND (S.STATUS = 'Y' OR S.STATUS = 'C')
-        ORDER BY S.STOCK_NO
-    </select>
-
-    <select id="searchStockInList" parameterType="map" resultMap="stockResult">
-        SELECT
-        STOCK_NO,
-        MEM_NAME,
-        TO_CHAR(STOCK_DATE, 'YYYY-MM-DD') AS STOCK_DATE,
-        TO_CHAR(EXP_DATE, 'YYYY-MM-DD') AS EXP_DATE,
-        STOCK_STATUS
-        FROM STOCK S JOIN MEMBER M ON (EMP_NO = STOCK_EMP)
-        <where>
-            <choose>
-                <when test="stockStatus != null and stockStatus == 1">
-                    AND STOCK_STATUS = 'STOCK_IN_REGISTERED'
-                </when>
-                <when test="stockStatus != null and stockStatus == 2">
-                    AND STOCK_STATUS = 'STOCK_IN_PROGRESS'
-                </when>
-                <when test="stockStatus != null and stockStatus == 3">
-                    AND STOCK_STATUS = 'STOCK_IN_COMPLETED'
-                </when>
-                <otherwise>
-                    AND STOCK_STATUS IN ('STOCK_IN_REGISTERED', 'STOCK_IN_PROGRESS', 'STOCK_IN_COMPLETED')
-                </otherwise>
-            </choose>
-
-            <if test="startDate != null and startDate != ''">
-                AND STOCK_DATE BETWEEN #{startDate}
-            </if>
-            <if test="endDate != null and endDate != ''">
-                AND #{endDate}
-            </if>
-        </where>
-        AND M.STORE_ID = (
-        SELECT STORE_ID
-        FROM MEMBER
-        WHERE EMP_NO = #{empNo}
-        )
-        AND (S.STATUS = 'Y' OR S.STATUS = 'C')
-        ORDER BY STOCK_NO
-    </select>
-
-    <select id="searchStockOutList" parameterType="map" resultMap="stockResult">
-        SELECT
-        STOCK_NO,
-        MEM_NAME,
-        TO_CHAR(STOCK_DATE, 'YYYY-MM-DD') AS STOCK_DATE,
-        TO_CHAR(EXP_DATE, 'YYYY-MM-DD') AS EXP_DATE,
-        STOCK_STATUS
-        FROM STOCK S JOIN MEMBER M ON (EMP_NO = STOCK_EMP)
-        <where>
-            <choose>
-                <when test="stockStatus != null and stockStatus == 1">
-                    AND STOCK_STATUS = 'STOCK_OUT_REGISTERED'
-                </when>
-                <when test="stockStatus != null and stockStatus == 2">
-                    AND STOCK_STATUS = 'STOCK_OUT_PROGRESS'
-                </when>
-                <when test="stockStatus != null and stockStatus == 3">
-                    AND STOCK_STATUS = 'STOCK_OUT_COMPLETED'
-                </when>
-                <otherwise>
-                    AND STOCK_STATUS IN ('STOCK_OUT_REGISTERED', 'STOCK_OUT_PROGRESS', 'STOCK_OUT_COMPLETED')
-                </otherwise>
-            </choose>
-
-            <if test="startDate != null and startDate != ''">
-                AND STOCK_DATE BETWEEN #{startDate}
-            </if>
-            <if test="endDate != null and endDate != ''">
-                AND #{endDate}
-            </if>
-        </where>
-        AND (S.STATUS = 'Y' OR S.STATUS = 'C')
-        AND M.STORE_ID = (
-        SELECT STORE_ID
-        FROM MEMBER
-        WHERE EMP_NO = #{empNo}
-        )
-        ORDER BY STOCK_NO
-    </select>
-
     <insert id="insertStockIn" parameterType="Stock">
         <selectKey keyProperty="stockNo" resultType="int" order="BEFORE">
             SELECT STOCK_SEQ.NEXTVAL FROM DUAL
@@ -292,6 +194,34 @@
         WHERE STOCK_NO = #{stockNo}
     </update>
 
+    <select id="countStockIn" resultType="_int">
+        SELECT
+        COUNT(*)
+        FROM STOCK S
+        JOIN MEMBER M ON M.EMP_NO = S.STOCK_EMP
+        WHERE M.STORE_ID = (
+        SELECT STORE_ID
+        FROM MEMBER
+        WHERE EMP_NO = #{empNo}
+        )
+        AND (S.STATUS = 'Y' OR S.STATUS = 'C')
+        AND S.STOCK_STATUS = 'STOCK_IN_PROGRESS'
+    </select>
+
+    <select id="countStockOut" resultType="_int">
+        SELECT
+        COUNT(*)
+        FROM STOCK S
+        JOIN MEMBER M ON M.EMP_NO = S.STOCK_EMP
+        WHERE M.STORE_ID = (
+        SELECT STORE_ID
+        FROM MEMBER
+        WHERE EMP_NO = #{empNo}
+        )
+        AND (S.STATUS = 'Y' OR S.STATUS = 'C')
+        AND S.STOCK_STATUS = 'STOCK_OUT_PROGRESS'
+    </select>
+
     <update id="updateCompletedStockOut">
         UPDATE STOCK
         SET STOCK_STATUS = 'STOCK_OUT_COMPLETED',
@@ -309,5 +239,91 @@
         AND S.STATUS = 'Y'
     </select>
 
+    <!--    //입고 페이징-->
+    <select id="selectStockInListforPaging" resultType="int">
+        SELECT COUNT(DISTINCT S.STOCK_NO)
+        FROM STOCK S
+        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO
+        JOIN MEMBER LOGIN_USER ON LOGIN_USER.EMP_NO = #{empNo}
+        WHERE S.STATUS IN ('Y', 'C')
+        AND S.STOCK_STATUS LIKE 'STOCK_IN%'
+        AND M.STORE_ID = LOGIN_USER.STORE_ID
+        <if test="status != null and status != '' and status != '전체'">
+            AND S.STOCK_STATUS = #{status}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND STOCK_DATE BETWEEN #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND #{endDate}
+        </if>
+    </select>
 
+    <select id="selectStockInListByPage" resultMap="stockResult">
+        SELECT DISTINCT S.STOCK_NO,
+        M.MEM_NAME,
+        TO_CHAR(S.STOCK_DATE, 'YYYY-MM-DD') AS STOCK_DATE,
+        TO_CHAR(S.EXP_DATE, 'YYYY-MM-DD') AS EXP_DATE,
+        S.STOCK_STATUS
+        FROM STOCK S
+        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO
+        JOIN MEMBER LOGIN_USER ON LOGIN_USER.EMP_NO = #{empNo}
+        WHERE S.STATUS IN ('Y', 'C')
+        AND S.STOCK_STATUS LIKE 'STOCK_IN%'
+        AND M.STORE_ID = LOGIN_USER.STORE_ID
+        <if test="status != null and status != '' and status != '전체'">
+            AND S.STOCK_STATUS = #{status}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND STOCK_DATE BETWEEN #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND #{endDate}
+        </if>
+        ORDER BY S.STOCK_NO DESC
+    </select>
+
+    <!--    //출고 페이징-->
+    <select id="selectStockOutListforPaging" resultType="int">
+        SELECT COUNT(DISTINCT S.STOCK_NO)
+        FROM STOCK S
+        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO
+        JOIN MEMBER LOGIN_USER ON LOGIN_USER.EMP_NO = #{empNo}
+        WHERE S.STATUS IN ('Y', 'C')
+        AND S.STOCK_STATUS LIKE 'STOCK_OUT%'
+        AND M.STORE_ID = LOGIN_USER.STORE_ID
+        <if test="status != null and status != '' and status != '전체'">
+            AND S.STOCK_STATUS = #{status}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND STOCK_DATE BETWEEN #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND #{endDate}
+        </if>
+    </select>
+
+    <select id="selectStockOutListByPage" resultMap="stockResult">
+        SELECT DISTINCT S.STOCK_NO,
+        M.MEM_NAME,
+        TO_CHAR(S.STOCK_DATE, 'YYYY-MM-DD') AS STOCK_DATE,
+        TO_CHAR(S.EXP_DATE, 'YYYY-MM-DD') AS EXP_DATE,
+        S.STOCK_STATUS
+        FROM STOCK S
+        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO
+        JOIN MEMBER LOGIN_USER ON LOGIN_USER.EMP_NO = #{empNo}
+        WHERE S.STATUS IN ('Y', 'C')
+        AND S.STOCK_STATUS LIKE 'STOCK_OUT%'
+        AND M.STORE_ID = LOGIN_USER.STORE_ID
+        <if test="status != null and status != '' and status != '전체'">
+            AND S.STOCK_STATUS = #{status}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND STOCK_DATE BETWEEN #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND #{endDate}
+        </if>
+        ORDER BY S.STOCK_NO DESC
+    </select>
 </mapper>
