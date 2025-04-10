@@ -1,9 +1,11 @@
 package com.kh.semi.service;
 
+import com.kh.semi.domain.vo.PageInfo;
 import com.kh.semi.domain.vo.Stock;
 import com.kh.semi.domain.vo.StockProduct;
 import com.kh.semi.mappers.StockMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -112,4 +114,27 @@ public class StockServiceImpl implements StockService {
         return stockMapper.countStockOut(empNo);
     }
 
+    @Override
+    public int selectStockInListforPaging(int empNo, String status) {
+        return stockMapper.selectStockInListforPaging(empNo, status);
+    }
+
+    @Override
+    public ArrayList<Stock> selectStockInListByPage(PageInfo pi, int empNo, String status) {
+        int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+        RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+        return stockMapper.selectStockInListByPage(empNo, status , rowBounds);
+    }
+
+    @Override
+    public int selectStockOutListforPaging(int empNo, String status) {
+        return stockMapper.selectStockOutListforPaging(empNo, status);
+    }
+
+    @Override
+    public ArrayList<Stock> selectStockOutListByPage(PageInfo pi, int empNo, String status) {
+        int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+        RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+        return stockMapper.selectStockOutListByPage(empNo, status , rowBounds);
+    }
 }

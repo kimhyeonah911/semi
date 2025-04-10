@@ -1,9 +1,11 @@
 package com.kh.semi.mappers;
 
+import com.kh.semi.domain.vo.PageInfo;
 import com.kh.semi.domain.vo.Stock;
 import com.kh.semi.domain.vo.StockProduct;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.ArrayList;
 
@@ -40,4 +42,10 @@ public interface StockMapper {
 
     int countStockIn(int empNo);
     int countStockOut(int empNo);
+
+    int selectStockInListforPaging(int empNo, String status);
+    ArrayList<Stock> selectStockInListByPage(int empNo, String status, RowBounds rowBounds);
+
+    int selectStockOutListforPaging(int empNo, String status);
+    ArrayList<Stock> selectStockOutListByPage(int empNo, String status, RowBounds rowBounds);
 }

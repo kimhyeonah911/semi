@@ -51,6 +51,10 @@
             justify-content: space-between;
         }
 
+        .search-bar{
+            position: fixed;
+        }
+
         #search-bar-1{
             width: 440px;
             display:flex;
@@ -300,21 +304,24 @@
         <div class="stockIn-management">
             <div class="table1">
                 <div id="search-bar">
-                    <div id="search-bar-1">
-                        <select id="stockIn-search-bar">
-                            <option value="0">전체</option>
-                            <option value="1">입고 등록</option>
-                            <option value="2">입고중</option>
-                            <option value="3">입고 완료</option>
-                        </select>
-                        <input type="date"
-                               id="date1">
-                        ~
-                        <input type="date"
-                               id="date2">
-                        <button type="button" class="search-btn" id="submit-btn" onclick="searchStock()">조회</button>
+                    <form id="statusForm" method="get" action="stockIn.sto">
+                        <div id="search-bar-1">
+                            <select id="stockIn-search-bar" name="status">
+                                <option value="전체" ${selectedStatus == '전체' ? 'selected' : ''}>전체</option>
+                                <option value="STOCK_IN_REGISTERED" ${selectedStatus == 'STOCK_IN_REGISTERED' ? 'selected' : ''}>입고 등록</option>
+                                <option value="STOCK_IN_PROGRESS" ${selectedStatus == 'STOCK_IN_PROGRESS' ? 'selected' : ''}>입고중</option>
+                                <option value="STOCK_IN_COMPLETED" ${selectedStatus == 'STOCK_IN_COMPLETED' ? 'selected' : ''}>입고 완료</option>
+                            </select>
+
+                            <input type="date" id="date1" name="startDate" value="${startDate}">
+                            ~
+                            <input type="date" id="date2" name="endDate" value="${endDate}">
+
+                            <button type="submit" class="search-btn" id="submit-btn">조회</button>
                     </div>
-                    <button class="storage-btn" id="storage-submit-btn" onclick="showModal()">입고서 등록</button>
+                </form>
+
+                <button class="storage-btn" id="storage-submit-btn" onclick="showModal()">입고서 등록</button>
                 </div>
                 <div>
                     <table class="table table1 table-striped table-hover" id="stock-table">
@@ -388,10 +395,39 @@
                         </tbody>
 
                     </table>
-                    <div class="pagebar-container mt-3">
-                        <jsp:include page="../common/pagebar.jsp"/>
-                    </div>
+                    <div class="pagination">
+                        <!-- 이전 버튼 -->
+                        <c:choose>
+                            <c:when test="${pi.currentPage == 1}">
+                                <a href="#" class="disabled">이전</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="${pageUrl}?cpage=${pi.currentPage - 1}&status=${selectedStatus}">이전</a>
+                            </c:otherwise>
+                        </c:choose>
 
+                        <!-- 숫자 버튼 -->
+                        <c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
+                            <c:choose>
+                                <c:when test="${i == pi.currentPage}">
+                                    <a href="#" class="active">${i}</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="${pageUrl}?cpage=${i}&status=${selectedStatus}">${i}</a>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+
+                        <!-- 다음 버튼 -->
+                        <c:choose>
+                            <c:when test="${pi.currentPage == pi.maxPage}">
+                                <a href="#" class="disabled">다음</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="${pageUrl}?cpage=${pi.currentPage + 1}&status=${selectedStatus}">다음</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
                 </div>
             </div>
 

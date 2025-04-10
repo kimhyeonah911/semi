@@ -1,5 +1,6 @@
 package com.kh.semi.service;
 
+import com.kh.semi.domain.vo.PageInfo;
 import com.kh.semi.domain.vo.Stock;
 import com.kh.semi.domain.vo.StockProduct;
 
@@ -31,4 +32,9 @@ public interface StockService {
 
     int countStockIn(int empNo);
     int countStockOut(int empNo);
+
+    int selectStockInListforPaging(int empNo, String status);
+    ArrayList<Stock> selectStockInListByPage(PageInfo pi, int empNo, String status);
+    int selectStockOutListforPaging(int empNo, String status);
+    ArrayList<Stock> selectStockOutListByPage(PageInfo pi, int empNo, String status);
 }

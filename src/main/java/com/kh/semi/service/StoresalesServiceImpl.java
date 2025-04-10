@@ -71,9 +71,4 @@ public class StoresalesServiceImpl implements StoresalesService {
         java.sql.Date today = java.sql.Date.valueOf(LocalDate.now());
         return storesalesMapper.getTodayTotalSales(storeId, today);
     }
-
-    @Override
-    public List<Map<String, Object>> getMonthSalesTotal() {
-        return storesalesMapper.getMonthSalesTotal();
-    }
 }
