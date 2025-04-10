@@ -244,7 +244,19 @@
                                 },
                                 options: {
                                     responsive: true,
+                                    layout: {
+                                        padding: {
+                                            bottom: 60 // 아래 여백만 확보
+                                        }
+                                    },
                                     scales: {
+                                        x: {
+                                            ticks: {
+                                                maxRotation: 45,  // 라벨 회전
+                                                minRotation: 45,
+                                                autoSkip: true    // 너무 많으면 생략
+                                            }
+                                        },
                                         y: {
                                             beginAtZero: true,
                                             max: 4000000,
