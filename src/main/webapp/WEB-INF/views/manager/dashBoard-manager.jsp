@@ -233,7 +233,8 @@
                 </div>
                 <div class="card-footer">피드백 확인</div>
             </div>
-            
+
+
             <!-- 매출 그래프 카드 -->
             <div class="dashboard-card card-sales">
                 <div class="card-title">💰 우리지점 매출</div>
