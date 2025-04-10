@@ -704,7 +704,7 @@ function updateProductRestart() {
     }
 
     let currentPage = 1;
-    const pageSize = 10;
+    const pageSize = 9;
 
 $(document).ready(function () {
     $('#search-form').on('submit', function (e) {
