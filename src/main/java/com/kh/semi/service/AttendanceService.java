@@ -1,11 +1,11 @@
 package com.kh.semi.service;
 
 import com.kh.semi.domain.vo.Attendance;
-import com.kh.semi.domain.vo.Attendance;
+
 import com.kh.semi.domain.vo.PageInfo;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Map;
 
 public interface AttendanceService {
@@ -30,7 +30,11 @@ public interface AttendanceService {
     int getAttendanceCount(Map<String, Object> paramMap);
     ArrayList<Attendance> selectAttendanceListPage(Map<String, Object> paramMap);
 
+    int countWorkingEmployees(int storeId);
+    int countNotWorkingEmployees(int storeId);
+
     int countWork(int storeId);
     int countEmp(int storeId);
+
 
 }

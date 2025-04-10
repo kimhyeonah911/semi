@@ -35,6 +35,7 @@ public class ManagerController {
     private final StockService stockService;
     private final AttendanceService attendanceService;
     private final ProductService productService;
+    private final BoardService boardService;
     private final InventoryService inventoryService;
     private final StoresalesService storesalesService;
 
@@ -56,6 +57,10 @@ public class ManagerController {
         int storeId = (int)session.getAttribute("storeId");
         int empNo = (int) session.getAttribute("empNo");
 
+
+        ArrayList<Board> noticeList = boardService.selectBoardListTop3();
+        // 공지사항 리스트를 모델에 추가
+        model.addAttribute("noticeList", noticeList);
 
         List<Inventory> lowInventoryTop4 = inventoryService.selectLowInventoryTop4(storeId);
         model.addAttribute("lowInventoryTop4", lowInventoryTop4);
@@ -87,7 +92,6 @@ public class ManagerController {
     public String attendanceManagement(@RequestParam(defaultValue = "1") int cpage,
                                        Model model,
                                        HttpSession session) {
-
         Member loginMember = (Member) session.getAttribute("loginMember");
         int storeId = loginMember.getStoreId();
 
@@ -228,6 +232,7 @@ public class ManagerController {
         model.addAttribute("pi", pi);
         model.addAttribute("pageUrl", "stockOut.sto");
         model.addAttribute("selectedStatus", status);
+
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
 
@@ -288,5 +293,6 @@ public class ManagerController {
 
         return "manager/managerAttendanceView";
     }
+
 
 }

@@ -51,7 +51,6 @@
         FROM ATTENDANCE a
         JOIN MEMBER m ON a.EMP_NO = m.EMP_NO
         WHERE m.STORE_ID = #{storeId}
-        AND TO_CHAR(a.CLOCK_IN, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
         AND m.POSITION = 'employee'
         ORDER BY a.ATTENDANCE_NO DESC
     </select>
@@ -169,6 +168,7 @@
         </if>
     </select>
 
+    <!-- 지점장 페이지의 직원 근태관리 리스트 페이징바-->
     <select id="selectAttendanceListPage" resultMap="attendanceResult">
         SELECT
         A.ATTENDANCE_NO,
@@ -202,6 +202,16 @@
         ORDER BY A.CLOCK_OUT DESC
     </select>
 
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(DISTINCT A.emp_no)
+        FROM ATTENDANCE A
+        JOIN MEMBER M ON A.emp_no = M.emp_no
+        WHERE M.store_id = #{storeId}
+        AND A.status = #{status}
+        AND TRUNC(A.clock_in) = TRUNC(SYSDATE)
+    </select>
+
+
     <select id="countWork" resultType="int">
         SELECT COUNT(*) AS COUNT
         FROM ATTENDANCE A
@@ -217,4 +227,5 @@
             AND STATUS = 'Y'
             AND POSITION = 'employee'
     </select>
+
 </mapper>

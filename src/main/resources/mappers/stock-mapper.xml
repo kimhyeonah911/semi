@@ -157,7 +157,7 @@
         STORAGE_NO,
         AMOUNT,
         PRICE,
-        TAXPRICE,
+        TAXPRICE as taxPrice,
         TAX,
         PRODUCT_NAME,
         CATEGORY_NAME,
@@ -193,6 +193,41 @@
         SET STATUS = 'C'
         WHERE STOCK_NO = #{stockNo}
     </update>
+
+<!--    // 입고 페이지 페이징 처리(였던것)-->
+<!--    <select id="selectStockListforPaging" resultType="int">-->
+<!--        SELECT COUNT(*)-->
+<!--        FROM STOCK S-->
+<!--        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO-->
+<!--        WHERE S.STATUS IN ('Y', 'C', 'REGISTERED') &lt;!&ndash; 'REGISTERED' 상태 추가 &ndash;&gt;-->
+<!--        <if test="status != null and status != '' and status != '전체'">-->
+<!--            AND S.STOCK_STATUS = #{status}-->
+<!--        </if>-->
+<!--        AND M.STORE_ID = (-->
+<!--        SELECT STORE_ID-->
+<!--        FROM MEMBER-->
+<!--        WHERE EMP_NO = #{empNo}-->
+<!--        )-->
+<!--    </select>-->
+
+<!--    <select id="selectStockListByPage" resultMap="stockResult">-->
+<!--        SELECT S.STOCK_NO, M.MEM_NAME,-->
+<!--        TO_CHAR(S.STOCK_DATE, 'YYYY-MM-DD') AS STOCK_DATE,-->
+<!--        TO_CHAR(S.EXP_DATE, 'YYYY-MM-DD') AS EXP_DATE,-->
+<!--        S.STOCK_STATUS-->
+<!--        FROM STOCK S-->
+<!--        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO-->
+<!--        JOIN MEMBER LOGIN_USER ON LOGIN_USER.EMP_NO = #{empNo}-->
+<!--        WHERE S.STATUS IN ('Y', 'C')-->
+<!--        <if test="status != null and status != '' and status != '전체'">-->
+<!--            AND S.STOCK_STATUS = #{status}-->
+<!--        </if>-->
+<!--        <if test="status == '전체'">-->
+<!--            &#45;&#45; status가 '전체'일 경우 S.STOCK_STATUS 조건을 제외-->
+<!--        </if>-->
+<!--        AND M.STORE_ID = LOGIN_USER.STORE_ID-->
+<!--        ORDER BY S.STOCK_NO-->
+<!--    </select>-->
 
     <select id="countStockIn" resultType="_int">
         SELECT
@@ -239,6 +274,7 @@
         AND S.STATUS = 'Y'
     </select>
 
+
     <!--    //입고 페이징-->
     <select id="selectStockInListforPaging" resultType="int">
         SELECT COUNT(DISTINCT S.STOCK_NO)
@@ -246,16 +282,11 @@
         JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO
         JOIN MEMBER LOGIN_USER ON LOGIN_USER.EMP_NO = #{empNo}
         WHERE S.STATUS IN ('Y', 'C')
+        AND S.STOCK_STATUS LIKE 'STOCK_OUT%'
         AND S.STOCK_STATUS LIKE 'STOCK_IN%'
         AND M.STORE_ID = LOGIN_USER.STORE_ID
         <if test="status != null and status != '' and status != '전체'">
             AND S.STOCK_STATUS = #{status}
-        </if>
-        <if test="startDate != null and startDate != ''">
-            AND STOCK_DATE BETWEEN #{startDate}
-        </if>
-        <if test="endDate != null and endDate != ''">
-            AND #{endDate}
         </if>
     </select>
 

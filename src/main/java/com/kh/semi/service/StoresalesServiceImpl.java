@@ -73,6 +73,10 @@ public class StoresalesServiceImpl implements StoresalesService {
     }
 
     @Override
+    public List<Map<String, Object>> getAllStoresMonthSales() {
+        return storesalesMapper.getAllStoresMonthSales();
+    }
+
     public List<Map<String, Object>> selectTodaySalesDash() {
         return storesalesMapper.selectTodaySalesDash();
     }
