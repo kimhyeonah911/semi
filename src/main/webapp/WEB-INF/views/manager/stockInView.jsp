@@ -38,8 +38,12 @@
 
         .table1, .table2{
             width: 49%;
-            max-height: 700px;
+            max-height: 750px;
             overflow-y: auto;
+        }
+
+        .table2{
+            max-height: 664px;
         }
 
         select{
@@ -49,6 +53,10 @@
         #search-bar{
             display: flex;
             justify-content: space-between;
+        }
+
+        .search-bar{
+            position: fixed;
         }
 
         #search-bar-1{
@@ -302,21 +310,24 @@
         <div class="stockIn-management">
             <div class="table1">
                 <div id="search-bar">
-                    <div id="search-bar-1">
-                        <select id="stockIn-search-bar">
-                            <option value="0">전체</option>
-                            <option value="1">입고 등록</option>
-                            <option value="2">입고중</option>
-                            <option value="3">입고 완료</option>
-                        </select>
-                        <input type="date"
-                               id="date1">
-                        ~
-                        <input type="date"
-                               id="date2">
-                        <button type="button" class="search-btn" id="submit-btn" onclick="searchStock()">조회</button>
-                    </div>
-                    <button class="storage-btn" id="storage-submit-btn" onclick="showModal()">입고서 등록</button>
+                    <form id="statusForm" method="get" action="stockIn.sto">
+                        <div id="search-bar-1">
+                            <select id="stockIn-search-bar" name="status">
+                                <option value="전체" ${selectedStatus == '전체' ? 'selected' : ''}>전체</option>
+                                <option value="STOCK_IN_REGISTERED" ${selectedStatus == 'STOCK_IN_REGISTERED' ? 'selected' : ''}>입고 등록</option>
+                                <option value="STOCK_IN_PROGRESS" ${selectedStatus == 'STOCK_IN_PROGRESS' ? 'selected' : ''}>입고중</option>
+                                <option value="STOCK_IN_COMPLETED" ${selectedStatus == 'STOCK_IN_COMPLETED' ? 'selected' : ''}>입고 완료</option>
+                            </select>
+
+                            <input type="date" id="date1" name="startDate" value="${startDate}">
+                            ~
+                            <input type="date" id="date2" name="endDate" value="${endDate}">
+
+                            <button type="submit" class="search-btn" id="submit-btn">조회</button>
+                        </div>
+                    </form>
+
+                <button class="storage-btn" id="storage-submit-btn" onclick="showModal()">입고서 등록</button>
                 </div>
                 <div>
                     <table class="table table1 table-striped table-hover" id="stock-table">
@@ -397,7 +408,8 @@
                                 <a href="#" class="disabled">이전</a>
                             </c:when>
                             <c:otherwise>
-                                <a href="${pageUrl}?cpage=${pi.currentPage - 1}&status=${selectedStatus}">이전</a>
+                                <a href="${pageUrl}?cpage=${pi.currentPage - 1}&status=${selectedStatus}&startDate=${startDate}&endDate=${endDate}">이전</a>
+<%--                                <a href="${pageUrl}?cpage=${pi.currentPage - 1}&status=${selectedStatus}">이전</a>--%>
                             </c:otherwise>
                         </c:choose>
 
@@ -424,6 +436,28 @@
                         </c:choose>
                     </div>
 
+                        <!-- 숫자 버튼 -->
+                        <c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
+                            <c:choose>
+                                <c:when test="${i == pi.currentPage}">
+                                    <a href="#" class="active">${i}</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="${pageUrl}?cpage=${i}&status=${selectedStatus}&startDate=${startDate}&endDate=${endDate}">${i}</a>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+
+                        <!-- 다음 버튼 -->
+                        <c:choose>
+                            <c:when test="${pi.currentPage == pi.maxPage}">
+                                <a href="#" class="disabled">다음</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="${pageUrl}?cpage=${pi.currentPage + 1}&status=${selectedStatus}&startDate=${startDate}&endDate=${endDate}">다음</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
                 </div>
             </div>
 
@@ -525,7 +559,9 @@
                         <h6>창고 번호</h6>
                         <select id="storage-search-bar">
                             <c:forEach var="s" items="${storage}">
-                                <option value="${s.storageNo}">${s.storageLocation}</option>
+                                <c:if test="${s.storeId eq sessionScope.storeId}">
+                                    <option value="${s.storageNo}">${s.storageLocation}(${s.currentAmount}/${s.ableAmount})</option>
+                                </c:if>
                             </c:forEach>
                         </select>
                     </div>

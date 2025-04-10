@@ -6,6 +6,7 @@
     <resultMap id="storageResult" type="Storage">
         <result column="STORE_ID" property="storeId"/>
         <result column="STORAGE_NO" property="storageNo"/>
+        <result column="STORE_ID" property="storeId"/>
         <result column="STORAGE_LOCATION" property="storageLocation"/>
         <result column="ABLE_AMOUNT" property="ableAmount"/>
         <result column="CURRENT_AMOUNT" property="currentAmount"/>
@@ -21,10 +22,12 @@
     <insert id="insertStorage" parameterType="Storage">
         INSERT INTO STORAGE (
          STORAGE_NO,
+         STORE_ID,
          STORAGE_LOCATION,
          ABLE_AMOUNT
         ) VALUES(
         STORAGE_SEQ.NEXTVAL,
+        #{storeId},
         #{storageLocation},
         #{ableAmount}
         )
@@ -49,8 +52,10 @@
 
     <select id="getStorageList" parameterType="Storage" resultMap="storageResult" >
         SELECT DISTINCT STORAGE_LOCATION,
-                        STORAGE_NO
+                        STORAGE_NO,
+                        STORE_ID
         FROM STORAGE
+        ORDER BY STORAGE_NO
     </select>
 
     <update id="updateStorageAmount">
@@ -64,4 +69,12 @@
         SET CURRENT_AMOUNT = CURRENT_AMOUNT - #{amount}
         WHERE STORAGE_NO = #{storageNo}
     </update>
+
+    <select id="searchStorage" resultMap="storageResult">
+        SELECT STORAGE_NO,
+        ABLE_AMOUNT,
+        CURRENT_AMOUNT
+        FROM STORAGE
+        WHERE STORAGE_NO = #{storageNo}
+    </select>
 </mapper>

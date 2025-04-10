@@ -55,6 +55,8 @@ public class ManagerController {
     public String dashManager(Model model, HttpSession session) {
         //부족한 재고 카드
         int storeId = (int)session.getAttribute("storeId");
+        int empNo = (int) session.getAttribute("empNo");
+
 
         ArrayList<Board> noticeList = boardService.selectBoardListTop3();
         // 공지사항 리스트를 모델에 추가
@@ -72,6 +74,12 @@ public class ManagerController {
         //인기 제품 카드
         List<Product> top4product = productService.top4product(storeId);
         model.addAttribute("top4product", top4product);
+
+        //입출고 현황
+        int countStockIn = stockService.countStockIn(empNo);
+        int countStockOut = stockService.countStockOut(empNo);
+        model.addAttribute("countStockIn", countStockIn);
+        model.addAttribute("countStockOut", countStockOut);
 
         //  오늘 매출 조회 추가
         int todaySales = storesalesService.getTodayTotalSales(storeId) / 10000;
@@ -140,11 +148,11 @@ public class ManagerController {
     public String insertStorage(Storage storage, HttpSession session, ModelAndView mv) {
         int storeId = (int) session.getAttribute("storeId");
         Storage s = new Storage();
+        s.setStoreId(storeId);
         s.setStorageLocation(storage.getStorageLocation());
         s.setAbleAmount(storage.getAbleAmount());
         int result = storageService.insertStorage(s);
         if (result > 0) {
-            session.setAttribute("alertMsg", "성공적으로 창고를 등록하였습니다.");
             return "redirect:/storage.lo";
         } else {
             mv.addObject("errorMsg", "창고 등록에 실패하였습니다.");
@@ -158,31 +166,47 @@ public class ManagerController {
     }
 
     @GetMapping("stockIn.sto")
-    public String stockInManagement(Model model, HttpSession session) {
+    public String stockInManagement(@RequestParam(defaultValue = "1") int cpage,
+                                    @RequestParam(required = false, defaultValue = "전체") String status,
+                                    @RequestParam(required = false) String startDate,
+                                    @RequestParam(required = false) String endDate,
+                                    Model model,
+                                    HttpSession session) {
         int empNo = (int) session.getAttribute("empNo");
         int storeId = (int)session.getAttribute("storeId");
 
-        ArrayList<Stock> list = stockService.selectStockList(empNo);
         ArrayList<Storage> list2 = storageService.selectStorage(storeId);
         ArrayList<Client> list3 = productService.selectClientList();
         ArrayList<StockProduct> list4 = stockService.selectStockProductList(empNo);
-
-        System.out.println("입고 제품들 !: " + list);
-
         ArrayList<Product> list5 = productService.selectImageUrl();
 
-
-        model.addAttribute("stock", list);
         model.addAttribute("storage", list2);
         model.addAttribute("client", list3);
         model.addAttribute("stockProduct", list4);
         model.addAttribute("image", list5);
+
+        // 페이징 처리
+        int listCount = stockService.selectStockInListforPaging(empNo, status, startDate, endDate);
+        int pageLimit = 5;
+        int boardLimit = 8;
+        PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
+        ArrayList<Stock> listpage = stockService.selectStockInListByPage(pi, empNo, status, startDate, endDate);
+
+        model.addAttribute("stock", listpage);
+        model.addAttribute("pi", pi);
+        model.addAttribute("pageUrl", "stockIn.sto");
+        model.addAttribute("selectedStatus", status);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+
         return "manager/stockInView";
     }
 
     @GetMapping("stockOut.sto")
     public String stockOutManagement(@RequestParam(defaultValue = "1") int cpage,
                                      @RequestParam(required = false, defaultValue = "전체") String status,
+                                     @RequestParam(required = false) String startDate,
+                                     @RequestParam(required = false) String endDate,
                                      Model model,
                                      HttpSession session) {
         int empNo = (int) session.getAttribute("empNo");
@@ -198,16 +222,19 @@ public class ManagerController {
         model.addAttribute("image", list5);
 
         // 페이징 처리
-        int listCount = stockService.selectStockOutListforPaging(empNo, status);
+        int listCount = stockService.selectStockOutListforPaging(empNo, status, startDate, endDate);
         int pageLimit = 5;
-        int boardLimit = 5;
+        int boardLimit = 8;
         PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
-        ArrayList<Stock> listpage = stockService.selectStockOutListByPage(pi, empNo, status);
+        ArrayList<Stock> listpage = stockService.selectStockOutListByPage(pi, empNo, status, startDate, endDate);
 
         model.addAttribute("stock", listpage);
         model.addAttribute("pi", pi);
         model.addAttribute("pageUrl", "stockOut.sto");
         model.addAttribute("selectedStatus", status);
+
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
 
         return "manager/stockOutView";
     }

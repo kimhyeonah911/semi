@@ -12,8 +12,8 @@ import java.sql.Date;
 
 public class Storage {
     private int storageNo;
+    private int storeId;
     private String storageLocation;
     private int ableAmount;
     private int currentAmount;
-    private int storeId;
 }

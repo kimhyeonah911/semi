@@ -1,6 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -119,6 +118,7 @@
         .card-notice {
             background-color: #E3F2FD; /* 밝은 하늘색 */
             color: #000000; /* 진한 파랑 */
+            padding-top: 30px;
         }
 
         .card-popular {
@@ -129,9 +129,6 @@
             background-color: #e5ffdc ; /* 연한 보라색 */
             color: #000000; /* 진한 보라색 */
         }
-
-
-
 
         .card-footer {
             font-size: 14px;
@@ -234,6 +231,10 @@
                 <div class="card-footer">
                     <button class="btn btn-light" onclick="location.href='/list.bo'">자세히 보기</button>
                 </div>
+                <div class="card-body">
+
+                </div>
+                <div class="card-footer">피드백 확인</div>
             </div>
 
 
@@ -275,13 +276,15 @@
             <div class="dashboard-card card-inventory">
                 <div class="card-title">🚚 입출고 현황</div>
                 <div class="card-body">
-                    <span class="delivery">입고 : 12개</span>
-                    <span class="delivery">출고 : 60개</span>
+                    <span class="delivery">입고 : ${countStockIn}개</span>
+                    <span class="delivery">출고 : ${countStockOut}개</span>
                 </div>
                 <div class="card-body">
 
                 </div>
-                <div class="card-footer">배송 현황 확인</div>
+                <a href="stockOut.sto" style="text-decoration: none; color: black;">
+                <div class="card-footer">출고 페이지로 이동하기</div>
+                </a>
             </div>
 
             <!-- 직원 근무 현황 카드 -->
@@ -299,12 +302,7 @@
                     </div>
                 </a>
             </div>
-
-
-
-
         </div>
-
     </main>
 </div>
 

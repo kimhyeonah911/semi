@@ -38,8 +38,12 @@
 
     .table1, .table2{
       width: 49%;
-      max-height: 700px;
+      max-height: 750px;
       overflow-y: auto;
+    }
+
+    .table2{
+      max-height: 664px;
     }
 
     select{
@@ -367,7 +371,7 @@
                             <c:set var="totalAmount" value="${totalAmount + itemTotal}" />
                           </c:if>
                         </c:forEach>
-                      <fmt:formatNumber value="${totalAmount}" type="number" groupingUsed="true" />
+                        <fmt:formatNumber value="${totalAmount}" type="number" groupingUsed="true" />
                       </td>
 
                       <td>${s.memName}</td>
@@ -402,7 +406,11 @@
                 <a href="#" class="disabled">이전</a>
               </c:when>
               <c:otherwise>
+<<<<<<< HEAD
                 <a href="${pageUrl}?cpage=${pi.currentPage - 1}&status=${selectedStatus}">이전</a>
+=======
+                <a href="${pageUrl}?cpage=${pi.currentPage - 1}&status=${selectedStatus}&startDate=${startDate}&endDate=${endDate}">이전</a>
+>>>>>>> 80c381492da6df77241af6d21a64b64cb8591334
               </c:otherwise>
             </c:choose>
 
@@ -413,7 +421,11 @@
                   <a href="#" class="active">${i}</a>
                 </c:when>
                 <c:otherwise>
+<<<<<<< HEAD
                   <a href="${pageUrl}?cpage=${i}&status=${selectedStatus}">${i}</a>
+=======
+                  <a href="${pageUrl}?cpage=${i}&status=${selectedStatus}&startDate=${startDate}&endDate=${endDate}">${i}</a>
+>>>>>>> 80c381492da6df77241af6d21a64b64cb8591334
                 </c:otherwise>
               </c:choose>
             </c:forEach>
@@ -424,7 +436,11 @@
                 <a href="#" class="disabled">다음</a>
               </c:when>
               <c:otherwise>
+<<<<<<< HEAD
                 <a href="${pageUrl}?cpage=${pi.currentPage + 1}&status=${selectedStatus}">다음</a>
+=======
+                <a href="${pageUrl}?cpage=${pi.currentPage + 1}&status=${selectedStatus}&startDate=${startDate}&endDate=${endDate}">다음</a>
+>>>>>>> 80c381492da6df77241af6d21a64b64cb8591334
               </c:otherwise>
             </c:choose>
           </div>

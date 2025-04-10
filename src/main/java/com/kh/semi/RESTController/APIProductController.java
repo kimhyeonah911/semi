@@ -43,8 +43,8 @@ public class APIProductController {
     }
 
     @GetMapping("/searchProductName")
-    public List<Product> searchProductName(String productName) {
-        List<Product> list = productService.searchProductName(productName);
+    public List<Product> searchProductName(String productName, int clientId) {
+        List<Product> list = productService.searchProductName(productName, clientId);
         return list;
     }
 
@@ -252,6 +252,28 @@ public class APIProductController {
 
         return response;
     }
+
+    @GetMapping("getDaySales")
+    public Map<String, Object> getDaySales() {
+        List<Map<String, Object>> daySalesList = storesalesService.selectTodaySalesDash();
+
+        // 반환할 데이터 구성
+        Map<String, Object> response = new HashMap<>();
+        List<String> labels = new ArrayList<>(); // 지점명
+        List<Integer> data = new ArrayList<>();  // 매출액
+
+        for (Map<String, Object> row : daySalesList) {
+            labels.add((String) row.get("STORE_NAME")); // 지점명
+            Object saleObj = row.get("DAY_SALES");
+            int sale = saleObj != null ? ((Number) saleObj).intValue() : 0;
+            data.add(sale);
+        }
+
+        response.put("labels", labels);
+        response.put("data", data);
+        return response;
+    }
+
 
 
 

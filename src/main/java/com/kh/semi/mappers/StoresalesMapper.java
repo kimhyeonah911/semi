@@ -20,4 +20,7 @@ public interface StoresalesMapper {
     int getTodayTotalSales(@Param("storeId") int storeId, Date today);
 
     List<Map<String, Object>> getAllStoresMonthSales();
+
+    List<Map<String, Object>> selectTodaySalesDash();
+
 }

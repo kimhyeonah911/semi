@@ -55,4 +55,9 @@ public class StorageServiceImpl implements StorageService {
     public int minusStorageAmount(int storageNo, int amount) {
         return storageMapper.minusStorageAmount(storageNo,amount);
     }
+
+    @Override
+    public Storage searchStorage(int storageNo) {
+        return storageMapper.searchStorage(storageNo);
+    }
 }
