@@ -23,10 +23,16 @@ public interface StockService {
     ArrayList<Stock> selectCompletedStockIn(); // COMPLETED + Y 인 애들
     int updateStockProcessedStatus(int stockNo); // STATUS = 'C'로 변경
 
+    // 입고 페이지 페이징 처리(였던것)
+//    int selectStockListforPaging(int empNo, String status);
+//    ArrayList<Stock> selectStockListByPage(PageInfo pi, int empNo, String status);
+
     //출고완료
     int updateCompletedStockOut();
     ArrayList<Stock> selectCompletedStockOut();
 
+    int selectStockOutListforPaging(int empNo, String status);
+    ArrayList<Stock> selectStockOutListByPage(PageInfo pi, int empNo, String status);
     int countStockIn(int empNo);
     int countStockOut(int empNo);
 
@@ -35,4 +41,5 @@ public interface StockService {
     ArrayList<Stock> selectStockInListByPage(PageInfo pi, int empNo, String status, String startDate, String endDate);
     int selectStockOutListforPaging(int empNo, String status, String startDate, String endDate);
     ArrayList<Stock> selectStockOutListByPage(PageInfo pi, int empNo, String status, String startDate, String endDate);
+
 }

@@ -286,6 +286,9 @@
     </main>
 </div>
 
+<%
+    int storeId = (int)session.getAttribute("storeId");
+%>
 
 <script>
 
@@ -341,7 +344,6 @@
             deleteModal.hide();
         };
     }
-
 </script>
 </body>
 </html>

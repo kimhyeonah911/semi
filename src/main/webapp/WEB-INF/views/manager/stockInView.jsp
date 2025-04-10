@@ -325,7 +325,7 @@
                         </div>
                     </form>
 
-                <button class="storage-btn" id="storage-submit-btn" onclick="showModal()">입고서 등록</button>
+                    <button class="storage-btn" id="storage-submit-btn" onclick="showModal()">입고서 등록</button>
                 </div>
                 <div>
                     <table class="table table1 table-striped table-hover" id="stock-table">
@@ -371,7 +371,7 @@
                                                         <c:set var="totalAmount" value="${totalAmount + itemTotal}" />
                                                     </c:if>
                                                 </c:forEach>
-                                            <fmt:formatNumber value="${totalAmount}" type="number" groupingUsed="true" />
+                                                <fmt:formatNumber value="${totalAmount}" type="number" groupingUsed="true" />
                                             </td>
 
                                             <td>${s.memName}</td>
@@ -436,70 +436,70 @@
             </div>
 
             <div class="table2">
-                    <div class="table2-container">
-                        <div class="price-place">
-                            <div id="item-count" style="font-weight: bold; font-size: 14px;">1 품목</div>
-                            <div id="total-amount" style="font-weight: bold; font-size: 14px;">총 수량 2</div>
-                            <div id="total-summary" style="font-weight: bold; font-size: 14px;">
-                                총 공급가액 0원 + 총 부가세 0원 = 총 합계금액 0원
-                            </div>
+                <div class="table2-container">
+                    <div class="price-place">
+                        <div id="item-count" style="font-weight: bold; font-size: 14px;">1 품목</div>
+                        <div id="total-amount" style="font-weight: bold; font-size: 14px;">총 수량 2</div>
+                        <div id="total-summary" style="font-weight: bold; font-size: 14px;">
+                            총 공급가액 0원 + 총 부가세 0원 = 총 합계금액 0원
                         </div>
-                        <% if (position.equals("manager")) { %>
-                        <div>
-                            <button class="storage-btn" id="storage-approve-btn" onclick="approveStock()">입고 승인</button>
-                        </div>
-                        <% } %>
                     </div>
+                    <% if (position.equals("manager")) { %>
                     <div>
-                        <table class="table table2 table-striped table-hover">
-                            <thead>
-                            <tr>
-                                <th colspan="2" style="width: 35%;">품목</th>
-                                <th>입고수량</th>
-                                <th>구매단가</th>
-                                <th>공급가액</th>
-                                <th>부가세</th>
-                                <th>합계금액</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach var="sp" items="${stockProduct}">
-                                <c:forEach var="s" items="${stock}">
-                                    <c:if test="${sp.stockNo eq s.stockNo and s.stockStatus eq 'STOCK_IN_REGISTERED'}">
-                                        <tr>
-                                            <td colspan="2" class="list-table-item">
-                                                <input type="hidden" value="${sp.stockNo}" class="stockNo">
-                                                <c:forEach var="i" items="${image}">
-                                                    <c:if test="${i.productNo eq sp.productNo}">
-                                                        <c:choose>
-                                                            <c:when test="${empty i.imageUrl}">
-                                                                <img src="<c:url value='/resources/default.png' />" style="width: 50px; height: 50px;" alt="제품사진">
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <img src="<c:url value='${i.imageUrl}' />" style="width: 50px; height: 50px;" alt="제품사진">
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </c:if>
-                                                </c:forEach>
-                                                <div class="product-info">
-                                                    <p style="font-size: 14px;">${sp.productNo}</p>
-                                                    <p style="font-weight:600; font-size: 14px;">${sp.productName}</p>
-                                                    <p style="font-size: 12px;">${sp.categoryName} ${sp.color} ${sp.productSize}</p>
-                                                </div>
-                                            </td>
-                                            <td></td>
-                                            <td>${sp.amount}</td>
-                                            <td><fmt:formatNumber value="${sp.price}" type="number" groupingUsed="true" /></td>
-                                            <td><fmt:formatNumber value="${sp.amount * sp.price}" type="number" groupingUsed="true" /></td>
-                                            <td><fmt:formatNumber value="${sp.taxPrice}" type="number" groupingUsed="true" /></td>
-                                            <td><fmt:formatNumber value="${sp.amount * sp.price + sp.taxPrice}" type="number" groupingUsed="true" /></td>
-                                        </tr>
-                                    </c:if>
-                                </c:forEach>
-                            </c:forEach>
-                            </tbody>
-                        </table>
+                        <button class="storage-btn" id="storage-approve-btn" onclick="approveStock()">입고 승인</button>
                     </div>
+                    <% } %>
+                </div>
+                <div>
+                    <table class="table table2 table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th colspan="2" style="width: 35%;">품목</th>
+                            <th>입고수량</th>
+                            <th>구매단가</th>
+                            <th>공급가액</th>
+                            <th>부가세</th>
+                            <th>합계금액</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="sp" items="${stockProduct}">
+                            <c:forEach var="s" items="${stock}">
+                                <c:if test="${sp.stockNo eq s.stockNo and s.stockStatus eq 'STOCK_IN_REGISTERED'}">
+                                    <tr>
+                                        <td colspan="2" class="list-table-item">
+                                            <input type="hidden" value="${sp.stockNo}" class="stockNo">
+                                            <c:forEach var="i" items="${image}">
+                                                <c:if test="${i.productNo eq sp.productNo}">
+                                                    <c:choose>
+                                                        <c:when test="${empty i.imageUrl}">
+                                                            <img src="<c:url value='/resources/default.png' />" style="width: 50px; height: 50px;" alt="제품사진">
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <img src="<c:url value='${i.imageUrl}' />" style="width: 50px; height: 50px;" alt="제품사진">
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:if>
+                                            </c:forEach>
+                                            <div class="product-info">
+                                                <p style="font-size: 14px;">${sp.productNo}</p>
+                                                <p style="font-weight:600; font-size: 14px;">${sp.productName}</p>
+                                                <p style="font-size: 12px;">${sp.categoryName} ${sp.color} ${sp.productSize}</p>
+                                            </div>
+                                        </td>
+                                        <td></td>
+                                        <td>${sp.amount}</td>
+                                        <td><fmt:formatNumber value="${sp.price}" type="number" groupingUsed="true" /></td>
+                                        <td><fmt:formatNumber value="${sp.amount * sp.price}" type="number" groupingUsed="true" /></td>
+                                        <td><fmt:formatNumber value="${sp.taxPrice}" type="number" groupingUsed="true" /></td>
+                                        <td><fmt:formatNumber value="${sp.amount * sp.price + sp.taxPrice}" type="number" groupingUsed="true" /></td>
+                                    </tr>
+                                </c:if>
+                            </c:forEach>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </main>
@@ -584,36 +584,36 @@
             </div>
 
             <div class="modal-body">
-                    <div class="input-space">
-                        <h6>입고 번호</h6>
-                        <input type="text" id="stockNo">
-                        <h6>요청자</h6>
-                        <input type="text" id="stockEmp">
-                        <h6>입고 예정 일자</h6>
-                        <input type="text" id="expDate">
-                        <h6>창고 번호</h6>
-                        <input type="text" id="storageLocation">
+                <div class="input-space">
+                    <h6>입고 번호</h6>
+                    <input type="text" id="stockNo">
+                    <h6>요청자</h6>
+                    <input type="text" id="stockEmp">
+                    <h6>입고 예정 일자</h6>
+                    <input type="text" id="expDate">
+                    <h6>창고 번호</h6>
+                    <input type="text" id="storageLocation">
+                </div>
+                <div class="list-space">
+                    <div style="padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                        <h6>입고 품목 정보</h6>
                     </div>
-                    <div class="list-space">
-                        <div style="padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-                            <h6>입고 품목 정보</h6>
-                        </div>
 
-                        <h6 style="font-size: 13px;">0 품목 총 수량 0 합계금액 0원 + 부가세 0원 = 총 0원</h6>
-                        <hr>
-                        <table class="table modal-table1 table-striped table-hover">
-                            <thead>
-                            <tr>
-                                <th colspan="2" style="width: 35%;">품목</th>
-                                <th>입고수량</th>
-                                <th>구매단가</th>
-                                <th>과세여부</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
+                    <h6 style="font-size: 13px;">0 품목 총 수량 0 합계금액 0원 + 부가세 0원 = 총 0원</h6>
+                    <hr>
+                    <table class="table modal-table1 table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th colspan="2" style="width: 35%;">품목</th>
+                            <th>입고수량</th>
+                            <th>구매단가</th>
+                            <th>과세여부</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="modal-footer">
@@ -633,24 +633,24 @@
             </div>
 
             <div class="modal-body">
-                    <div class="input-space2">
-                        <input type="text" id="product-search-input" placeholder="품목명">
-                        <input type="button" id="product-search-btn" value="조회" onclick="searchProduct()">
-                    </div>
-                    <div class="list-space2">
-                        <table class="table modal-table1 table-striped table-hover" id="product-table">
-                            <thead>
-                            <tr>
-                                <th colspan="2" style="width: 35%;">품목</th>
-                                <th>구매단가</th>
-                                <th>판매단가</th>
-                            </tr>
-                            </thead>
-                            <tbody>
+                <div class="input-space2">
+                    <input type="text" id="product-search-input" placeholder="품목명">
+                    <input type="button" id="product-search-btn" value="조회" onclick="searchProduct()">
+                </div>
+                <div class="list-space2">
+                    <table class="table modal-table1 table-striped table-hover" id="product-table">
+                        <thead>
+                        <tr>
+                            <th colspan="2" style="width: 35%;">품목</th>
+                            <th>구매단가</th>
+                            <th>판매단가</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="modal-footer">

@@ -1,10 +1,7 @@
 package com.kh.semi.controller;
 
 import com.kh.semi.domain.vo.*;
-import com.kh.semi.service.BoardService;
-import com.kh.semi.service.MemberService;
-import com.kh.semi.service.ProductService;
-import com.kh.semi.service.StoreService;
+import com.kh.semi.service.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -19,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 @RequiredArgsConstructor
@@ -28,6 +26,7 @@ public class AdminController {
     private final ProductService productService;
     private final BoardService boardService;
     private final StoreService storeService;
+    private final StoresalesService storesalesService;
 
     @GetMapping("accept.ma")
     public String acceptManager(Model model) {
@@ -59,12 +58,11 @@ public class AdminController {
 
         PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit);
         ArrayList<Board> listpage = boardService.selectBoardListByPage(pi);
-        System.out.println(listpage);
+
         model.addAttribute("listpage", listpage);  // 변경: listpage로 모델에 추가
         model.addAttribute("pi", pi);
         model.addAttribute("pageUrl", "list.bo");
-        System.out.println("공지사항 리스트 : " + listpage);
-        System.out.println("PageInfo: " + pi);
+
         return "admin/boardListView";
     }
 
@@ -139,7 +137,13 @@ public class AdminController {
     }
 
     @GetMapping("sales.bo")
-    public String saleBoard() {
+    public String saleBoard(HttpSession session, Model model) {
+
+        List<Map<String, Object>> monthlySales = storesalesService.getAllStoresMonthSales();
+
+        model.addAttribute("monthlySales", monthlySales);
+        System.out.println("전체 지점의 월별 매출액: " + monthlySales);
+
         return "admin/salesBoard";
     }
 
@@ -267,7 +271,6 @@ public class AdminController {
             model.addAttribute("errorMsg", "지점장 승인 실패");
             return "common/errorPage";
         }
-
     }
 
     @PostMapping("/rejectManager") //지점장 거부 로직

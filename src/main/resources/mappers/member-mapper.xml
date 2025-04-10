@@ -20,7 +20,7 @@
         <result column="WORKDATE" property="workDate"/>
         <result column="STORE_ADDRESS" property="storeAddress"/>
     </resultMap>
-    <select id="loginMember" parameterType="Member" resultMap="memberResult">
+    <select id="loginMember" parameterType="String" resultMap="memberResult">
         SELECT
         M.EMP_NO,
         M.STORE_ID,
@@ -40,7 +40,6 @@
         FROM MEMBER M
         LEFT JOIN STORE S ON M.STORE_ID = S.STORE_ID
         WHERE M.MEM_ID = #{memId}
-        AND M.MEM_PWD = #{memPwd}
     </select>
 
     <insert id="insertMember" parameterType="Member">

@@ -409,7 +409,6 @@
                 <a href="${pageUrl}?cpage=${pi.currentPage - 1}&status=${selectedStatus}&startDate=${startDate}&endDate=${endDate}">이전</a>
               </c:otherwise>
             </c:choose>
-
             <!-- 숫자 버튼 -->
             <c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
               <c:choose>
@@ -815,9 +814,6 @@
 
     $("#modal3 .list-space > h6").first().text(summaryText);
   }
-
-
-
 
 </script>
 

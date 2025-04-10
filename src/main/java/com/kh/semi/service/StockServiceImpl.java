@@ -79,7 +79,20 @@ public class StockServiceImpl implements StockService {
         return stockMapper.updateStockProcessedStatus(stockNo);
     }
 
-    @Override
+    // 입고 페이지 페이징 처리(였던것)
+//    @Override
+//    public int selectStockListforPaging(int empNo, String status) {
+//        return stockMapper.selectStockListforPaging(empNo, status);
+//    }
+//
+//    @Override
+//    public ArrayList<Stock> selectStockListByPage(PageInfo pi, int empNo, String status) {
+//        int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+//        RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+//        return stockMapper.selectStockListByPage(empNo, status , rowBounds);
+//    }
+
+
     public int updateCompletedStockOut() {
         return stockMapper.updateCompletedStockOut();
     }
@@ -89,6 +102,19 @@ public class StockServiceImpl implements StockService {
         return stockMapper.selectCompletedStockOut();
     }
 
+    @Override
+    public int selectStockOutListforPaging(int empNo, String status) {
+        return stockMapper.selectStockOutListforPaging(empNo, status);
+    }
+
+    @Override
+    public ArrayList<Stock> selectStockOutListByPage(PageInfo pi, int empNo, String status) {
+        int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+        RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+        return stockMapper.selectStockOutListByPage(empNo, status, rowBounds);
+
+
+    }
     @Override
     public int countStockIn(int empNo) {
         return stockMapper.countStockIn(empNo);
