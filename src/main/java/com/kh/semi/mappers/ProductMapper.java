@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Mapper
 public interface ProductMapper {
-    List<Product> selectProductList(int clientId);
+    List<Product> selectProductList(int clientId, int storeId);
     List<Product> searchProductName(String productName, int clientId);
 
     ArrayList<Product> selectImageUrl();

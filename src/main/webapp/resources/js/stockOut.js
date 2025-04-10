@@ -265,7 +265,9 @@ function searchProduct() {
     $.ajax({
         url: "/api/searchProductName",
         method: "GET",
-        data: { productName: productName },
+        data: { productName: productName,
+            clientId: 0
+        },
         success: function (data) {
             createProductTable(data);
             input.value = "";

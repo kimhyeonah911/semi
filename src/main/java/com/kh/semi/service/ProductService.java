@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Service
 public interface ProductService {
-    List<Product> selectProductList(int clientId);
+    List<Product> selectProductList(int clientId, int storeId);
     List<Product> searchProductName(String productName, int clientId);
 
     ArrayList<Product> selectImageUrl();
