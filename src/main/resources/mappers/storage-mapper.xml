@@ -20,11 +20,13 @@
 
     <insert id="insertStorage" parameterType="Storage">
         INSERT INTO STORAGE (
-         STORAGE_NO,
-         STORAGE_LOCATION,
-         ABLE_AMOUNT
+        STORAGE_NO,
+        STORE_ID,
+        STORAGE_LOCATION,
+        ABLE_AMOUNT
         ) VALUES(
         STORAGE_SEQ.NEXTVAL,
+        #{storeId},
         #{storageLocation},
         #{ableAmount}
         )

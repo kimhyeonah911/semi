@@ -225,9 +225,6 @@ public class AdminController {
     }
 
 
-    @GetMapping("adminmypage.bo")
-    public String adminPage() {return "admin/adminMypage";}
-
 
 
 
@@ -239,7 +236,7 @@ public class AdminController {
 //            session.setAttribute("alertMsg","직원 승인 완료");
             return "admin/memberManagement";
         } else{
-//            model.addAttribute("errorMsg", "직원 승인 실패");
+            model.addAttribute("errorMsg", "직원 승인 실패");
             return "common/errorPage";
         }
     }

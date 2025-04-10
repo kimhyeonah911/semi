@@ -30,12 +30,6 @@ public class APIProductController {
     @Autowired
     private StoresalesService storesalesService;
 
-    @GetMapping("/getProductList")
-    public List<Product> getProductLIst() {
-        List<Product> list = productService.getProductLIst();
-        return list;
-    }
-
     @GetMapping("/selectProductList")
     public List<Product> selectProductList(int clientId) {
         List<Product> list = productService.selectProductList(clientId);
@@ -150,7 +144,7 @@ public class APIProductController {
         result.put("totalCount", totalCount);
         result.put("pageInfo", pageInfo);
 
-        System.out.println("result : " + result);
+//        System.out.println("result : " + result);
 
         return result;
     }

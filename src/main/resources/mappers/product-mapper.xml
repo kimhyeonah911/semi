@@ -31,22 +31,6 @@
         <result column="CLIENT_ADDRESS" property="clientAddress"/>
         <result column="STATUS" property="status"/>
     </resultMap>
-    <select id="getProductLIst" resultType="Product">
-        SELECT P.PRODUCT_NO AS productNo,
-                P.PRODUCT_NAME AS productName,
-                P.CATEGORY_NO AS categoryNo,
-                C.CATEGORY_NAME AS categoryName,
-                P.COLOR AS color,
-                P.PRODUCT_SIZE AS productSize,
-                P.STOCK_IN_PRICE AS stockInPrice,
-                P.STOCK_OUT_PRICE AS stockOutPrice,
-                P.STATUS AS status,
-                P.IMAGE_URL AS imageUrl
-        FROM PRODUCT P
-        JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
-        WHERE P.STATUS = 'Y'
-        ORDER BY P.PRODUCT_NO DESC
-    </select>
     <select id="selectProductList" resultType="Product">
         SELECT
         P.PRODUCT_NO AS productNo,
@@ -69,7 +53,6 @@
         AND I.QUANTITY > 0
         ORDER BY P.PRODUCT_NO
     </select>
-
     <select id="searchProductName" resultType="Product">
         SELECT P.PRODUCT_NO AS productNo,
         P.PRODUCT_NAME AS productName,
@@ -84,7 +67,6 @@
         WHERE P.PRODUCT_NAME LIKE '%' || #{productName} || '%'
         ORDER BY P.PRODUCT_NO ASC
     </select>
-
     <select id="selectImageUrl" resultType="Product" resultMap="productResult">
         SELECT IMAGE_URL,
                 PRODUCT_NO
