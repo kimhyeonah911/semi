@@ -27,8 +27,6 @@ public interface StockService {
 //    int selectStockListforPaging(int empNo, String status);
 //    ArrayList<Stock> selectStockListByPage(PageInfo pi, int empNo, String status);
 
-    int updateStockProcessedStatus(int stockNo); // STATUS = 'C'로 변경
-
     //출고완료
     int updateCompletedStockOut();
     ArrayList<Stock> selectCompletedStockOut();

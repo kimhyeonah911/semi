@@ -1,11 +1,11 @@
 package com.kh.semi.service;
 
 import com.kh.semi.domain.vo.Attendance;
-import com.kh.semi.domain.vo.Attendance;
+
 import com.kh.semi.domain.vo.PageInfo;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Map;
 
 public interface AttendanceService {

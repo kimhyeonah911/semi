@@ -406,14 +406,9 @@
                 <a href="#" class="disabled">이전</a>
               </c:when>
               <c:otherwise>
-<<<<<<< HEAD
-                <a href="${pageUrl}?cpage=${pi.currentPage - 1}&status=${selectedStatus}">이전</a>
-=======
                 <a href="${pageUrl}?cpage=${pi.currentPage - 1}&status=${selectedStatus}&startDate=${startDate}&endDate=${endDate}">이전</a>
->>>>>>> 80c381492da6df77241af6d21a64b64cb8591334
               </c:otherwise>
             </c:choose>
-
             <!-- 숫자 버튼 -->
             <c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
               <c:choose>
@@ -421,11 +416,7 @@
                   <a href="#" class="active">${i}</a>
                 </c:when>
                 <c:otherwise>
-<<<<<<< HEAD
-                  <a href="${pageUrl}?cpage=${i}&status=${selectedStatus}">${i}</a>
-=======
                   <a href="${pageUrl}?cpage=${i}&status=${selectedStatus}&startDate=${startDate}&endDate=${endDate}">${i}</a>
->>>>>>> 80c381492da6df77241af6d21a64b64cb8591334
                 </c:otherwise>
               </c:choose>
             </c:forEach>
@@ -436,11 +427,7 @@
                 <a href="#" class="disabled">다음</a>
               </c:when>
               <c:otherwise>
-<<<<<<< HEAD
-                <a href="${pageUrl}?cpage=${pi.currentPage + 1}&status=${selectedStatus}">다음</a>
-=======
                 <a href="${pageUrl}?cpage=${pi.currentPage + 1}&status=${selectedStatus}&startDate=${startDate}&endDate=${endDate}">다음</a>
->>>>>>> 80c381492da6df77241af6d21a64b64cb8591334
               </c:otherwise>
             </c:choose>
           </div>
@@ -827,9 +814,6 @@
 
     $("#modal3 .list-space > h6").first().text(summaryText);
   }
-
-
-
 
 </script>
 

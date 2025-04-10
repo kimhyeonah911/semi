@@ -300,9 +300,7 @@
     <jsp:include page="../common/sidebar.jsp"/>
 
     <main>
-        <c:forEach var="s" items="${listpage}">
-            <p>Stock No: ${s.stockNo}, Status: ${s.stockStatus}</p>
-        </c:forEach>
+
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">입고</h1>
         </div>
@@ -327,7 +325,7 @@
                         </div>
                     </form>
 
-                <button class="storage-btn" id="storage-submit-btn" onclick="showModal()">입고서 등록</button>
+                    <button class="storage-btn" id="storage-submit-btn" onclick="showModal()">입고서 등록</button>
                 </div>
                 <div>
                     <table class="table table1 table-striped table-hover" id="stock-table">
@@ -409,32 +407,8 @@
                             </c:when>
                             <c:otherwise>
                                 <a href="${pageUrl}?cpage=${pi.currentPage - 1}&status=${selectedStatus}&startDate=${startDate}&endDate=${endDate}">이전</a>
-<%--                                <a href="${pageUrl}?cpage=${pi.currentPage - 1}&status=${selectedStatus}">이전</a>--%>
                             </c:otherwise>
                         </c:choose>
-
-                        <!-- 숫자 버튼 -->
-                        <c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
-                            <c:choose>
-                                <c:when test="${i == pi.currentPage}">
-                                    <a href="#" class="active">${i}</a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="${pageUrl}?cpage=${i}&status=${selectedStatus}">${i}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-
-                        <!-- 다음 버튼 -->
-                        <c:choose>
-                            <c:when test="${pi.currentPage == pi.maxPage}">
-                                <a href="#" class="disabled">다음</a>
-                            </c:when>
-                            <c:otherwise>
-                                <a href="${pageUrl}?cpage=${pi.currentPage + 1}&status=${selectedStatus}">다음</a>
-                            </c:otherwise>
-                        </c:choose>
-                    </div>
 
                         <!-- 숫자 버튼 -->
                         <c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">

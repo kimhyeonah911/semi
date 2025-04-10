@@ -290,24 +290,6 @@
         </if>
     </select>
 
-    <select id="selectStockOutListByPage" resultMap="stockResult">
-        SELECT DISTINCT S.STOCK_NO,
-        M.MEM_NAME,
-        TO_CHAR(S.STOCK_DATE, 'YYYY-MM-DD') AS STOCK_DATE,
-        TO_CHAR(S.EXP_DATE, 'YYYY-MM-DD') AS EXP_DATE,
-        S.STOCK_STATUS
-        FROM STOCK S
-        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO
-        JOIN MEMBER LOGIN_USER ON LOGIN_USER.EMP_NO = #{empNo}
-        WHERE S.STATUS IN ('Y', 'C')
-        AND S.STOCK_STATUS LIKE 'STOCK_OUT%'
-        AND M.STORE_ID = LOGIN_USER.STORE_ID
-        <if test="status != null and status != '' and status != '전체'">
-            AND S.STOCK_STATUS = #{status}
-        </if>
-        ORDER BY S.STOCK_NO
-    </select>
-
     <select id="selectStockInListByPage" resultMap="stockResult">
         SELECT DISTINCT S.STOCK_NO,
         M.MEM_NAME,
