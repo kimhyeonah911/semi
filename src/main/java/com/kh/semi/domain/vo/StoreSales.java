@@ -16,4 +16,7 @@ public class StoreSales {
     private Date salesDate;
     private int monthSales;
     private Date salesMonth;
+
+    private String storeName;
+    private int totalMonthSales;
 }

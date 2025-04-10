@@ -339,9 +339,9 @@
             <div class="dashboard-card card-notice" style="grid-area: notice;">
                 <div class="card-title">📢 공지사항</div>
                 <div class="card-body" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <c:forEach var="b" items="${noticeList}">
-                            <p>${b.boardContent}</p>
-                        </c:forEach>
+                    <c:forEach var="b" items="${noticeList}">
+                        <p>${b.boardContent}</p>
+                    </c:forEach>
                 </div>
                 <a href="list.bo" style="text-decoration: none; color: black;">
                     <div class="card-footer">자세히 보기</div>

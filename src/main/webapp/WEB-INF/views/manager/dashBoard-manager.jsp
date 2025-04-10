@@ -273,13 +273,15 @@
             <div class="dashboard-card card-inventory">
                 <div class="card-title">🚚 입출고 현황</div>
                 <div class="card-body">
-                    <span class="delivery">입고 : 12개</span>
-                    <span class="delivery">출고 : 60개</span>
+                    <span class="delivery">입고 : ${countStockIn}개</span>
+                    <span class="delivery">출고 : ${countStockOut}개</span>
                 </div>
                 <div class="card-body">
 
                 </div>
-                <div class="card-footer">배송 현황 확인</div>
+                <a href="stockOut.sto" style="text-decoration: none; color: black;">
+                <div class="card-footer">출고 페이지로 이동하기</div>
+                </a>
             </div>
 
             <!-- 직원 근무 현황 카드 -->
