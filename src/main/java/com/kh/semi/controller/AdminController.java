@@ -240,7 +240,6 @@ public class AdminController {
         System.out.println(storeSelect);
         int result = memberService.approveMember(memId,storeSelect);
         if(result > 0){
-//            session.setAttribute("alertMsg","직원 승인 완료");
             return "admin/memberManagement";
         } else{
             model.addAttribute("errorMsg", "직원 승인 실패");
