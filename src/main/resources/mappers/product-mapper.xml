@@ -45,7 +45,9 @@
         P.IMAGE_URL AS imageUrl
         FROM PRODUCT P
         JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
-        JOIN INVENTORY I ON P.PRODUCT_NO = I.PRODUCT_NO
+        <if test="clientId == 0">
+            JOIN INVENTORY I ON P.PRODUCT_NO = I.PRODUCT_NO
+        </if>
         WHERE P.STATUS = 'Y'
         <if test="clientId != 0">
             AND CLIENT_ID = #{clientId}
