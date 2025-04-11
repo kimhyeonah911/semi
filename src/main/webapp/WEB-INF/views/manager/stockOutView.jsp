@@ -391,7 +391,7 @@
               </c:when>
               <c:otherwise>
                 <tr>
-                  <td colspan="5">출고 데이터가 없습니다.</td>
+                  <td colspan="7">출고 데이터가 없습니다.</td>
                 </tr>
               </c:otherwise>
             </c:choose>
