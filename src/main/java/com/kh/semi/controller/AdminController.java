@@ -69,8 +69,16 @@ public class AdminController {
 
     @PostMapping("insertlist.bo")
     public String boardList(Board board, HttpSession session, Model model) {
-        board.setEmpNo(1);
+        Member loginUser = (Member) session.getAttribute("loginMember"); // 로그인한 사용자 가져오기
+        board.setEmpNo(loginUser.getEmpNo());
+
         System.out.println("게시글 정보 : " + board);
+
+        if ("admin".equals(loginUser.getPosition())) {
+            board.setBoardType(0);
+        } else {
+            board.setBoardType(1);
+        }
 
         int result = boardService.insertBoard(board);
         if(result > 0){
@@ -240,7 +248,6 @@ public class AdminController {
         System.out.println(storeSelect);
         int result = memberService.approveMember(memId,storeSelect);
         if(result > 0){
-//            session.setAttribute("alertMsg","직원 승인 완료");
             return "admin/memberManagement";
         } else{
             model.addAttribute("errorMsg", "직원 승인 실패");

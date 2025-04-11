@@ -42,10 +42,12 @@ public interface MemberService {
 
     int updatePhone(String phone, String memId);
 
-    int updatePwd(String newPwd, String memPwd, String memId);
+    int updatePwd(String encryptedPwd, String memId);
 
 
     int countMembersByStore(String storeName);
 
     ArrayList<Member> selectMemberListByStore(PageInfo pi, String storeName);
+
+    Member selectMemberbyId(String memId);
 }

@@ -166,12 +166,18 @@
     $.ajax({
       url: '/updatePwd',
       type: 'POST',
-      data: { newPwd: newPassword, memPwd: currentPassword, memId: memId},
-      success: function(res) {
-        document.querySelector("#passwordModal .btn-close").click();
-        alert(res === "success" ? '비밀번호 변경 완료' : "비밀번호 변경 실패");
+      data: {newPwd: newPassword, memPwd: currentPassword, memId: memId},
+      success: function (res) {
+        if (res === "success") {
+          document.querySelector("#passwordModal .btn-close").click();
+          alert("비밀번호 변경 완료");
+        } else if (res === "wrong") {
+          alert("현재 비밀번호가 일치하지 않습니다.");
+        } else {
+          alert("비밀번호 변경 실패");
+        }
       },
-      error: function(error) {
+      error: function (error) {
         alert('ajax 에러 : ' + error);
       }
     });

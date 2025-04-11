@@ -21,5 +21,6 @@ public class Board {
     // 추가된 필드
     private String memId; // 작성자
     private String storeName; // 소속 지점
+    private String position; // 권한
 
 }

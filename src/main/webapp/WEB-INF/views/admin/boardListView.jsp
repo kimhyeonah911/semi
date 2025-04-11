@@ -122,7 +122,7 @@ charset=UTF-8" pageEncoding="UTF-8"%>
                         <fmt:formatDate value="${b.createDate}" pattern="yyyy-MM-dd" />
                     </c:set>
                     <tr onclick="showModal('${b.boardNo}', '${b.memId}', '${b.boardTitle}', '${b.storeName}', '${formattedDate}', '${b.boardContent}')">
-                        <td>${b.memId == 'admin' ? '필독📢' : b.boardNo}</td>
+                        <td>${b.position == 'admin' ? '필독📢' : b.boardNo}</td>
                         <td>${b.memId}</td>
                         <td>${b.boardTitle}</td>
                         <td>${b.storeName}</td>
