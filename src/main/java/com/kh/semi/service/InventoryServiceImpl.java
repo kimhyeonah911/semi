@@ -52,13 +52,13 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public Inventory selectInventory(int storageNo, int productNo) {
-        return inventoryMapper.selectInventory(storageNo, productNo);
+    public Inventory selectInventory(int storageNo, int storeId, int productNo) {
+        return inventoryMapper.selectInventory(storageNo, storeId, productNo);
     }
 
     @Override
-    public int updateInventoryQuantity(int productNo, int storageNo, int quantity) {
-        return inventoryMapper.updateInventoryQuantity(productNo,storageNo,quantity);
+    public int updateInventoryQuantity(int storeId, int productNo, int storageNo, int quantity) {
+        return inventoryMapper.updateInventoryQuantity(storeId, productNo,storageNo,quantity);
     }
 
     @Override
