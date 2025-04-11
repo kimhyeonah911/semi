@@ -4,6 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.semi.mappers.InventoryMapper">
     <resultMap id="inventoryResult" type="Inventory">
+        <result column="STORE_NO" property="storeNo"/>
         <result column="STORAGE_NO" property="storageNo"/>
         <result column="PRODUCT_NO" property="productNo"/>
         <result column="QUANTITY" property="quantity"/>
@@ -124,12 +125,14 @@
         FROM INVENTORY
         WHERE STORAGE_NO = #{storageNo}
         AND   PRODUCT_NO = #{productNo}
+        AND STORE_ID = #{storeId}
     </select>
     <update id="updateInventoryQuantity">
         UPDATE INVENTORY
         SET QUANTITY = QUANTITY + #{quantity}
         WHERE STORAGE_NO = #{storageNo}
         AND   PRODUCT_NO = #{productNo}
+        AND STORE_ID = #{storeId}
     </update>
     <update id="minusInventoryQuantity">
         UPDATE INVENTORY
@@ -140,12 +143,14 @@
 
     <insert id="insertInventory" parameterType="Inventory">
         INSERT INTO INVENTORY (
+        STORE_ID,
         STORAGE_NO,
         PRODUCT_NO,
         QUANTITY,
         STOCK_IN_DATE
         )
         VALUES (
+        #{storeId},
         #{storageNo},
         #{productNo},
         #{quantity},
