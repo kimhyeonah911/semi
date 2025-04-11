@@ -470,26 +470,67 @@
     });
   }
 
+  //
+  // function drawPagebar(pageInfo, containerId, searchFunctionName){
+  //   const totalPages = pageInfo.maxPage; // PageInfo에서 총 페이지 수 가져오기
+  //   const currentPage = pageInfo.currentPage;
+  //   const pagebar = $(containerId);
+  //   pagebar.empty();
+  //
+  //
+  //   let pageHTML = "<div class='pagination'>";
+  //
+  //   // 이전 버튼
+  //   if (currentPage > 1) {
+  //     pageHTML += "<a href='javascript:void(0);' onclick='" + searchFunctionName + "(" + (currentPage - 1) + ")'>이전</a>";
+  //   } else {
+  //     pageHTML += "<a class='disabled'>이전</a>";
+  //   }
+  //
+  //   // 숫자 버튼
+  //   for (let i = 1; i <= totalPages; i++) {
+  //     if (i === currentPage) {
+  //       pageHTML += "<a class='active'>" + i + "</a>";
+  //     } else {
+  //       pageHTML += "<a href='javascript:void(0);' onclick='" + searchFunctionName + "(" + i + ")'>" + i + "</a>";
+  //     }
+  //   }
+  //
+  //   // 다음 버튼
+  //   if (currentPage < totalPages) {
+  //     pageHTML += "<a href='javascript:void(0);' onclick='" + searchFunctionName + "(" + (currentPage + 1) + ")'>다음</a>";
+  //   } else {
+  //     pageHTML += "<a class='disabled'>다음</a>";
+  //   }
+  //
+  //   pageHTML += "</div>";
+  //
+  //   pagebar.html(pageHTML);
+  // }
 
-  function drawPagebar(pageInfo, containerId, searchFunctionName){
-    const totalPages = pageInfo.maxPage; // PageInfo에서 총 페이지 수 가져오기
+  function drawPagebar(pageInfo, containerId, searchFunctionName) {
+    const totalPages = pageInfo.maxPage;
     const currentPage = pageInfo.currentPage;
     const pagebar = $(containerId);
     pagebar.empty();
 
-    if (totalPages <= 1) return;
-
     let pageHTML = "<div class='pagination'>";
 
-    // 이전 버튼
-    if (currentPage > 1) {
-      pageHTML += "<a href='javascript:void(0);' onclick='" + searchFunctionName + "(" + (currentPage - 1) + ")'>이전</a>";
+    const pageLimit = 10; // 한번에 보여줄 페이징 버튼 개수
+    const currentGroup = Math.floor((currentPage - 1) / pageLimit);
+    const startPage = currentGroup * pageLimit + 1;
+    let endPage = startPage + pageLimit - 1;
+    if (endPage > totalPages) endPage = totalPages;
+
+    // 이전 그룹 버튼
+    if (startPage > 1) {
+      pageHTML += "<a href='javascript:void(0);' onclick='" + searchFunctionName + "(" + (startPage - 1) + ")'>이전</a>";
     } else {
       pageHTML += "<a class='disabled'>이전</a>";
     }
 
-    // 숫자 버튼
-    for (let i = 1; i <= totalPages; i++) {
+    // 페이징 숫자 버튼
+    for (let i = startPage; i <= endPage; i++) {
       if (i === currentPage) {
         pageHTML += "<a class='active'>" + i + "</a>";
       } else {
@@ -497,17 +538,17 @@
       }
     }
 
-    // 다음 버튼
-    if (currentPage < totalPages) {
-      pageHTML += "<a href='javascript:void(0);' onclick='" + searchFunctionName + "(" + (currentPage + 1) + ")'>다음</a>";
+    // 다음 그룹 버튼
+    if (endPage < totalPages) {
+      pageHTML += "<a href='javascript:void(0);' onclick='" + searchFunctionName + "(" + (endPage + 1) + ")'>다음</a>";
     } else {
       pageHTML += "<a class='disabled'>다음</a>";
     }
 
     pageHTML += "</div>";
-
     pagebar.html(pageHTML);
   }
+
 </script>
 </body>
 </html>

@@ -67,7 +67,7 @@
 
     <select id="selectMemberList" resultMap="memberResult">
         SELECT DISTINCT M.EMP_NO,
-        M.HIRE_DATE,
+        M.CREATE_DATE,
         M.MEM_NAME,
         S.STORE_NAME,
         M.POSITION,
@@ -82,7 +82,7 @@
         SELECT DISTINCT STORE_NAME FROM STORE ORDER BY STORE_NAME ASC
     </select>
     <select id="getEmployeesByStore" resultMap="memberResult">
-        SELECT M.EMP_NO, M.HIRE_DATE, M.MEM_NAME, S.STORE_NAME,
+        SELECT M.EMP_NO, M.CREATE_DATE, M.MEM_NAME, S.STORE_NAME,
         M.POSITION, M.PHONE, M.SALARY
         FROM MEMBER M
         JOIN STORE S ON M.STORE_ID = S.STORE_ID
@@ -170,7 +170,7 @@
 
     <select id="selectMemberListByPage" resultMap="memberResult">
         SELECT DISTINCT M.EMP_NO,
-        M.HIRE_DATE,
+        M.CREATE_DATE,
         M.MEM_NAME,
         S.STORE_NAME,
         M.POSITION,
@@ -185,6 +185,7 @@
     <select id="countAllMembers" resultType="int">
         SELECT COUNT(*) FROM MEMBER
         WHERE STATUS = 'Y'
+            AND STORE_ID IS NOT NULL
     </select>
 
     <update id="updatePhone">
