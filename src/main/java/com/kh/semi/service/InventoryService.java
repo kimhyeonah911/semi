@@ -3,6 +3,7 @@ package com.kh.semi.service;
 import com.kh.semi.domain.vo.Inventory;
 import com.kh.semi.domain.vo.PageInfo;
 import com.kh.semi.domain.vo.StockProduct;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,9 @@ public interface InventoryService {
     int countInventoryList(Map<String, Object> paramMap);
     List<StockProduct> searchStockProductList(Map<String, Object> paramMap);
     int countStockProductList(Map<String, Object> paramMap);
-    Inventory selectInventory(int storageNo, int storeId, int productNo);
+    Inventory selectInventory(@Param("storageNo") int storageNo,
+                              @Param("storeId") int storeId,
+                              @Param("productNo") int productNo);
     int updateInventoryQuantity(int storeId, int productNo, int storageNo, int quantity);
     int insertInventory(Inventory inventory);
     List<Inventory> selectLowInventoryTop4(int storeId);
