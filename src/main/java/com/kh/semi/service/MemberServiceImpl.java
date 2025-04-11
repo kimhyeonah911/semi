@@ -116,8 +116,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public int updatePwd(String newPwd, String memPwd, String memId) {
-        return memberMapper.updatePwd(newPwd, memPwd, memId);
+    public int updatePwd(String encryptedPwd, String memId) {
+        return memberMapper.updatePwd(encryptedPwd, memId);
     }
 
     @Override
@@ -130,6 +130,11 @@ public class MemberServiceImpl implements MemberService {
         int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
         RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
         return memberMapper.selectMemberListByStore(storeName, rowBounds);
+    }
+
+    @Override
+    public Member selectMemberbyId(String memId) {
+        return memberMapper.selectMemberbyId(memId);
     }
 
 }

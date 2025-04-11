@@ -219,19 +219,33 @@ public class MemberController {
     @ResponseBody
     @PostMapping("/updatePwd")
     public String updatePwd(String newPwd, String memPwd, String memId, HttpSession session, Model model) {
+        System.out.println("비밀번호 변경 요청");
+        System.out.println("사용자 ID: " + memId);
+        System.out.println("현재 비밀번호(사용자가 입력): " + memPwd);
+        System.out.println("새 비밀번호: " + newPwd);
 
+        Member loginUser = (Member) session.getAttribute("loginUser");
 
-        int result = memberService.updatePwd(newPwd, memPwd, memId);
-        System.out.printf("result  : " + result);
-        if (result > 0){
-            Member loginUser = (Member) session.getAttribute("loginUser");
-            loginUser.setMemPwd(newPwd);
-            session.setAttribute("loginUser", loginUser);
-            return "success";
+        Member member = memberService.selectMemberbyId(memId);
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        if(member != null && passwordEncoder.matches(memPwd, member.getMemPwd())){
+            String encryptedPwd = passwordEncoder.encode(newPwd);
+
+            int result = memberService.updatePwd(encryptedPwd, memId);
+            if (result > 0){
+                loginUser.setMemPwd(newPwd);
+                session.setAttribute("loginUser", loginUser);
+                return "success";
+            } else{
+                return "fail";
+            }
         } else{
-            return "false";
+            return "wrong";
         }
-    }
+        }
+
 }
 
 

@@ -23,6 +23,8 @@ public interface MemberMapper {
 
     ArrayList<String> getStoreList();
 
+    Member selectMemberbyId(String memId);
+
     List<Member> getEmployeesByStore(String store);
 
     ArrayList<Member> acceptManagerList();
@@ -35,7 +37,7 @@ public interface MemberMapper {
     ArrayList<Member> selectMemberListByPage(RowBounds rowBounds);
 
     int updatePhone(@Param("phone") String phone, @Param("memId") String memId);
-    int updatePwd(@Param("newPwd") String newPwd, @Param("memPwd") String memPwd, @Param("memId") String memId);
+    int updatePwd(@Param("encryptedPwd") String encryptedPwd, @Param("memId") String memId);
 
     int countMembersByStore(String storeName);
 
