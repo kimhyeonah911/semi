@@ -10,6 +10,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @ToString
 public class Inventory {
+    private int storeId;
     private int storageNo;
     private int productNo;
     private int quantity;

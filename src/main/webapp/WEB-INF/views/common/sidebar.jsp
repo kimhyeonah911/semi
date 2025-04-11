@@ -136,7 +136,7 @@
             </li>
             <% } else if(position.equals("employee")) { %>
             <li class="nav-item">
-                <a class="nav-link active" href="/dash-employee.bo">
+                <a class="nav-link active" href="/dash-manager.bo">
                     <i class="fas fa-home"></i> 대시보드
                 </a>
             </li>

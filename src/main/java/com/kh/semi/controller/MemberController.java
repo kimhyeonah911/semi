@@ -95,17 +95,18 @@ public class MemberController {
                         int storageNo = sp.getStorageNo();
                         int productNo = sp.getProductNo();
                         int amount = sp.getAmount();
-
+                        int storeId = loginMember.getStoreId();
 
                         // 창고 수량 증가
-                        int result2 = storageService.updateStorageAmount(storageNo, amount);
+                        int result2 = storageService.updateStorageAmount(storageNo, storeId, amount);
                         System.out.println("늘어난 창고수량 : "+result2);
                         // inventory 반영
-                        Inventory inventory = inventoryService.selectInventory(storageNo, productNo);
+                        Inventory inventory = inventoryService.selectInventory(storageNo, storeId, productNo);
                         if (inventory != null) {
-                            inventoryService.updateInventoryQuantity(storageNo, productNo, amount);
+                            inventoryService.updateInventoryQuantity(storeId, storageNo, productNo, amount);
                         } else {
                             Inventory newInv = new Inventory();
+                            newInv.setStoreId(storeId);
                             newInv.setStorageNo(storageNo);
                             newInv.setProductNo(productNo);
                             newInv.setQuantity(amount);
@@ -158,7 +159,7 @@ public class MemberController {
             } else if ("manager".equals(position))  {
                 mv.setViewName("redirect:/dash-manager.bo");
             } else if ("employee".equals(position)) {
-                mv.setViewName("redirect:/dash-employee.bo");
+                mv.setViewName("redirect:/dash-manager.bo");
             } else {
                 // 정의되지 않은 포지션일 경우 기본 페이지로
                 mv.setViewName("forward:/insert.co");

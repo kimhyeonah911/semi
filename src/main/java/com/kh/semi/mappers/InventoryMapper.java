@@ -18,8 +18,9 @@ public interface InventoryMapper {
     List<StockProduct> searchStockProductList(Map<String, Object> paramMap);
     int countStockProductList(Map<String, Object> paramMap);
     List<Inventory> selectLowInventoryTop4(int storeId);
-    Inventory selectInventory(int storageNo, int productNo);
-    int updateInventoryQuantity(@Param("productNo") int productNo,
+    Inventory selectInventory(int storageNo, int storeId, int productNo);
+    int updateInventoryQuantity(@Param("storeId") int storeId,
+                                @Param("productNo") int productNo,
                                 @Param("storageNo") int storageNo,
                                 @Param("quantity") int quantity);
     int insertInventory(Inventory inventory);
