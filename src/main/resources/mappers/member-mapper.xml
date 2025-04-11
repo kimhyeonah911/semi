@@ -172,6 +172,7 @@
         SELECT DISTINCT M.EMP_NO,
         M.CREATE_DATE,
         M.HIRE_DATE,
+        M.CREATE_DATE,
         M.MEM_NAME,
         S.STORE_NAME,
         M.POSITION,

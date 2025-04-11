@@ -103,7 +103,7 @@ public class EmployeeController {
         model.addAttribute("workingCount", workingCount);
         model.addAttribute("notWorkingCount", notWorkingCount);
 
-        return "employee/dashBoard-employee";
+        return "manager/dashBoard-manager";
     }
 
 
