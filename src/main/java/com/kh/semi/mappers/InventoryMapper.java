@@ -20,8 +20,8 @@ public interface InventoryMapper {
     List<Inventory> selectLowInventoryTop4(int storeId);
     Inventory selectInventory(int storageNo, int storeId, int productNo);
     int updateInventoryQuantity(@Param("storeId") int storeId,
-                                @Param("productNo") int productNo,
                                 @Param("storageNo") int storageNo,
+                                @Param("productNo") int productNo,
                                 @Param("quantity") int quantity);
     int insertInventory(Inventory inventory);
     int minusInventoryQuantity(@Param("productNo") int productNo,

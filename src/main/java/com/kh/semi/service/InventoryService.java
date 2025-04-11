@@ -14,7 +14,7 @@ public interface InventoryService {
     List<StockProduct> searchStockProductList(Map<String, Object> paramMap);
     int countStockProductList(Map<String, Object> paramMap);
     Inventory selectInventory(int storageNo, int storeId, int productNo);
-    int updateInventoryQuantity(int storeId, int productNo, int storageNo, int quantity);
+    int updateInventoryQuantity(int storeId, int storageNo, int productNo, int quantity);
     int insertInventory(Inventory inventory);
     List<Inventory> selectLowInventoryTop4(int storeId);
     int minusInventoryQuantity(int productNo, int storageNo, int quantity);
