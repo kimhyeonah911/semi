@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>지점장 대시보드</title>
+    <title>대시보드</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
 
@@ -198,7 +198,7 @@
     <!-- 메인 내용 -->
     <main>
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">지점장 대시보드</h1>
+            <h1 class="h2">대시보드</h1>
         </div>
 
         <div class="card-container">
