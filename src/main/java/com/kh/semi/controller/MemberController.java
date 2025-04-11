@@ -95,16 +95,18 @@ public class MemberController {
                         int storageNo = sp.getStorageNo();
                         int productNo = sp.getProductNo();
                         int amount = sp.getAmount();
+                        int storeId = loginMember.getStoreId();
 
                         // 창고 수량 증가
-                        int result2 = storageService.updateStorageAmount(storageNo, amount);
+                        int result2 = storageService.updateStorageAmount(storageNo, storeId, amount);
                         System.out.println("늘어난 창고수량 : "+result2);
                         // inventory 반영
-                        Inventory inventory = inventoryService.selectInventory(storageNo, productNo);
+                        Inventory inventory = inventoryService.selectInventory(storageNo, storeId, productNo);
                         if (inventory != null) {
-                            inventoryService.updateInventoryQuantity(storageNo, productNo, amount);
+                            inventoryService.updateInventoryQuantity(storeId, storageNo, productNo, amount);
                         } else {
                             Inventory newInv = new Inventory();
+                            newInv.setStoreId(storeId);
                             newInv.setStorageNo(storageNo);
                             newInv.setProductNo(productNo);
                             newInv.setQuantity(amount);
