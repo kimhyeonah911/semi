@@ -67,7 +67,7 @@
 
     <select id="selectMemberList" resultMap="memberResult">
         SELECT DISTINCT M.EMP_NO,
-        M.HIRE_DATE,
+        M.CREATE_DATE,
         M.MEM_NAME,
         S.STORE_NAME,
         M.POSITION,
@@ -170,6 +170,7 @@
 
     <select id="selectMemberListByPage" resultMap="memberResult">
         SELECT DISTINCT M.EMP_NO,
+        M.CREATE_DATE,
         M.HIRE_DATE,
         M.CREATE_DATE,
         M.MEM_NAME,
@@ -197,9 +198,8 @@
 
     <update id="updatePwd">
         UPDATE MEMBER
-        SET MEM_PWD = #{newPwd}
+        SET MEM_PWD = #{encryptedPwd}
         WHERE MEM_ID = #{memId}
-        AND MEM_PWD = #{memPwd}
     </update>
 
 
@@ -230,6 +230,12 @@
         JOIN STORE S ON M.STORE_ID = S.STORE_ID
         WHERE S.STORE_NAME = #{storeName}
         ORDER BY M.EMP_NO DESC
+    </select>
+
+    <select id="selectMemberbyId" resultMap="memberResult">
+        SELECT *
+        FROM MEMBER
+        WHERE MEM_ID = #{memId}
     </select>
 
 
