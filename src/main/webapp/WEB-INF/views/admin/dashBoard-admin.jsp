@@ -320,9 +320,9 @@
             </script>
 
             <!-- 인기 제품 카드 -->
-            <div class="dashboard-card card-popular" style="grid-area: popular;" onclick="location.href='enroll.bo'">
-                <div class="card-title">👟 인기 제품</div>
-                <div class="card-body">
+            <div class="dashboard-card card-popular">
+                <div class="card-title">👟 이번주 인기 제품</div>
+                <div class="card-body popular-card-body">
                     <c:forEach var="top4p" items="${top4product}">
                         <div id="popular-product" >
                             <img style="pointer-events: none;" src="${empty top4p.imageUrl ? '/resources/default.png' : top4p.imageUrl}" alt="인기제품사진">
@@ -330,10 +330,11 @@
                         </div>
                     </c:forEach>
                 </div>
-                <a href="product.bo" style="text-decoration: none; color: black;">
-                <div class="card-footer">재품 관리</div>
+                <a href="/stockManage.bo" style="text-decoration: none; color: black;">
+                    <div class="card-footer">재고 확인 필요</div>
                 </a>
             </div>
+
 
             <div class="dashboard-card card-notice" style="grid-area: notice;">
                 <div class="card-title">📢 공지사항</div>
