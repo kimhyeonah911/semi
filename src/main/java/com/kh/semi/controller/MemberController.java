@@ -89,8 +89,16 @@ public class MemberController {
 
                 ArrayList<Stock> completedStockList = stockService.selectCompletedStockIn();
 
+                // 중복 stockNo 방지를 위한 Set
+                Set<Integer> processedStockInSet = new HashSet<>();
+
                 for (Stock stock : completedStockList) {
                     int stockNo = stock.getStockNo();
+
+                    // 중복 처리 방지
+                    if (processedStockInSet.contains(stockNo)) continue;
+                    processedStockInSet.add(stockNo);
+
                     ArrayList<StockProduct> productList = stockService.selectStockProduct(stockNo);
 
                     for (StockProduct sp : productList) {
@@ -98,16 +106,17 @@ public class MemberController {
                         int productNo = sp.getProductNo();
                         int amount = sp.getAmount();
                         int storeId = loginMember.getStoreId();
+                        System.out.println("입고 처리 - storeId: " + storeId + ", storageNo: " + storageNo + ", productNo: " + productNo + ", amount: " + amount);
 
                         // 창고 수량 증가
                         int result2 = storageService.updateStorageAmount(storageNo, storeId, amount);
                         System.out.println("늘어난 창고수량 : "+result2);
                         // inventory 반영
                         Inventory inventory = inventoryService.selectInventory(storageNo, storeId, productNo);
+                        System.out.println("Inventory 조회 결과: " + inventory);
                         if (inventory != null) {
                             inventoryService.updateInventoryQuantity(storeId, productNo, storageNo, amount);
                         } else {
-                            System.out.println("인서트");
                             Inventory newInv = new Inventory();
                             newInv.setStoreId(storeId);
                             newInv.setStorageNo(storageNo);
@@ -127,14 +136,15 @@ public class MemberController {
                 ArrayList<Stock> completedStockOutList = stockService.selectCompletedStockOut();
                 System.out.println(completedStockOutList);
 
-                Set<Integer> processedStockInSet = new HashSet<>();
+                Set<Integer> processedStockOutSet = new HashSet<>();
 
-                for (Stock stock : completedStockList) {
+                for (Stock stock : completedStockOutList) {
                     int stockNo = stock.getStockNo();
 
                     // 중복 처리 방지
-                    if (processedStockInSet.contains(stockNo)) continue;
-                    processedStockInSet.add(stockNo);
+                    if (processedStockOutSet.contains(stockNo)) continue;
+                    processedStockOutSet.add(stockNo);
+
                     ArrayList<StockProduct> productList = stockService.selectStockProduct(stockNo);
                     for (StockProduct sp : productList) {
                         int storageNo = sp.getStorageNo();
