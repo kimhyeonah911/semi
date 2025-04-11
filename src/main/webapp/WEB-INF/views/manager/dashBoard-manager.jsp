@@ -210,6 +210,9 @@
                         <span>${i.productName} (${i.productSize}) (${i.color}) 현재 재고 : ${i.quantity}</span>
                     </div>
                 </c:forEach>
+                <div class="card-body"></div>
+                <div class="card-body"></div>
+                <div class="card-body"></div>
                 <a href="/stockIn.sto" style="text-decoration: none; color: black;">
                 <div class="card-footer">
                     입고 페이지로 이동하기
@@ -244,9 +247,11 @@
                 <div class="card-body">
                     <a>현재 매출액 : ${todaySales}만원</a>
                 </div>
-                <div class="card-body">
-
-                </div>
+                <div class="card-body"></div>
+                <div class="card-body"></div>
+                <div class="card-body"></div>
+                <div class="card-body"></div>
+                <div class="card-body"></div>
                 <a href="/salesManager.bo" style="text-decoration: none; color: black;">
                 <div class="card-footer">매출 분석 필요</div>
                 </a>
@@ -277,7 +282,10 @@
                     <span class="delivery">출고 : ${countStockOut}개</span>
                 </div>
                 <div class="card-body">
-
+                </div>
+                <div class="card-body">
+                </div>
+                <div class="card-body">
                 </div>
                 <a href="stockOut.sto" style="text-decoration: none; color: black;">
                 <div class="card-footer">출고 페이지로 이동하기</div>
@@ -292,6 +300,10 @@
                         <div class="work"><img src="/resources/work.png" id="work"> <h4>${countWork}</h4></div>
                         <div class="nowork"><img src="/resources/nowork.png" id="nowork"> <h4>${countNoWork}</h4></div>
                     </div>
+                </div>
+                <div class="card-body">
+                </div>
+                <div class="card-body">
                 </div>
                 <a href="attendance.ma" style="text-decoration: none; color: black;">
                     <div class="card-footer">
