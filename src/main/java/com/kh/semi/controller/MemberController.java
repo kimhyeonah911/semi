@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Controller
@@ -87,8 +89,16 @@ public class MemberController {
 
                 ArrayList<Stock> completedStockList = stockService.selectCompletedStockIn();
 
+                // 중복 stockNo 방지를 위한 Set
+                Set<Integer> processedStockInSet = new HashSet<>();
+
                 for (Stock stock : completedStockList) {
                     int stockNo = stock.getStockNo();
+
+                    // 중복 처리 방지
+                    if (processedStockInSet.contains(stockNo)) continue;
+                    processedStockInSet.add(stockNo);
+
                     ArrayList<StockProduct> productList = stockService.selectStockProduct(stockNo);
 
                     for (StockProduct sp : productList) {
@@ -124,8 +134,15 @@ public class MemberController {
                 ArrayList<Stock> completedStockOutList = stockService.selectCompletedStockOut();
                 System.out.println(completedStockOutList);
 
+                Set<Integer> processedStockOutSet = new HashSet<>();
+
                 for (Stock stock : completedStockOutList) {
                     int stockNo = stock.getStockNo();
+
+                    // 중복 처리 방지
+                    if (processedStockOutSet.contains(stockNo)) continue;
+                    processedStockOutSet.add(stockNo);
+
                     ArrayList<StockProduct> productList = stockService.selectStockProduct(stockNo);
                     for (StockProduct sp : productList) {
                         int storageNo = sp.getStorageNo();
