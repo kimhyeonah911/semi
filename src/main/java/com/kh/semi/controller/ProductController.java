@@ -44,9 +44,9 @@ public class ProductController {
         p.setClientId(product.getClientId());
 
         if (enrollImage != null && !enrollImage.isEmpty()) {
-            String imageUrl = Template.saveFile(enrollImage, session, "/resources/productImg/");
+            String imageUrl = Template.saveFile(enrollImage, session, "/resources/productImg/"); //파일 저장하기
             if (imageUrl != null) {
-                p.setImageUrl("/resources/productImg/" + imageUrl);
+                p.setImageUrl("/resources/productImg/" + imageUrl); //DB에 저장될 파일 이름
             }
 
         }

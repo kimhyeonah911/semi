@@ -67,6 +67,10 @@
             font-size: 16px;
         }
 
+        .modal-body{
+            margin : auto;
+        }
+
         .modal-body form .form-control {
             font-size: 16px;
         }
@@ -132,11 +136,15 @@
         }
 
         .form-label{
-            width: 400px;
+            width: 200px;
         }
 
         .form-select{
             width: 300px !important;
+        }
+
+        .form-control{
+            width: 300px;
         }
 
         .pagination {
@@ -186,6 +194,8 @@
             text-overflow: ellipsis;
             text-align: center;
         }
+
+
     </style>
 </head>
 <body>

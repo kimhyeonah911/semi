@@ -207,7 +207,7 @@
                 <div class="card-title">⚠️ 부족한 재고</div>
                 <c:forEach var="i" items="${lowInventoryTop4}">
                     <div class="card-body">
-                        <span>${i.productName} (${i.productSize})  현재 재고 : ${i.quantity}</span>
+                        <span>${i.productName} (${i.productSize}) (${i.color}) 현재 재고 : ${i.quantity}</span>
                     </div>
                 </c:forEach>
                 <a href="/stockIn.sto" style="text-decoration: none; color: black;">

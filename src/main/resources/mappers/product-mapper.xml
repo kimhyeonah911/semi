@@ -180,7 +180,7 @@
                 AND LOWER(P.PRODUCT_NAME) LIKE '%' || #{keyword} || '%'
             </if>
         </where>
-        ORDER BY P.PRODUCT_NO ASC
+        ORDER BY P.PRODUCT_NO DESC
         OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
     </select>
 

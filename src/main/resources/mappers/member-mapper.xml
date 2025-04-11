@@ -187,7 +187,7 @@
     <select id="countAllMembers" resultType="int">
         SELECT COUNT(*) FROM MEMBER
         WHERE STATUS = 'Y'
-        AND STORE_ID IS NOT NULL
+            AND STORE_ID IS NOT NULL
     </select>
 
     <update id="updatePhone">
