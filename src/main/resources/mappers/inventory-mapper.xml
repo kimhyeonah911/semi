@@ -4,6 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.semi.mappers.InventoryMapper">
     <resultMap id="inventoryResult" type="Inventory">
+        <result column="STORE_ID" property="storeId"/>
         <result column="STORAGE_NO" property="storageNo"/>
         <result column="PRODUCT_NO" property="productNo"/>
         <result column="QUANTITY" property="quantity"/>
@@ -14,7 +15,6 @@
         <result column="CATEGORY_NAME" property="categoryName"/>
         <result column="COLOR" property="color"/>
         <result column="PRODUCT_SIZE" property="productSize"/>
-        <result column="STORE_ID" property="storeId"/>
     </resultMap>
     <resultMap id="stockProductResult" type="StockProduct">
         <result column="STOCK_NO" property="stockNo"/>
@@ -112,8 +112,7 @@
         SELECT
              P.PRODUCT_NAME,
              P.PRODUCT_SIZE,
-             I.QUANTITY,
-             P.COLOR
+             I.QUANTITY
         FROM INVENTORY I
         JOIN PRODUCT P ON P.PRODUCT_NO = I.PRODUCT_NO
         WHERE I.STORE_ID = #{storeId}
@@ -131,7 +130,7 @@
         UPDATE INVENTORY
         SET QUANTITY = QUANTITY + #{quantity}
         WHERE STORAGE_NO = #{storageNo}
-        AND PRODUCT_NO = #{productNo}
+        AND   PRODUCT_NO = #{productNo}
         AND STORE_ID = #{storeId}
     </update>
     <update id="minusInventoryQuantity">

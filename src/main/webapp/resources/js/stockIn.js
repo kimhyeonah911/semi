@@ -478,52 +478,50 @@ function createStockInTable(data) {
 
         updateProductInfo();
     });
+}
 
-    //입고서에서 확인 버튼 클릭시 입출고 제품 테이블과 입출고 테이블에 등록
-    document.getElementById("stock-submit-btn").addEventListener("click", function () {
-        const stockProducts = [];
-        let totalAmount = 0;
-        const stockEmp = document.getElementById("empNo").value;
-        const expDate = document.getElementById("expected-date").value;
-        const storageNo = document.getElementById("storage-search-bar").value;
+//입고서에서 확인 버튼 클릭시 입출고 제품 테이블과 입출고 테이블에 등록
+document.getElementById("stock-submit-btn").addEventListener("click", function () {
+    const stockProducts = [];
+    let totalAmount = 0;
+    const stockEmp = document.getElementById("empNo").value;
+    const expDate = document.getElementById("expected-date").value;
+    const storageNo = document.getElementById("storage-search-bar").value;
 
-        // 테이블 행들 가져오기
-        document.querySelectorAll("#stockIn-table tbody tr").forEach(row => {
-            const productNo = row.getAttribute("data-product-no");
-            const amount = parseInt(row.querySelector(".input-quantity").value) || 0;
-            const price = parseInt(row.querySelector("td:nth-child(4)").textContent.replace(/,/g, '')) || 0;
-            const tax = row.querySelector(".select-tax").value; //0이면 Y 1이면 N
-            const taxPrice = tax === "0" ? Math.floor(price * amount * 0.1) : 0;
+    // 테이블 행들 가져오기
+    document.querySelectorAll("#stockIn-table tbody tr").forEach(row => {
+        const productNo = row.getAttribute("data-product-no");
+        const amount = parseInt(row.querySelector(".input-quantity").value) || 0;
+        const price = parseInt(row.querySelector("td:nth-child(4)").textContent.replace(/,/g, '')) || 0;
+        const tax = row.querySelector(".select-tax").value; //0이면 Y 1이면 N
+        const taxPrice = tax === "0" ? Math.floor(price * amount * 0.1) : 0;
 
-            totalAmount += amount; // 수량 누적
+        totalAmount += amount; // 수량 누적
 
-            stockProducts.push({
-                productNo,
-                storageNo,
-                amount,
-                price,
-                taxPrice,
-                tax
-            });
+        stockProducts.push({
+            productNo,
+            storageNo,
+            amount,
+            price,
+            taxPrice,
+            tax
         });
+    });
 
-        // stock 테이블 데이터
-        const stockData = {
-            stockEmp,
-            expDate,
-        };
+    // stock 테이블 데이터
+    const stockData = {
+        stockEmp,
+        expDate,
+    };
 
-        StorageInfo(storageNo, function(storage) {
-            const able = storage.ableAmount;
-            const current = storage.currentAmount;
-            console.log(able);
-            console.log(current);
+    StorageInfo(storageNo, function(storage) {
+        const able = storage.ableAmount;
+        const current = storage.currentAmount;
 
-            if (current + totalAmount > able) {
-                alert("창고 수용 가능 수량을 초과하여 입고할 수 없습니다.");
-                return;
-            }
-        });
+        if (current + totalAmount > able) {
+            alert("창고 수용 가능 수량을 초과하여 입고할 수 없습니다.");
+            return;
+        }
 
         $.ajax({
             url: "/api/insertStockIn",
@@ -553,7 +551,7 @@ function createStockInTable(data) {
         });
         updateSummary();
     });
-}
+});
 
 function StorageInfo(storageNo, callback) {
     $.ajax({
