@@ -478,8 +478,7 @@
                 data: { clientId: clientId },
                 success: function(response) {
                     if (response === "success") {
-                        // 서버 삭제 성공 시 UI에서 행 삭제
-                        row.remove();
+                        window.location.href = "delivery.ma";
                         alert("입고처가 삭제되었습니다.");
                     } else {
                         alert("삭제에 실패했습니다.");
