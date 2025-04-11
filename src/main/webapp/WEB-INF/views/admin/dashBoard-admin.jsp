@@ -191,8 +191,10 @@
                             <p>지점장 승인 대기</p>
                         </div>
                     </div>
-                </div>
 
+                </div>
+                <div class="card-body"></div>
+                <div class="card-body"></div>
                 <div class="card-footer">조치를 취해주세요</div>
             </div>
 
@@ -256,9 +258,9 @@
                                         },
                                         y: {
                                             beginAtZero: true,
-                                            max: 4000000,
+                                            max: 10000000,
                                             ticks: {
-                                                stepSize: 1000000
+                                                stepSize: 2000000
                                             }
                                         }
                                     }
@@ -338,6 +340,7 @@
 
             <div class="dashboard-card card-notice" style="grid-area: notice;">
                 <div class="card-title">📢 공지사항</div>
+                <div class="card-body"></div>
                 <div class="card-body" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
                     <c:forEach var="b" items="${noticeList}">
                         <p>${b.boardContent}</p>
