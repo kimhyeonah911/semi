@@ -158,7 +158,7 @@ public class MemberController {
             } else if ("manager".equals(position))  {
                 mv.setViewName("redirect:/dash-manager.bo");
             } else if ("employee".equals(position)) {
-                mv.setViewName("redirect:/dash-employee.bo");
+                mv.setViewName("redirect:/dash-manager.bo");
             } else {
                 // 정의되지 않은 포지션일 경우 기본 페이지로
                 mv.setViewName("forward:/insert.co");

@@ -111,7 +111,8 @@
         SELECT
              P.PRODUCT_NAME,
              P.PRODUCT_SIZE,
-             I.QUANTITY
+             I.QUANTITY,
+             P.COLOR
         FROM INVENTORY I
         JOIN PRODUCT P ON P.PRODUCT_NO = I.PRODUCT_NO
         WHERE I.STORE_ID = #{storeId}

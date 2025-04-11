@@ -56,14 +56,14 @@ public class ManagerController {
         //부족한 재고 카드
         int storeId = (int)session.getAttribute("storeId");
         int empNo = (int) session.getAttribute("empNo");
+        List<Inventory> lowInventoryTop4 = inventoryService.selectLowInventoryTop4(storeId);
+        model.addAttribute("lowInventoryTop4", lowInventoryTop4);
 
 
         ArrayList<Board> noticeList = boardService.selectBoardListTop3();
         // 공지사항 리스트를 모델에 추가
         model.addAttribute("noticeList", noticeList);
 
-        List<Inventory> lowInventoryTop4 = inventoryService.selectLowInventoryTop4(storeId);
-        model.addAttribute("lowInventoryTop4", lowInventoryTop4);
 
         //직원 현황 카드
         int countWork = attendanceService.countWork(storeId);
