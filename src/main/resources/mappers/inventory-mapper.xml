@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.semi.mappers.InventoryMapper">
     <resultMap id="inventoryResult" type="Inventory">
-        <result column="STORE_NO" property="storeNo"/>
+        <result column="STORE_ID" property="storeId"/>
         <result column="STORAGE_NO" property="storageNo"/>
         <result column="PRODUCT_NO" property="productNo"/>
         <result column="QUANTITY" property="quantity"/>

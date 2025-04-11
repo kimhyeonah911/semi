@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Controller
@@ -103,8 +105,9 @@ public class MemberController {
                         // inventory 반영
                         Inventory inventory = inventoryService.selectInventory(storageNo, storeId, productNo);
                         if (inventory != null) {
-                            inventoryService.updateInventoryQuantity(storeId, storageNo, productNo, amount);
+                            inventoryService.updateInventoryQuantity(storeId, productNo, storageNo, amount);
                         } else {
+                            System.out.println("인서트");
                             Inventory newInv = new Inventory();
                             newInv.setStoreId(storeId);
                             newInv.setStorageNo(storageNo);
@@ -124,8 +127,14 @@ public class MemberController {
                 ArrayList<Stock> completedStockOutList = stockService.selectCompletedStockOut();
                 System.out.println(completedStockOutList);
 
-                for (Stock stock : completedStockOutList) {
+                Set<Integer> processedStockInSet = new HashSet<>();
+
+                for (Stock stock : completedStockList) {
                     int stockNo = stock.getStockNo();
+
+                    // 중복 처리 방지
+                    if (processedStockInSet.contains(stockNo)) continue;
+                    processedStockInSet.add(stockNo);
                     ArrayList<StockProduct> productList = stockService.selectStockProduct(stockNo);
                     for (StockProduct sp : productList) {
                         int storageNo = sp.getStorageNo();

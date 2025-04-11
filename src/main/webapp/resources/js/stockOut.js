@@ -468,66 +468,64 @@ function createStockOutTable(data) {
 
         updateProductInfo();
     });
-
-    //출고서에서 확인 버튼 클릭시 입출고 제품 테이블과 입출고 테이블에 등록
-    document.getElementById("stock-submit-btn").addEventListener("click", function () {
-        const stockProducts = [];
-        const stockEmp = document.getElementById("empNo").value;
-        const expDate = document.getElementById("expected-date").value;
-        const storageNo = document.getElementById("storage-search-bar").value;
-
-        // 테이블 행들 가져오기
-        document.querySelectorAll("#stockOut-table tbody tr").forEach(row => {
-            const productNo = row.getAttribute("data-product-no");
-            const amount = parseInt(row.querySelector(".input-quantity").value) || 0;
-            const price = parseInt(row.querySelector("td:nth-child(4)").textContent.replace(/,/g, '')) || 0;
-            const tax = row.querySelector(".select-tax").value; //0이면 Y 1이면 N
-            const taxPrice = tax === "0" ? Math.floor(price * amount * 0.1) : 0;
-
-            stockProducts.push({
-                productNo,
-                storageNo,
-                amount,
-                price,
-                taxPrice,
-                tax
-            });
-        });
-
-        // stock 테이블 데이터
-        const stockData = {
-            stockEmp,
-            expDate,
-        };
-
-        $.ajax({
-            url: "/api/insertStockOut",
-            method: "POST",
-            contentType: "application/json",
-            data: JSON.stringify({
-                stock: stockData,
-                stockProductList: stockProducts
-            }),
-            success: function (response) {
-                alert("출고서가 성공적으로 저장되었습니다.");
-                // 이미 열려 있는 모달 인스턴스를 찾아서 닫기
-                var modalElement = document.getElementById('modal1');
-                var modalInstance = bootstrap.Modal.getInstance(modalElement);
-
-                if (modalInstance) {
-                    modalInstance.hide(); // 기존 인스턴스가 있다면 닫기
-                    location.reload();
-                } else {
-                    console.error("모달 인스턴스를 찾을 수 없습니다.");
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("저장 실패:", error);
-                alert("출고서 저장 중 오류가 발생했습니다.");
-            }
-        });
-        updateSummary();
-    });
-
 }
 
+//출고서에서 확인 버튼 클릭시 입출고 제품 테이블과 입출고 테이블에 등록
+document.getElementById("stock-submit-btn").addEventListener("click", function () {
+    const stockProducts = [];
+    const stockEmp = document.getElementById("empNo").value;
+    const expDate = document.getElementById("expected-date").value;
+    const storageNo = document.getElementById("storage-search-bar").value;
+
+    // 테이블 행들 가져오기
+    document.querySelectorAll("#stockOut-table tbody tr").forEach(row => {
+        const productNo = row.getAttribute("data-product-no");
+        const amount = parseInt(row.querySelector(".input-quantity").value) || 0;
+        const price = parseInt(row.querySelector("td:nth-child(4)").textContent.replace(/,/g, '')) || 0;
+        const tax = row.querySelector(".select-tax").value; //0이면 Y 1이면 N
+        const taxPrice = tax === "0" ? Math.floor(price * amount * 0.1) : 0;
+
+        stockProducts.push({
+            productNo,
+            storageNo,
+            amount,
+            price,
+            taxPrice,
+            tax
+        });
+    });
+
+    // stock 테이블 데이터
+    const stockData = {
+        stockEmp,
+        expDate,
+    };
+
+    $.ajax({
+        url: "/api/insertStockOut",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+            stock: stockData,
+            stockProductList: stockProducts
+        }),
+        success: function (response) {
+            alert("출고서가 성공적으로 저장되었습니다.");
+            // 이미 열려 있는 모달 인스턴스를 찾아서 닫기
+            var modalElement = document.getElementById('modal1');
+            var modalInstance = bootstrap.Modal.getInstance(modalElement);
+
+            if (modalInstance) {
+                modalInstance.hide(); // 기존 인스턴스가 있다면 닫기
+                location.reload();
+            } else {
+                console.error("모달 인스턴스를 찾을 수 없습니다.");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("저장 실패:", error);
+            alert("출고서 저장 중 오류가 발생했습니다.");
+        }
+    });
+    updateSummary();
+});
