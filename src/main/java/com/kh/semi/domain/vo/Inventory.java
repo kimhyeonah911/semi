@@ -21,4 +21,5 @@ public class Inventory {
     private String categoryName;
     private String color;
     private int productSize;
+    private int storeId;
 }
