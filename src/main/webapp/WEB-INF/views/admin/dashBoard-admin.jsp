@@ -328,12 +328,12 @@
                     <c:forEach var="top4p" items="${top4product}">
                         <div id="popular-product" >
                             <img style="pointer-events: none;" src="${empty top4p.imageUrl ? '/resources/default.png' : top4p.imageUrl}" alt="인기제품사진">
-                            <span>${top4p.productName}</span>
+                            <span style="text-align: center; margin-bottom: 2px;">${top4p.productName}</span>
                         </div>
                     </c:forEach>
                 </div>
-                <a href="/stockManage.bo" style="text-decoration: none; color: black;">
-                    <div class="card-footer">재고 확인 필요</div>
+                <a href="/product.bo" style="text-decoration: none; color: black;">
+                    <div class="card-footer">상품 확인 하기</div>
                 </a>
             </div>
 

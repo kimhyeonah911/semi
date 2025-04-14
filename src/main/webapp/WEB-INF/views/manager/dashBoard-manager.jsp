@@ -263,7 +263,7 @@
                     <c:forEach var="top4p" items="${top4product}">
                         <div id="popular-product" >
                         <img style="pointer-events: none;" src="${empty top4p.imageUrl ? '/resources/default.png' : top4p.imageUrl}" alt="인기제품사진">
-                        <span>${top4p.productName}</span>
+                        <span style="text-align: center;">${top4p.productName}</span>
                         </div>
                     </c:forEach>
                 </div>
