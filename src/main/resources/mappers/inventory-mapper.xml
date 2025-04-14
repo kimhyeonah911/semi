@@ -97,7 +97,9 @@
         FROM STOCK_PRODUCT SP
         JOIN PRODUCT P ON P.PRODUCT_NO = SP.PRODUCT_NO
         JOIN STOCK S ON S.STOCK_NO = SP.STOCK_NO
+        JOIN MEMBER M ON S.STOCK_EMP = M.EMP_NO
         WHERE S.STOCK_STATUS IN ('STOCK_IN_COMPLETED', 'STOCK_OUT_COMPLETED')
+            AND M.STORE_ID = #{storeId}
             <if test="startDate != null and startDate != ''">
                 AND S.STOCK_DATE &gt;= TO_DATE(#{startDate}, 'YYYY-MM-DD')
             </if>
